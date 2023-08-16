@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "NOTIFICATION.#####",
+ "creation": "2023-03-13 16:25:47.456814",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "message",
+  "reference_section",
+  "send_for",
+  "user",
+  "users",
+  "notification_type",
+  "section_break_33bqm",
+  "response"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message"
+  },
+  {
+   "fieldname": "reference_section",
+   "fieldtype": "Section Break",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "notification_type",
+   "fieldtype": "Data",
+   "label": "Notification Type"
+  },
+  {
+   "fieldname": "section_break_33bqm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Code",
+   "label": "Response"
+  },
+  {
+   "depends_on": "eval:doc.send_for == \"Single User\"",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "depends_on": "eval:doc.send_for == \"Multiple User\"",
+   "fieldname": "users",
+   "fieldtype": "Table MultiSelect",
+   "label": "Users",
+   "mandatory_depends_on": "eval:doc.apply_for == \"Specific Employees\"",
+   "options": "Notification User"
+  },
+  {
+   "fieldname": "send_for",
+   "fieldtype": "Select",
+   "label": "Send for ",
+   "options": "\nSingle User\nMultiple User\nAll User"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-03-16 11:54:01.576526",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Push Notification",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,3845 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.829112",
+  "name": "en-Allow \"ESS\" to use your location?",
+  "source_text": "Allow \"ESS\" to use your location?",
+  "translated_text": "Allow \"ESS\" to use your location?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.843431",
+  "name": "en-ESS uses your location to validate their work attendance. It is validated when employees do Check-in and Check-out.",
+  "source_text": "ESS uses your location to validate their work attendance. It is validated when employees do Check-in and Check-out.",
+  "translated_text": "ESS uses your location to validate their work attendance. It is validated when employees do Check-in and Check-out."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.851563",
+  "name": "en-Don't Allow",
+  "source_text": "Don't Allow",
+  "translated_text": "Don't Allow"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.859504",
+  "name": "en-Allow",
+  "source_text": "Allow",
+  "translated_text": "Allow"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.867232",
+  "name": "en-Let's sign you in",
+  "source_text": "Let's sign you in",
+  "translated_text": "Let's sign you in"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.874915",
+  "name": "en-Enter below details to continue..",
+  "source_text": "Enter below details to continue..",
+  "translated_text": "Enter below details to continue.."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.882687",
+  "name": "en-Enter workplace url",
+  "source_text": "Enter workplace url",
+  "translated_text": "Enter workplace url"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.890790",
+  "name": "en-Username",
+  "source_text": "Username",
+  "translated_text": "Username"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.898566",
+  "name": "en-Password",
+  "source_text": "Password",
+  "translated_text": "Password"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.906415",
+  "name": "en-Login",
+  "source_text": "Login",
+  "translated_text": "Login"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.914164",
+  "name": "en-Try Our Demo App",
+  "source_text": "Try Our Demo App",
+  "translated_text": "Try Our Demo App"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.922055",
+  "name": "en-Continue as Demo User",
+  "source_text": "Continue as Demo User",
+  "translated_text": "Continue as Demo User"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.929719",
+  "name": "en-Want to try out on your server ?",
+  "source_text": "Want to try out on your server ?",
+  "translated_text": "Want to try out on your server ?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.937721",
+  "name": "en-Please Fill out below details",
+  "source_text": "Please Fill out below details",
+  "translated_text": "Please Fill out below details"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.945501",
+  "name": "en-Full name",
+  "source_text": "Full name",
+  "translated_text": "Full name"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.953754",
+  "name": "en-Email",
+  "source_text": "Email",
+  "translated_text": "Email"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.961513",
+  "name": "en-Search",
+  "source_text": "Search",
+  "translated_text": "Search"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.969193",
+  "name": "en-Mobile number",
+  "source_text": "Mobile number",
+  "translated_text": "Mobile number"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.976917",
+  "name": "en-Submit",
+  "source_text": "Submit",
+  "translated_text": "Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.984848",
+  "name": "en-App Update Available",
+  "source_text": "App Update Available",
+  "translated_text": "App Update Available"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:28.992638",
+  "name": "en-We have added new features and fix some bugs to make your experience seamless.",
+  "source_text": "We have added new features and fix some bugs to make your experience seamless.",
+  "translated_text": "We have added new features and fix some bugs to make your experience seamless."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.000476",
+  "name": "en-Update",
+  "source_text": "Update",
+  "translated_text": "Update"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.008902",
+  "name": "en-Skip for Now",
+  "source_text": "Skip for Now",
+  "translated_text": "Skip for Now"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.026163",
+  "name": "en-Check-in",
+  "source_text": "Check-in",
+  "translated_text": "Check-in"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.033898",
+  "name": "en-Check-out",
+  "source_text": "Check-out",
+  "translated_text": "Check-out"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.074680",
+  "name": "en-Retry",
+  "source_text": "Retry",
+  "translated_text": "Retry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.082450",
+  "name": "en-You\u2019re not Check-in yet Today.",
+  "source_text": "You\u2019re not Check-in yet Today.",
+  "translated_text": "You\u2019re not Check-in yet Today."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.090461",
+  "name": "en-You started your day at.",
+  "source_text": "You started your day at.",
+  "translated_text": "You started your day at."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.098197",
+  "name": "en-Subscription expired.",
+  "source_text": "Subscription expired.",
+  "translated_text": "Subscription expired."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.105926",
+  "name": "en-Good Morning,",
+  "source_text": "Good Morning,",
+  "translated_text": "Good Morning,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.113614",
+  "name": "en-Good Afternoon,",
+  "source_text": "Good Afternoon,",
+  "translated_text": "Good Afternoon,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.121455",
+  "name": "en-Good Evening,",
+  "source_text": "Good Evening,",
+  "translated_text": "Good Evening,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.129187",
+  "name": "en-Visit",
+  "source_text": "Visit",
+  "translated_text": "Visit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.136953",
+  "name": "en-Orders",
+  "source_text": "Orders",
+  "translated_text": "Orders"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.144706",
+  "name": "en-Transactions",
+  "source_text": "Transactions",
+  "translated_text": "Transactions"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.152743",
+  "name": "en-Attendance",
+  "source_text": "Attendance",
+  "translated_text": "Attendance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.160663",
+  "name": "en-Holiday",
+  "source_text": "Holiday",
+  "translated_text": "Holiday"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.170313",
+  "name": "en-Document",
+  "source_text": "Document",
+  "translated_text": "Document"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.178110",
+  "name": "en-Payroll",
+  "source_text": "Payroll",
+  "translated_text": "Payroll"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.187091",
+  "name": "en-Leave",
+  "source_text": "Leave",
+  "translated_text": "Leave"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.194951",
+  "name": "en-Expense",
+  "source_text": "Expense",
+  "translated_text": "Expense"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.202708",
+  "name": "en-Present",
+  "source_text": "Present",
+  "translated_text": "Present"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.210480",
+  "name": "en-Absent",
+  "source_text": "Absent",
+  "translated_text": "Absent"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.221576",
+  "name": "en-Day off",
+  "source_text": "Day off",
+  "translated_text": "Day off"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.229392",
+  "name": "en-Days",
+  "source_text": "Days",
+  "translated_text": "Days"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.237072",
+  "name": "en-N/A",
+  "source_text": "N/A",
+  "translated_text": "N/A"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.244763",
+  "name": "en-Allotted",
+  "source_text": "Allotted",
+  "translated_text": "Allotted"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.252727",
+  "name": "en-View Salary Slip",
+  "source_text": "View Salary Slip",
+  "translated_text": "View Salary Slip"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.260513",
+  "name": "en-Work day",
+  "source_text": "Work day",
+  "translated_text": "Work day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.268252",
+  "name": "en-Credited on",
+  "source_text": "Credited on",
+  "translated_text": "Credited on"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.276337",
+  "name": "en-Salary Details",
+  "source_text": "Salary Details",
+  "translated_text": "Salary Details"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.284306",
+  "name": "en-Leave Balance",
+  "source_text": "Leave Balance",
+  "translated_text": "Leave Balance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.292063",
+  "name": "en-Attendance Details",
+  "source_text": "Attendance Details",
+  "translated_text": "Attendance Details"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.299772",
+  "name": "en-Pending requests",
+  "source_text": "Pending requests",
+  "translated_text": "Pending requests"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.307489",
+  "name": "en-What would you like to do?",
+  "source_text": "What would you like to do?",
+  "translated_text": "What would you like to do?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.315801",
+  "name": "en-Your Task",
+  "source_text": "Your Task",
+  "translated_text": "Your Task"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.323593",
+  "name": "en-Messages",
+  "source_text": "Messages",
+  "translated_text": "Messages"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.331293",
+  "name": "en-Anonymus",
+  "source_text": "Anonymus",
+  "translated_text": "Anonymus"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.339064",
+  "name": "en-Comment here...",
+  "source_text": "Comment here...",
+  "translated_text": "Comment here..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.346991",
+  "name": "en-Today",
+  "source_text": "Today",
+  "translated_text": "Today"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.355137",
+  "name": "en-Yesterday",
+  "source_text": "Yesterday",
+  "translated_text": "Yesterday"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.362831",
+  "name": "en-Select contact",
+  "source_text": "Select contact",
+  "translated_text": "Select contact"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.370591",
+  "name": "en-Contacts",
+  "source_text": "Contacts",
+  "translated_text": "Contacts"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.378439",
+  "name": "en-Apply Expense",
+  "source_text": "Apply Expense",
+  "translated_text": "Apply Expense"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.386555",
+  "name": "en-Apply Leave",
+  "source_text": "Apply Leave",
+  "translated_text": "Apply Leave"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.394350",
+  "name": "en-Create Visit",
+  "source_text": "Create Visit",
+  "translated_text": "Create Visit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.402158",
+  "name": "en-Create Task",
+  "source_text": "Create Task",
+  "translated_text": "Create Task"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.410076",
+  "name": "en-Upcoming Activity",
+  "source_text": "Upcoming Activity",
+  "translated_text": "Upcoming Activity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.417797",
+  "name": "en-My Profile",
+  "source_text": "My Profile",
+  "translated_text": "My Profile"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.425601",
+  "name": "en-Employee ID",
+  "source_text": "Employee ID",
+  "translated_text": "Employee ID"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.433339",
+  "name": "en-Date of Joining",
+  "source_text": "Date of Joining",
+  "translated_text": "Date of Joining"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.441382",
+  "name": "en-Date of Birth",
+  "source_text": "Date of Birth",
+  "translated_text": "Date of Birth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.449367",
+  "name": "en-Gender",
+  "source_text": "Gender",
+  "translated_text": "Gender"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.457284",
+  "name": "en-Official email address",
+  "source_text": "Official email address",
+  "translated_text": "Official email address"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.465032",
+  "name": "en-Personal email address",
+  "source_text": "Personal email address",
+  "translated_text": "Personal email address"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.472913",
+  "name": "en-Contact number",
+  "source_text": "Contact number",
+  "translated_text": "Contact number"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.480706",
+  "name": "en-emergency contact number",
+  "source_text": "emergency contact number",
+  "translated_text": "emergency contact number"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.488684",
+  "name": "en-do you really want to log out ?",
+  "source_text": "do you really want to log out ?",
+  "translated_text": "do you really want to log out ?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.496871",
+  "name": "en-Logout",
+  "source_text": "Logout",
+  "translated_text": "Logout"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.515177",
+  "name": "en-Change Password",
+  "source_text": "Change Password",
+  "translated_text": "Change Password"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.523102",
+  "name": "en-Current Password",
+  "source_text": "Current Password",
+  "translated_text": "Current Password"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.530944",
+  "name": "en-New Password",
+  "source_text": "New Password",
+  "translated_text": "New Password"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.538895",
+  "name": "en-All Tasks",
+  "source_text": "All Tasks",
+  "translated_text": "All Tasks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.546850",
+  "name": "en-My Tasks",
+  "source_text": "My Tasks",
+  "translated_text": "My Tasks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.555330",
+  "name": "en-Completed Tasks",
+  "source_text": "Completed Tasks",
+  "translated_text": "Completed Tasks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.563119",
+  "name": "en-Update Progress",
+  "source_text": "Update Progress",
+  "translated_text": "Update Progress"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.570882",
+  "name": "en-Done",
+  "source_text": "Done",
+  "translated_text": "Done"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.578807",
+  "name": "en-Pending",
+  "source_text": "Pending",
+  "translated_text": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.586875",
+  "name": "en-Working",
+  "source_text": "Working",
+  "translated_text": "Working"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.594713",
+  "name": "en-Completed",
+  "source_text": "Completed",
+  "translated_text": "Completed"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.605772",
+  "name": "en-Due Date",
+  "source_text": "Due Date",
+  "translated_text": "Due Date"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.613903",
+  "name": "en-Description",
+  "source_text": "Description",
+  "translated_text": "Description"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.621766",
+  "name": "en-Assigned to",
+  "source_text": "Assigned to",
+  "translated_text": "Assigned to"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.629609",
+  "name": "en-Assigned by",
+  "source_text": "Assigned by",
+  "translated_text": "Assigned by"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.637537",
+  "name": "en-Mark as completed",
+  "source_text": "Mark as completed",
+  "translated_text": "Mark as completed"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.645481",
+  "name": "en-Mark as in progress",
+  "source_text": "Mark as in progress",
+  "translated_text": "Mark as in progress"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.653482",
+  "name": "en-Activity",
+  "source_text": "Activity",
+  "translated_text": "Activity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.665703",
+  "name": "en-Send",
+  "source_text": "Send",
+  "translated_text": "Send"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.673512",
+  "name": "en-Create New Task",
+  "source_text": "Create New Task",
+  "translated_text": "Create New Task"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.681461",
+  "name": "en-Optional",
+  "source_text": "Optional",
+  "translated_text": "Optional"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.689548",
+  "name": "en-Select Project",
+  "source_text": "Select Project",
+  "translated_text": "Select Project"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.697329",
+  "name": "en-Subject",
+  "source_text": "Subject",
+  "translated_text": "Subject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.709192",
+  "name": "en-Assign To",
+  "source_text": "Assign To",
+  "translated_text": "Assign To"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.717071",
+  "name": "en-Select Assign To",
+  "source_text": "Select Assign To",
+  "translated_text": "Select Assign To"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.724830",
+  "name": "en-Priority",
+  "source_text": "Priority",
+  "translated_text": "Priority"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.737394",
+  "name": "en-Status",
+  "source_text": "Status",
+  "translated_text": "Status"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.745295",
+  "name": "en-Cancel",
+  "source_text": "Cancel",
+  "translated_text": "Cancel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.753156",
+  "name": "en-Create",
+  "source_text": "Create",
+  "translated_text": "Create"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.769074",
+  "name": "en-Check In",
+  "source_text": "Check In",
+  "translated_text": "Check In"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.776709",
+  "name": "en-Check Out",
+  "source_text": "Check Out",
+  "translated_text": "Check Out"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.784540",
+  "name": "en-Work Duration",
+  "source_text": "Work Duration",
+  "translated_text": "Work Duration"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.792122",
+  "name": "en-Total Days",
+  "source_text": "Total Days",
+  "translated_text": "Total Days"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.799700",
+  "name": "en-On Time",
+  "source_text": "On Time",
+  "translated_text": "On Time"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.807370",
+  "name": "en-Late",
+  "source_text": "Late",
+  "translated_text": "Late"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.818902",
+  "name": "en-Documents",
+  "source_text": "Documents",
+  "translated_text": "Documents"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.826509",
+  "name": "en-Upload Document",
+  "source_text": "Upload Document",
+  "translated_text": "Upload Document"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.834324",
+  "name": "en-Download",
+  "source_text": "Download",
+  "translated_text": "Download"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.842124",
+  "name": "en-Delete",
+  "source_text": "Delete",
+  "translated_text": "Delete"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.849817",
+  "name": "en-Download Completed. Click to open",
+  "source_text": "Download Completed. Click to open",
+  "translated_text": "Download Completed. Click to open"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.857631",
+  "name": "en-File already downloaded.",
+  "source_text": "File already downloaded.",
+  "translated_text": "File already downloaded."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.865247",
+  "name": "en-My Expenses",
+  "source_text": "My Expenses",
+  "translated_text": "My Expenses"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.876653",
+  "name": "en-Expense History",
+  "source_text": "Expense History",
+  "translated_text": "Expense History"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.888382",
+  "name": "en-Apply",
+  "source_text": "Apply",
+  "translated_text": "Apply"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.896001",
+  "name": "en-Select day",
+  "source_text": "Select day",
+  "translated_text": "Select day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.903622",
+  "name": "en-Select expense type",
+  "source_text": "Select expense type",
+  "translated_text": "Select expense type"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.911296",
+  "name": "en-Type reason here...",
+  "source_text": "Type reason here...",
+  "translated_text": "Type reason here..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.918917",
+  "name": "en-Type amount",
+  "source_text": "Type amount",
+  "translated_text": "Type amount"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.926592",
+  "name": "en-Upload Expense Bill",
+  "source_text": "Upload Expense Bill",
+  "translated_text": "Upload Expense Bill"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.938540",
+  "name": "en-Holiday List",
+  "source_text": "Holiday List",
+  "translated_text": "Holiday List"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.946176",
+  "name": "en-Select Year",
+  "source_text": "Select Year",
+  "translated_text": "Select Year"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.953977",
+  "name": "en-My Leaves",
+  "source_text": "My Leaves",
+  "translated_text": "My Leaves"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.961908",
+  "name": "en-Open requests",
+  "source_text": "Open requests",
+  "translated_text": "Open requests"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.969574",
+  "name": "en-Leave requests",
+  "source_text": "Leave requests",
+  "translated_text": "Leave requests"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.977513",
+  "name": "en-New Leave Request",
+  "source_text": "New Leave Request",
+  "translated_text": "New Leave Request"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.987518",
+  "name": "en-Select leave type",
+  "source_text": "Select leave type",
+  "translated_text": "Select leave type"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:29.995230",
+  "name": "en-Add half day",
+  "source_text": "Add half day",
+  "translated_text": "Add half day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.006646",
+  "name": "en-Start Day",
+  "source_text": "Start Day",
+  "translated_text": "Start Day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.014366",
+  "name": "en-End Day",
+  "source_text": "End Day",
+  "translated_text": "End Day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.026020",
+  "name": "en-Half day",
+  "source_text": "Half day",
+  "translated_text": "Half day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.033579",
+  "name": "en-Period",
+  "source_text": "Period",
+  "translated_text": "Period"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.041373",
+  "name": "en-Day Selection",
+  "source_text": "Day Selection",
+  "translated_text": "Day Selection"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.053149",
+  "name": "en-Basic",
+  "source_text": "Basic",
+  "translated_text": "Basic"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.061241",
+  "name": "en-Earnings",
+  "source_text": "Earnings",
+  "translated_text": "Earnings"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.068790",
+  "name": "en-Deduction",
+  "source_text": "Deduction",
+  "translated_text": "Deduction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.076307",
+  "name": "en-Gross Pay",
+  "source_text": "Gross Pay",
+  "translated_text": "Gross Pay"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.087921",
+  "name": "en-Deductions",
+  "source_text": "Deductions",
+  "translated_text": "Deductions"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.095622",
+  "name": "en-Effective work days",
+  "source_text": "Effective work days",
+  "translated_text": "Effective work days"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.103251",
+  "name": "en-Total work days",
+  "source_text": "Total work days",
+  "translated_text": "Total work days"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.110794",
+  "name": "en-LOP",
+  "source_text": "LOP",
+  "translated_text": "LOP"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.122265",
+  "name": "en-Filter Transaction",
+  "source_text": "Filter Transaction",
+  "translated_text": "Filter Transaction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.129966",
+  "name": "en-No Transaction",
+  "source_text": "No Transaction",
+  "translated_text": "No Transaction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.137606",
+  "name": "en-Select Party Name",
+  "source_text": "Select Party Name",
+  "translated_text": "Select Party Name"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.145619",
+  "name": "en-Select Party Type",
+  "source_text": "Select Party Type",
+  "translated_text": "Select Party Type"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.153357",
+  "name": "en-From Date",
+  "source_text": "From Date",
+  "translated_text": "From Date"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.161170",
+  "name": "en-To Date",
+  "source_text": "To Date",
+  "translated_text": "To Date"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.169095",
+  "name": "en-Debit",
+  "source_text": "Debit",
+  "translated_text": "Debit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.176640",
+  "name": "en-Credit",
+  "source_text": "Credit",
+  "translated_text": "Credit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.185529",
+  "name": "en-Balance",
+  "source_text": "Balance",
+  "translated_text": "Balance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.194167",
+  "name": "en-Visits",
+  "source_text": "Visits",
+  "translated_text": "Visits"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.201800",
+  "name": "en-Visit Details",
+  "source_text": "Visit Details",
+  "translated_text": "Visit Details"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.209450",
+  "name": "en-Employee",
+  "source_text": "Employee",
+  "translated_text": "Employee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.225717",
+  "name": "en-Update Visit",
+  "source_text": "Update Visit",
+  "translated_text": "Update Visit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.241875",
+  "name": "en-Select Visit Type",
+  "source_text": "Select Visit Type",
+  "translated_text": "Select Visit Type"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.253632",
+  "name": "en-Search by Order ID or Customer Name",
+  "source_text": "Search by Order ID or Customer Name",
+  "translated_text": "Search by Order ID or Customer Name"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.261290",
+  "name": "en-Customer name",
+  "source_text": "Customer name",
+  "translated_text": "Customer name"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.268859",
+  "name": "en-Items",
+  "source_text": "Items",
+  "translated_text": "Items"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.276550",
+  "name": "en-Amount",
+  "source_text": "Amount",
+  "translated_text": "Amount"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.284232",
+  "name": "en-Order Details",
+  "source_text": "Order Details",
+  "translated_text": "Order Details"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.292089",
+  "name": "en-Update Order",
+  "source_text": "Update Order",
+  "translated_text": "Update Order"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.299674",
+  "name": "en-Comments",
+  "source_text": "Comments",
+  "translated_text": "Comments"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.307371",
+  "name": "en-Comments here...",
+  "source_text": "Comments here...",
+  "translated_text": "Comments here..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.318967",
+  "name": "en-Expected Delivery",
+  "source_text": "Expected Delivery",
+  "translated_text": "Expected Delivery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.326599",
+  "name": "en-Created by",
+  "source_text": "Created by",
+  "translated_text": "Created by"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.334153",
+  "name": "en-Item code",
+  "source_text": "Item code",
+  "translated_text": "Item code"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.341874",
+  "name": "en-Qty",
+  "source_text": "Qty",
+  "translated_text": "Qty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.350238",
+  "name": "en-Address",
+  "source_text": "Address",
+  "translated_text": "Address"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.361880",
+  "name": "en-Annual Billing",
+  "source_text": "Annual Billing",
+  "translated_text": "Annual Billing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.369501",
+  "name": "en-Total Unpaid",
+  "source_text": "Total Unpaid",
+  "translated_text": "Total Unpaid"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.377185",
+  "name": "en-Tax & Discount",
+  "source_text": "Tax & Discount",
+  "translated_text": "Tax & Discount"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.385041",
+  "name": "en-Total Tax :",
+  "source_text": "Total Tax :",
+  "translated_text": "Total Tax :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.393001",
+  "name": "en-Sub total :",
+  "source_text": "Sub total :",
+  "translated_text": "Sub total :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.400624",
+  "name": "en-Discount :",
+  "source_text": "Discount :",
+  "translated_text": "Discount :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.408492",
+  "name": "en-Total :",
+  "source_text": "Total :",
+  "translated_text": "Total :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.416918",
+  "name": "en-Approved",
+  "source_text": "Approved",
+  "translated_text": "Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.424767",
+  "name": "en-Rejected",
+  "source_text": "Rejected",
+  "translated_text": "Rejected"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.436858",
+  "name": "en-Draft",
+  "source_text": "Draft",
+  "translated_text": "Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.444509",
+  "name": "en-Delivered",
+  "source_text": "Delivered",
+  "translated_text": "Delivered"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.453243",
+  "name": "en-Create Order",
+  "source_text": "Create Order",
+  "translated_text": "Create Order"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.461501",
+  "name": "en-Select Customer",
+  "source_text": "Select Customer",
+  "translated_text": "Select Customer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.469007",
+  "name": "en-Select Item",
+  "source_text": "Select Item",
+  "translated_text": "Select Item"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.476723",
+  "name": "en-Select Delivery day",
+  "source_text": "Select Delivery day",
+  "translated_text": "Select Delivery day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.485128",
+  "name": "en-Attachments",
+  "source_text": "Attachments",
+  "translated_text": "Attachments"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.492791",
+  "name": "en-Quantity",
+  "source_text": "Quantity",
+  "translated_text": "Quantity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-07-29 14:53:30.500395",
+  "name": "en-Back",
+  "source_text": "Back",
+  "translated_text": "Back"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.274557",
+  "name": "ar-Allow \"ESS\" to use your location?",
+  "source_text": "Allow \"ESS\" to use your location?",
+  "translated_text": "\u0627\u0644\u0633\u0645\u0627\u062d \u0644\u0640 \"ESS\" \u0628\u0627\u0633\u062a\u062e\u062f\u0627\u0645 \u0645\u0648\u0642\u0639\u0643\u061f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.292499",
+  "name": "ar-ESS uses your location to validate their work attendance. It is validated when employees do Check-in and Check-out.",
+  "source_text": "ESS uses your location to validate their work attendance. It is validated when employees do Check-in and Check-out.",
+  "translated_text": "\u064a\u0633\u062a\u062e\u062f\u0645 \"ESS\" \u0645\u0648\u0642\u0639\u0643 \u0644\u062a\u062d\u0642\u0642 \u0645\u0646 \u062d\u0636\u0648\u0631 \u0639\u0645\u0644\u0643. \u064a\u062a\u0645 \u0627\u0644\u062a\u062d\u0642\u0642 \u0639\u0646\u062f\u0645\u0627 \u064a\u0642\u0648\u0645 \u0627\u0644\u0645\u0648\u0638\u0641\u0648\u0646 \u0628\u0627\u0644\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 \u0648\u0627\u0644\u062e\u0631\u0648\u062c."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.300858",
+  "name": "ar-Don't Allow",
+  "source_text": "Don't Allow",
+  "translated_text": "\u0639\u062f\u0645 \u0627\u0644\u0633\u0645\u0627\u062d"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.308663",
+  "name": "ar-Allow",
+  "source_text": "Allow",
+  "translated_text": "\u0627\u0644\u0633\u0645\u0627\u062d"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.324498",
+  "name": "ar-Let's sign you in",
+  "source_text": "Let's sign you in",
+  "translated_text": "\u062f\u0639\u0646\u0627 \u0646\u0642\u0648\u0645 \u0628\u062a\u0633\u062c\u064a\u0644 \u062f\u062e\u0648\u0644\u0643"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.336950",
+  "name": "ar-Enter below details to continue..",
+  "source_text": "Enter below details to continue..",
+  "translated_text": "\u0623\u062f\u062e\u0644 \u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0623\u062f\u0646\u0627\u0647 \u0644\u0644\u0645\u062a\u0627\u0628\u0639\u0629..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.344690",
+  "name": "ar-Enter workplace url",
+  "source_text": "Enter workplace url",
+  "translated_text": "\u0623\u062f\u062e\u0644 \u0631\u0627\u0628\u0637 \u0645\u0643\u0627\u0646 \u0627\u0644\u0639\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.352628",
+  "name": "ar-Username",
+  "source_text": "Username",
+  "translated_text": "\u0627\u0633\u0645 \u0627\u0644\u0645\u0633\u062a\u062e\u062f\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.376643",
+  "name": "ar-Password",
+  "source_text": "Password",
+  "translated_text": "\u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.384925",
+  "name": "ar-Login",
+  "source_text": "Login",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.392695",
+  "name": "ar-Try Our Demo App",
+  "source_text": "Try Our Demo App",
+  "translated_text": "\u062c\u0631\u0628 \u062a\u0637\u0628\u064a\u0642 \u0627\u0644\u062f\u064a\u0645\u0648"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.400498",
+  "name": "ar-Continue as Demo User",
+  "source_text": "Continue as Demo User",
+  "translated_text": "\u0645\u062a\u0627\u0628\u0639\u0629 \u0643\u0645\u0633\u062a\u062e\u062f\u0645 \u062a\u062c\u0631\u064a\u0628\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.408668",
+  "name": "ar-Want to try out on your server ?",
+  "source_text": "Want to try out on your server ?",
+  "translated_text": "\u0647\u0644 \u062a\u0631\u063a\u0628 \u0641\u064a \u0627\u0644\u062a\u062c\u0631\u0628\u0629 \u0639\u0644\u0649 \u062e\u0627\u062f\u0645\u0643 \u0627\u0644\u062e\u0627\u0635\u061f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.416382",
+  "name": "ar-Please Fill out below details",
+  "source_text": "Please Fill out below details",
+  "translated_text": "\u064a\u0631\u062c\u0649 \u0645\u0644\u0621 \u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0623\u062f\u0646\u0627\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.424159",
+  "name": "ar-Full name",
+  "source_text": "Full name",
+  "translated_text": "\u0627\u0644\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.432012",
+  "name": "ar-Email",
+  "source_text": "Email",
+  "translated_text": "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.439885",
+  "name": "ar-Search",
+  "source_text": "Search",
+  "translated_text": "\u0627\u0644\u0628\u062d\u062b"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.447625",
+  "name": "ar-Mobile number",
+  "source_text": "Mobile number",
+  "translated_text": "\u0631\u0642\u0645 \u0627\u0644\u062c\u0648\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.455352",
+  "name": "ar-Submit",
+  "source_text": "Submit",
+  "translated_text": "\u0625\u0631\u0633\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.463277",
+  "name": "ar-App Update Available",
+  "source_text": "App Update Available",
+  "translated_text": "\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u062a\u0637\u0628\u064a\u0642 \u0645\u062a\u0627\u062d \u0627\u0644\u0623\u0646"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.471136",
+  "name": "ar-We have added new features and fix some bugs to make your experience seamless.",
+  "source_text": "We have added new features and fix some bugs to make your experience seamless.",
+  "translated_text": "\u0644\u0642\u062f \u0642\u0645\u0646\u0627 \u0628\u0625\u0636\u0627\u0641\u0629 \u0645\u064a\u0632\u0627\u062a \u062c\u062f\u064a\u062f\u0629 \u0648\u0625\u0635\u0644\u0627\u062d \u0628\u0639\u0636 \u0627\u0644\u0623\u062e\u0637\u0627\u0621 \u0644\u062c\u0639\u0644 \u062a\u062c\u0631\u0628\u062a\u0643 \u0633\u0644\u0633\u0629."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.480358",
+  "name": "ar-Update",
+  "source_text": "Update",
+  "translated_text": "\u062a\u062d\u062f\u064a\u062b"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.488154",
+  "name": "ar-Skip for Now",
+  "source_text": "Skip for Now",
+  "translated_text": "\u062a\u062e\u0637\u064a \u0627\u0644\u0622\u0646"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.495829",
+  "name": "ar-Check-in",
+  "source_text": "Check-in",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.503746",
+  "name": "ar-Check-out",
+  "source_text": "Check-out",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u0627\u0646\u0635\u0631\u0627\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.511440",
+  "name": "ar-Retry",
+  "source_text": "Retry",
+  "translated_text": "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0645\u062d\u0627\u0648\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.519136",
+  "name": "ar-You\u2019re not Check-in yet Today.",
+  "source_text": "You\u2019re not Check-in yet Today.",
+  "translated_text": "\u0644\u0645 \u062a\u0633\u062c\u0644 \u062d\u0636\u0648\u0631\u0643 \u0627\u0644\u064a\u0648\u0645 \u0628\u0639\u062f ."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.527112",
+  "name": "ar-You started your day at.",
+  "source_text": "You started your day at.",
+  "translated_text": "\u0628\u062f\u0623\u062a \u064a\u0648\u0645\u0643 \u0641\u064a."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.534859",
+  "name": "ar-Subscription expired.",
+  "source_text": "Subscription expired.",
+  "translated_text": "\u0627\u0646\u062a\u0647\u062a \u0635\u0644\u0627\u062d\u064a\u0629 \u0627\u0644\u0627\u0634\u062a\u0631\u0627\u0643."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.543313",
+  "name": "ar-Good Morning,",
+  "source_text": "Good Morning,",
+  "translated_text": "\u0635\u0628\u0627\u062d \u0627\u0644\u062e\u064a\u0631\u060c"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.550986",
+  "name": "ar-Good Afternoon,",
+  "source_text": "Good Afternoon,",
+  "translated_text": "\u0645\u0633\u0627\u0621 \u0627\u0644\u062e\u064a\u0631\u060c"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.558642",
+  "name": "ar-Good Evening,",
+  "source_text": "Good Evening,",
+  "translated_text": "\u0645\u0633\u0627\u0621 \u0627\u0644\u062e\u064a\u0631\u060c"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.566418",
+  "name": "ar-Visit",
+  "source_text": "Visit",
+  "translated_text": "\u0627\u0644\u0632\u064a\u0627\u0631\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.574128",
+  "name": "ar-Orders",
+  "source_text": "Orders",
+  "translated_text": "\u0627\u0644\u0637\u0644\u0628\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.581755",
+  "name": "ar-Transactions",
+  "source_text": "Transactions",
+  "translated_text": "\u0627\u0644\u0645\u0639\u0627\u0645\u0644\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.589510",
+  "name": "ar-Attendance",
+  "source_text": "Attendance",
+  "translated_text": "\u0627\u0644\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.599864",
+  "name": "ar-Holiday",
+  "source_text": "Holiday",
+  "translated_text": "\u0627\u0644\u0639\u0637\u0644\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.607641",
+  "name": "ar-Document",
+  "source_text": "Document",
+  "translated_text": "\u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.615312",
+  "name": "ar-Payroll",
+  "source_text": "Payroll",
+  "translated_text": "\u0643\u0634\u0641 \u0627\u0644\u0631\u0648\u0627\u062a\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.623018",
+  "name": "ar-Leave",
+  "source_text": "Leave",
+  "translated_text": "\u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.630893",
+  "name": "ar-Expense",
+  "source_text": "Expense",
+  "translated_text": "\u0627\u0644\u0645\u0635\u0631\u0648\u0641\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.638563",
+  "name": "ar-Present",
+  "source_text": "Present",
+  "translated_text": "\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.646187",
+  "name": "ar-Absent",
+  "source_text": "Absent",
+  "translated_text": "\u063a\u064a\u0627\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.653822",
+  "name": "ar-Day off",
+  "source_text": "Day off",
+  "translated_text": "\u064a\u0648\u0645 \u0639\u0637\u0644\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.661623",
+  "name": "ar-Days",
+  "source_text": "Days",
+  "translated_text": "\u0623\u064a\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.669315",
+  "name": "ar-N/A",
+  "source_text": "N/A",
+  "translated_text": "\u063a\u064a\u0631 \u0645\u062a\u0627\u062d"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.677037",
+  "name": "ar-Allotted",
+  "source_text": "Allotted",
+  "translated_text": "\u062a\u0645 \u0627\u0644\u062a\u062e\u0635\u064a\u0635"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.685235",
+  "name": "ar-View Salary Slip",
+  "source_text": "View Salary Slip",
+  "translated_text": "\u0639\u0631\u0636 \u0643\u0634\u0641 \u0627\u0644\u0631\u0627\u062a\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.693032",
+  "name": "ar-Work day",
+  "source_text": "Work day",
+  "translated_text": "\u064a\u0648\u0645 \u0639\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.700766",
+  "name": "ar-Credited on",
+  "source_text": "Credited on",
+  "translated_text": "\u062a\u0645 \u0627\u0644\u0627\u062d\u062a\u0633\u0627\u0628 \u0641\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.708376",
+  "name": "ar-Salary Details",
+  "source_text": "Salary Details",
+  "translated_text": "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0631\u0627\u062a\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.716049",
+  "name": "ar-Leave Balance",
+  "source_text": "Leave Balance",
+  "translated_text": "\u0631\u0635\u064a\u062f \u0627\u0644\u0625\u062c\u0627\u0632\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.723850",
+  "name": "ar-Attendance Details",
+  "source_text": "Attendance Details",
+  "translated_text": "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.731540",
+  "name": "ar-Pending requests",
+  "source_text": "Pending requests",
+  "translated_text": "\u0627\u0644\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0645\u0639\u0644\u0642\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.739202",
+  "name": "ar-What would you like to do?",
+  "source_text": "What would you like to do?",
+  "translated_text": "\u0645\u0627 \u0627\u0644\u0630\u064a \u062a\u0631\u063a\u0628 \u0641\u064a \u0627\u0644\u0642\u064a\u0627\u0645 \u0628\u0647\u061f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.746833",
+  "name": "ar-Your Task",
+  "source_text": "Your Task",
+  "translated_text": "\u0645\u0647\u0645\u062a\u0643"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.754504",
+  "name": "ar-Messages",
+  "source_text": "Messages",
+  "translated_text": "\u0627\u0644\u0631\u0633\u0627\u0626\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.762206",
+  "name": "ar-Anonymus",
+  "source_text": "Anonymus",
+  "translated_text": "\u0645\u062c\u0647\u0648\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.769812",
+  "name": "ar-Comment here...",
+  "source_text": "Comment here...",
+  "translated_text": "\u0623\u0636\u0641 \u062a\u0639\u0644\u064a\u0642\u064b\u0627 \u0647\u0646\u0627..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.777492",
+  "name": "ar-Today",
+  "source_text": "Today",
+  "translated_text": "\u0627\u0644\u064a\u0648\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.785294",
+  "name": "ar-Yesterday",
+  "source_text": "Yesterday",
+  "translated_text": "\u0623\u0645\u0633"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.792937",
+  "name": "ar-Select contact",
+  "source_text": "Select contact",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u062c\u0647\u0629 \u0627\u0644\u0627\u062a\u0635\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.800580",
+  "name": "ar-Contacts",
+  "source_text": "Contacts",
+  "translated_text": "\u062c\u0647\u0627\u062a \u0627\u0644\u0627\u062a\u0635\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.808339",
+  "name": "ar-Apply Expense",
+  "source_text": "Apply Expense",
+  "translated_text": "\u062a\u0642\u062f\u064a\u0645 \u0641\u0627\u062a\u0648\u0631\u0629 \u0645\u0635\u0631\u0648\u0641\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.816133",
+  "name": "ar-Apply Leave",
+  "source_text": "Apply Leave",
+  "translated_text": "\u062a\u0642\u062f\u064a\u0645 \u0625\u062c\u0627\u0632\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.823751",
+  "name": "ar-Create Visit",
+  "source_text": "Create Visit",
+  "translated_text": "\u0625\u0646\u0634\u0627\u0621 \u0632\u064a\u0627\u0631\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.831376",
+  "name": "ar-Create Task",
+  "source_text": "Create Task",
+  "translated_text": "\u0625\u0646\u0634\u0627\u0621 \u0645\u0647\u0645\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.839004",
+  "name": "ar-Upcoming Activity",
+  "source_text": "Upcoming Activity",
+  "translated_text": "\u0627\u0644\u0646\u0634\u0627\u0637 \u0627\u0644\u0642\u0627\u062f\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.847285",
+  "name": "ar-My Profile",
+  "source_text": "My Profile",
+  "translated_text": "\u0645\u0644\u0641\u064a \u0627\u0644\u0634\u062e\u0635\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.854894",
+  "name": "ar-Employee ID",
+  "source_text": "Employee ID",
+  "translated_text": "\u0645\u0639\u0631\u0651\u0641 \u0627\u0644\u0645\u0648\u0638\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.862539",
+  "name": "ar-Date of Joining",
+  "source_text": "Date of Joining",
+  "translated_text": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0627\u0646\u0636\u0645\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.870259",
+  "name": "ar-Date of Birth",
+  "source_text": "Date of Birth",
+  "translated_text": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0645\u064a\u0644\u0627\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.878093",
+  "name": "ar-Gender",
+  "source_text": "Gender",
+  "translated_text": "\u0627\u0644\u062c\u0646\u0633"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.885791",
+  "name": "ar-Official email address",
+  "source_text": "Official email address",
+  "translated_text": "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a \u0627\u0644\u0631\u0633\u0645\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.893342",
+  "name": "ar-Personal email address",
+  "source_text": "Personal email address",
+  "translated_text": "\u0627\u0644\u0628\u0631\u064a\u062f \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a \u0627\u0644\u0634\u062e\u0635\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.901011",
+  "name": "ar-Contact number",
+  "source_text": "Contact number",
+  "translated_text": "\u0631\u0642\u0645 \u0627\u0644\u0627\u062a\u0635\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.908733",
+  "name": "ar-emergency contact number",
+  "source_text": "emergency contact number",
+  "translated_text": "\u0631\u0642\u0645 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0644\u062d\u0627\u0644\u0627\u062a \u0627\u0644\u0637\u0648\u0627\u0631\u0626"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.916552",
+  "name": "ar-do you really want to log out ?",
+  "source_text": "do you really want to log out ?",
+  "translated_text": "\u0647\u0644 \u062a\u0631\u063a\u0628 \u062d\u0642\u064b\u0627 \u0641\u064a \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062e\u0631\u0648\u062c\u061f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.924203",
+  "name": "ar-Logout",
+  "source_text": "Logout",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062e\u0631\u0648\u062c"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.931888",
+  "name": "ar-Change Password",
+  "source_text": "Change Password",
+  "translated_text": "\u062a\u063a\u064a\u064a\u0631 \u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.939894",
+  "name": "ar-Current Password",
+  "source_text": "Current Password",
+  "translated_text": "\u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631 \u0627\u0644\u062d\u0627\u0644\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.947511",
+  "name": "ar-New Password",
+  "source_text": "New Password",
+  "translated_text": "\u0643\u0644\u0645\u0629 \u0627\u0644\u0645\u0631\u0648\u0631 \u0627\u0644\u062c\u062f\u064a\u062f\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.955102",
+  "name": "ar-All Tasks",
+  "source_text": "All Tasks",
+  "translated_text": "\u062c\u0645\u064a\u0639 \u0627\u0644\u0645\u0647\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.962644",
+  "name": "ar-My Tasks",
+  "source_text": "My Tasks",
+  "translated_text": "\u0645\u0647\u0627\u0645\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.970348",
+  "name": "ar-Completed Tasks",
+  "source_text": "Completed Tasks",
+  "translated_text": "\u0627\u0644\u0645\u0647\u0627\u0645 \u0627\u0644\u0645\u0643\u062a\u0645\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.978048",
+  "name": "ar-Update Progress",
+  "source_text": "Update Progress",
+  "translated_text": "\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u062a\u0642\u062f\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.985766",
+  "name": "ar-Done",
+  "source_text": "Done",
+  "translated_text": "\u062a\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:33.993333",
+  "name": "ar-Pending",
+  "source_text": "Pending",
+  "translated_text": "\u0642\u064a\u062f \u0627\u0644\u0627\u0646\u062a\u0638\u0627\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.001215",
+  "name": "ar-Working",
+  "source_text": "Working",
+  "translated_text": "\u0642\u064a\u062f \u0627\u0644\u0639\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.008904",
+  "name": "ar-Completed",
+  "source_text": "Completed",
+  "translated_text": "\u0645\u0643\u062a\u0645\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.016485",
+  "name": "ar-Due Date",
+  "source_text": "Due Date",
+  "translated_text": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0627\u0633\u062a\u062d\u0642\u0627\u0642"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.024123",
+  "name": "ar-Description",
+  "source_text": "Description",
+  "translated_text": "\u0627\u0644\u0648\u0635\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.032068",
+  "name": "ar-Assigned to",
+  "source_text": "Assigned to",
+  "translated_text": "\u062a\u0639\u064a\u064a\u0646 \u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.039645",
+  "name": "ar-Assigned by",
+  "source_text": "Assigned by",
+  "translated_text": "\u062a\u0639\u064a\u064a\u0646 \u0628\u0648\u0627\u0633\u0637\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.047414",
+  "name": "ar-Mark as completed",
+  "source_text": "Mark as completed",
+  "translated_text": "\u0648\u0636\u0639 \u0639\u0644\u0627\u0645\u0629 \u0643\u0645\u0643\u062a\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.055062",
+  "name": "ar-Mark as in progress",
+  "source_text": "Mark as in progress",
+  "translated_text": "\u0648\u0636\u0639 \u0639\u0644\u0627\u0645\u0629 \u0643\u0642\u064a\u062f \u0627\u0644\u062a\u0646\u0641\u064a\u0630"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.062816",
+  "name": "ar-Activity",
+  "source_text": "Activity",
+  "translated_text": "\u0627\u0644\u0646\u0634\u0627\u0637"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.075991",
+  "name": "ar-Send",
+  "source_text": "Send",
+  "translated_text": "\u0625\u0631\u0633\u0627\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.083759",
+  "name": "ar-Create New Task",
+  "source_text": "Create New Task",
+  "translated_text": "\u0625\u0646\u0634\u0627\u0621 \u0645\u0647\u0645\u0629 \u062c\u062f\u064a\u062f\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.093157",
+  "name": "ar-Optional",
+  "source_text": "Optional",
+  "translated_text": "\u0627\u062e\u062a\u0631\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.101028",
+  "name": "ar-Select Project",
+  "source_text": "Select Project",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0645\u0634\u0631\u0648\u0639\u064b\u0627"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.108655",
+  "name": "ar-Subject",
+  "source_text": "Subject",
+  "translated_text": "\u0627\u0644\u0645\u0648\u0636\u0648\u0639"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.120253",
+  "name": "ar-Assign To",
+  "source_text": "Assign To",
+  "translated_text": "\u062a\u0639\u064a\u064a\u0646 \u0644\u0640"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.127920",
+  "name": "ar-Select Assign To",
+  "source_text": "Select Assign To",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0645\u0648\u0638\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.135675",
+  "name": "ar-Priority",
+  "source_text": "Priority",
+  "translated_text": "\u0627\u0644\u0623\u0648\u0644\u0648\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.147134",
+  "name": "ar-Status",
+  "source_text": "Status",
+  "translated_text": "\u0627\u0644\u062d\u0627\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.154782",
+  "name": "ar-Cancel",
+  "source_text": "Cancel",
+  "translated_text": "\u0625\u0644\u063a\u0627\u0621"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.162361",
+  "name": "ar-Create",
+  "source_text": "Create",
+  "translated_text": "\u0625\u0646\u0634\u0627\u0621"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.173952",
+  "name": "ar-Check In",
+  "source_text": "Check In",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.181639",
+  "name": "ar-Check Out",
+  "source_text": "Check Out",
+  "translated_text": "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u0627\u0646\u0635\u0631\u0627\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.189662",
+  "name": "ar-Work Duration",
+  "source_text": "Work Duration",
+  "translated_text": "\u0645\u062f\u0629 \u0627\u0644\u0639\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.197238",
+  "name": "ar-Total Days",
+  "source_text": "Total Days",
+  "translated_text": "\u0645\u062c\u0645\u0648\u0639 \u0627\u0644\u0623\u064a\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.205033",
+  "name": "ar-On Time",
+  "source_text": "On Time",
+  "translated_text": "\u0641\u064a \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u0645\u062d\u062f\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.212960",
+  "name": "ar-Late",
+  "source_text": "Late",
+  "translated_text": "\u0645\u062a\u0623\u062e\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.224493",
+  "name": "ar-Documents",
+  "source_text": "Documents",
+  "translated_text": "\u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.232205",
+  "name": "ar-Upload Document",
+  "source_text": "Upload Document",
+  "translated_text": "\u062a\u062d\u0645\u064a\u0644 \u0645\u0633\u062a\u0646\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.240011",
+  "name": "ar-Download",
+  "source_text": "Download",
+  "translated_text": "\u062a\u062d\u0645\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.247512",
+  "name": "ar-Delete",
+  "source_text": "Delete",
+  "translated_text": "\u062d\u0630\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.255154",
+  "name": "ar-Download Completed. Click to open",
+  "source_text": "Download Completed. Click to open",
+  "translated_text": "\u062a\u0645 \u0627\u0644\u062a\u062d\u0645\u064a\u0644. \u0627\u0646\u0642\u0631 \u0644\u0644\u0641\u062a\u062d"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.262832",
+  "name": "ar-File already downloaded.",
+  "source_text": "File already downloaded.",
+  "translated_text": "\u062a\u0645 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0644\u0641 \u0628\u0627\u0644\u0641\u0639\u0644."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.270567",
+  "name": "ar-My Expenses",
+  "source_text": "My Expenses",
+  "translated_text": "\u0645\u0635\u0631\u0648\u0641\u0627\u062a\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.282067",
+  "name": "ar-Expense History",
+  "source_text": "Expense History ",
+  "translated_text": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0645\u0635\u0631\u0648\u0641\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.293776",
+  "name": "ar-Apply",
+  "source_text": "Apply",
+  "translated_text": "\u062a\u0642\u062f\u064a\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.301461",
+  "name": "ar-Select day",
+  "source_text": "Select day",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u064a\u0648\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.309015",
+  "name": "ar-Select expense type",
+  "source_text": "Select expense type",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0646\u0648\u0639 \u0627\u0644\u0645\u0635\u0631\u0648\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.321454",
+  "name": "ar-Type reason here...",
+  "source_text": "Type reason here...",
+  "translated_text": "\u0627\u0643\u062a\u0628 \u0627\u0644\u0633\u0628\u0628 \u0647\u0646\u0627..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.348518",
+  "name": "ar-Type amount",
+  "source_text": "Type amount",
+  "translated_text": "\u0627\u0643\u062a\u0628 \u0627\u0644\u0645\u0628\u0644\u063a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.368907",
+  "name": "ar-Upload Expense Bill",
+  "source_text": "Upload Expense Bill",
+  "translated_text": "\u0625\u0631\u0641\u0627\u0642 \u0641\u0627\u062a\u0648\u0631\u0629 \u0627\u0644\u0645\u0635\u0631\u0648\u0641\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.416581",
+  "name": "ar-Holiday List",
+  "source_text": "Holiday List",
+  "translated_text": "\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0639\u0637\u0644\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.441291",
+  "name": "ar-Select Year",
+  "source_text": "Select Year",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0639\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.463440",
+  "name": "ar-My Leaves",
+  "source_text": "My Leaves",
+  "translated_text": "\u0625\u062c\u0627\u0632\u0627\u062a\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.481078",
+  "name": "ar-Open requests",
+  "source_text": "Open requests ",
+  "translated_text": "\u0627\u0644\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0645\u0641\u062a\u0648\u062d\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.495320",
+  "name": "ar-Leave requests",
+  "source_text": "Leave requests ",
+  "translated_text": "\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0625\u062c\u0627\u0632\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.503075",
+  "name": "ar-New Leave Request",
+  "source_text": "New Leave Request",
+  "translated_text": "\u0637\u0644\u0628 \u0625\u062c\u0627\u0632\u0629 \u062c\u062f\u064a\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.510655",
+  "name": "ar-Select leave type",
+  "source_text": "Select leave type",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0646\u0648\u0639 \u0627\u0644\u0625\u062c\u0627\u0632\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.518385",
+  "name": "ar-Add half day",
+  "source_text": "Add half day",
+  "translated_text": "\u0625\u0636\u0627\u0641\u0629 \u0646\u0635\u0641 \u064a\u0648\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.530137",
+  "name": "ar-Start Day",
+  "source_text": "Start Day",
+  "translated_text": "\u064a\u0648\u0645 \u0627\u0644\u0628\u062f\u0621"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.537866",
+  "name": "ar-End Day",
+  "source_text": "End Day",
+  "translated_text": "\u064a\u0648\u0645 \u0627\u0644\u0627\u0646\u062a\u0647\u0627\u0621"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.550279",
+  "name": "ar-Half day",
+  "source_text": "Half day",
+  "translated_text": "\u0646\u0635\u0641 \u064a\u0648\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.558147",
+  "name": "ar-Period",
+  "source_text": "Period",
+  "translated_text": "\u0627\u0644\u0641\u062a\u0631\u0629 \u0627\u0644\u0632\u0645\u0646\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.565822",
+  "name": "ar-Day Selection",
+  "source_text": "Day Selection",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0623\u064a\u0627\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.577392",
+  "name": "ar-Basic",
+  "source_text": "Basic",
+  "translated_text": "\u0627\u0644\u0623\u0633\u0627\u0633\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.585087",
+  "name": "ar-Earnings",
+  "source_text": "Earnings",
+  "translated_text": "\u0627\u0644\u0623\u0631\u0628\u0627\u062d"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.592794",
+  "name": "ar-Deduction",
+  "source_text": "Deduction",
+  "translated_text": "\u0627\u0644\u0627\u0633\u062a\u0642\u0637\u0627\u0639\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.600484",
+  "name": "ar-Gross Pay",
+  "source_text": "Gross Pay",
+  "translated_text": "\u0627\u0644\u0623\u062c\u0631 \u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.612371",
+  "name": "ar-Deductions",
+  "source_text": "Deductions",
+  "translated_text": "\u0627\u0644\u0627\u0633\u062a\u0642\u0637\u0627\u0639\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.620043",
+  "name": "ar-Effective work days",
+  "source_text": "Effective work days",
+  "translated_text": "\u0623\u064a\u0627\u0645 \u0627\u0644\u0639\u0645\u0644 \u0627\u0644\u0641\u0639\u0627\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.627808",
+  "name": "ar-Total work days",
+  "source_text": "Total work days",
+  "translated_text": "\u0625\u062c\u0645\u0627\u0644\u064a \u0623\u064a\u0627\u0645 \u0627\u0644\u0639\u0645\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.635422",
+  "name": "ar-LOP",
+  "source_text": "LOP",
+  "translated_text": "\u062e\u0635\u0645 \u0639\u062f\u0645 \u0627\u0644\u062d\u0636\u0648\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.646947",
+  "name": "ar-Filter Transaction",
+  "source_text": "Filter Transaction",
+  "translated_text": "\u062a\u0635\u0641\u064a\u0629 \u0627\u0644\u0645\u0639\u0627\u0645\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.654545",
+  "name": "ar-No Transaction",
+  "source_text": "No Transaction",
+  "translated_text": "\u0644\u0627 \u062a\u0648\u062c\u062f \u0645\u0639\u0627\u0645\u0644\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.662315",
+  "name": "ar-Select Party Name",
+  "source_text": "Select Party Name",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0633\u0645 \u0627\u0644\u0637\u0631\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.670070",
+  "name": "ar-Select Party Type",
+  "source_text": "Select Party Type",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0646\u0648\u0639 \u0627\u0644\u0637\u0631\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.677799",
+  "name": "ar-From Date",
+  "source_text": "From Date",
+  "translated_text": "\u0645\u0646 \u0627\u0644\u062a\u0627\u0631\u064a\u062e"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.685446",
+  "name": "ar-To Date",
+  "source_text": "To Date",
+  "translated_text": "\u0625\u0644\u0649 \u0627\u0644\u062a\u0627\u0631\u064a\u062e"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.693074",
+  "name": "ar-Debit",
+  "source_text": "Debit",
+  "translated_text": "\u0645\u062f\u064a\u0646"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.701147",
+  "name": "ar-Credit",
+  "source_text": "Credit",
+  "translated_text": "\u062f\u0627\u0626\u0646"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.725013",
+  "name": "ar-Balance",
+  "source_text": "Balance",
+  "translated_text": "\u0627\u0644\u0631\u0635\u064a\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.747520",
+  "name": "ar-Visits",
+  "source_text": "Visits",
+  "translated_text": "\u0627\u0644\u0632\u064a\u0627\u0631\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.769565",
+  "name": "ar-Visit Details",
+  "source_text": "Visit Details",
+  "translated_text": "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0632\u064a\u0627\u0631\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.789779",
+  "name": "ar-Employee",
+  "source_text": "Employee",
+  "translated_text": "\u0627\u0644\u0645\u0648\u0638\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.811003",
+  "name": "ar-Update Visit",
+  "source_text": "Update Visit",
+  "translated_text": "\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0632\u064a\u0627\u0631\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.826288",
+  "name": "ar-Select Visit Type",
+  "source_text": "Select Visit Type",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0646\u0648\u0639 \u0627\u0644\u0632\u064a\u0627\u0631\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.838057",
+  "name": "ar-Search by Order ID or Customer Name",
+  "source_text": "Search by Order ID or Customer Name",
+  "translated_text": "\u0627\u0644\u0628\u062d\u062b \u0639\u0646 \u0631\u0642\u0645 \u0627\u0644\u0637\u0644\u0628 \u0623\u0648 \u0627\u0633\u0645 \u0627\u0644\u0639\u0645\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.845645",
+  "name": "ar-Customer name",
+  "source_text": "Customer name",
+  "translated_text": "\u0627\u0633\u0645 \u0627\u0644\u0639\u0645\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.853239",
+  "name": "ar-Items",
+  "source_text": "Items",
+  "translated_text": "\u0627\u0644\u0639\u062f\u062f"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.860872",
+  "name": "ar-Amount",
+  "source_text": "Amount",
+  "translated_text": "\u0627\u0644\u0645\u0628\u0644\u063a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.868762",
+  "name": "ar-Order Details",
+  "source_text": "Order Details",
+  "translated_text": "\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0637\u0644\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.876420",
+  "name": "ar-Update Order",
+  "source_text": "Update Order",
+  "translated_text": "\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0637\u0644\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.884067",
+  "name": "ar-Comments",
+  "source_text": "Comments",
+  "translated_text": "\u0627\u0644\u062a\u0639\u0644\u064a\u0642\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.891635",
+  "name": "ar-Comments here...",
+  "source_text": "Comments here...",
+  "translated_text": "\u0623\u0636\u0641 \u062a\u0639\u0644\u064a\u0642\u064b\u0627 \u0647\u0646\u0627..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.909010",
+  "name": "ar-Expected Delivery",
+  "source_text": "Expected Delivery",
+  "translated_text": "\u0627\u0644\u062a\u0633\u0644\u064a\u0645 \u0627\u0644\u0645\u062a\u0648\u0642\u0639"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.921402",
+  "name": "ar-Created by",
+  "source_text": "Created by",
+  "translated_text": "\u062a\u0645 \u0627\u0644\u0625\u0646\u0634\u0627\u0621 \u0628\u0648\u0627\u0633\u0637\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.929071",
+  "name": "ar-Item code",
+  "source_text": "Item code",
+  "translated_text": "\u0631\u0645\u0632 \u0627\u0644\u0639\u0646\u0635\u0631"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.936652",
+  "name": "ar-Qty",
+  "source_text": "Qty",
+  "translated_text": "\u0627\u0644\u0643\u0645\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.944316",
+  "name": "ar-Address",
+  "source_text": "Address",
+  "translated_text": "\u0627\u0644\u0639\u0646\u0648\u0627\u0646"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.955966",
+  "name": "ar-Annual Billing",
+  "source_text": "Annual Billing",
+  "translated_text": "\u0627\u0644\u0641\u0648\u062a\u0631\u0629 \u0627\u0644\u0633\u0646\u0648\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.963575",
+  "name": "ar-Total Unpaid",
+  "source_text": "Total Unpaid",
+  "translated_text": "\u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u063a\u064a\u0631 \u0627\u0644\u0645\u062f\u0641\u0648\u0639"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:34.979542",
+  "name": "ar-Tax & Discount",
+  "source_text": "Tax & Discount",
+  "translated_text": "\u0627\u0644\u0636\u0631\u064a\u0628\u0629 \u0648\u0627\u0644\u062e\u0635\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.000076",
+  "name": "ar-Total Tax :",
+  "source_text": "Total Tax :",
+  "translated_text": "\u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u0636\u0631\u064a\u0628\u0629 :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.007760",
+  "name": "ar-Sub total :",
+  "source_text": "Sub total :",
+  "translated_text": "\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a \u0642\u0628\u0644 \u0627\u0644\u0636\u0631\u064a\u0628\u0629 :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.015331",
+  "name": "ar-Discount :",
+  "source_text": "Discount :",
+  "translated_text": "\u0627\u0644\u062e\u0635\u0645:"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.022937",
+  "name": "ar-Total :",
+  "source_text": "Total :",
+  "translated_text": "\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a:"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.030873",
+  "name": "ar-Approved",
+  "source_text": "Approved",
+  "translated_text": "\u062a\u0645\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0639\u0644\u064a\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.038596",
+  "name": "ar-Rejected",
+  "source_text": "Rejected",
+  "translated_text": "\u062a\u0645 \u0631\u0641\u0636\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.050093",
+  "name": "ar-Draft",
+  "source_text": "Draft",
+  "translated_text": "\u0645\u0633\u0648\u062f\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.057676",
+  "name": "ar-Delivered",
+  "source_text": "Delivered",
+  "translated_text": "\u062a\u0645 \u0627\u0644\u062a\u0633\u0644\u064a\u0645"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.065369",
+  "name": "ar-Create Order",
+  "source_text": "Create Order",
+  "translated_text": "\u0625\u0646\u0634\u0627\u0621 \u0637\u0644\u0628"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.073102",
+  "name": "ar-Select Customer",
+  "source_text": "Select Customer",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0639\u0645\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.080857",
+  "name": "ar-Select Item",
+  "source_text": "Select Item",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u0627\u0644\u0635\u0646\u0641"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.088511",
+  "name": "ar-Select Delivery day",
+  "source_text": "Select Delivery day",
+  "translated_text": "\u0627\u062e\u062a\u0631 \u064a\u0648\u0645 \u0627\u0644\u062a\u0648\u0635\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.096129",
+  "name": "ar-Attachments",
+  "source_text": "Attachments",
+  "translated_text": "\u0627\u0644\u0645\u0631\u0641\u0642\u0627\u062a"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.103970",
+  "name": "ar-Quantity",
+  "source_text": "Quantity",
+  "translated_text": "\u0627\u0644\u0643\u0645\u064a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:44:35.118643",
+  "name": "ar-Back",
+  "source_text": "Back",
+  "translated_text": "\u0627\u0644\u0639\u0648\u062f\u0647"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-07-30 18:45:42.345206",
+  "name": "ar-Select Language",
+  "source_text": "Select Language",
+  "translated_text": "\u0627\u062e\u062a\u0627\u0631 \u0627\u0644\u0644\u063a\u0629"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2023-07-30 18:52:28.392089",
+  "name": "hi-Select Language",
+  "source_text": "Select Language",
+  "translated_text": "\u092d\u093e\u0937\u093e \u091a\u0941\u0928\u0947\r\n"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "gu",
+  "modified": "2023-07-30 18:52:55.626845",
+  "name": "gu-Select Language",
+  "source_text": "Select Language",
+  "translated_text": "\u0aad\u0abe\u0ab7\u0abe \u0aaa\u0ab8\u0a82\u0aa6 \u0a95\u0ab0\u0acb\r\n"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "es",
+  "modified": "2023-07-30 18:53:15.629463",
+  "name": "es-Select Language",
+  "source_text": "Select Language",
+  "translated_text": "Seleccione el idioma"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:39:42.964834",
+  "name": "en-View All",
+  "source_text": "View All",
+  "translated_text": "View All"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:43:15.603781",
+  "name": "en-No Data Available",
+  "source_text": "No Data Available",
+  "translated_text": "No Data Available"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:44:35.710569",
+  "name": "en-Month",
+  "source_text": "Month",
+  "translated_text": "Month"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:44:43.744263",
+  "name": "en-Year",
+  "source_text": "Year",
+  "translated_text": "Year"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:44:53.510827",
+  "name": "en-Notifications",
+  "source_text": "Notifications",
+  "translated_text": "Notifications"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:45:20.849620",
+  "name": "en-Your session has expired, please login again !",
+  "source_text": "Your session has expired, please login again !",
+  "translated_text": "Your session has expired, please login again !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:46:03.524817",
+  "name": "en-Unable to proceed: You are outside the authorised location for this action.",
+  "source_text": "Unable to proceed: You are outside the authorised location for this action.",
+  "translated_text": "Unable to proceed: You are outside the authorised location for this action."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:46:22.958273",
+  "name": "en-We are sorry for the inconvenience, please login again !",
+  "source_text": "We are sorry for the inconvenience, please login again !",
+  "translated_text": "We are sorry for the inconvenience, please login again !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:46:38.545682",
+  "name": "en-Go to settings and grant \"always use\" location permission !!! Tap to open settings.",
+  "source_text": "Go to settings and grant \"always use\" location permission !!! Tap to open settings.",
+  "translated_text": "Go to settings and grant \"always use\" location permission !!! Tap to open settings."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:46:47.363340",
+  "name": "en-Go to settings and enable the location permission !!! Tap to open settings.",
+  "source_text": "Go to settings and enable the location permission !!! Tap to open settings.",
+  "translated_text": "Go to settings and enable the location permission !!! Tap to open settings."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:47:01.650034",
+  "name": "en-Something went wrong, please try again !",
+  "source_text": "Something went wrong, please try again !",
+  "translated_text": "Something went wrong, please try again !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:48:01.613678",
+  "name": "en-Internal Error occurred, please try again later !",
+  "source_text": "Internal Error occurred, please try again later !",
+  "translated_text": "Internal Error occurred, please try again later !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:48:50.775423",
+  "name": "en-Select Items",
+  "source_text": "Select Items",
+  "translated_text": "Select Items"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:48:56.280394",
+  "name": "en-Select",
+  "source_text": "Select",
+  "translated_text": "Select"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:49:01.028183",
+  "name": "en-First Half",
+  "source_text": "First Half",
+  "translated_text": "First Half"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 17:49:06.912200",
+  "name": "en-Second Half",
+  "source_text": "Second Half",
+  "translated_text": "Second Half"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 18:18:19.056302",
+  "name": "en-Items selected",
+  "source_text": "Items selected",
+  "translated_text": "Items selected"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 18:36:44.443851",
+  "name": "en-Please select customer",
+  "source_text": "Please select customer",
+  "translated_text": "Please select customer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-08-06 18:58:34.200432",
+  "name": "ar-View All",
+  "source_text": "View All",
+  "translated_text": "\u0645\u0634\u0627\u0647\u062f\u0629 \u0627\u0644\u0643\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-08-06 19:03:54.241146",
+  "name": "ar-Please select customer",
+  "source_text": "Please select customer",
+  "translated_text": "\u0627\u0644\u0631\u062c\u0627\u0621 \u062a\u062d\u062f\u064a\u062f \u0627\u0644\u0639\u0645\u064a\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:47:30.242000",
+  "name": "en-from now",
+  "source_text": "from now",
+  "translated_text": "from now"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:47:38.330209",
+  "name": "en-ago",
+  "source_text": "ago",
+  "translated_text": "ago"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:57:26.241128",
+  "name": "en-a moment",
+  "source_text": "a moment",
+  "translated_text": "a moment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:57:33.870486",
+  "name": "en-a minute",
+  "source_text": "a minute",
+  "translated_text": "a minute"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:57:39.406412",
+  "name": "en-minutes",
+  "source_text": "minutes",
+  "translated_text": "minutes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:57:46.819335",
+  "name": "en-about an hour",
+  "source_text": "about an hour",
+  "translated_text": "about an hour"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:57:53.617721",
+  "name": "en-hours",
+  "source_text": "hours",
+  "translated_text": "hours"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:58:03.088579",
+  "name": "en-a day",
+  "source_text": "a day",
+  "translated_text": "a day"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:58:45.277559",
+  "name": "en-about a month",
+  "source_text": "about a month",
+  "translated_text": "about a month"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:58:53.170901",
+  "name": "en-months",
+  "source_text": "months",
+  "translated_text": "months"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:59:00.141393",
+  "name": "en-about a year",
+  "source_text": "about a year",
+  "translated_text": "about a year"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "en",
+  "modified": "2023-08-06 19:59:06.861937",
+  "name": "en-years",
+  "source_text": "years",
+  "translated_text": "years"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-08-06 20:18:45.138698",
+  "name": "ar-ago",
+  "source_text": "ago",
+  "translated_text": "\u0645\u0646\u0630"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-08-06 20:19:53.602176",
+  "name": "ar-First Half",
+  "source_text": "First Half",
+  "translated_text": "\u0627\u0644\u0646\u0635\u0641 \u0627\u0644\u0627\u0648\u0644"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "ar",
+  "modified": "2023-08-06 20:20:11.382436",
+  "name": "ar-Second Half",
+  "source_text": "Second Half",
+  "translated_text": "\u0627\u0644\u0646\u0635\u0641 \u0627\u0644\u062b\u0627\u0646\u064a"
+ }
+]

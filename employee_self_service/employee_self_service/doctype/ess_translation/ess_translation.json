@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "format:{language}-{source_text}",
+ "creation": "2023-07-25 17:48:55.401514",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "language",
+  "section_break_4",
+  "source_text",
+  "column_break_6",
+  "translated_text"
+ ],
+ "fields": [
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "Language",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "If your data is in HTML, please copy paste the exact HTML code with the tags.",
+   "fieldname": "source_text",
+   "fieldtype": "Code",
+   "label": "Source Text",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "translated_text",
+   "fieldtype": "Code",
+   "in_list_view": 1,
+   "label": "Translated Text"
+  }
+ ],
+ "links": [],
+ "modified": "2023-07-29 14:47:56.533871",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Ess Translation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "source_text",
+ "track_changes": 1
+}

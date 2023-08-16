@@ -1,0 +1,10 @@
+.DS_Store
+*.pyc
+*.egg-info
+*.swp
+tags
+employee_self_service/docs/current
+node_modules/
+employee_self_service/public/node_modules
+yarn.lock
+employee_self_service/public/dist

@@ -1,0 +1,145 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-11-19 21:43:00.887054",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "defaults_values_section",
+  "default_payable_account",
+  "column_break_mkr93",
+  "default_warehouse",
+  "column_break_7qksp",
+  "default_price_list",
+  "column_break_2",
+  "default_print_format",
+  "section_break_sdfg1",
+  "firebase_server_key",
+  "section_break_yu4ls",
+  "location_validate",
+  "column_break_tyodi",
+  "version",
+  "update_version_forcefully",
+  "section_break_8pigx",
+  "ess_language"
+ ],
+ "fields": [
+  {
+   "description": "default payable account for expence claim",
+   "fieldname": "default_payable_account",
+   "fieldtype": "Link",
+   "label": "Default Payable Account",
+   "options": "Account"
+  },
+  {
+   "description": "use to download salary slips in ESS app",
+   "fieldname": "default_print_format",
+   "fieldtype": "Link",
+   "label": "Default Print Format",
+   "options": "Print Format"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "It is used for push notification",
+   "fieldname": "firebase_server_key",
+   "fieldtype": "Small Text",
+   "label": "Firebase Server Key"
+  },
+  {
+   "description": "fetch item price from this in the ESS app",
+   "fieldname": "default_price_list",
+   "fieldtype": "Link",
+   "label": "Default Price List",
+   "options": "Price List"
+  },
+  {
+   "description": "default warehouse for sales order",
+   "fieldname": "default_warehouse",
+   "fieldtype": "Link",
+   "label": "Default Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "Version"
+  },
+  {
+   "default": "1",
+   "fieldname": "location_validate",
+   "fieldtype": "Check",
+   "label": "Stop Location Validate"
+  },
+  {
+   "default": "0",
+   "fieldname": "update_version_forcefully",
+   "fieldtype": "Check",
+   "label": "Update Version Forcefully"
+  },
+  {
+   "fieldname": "section_break_8pigx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ess_language",
+   "fieldtype": "Table",
+   "label": "ESS Language",
+   "options": "ESS Language"
+  },
+  {
+   "fieldname": "defaults_values_section",
+   "fieldtype": "Section Break",
+   "label": "Defaults values"
+  },
+  {
+   "fieldname": "column_break_mkr93",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_7qksp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_sdfg1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_yu4ls",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_tyodi",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2023-08-15 20:56:48.248775",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Employee Self Service Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

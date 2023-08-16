@@ -1,0 +1,16 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Notice Board Template Type",
+  "modified": "2022-12-28 21:58:27.812465",
+  "name": "Birthday",
+  "template_type": "Birthday"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Notice Board Template Type",
+  "modified": "2022-12-28 21:59:51.740057",
+  "name": "Work Anniversary",
+  "template_type": "Work Anniversary"
+ }
+]

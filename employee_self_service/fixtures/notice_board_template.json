@@ -1,0 +1,20 @@
+[
+ {
+  "board_title": "Happy Birthday",
+  "docstatus": 0,
+  "doctype": "Notice Board Template",
+  "message": "Happy birthday to a valued member of our team! We appreciate all of the hard work and dedication you bring to the job every day. May your special day be filled with love, joy, and all of your favorite things. Here's to another year of success and personal growth. Enjoy your day!",
+  "modified": "2022-12-28 22:04:35.568798",
+  "name": "NBTEMP0001",
+  "notice_board_template_type": "Birthday"
+ },
+ {
+  "board_title": "Happy Work Anniversary!",
+  "docstatus": 0,
+  "doctype": "Notice Board Template",
+  "message": "Congratulations on another year with our team! Your contributions and dedication have made a huge impact on our success. Here's to many more years of growth, learning, and achievement together. Thank you for all that you do. Happy work anniversary!",
+  "modified": "2022-12-28 22:04:47.793536",
+  "name": "NBTEMP0002",
+  "notice_board_template_type": "Work Anniversary"
+ }
+]
