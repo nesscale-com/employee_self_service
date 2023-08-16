@@ -15,8 +15,8 @@ Employee Self-Service is a Frappe app that allows employees to access and manage
 2. **Install the App**
 
    Run the following commands to install the Employee Self-Service app:<br/>
-- <b>bench get-app https://github.com/bhavesh95863/employee-self-service.git --branch version-14</b><br/>
-- <b>bench --site <site_name> install-app employee_service</b>
+- <b>bench get-app https://github.com/nesscale-com/employee_self_service.git --branch version-14</b><br/>
+- <b>bench --site <site_name> install-app employee_self_service</b>
 
 
 
