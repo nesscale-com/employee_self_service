@@ -11,6 +11,8 @@ from employee_self_service.mobile.v1.api_utils import (
     prepare_json_data,
     get_global_defaults,
     exception_handler,
+    get_actions,
+    check_workflow_exists,
 )
 from erpnext.accounts.party import get_dashboard_info
 
@@ -22,7 +24,7 @@ from erpnext.accounts.party import get_dashboard_info
 def get_order_list():
     try:
         global_defaults = get_global_defaults()
-        status_field = check_workflow_exists()
+        status_field = check_workflow_exists("Sales Order")
         if not status_field:
             status_field = "status"
         order_list = frappe.get_list(
@@ -42,16 +44,22 @@ def get_order_list():
             )
         gen_response(200, "Order list get successfully", order_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for sales order")
+        return gen_response(500, "Not permitted for sales order")
     except Exception as e:
         return exception_handler(e)
 
-def check_workflow_exists():
-    sales_order_workflow = frappe.get_all("Workflow",filters={"document_type":"Sales Order","is_active":1},fields=["workflow_state_field"])
-    if sales_order_workflow:
-        return sales_order_workflow[0].workflow_state_field
-    else:
-        return False
+
+# def check_workflow_exists():
+#     sales_order_workflow = frappe.get_all(
+#         "Workflow",
+#         filters={"document_type": "Sales Order", "is_active": 1},
+#         fields=["workflow_state_field"],
+#     )
+#     if sales_order_workflow:
+#         return sales_order_workflow[0].workflow_state_field
+#     else:
+#         return False
+
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -66,8 +74,21 @@ def get_order(*args, **kwargs):
         delivery_date = getdate(order_doc["delivery_date"])
         order_doc["transaction_date"] = transaction_date.strftime("%d-%m-%Y")
         order_doc["delivery_date"] = delivery_date.strftime("%d-%m-%Y")
-        order_data = get_order_details_with_currency(order_doc,global_defaults.get("default_currency"))
-        for response_field in ["name","transaction_date","delivery_date","workflow_state","total_qty","customer_name","shipping_address","contact_email","contact_mobile","contact_phone"]:
+        order_data = get_order_details_with_currency(
+            order_doc, global_defaults.get("default_currency")
+        )
+        for response_field in [
+            "name",
+            "transaction_date",
+            "delivery_date",
+            "workflow_state",
+            "total_qty",
+            "customer_name",
+            "shipping_address",
+            "contact_email",
+            "contact_mobile",
+            "contact_phone",
+        ]:
             order_data[response_field] = order_doc.get(response_field)
         item_list = []
         for item in order_doc.get("items"):
@@ -92,7 +113,7 @@ def get_order(*args, **kwargs):
                 )
             )
         order_data["items"] = item_list
-        order_data["next_action"] = get_actions(order_doc,order_data)
+        order_data["next_action"] = get_actions(order_doc, order_data)
         order_data["allow_edit"] = True if order_doc.get("docstatus") == 0 else False
         order_data["created_by"] = frappe.get_cached_value(
             "User", order_doc.get("owner"), "full_name"
@@ -108,20 +129,23 @@ def get_order(*args, **kwargs):
         )
         gen_response(200, "Order detail get successfully.", order_data)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for sales order")
+        return gen_response(500, "Not permitted for sales order")
     except Exception as e:
         return exception_handler(e)
 
-def get_actions(order_doc,order_data=None):
-    from frappe.model.workflow import get_transitions
-    if not check_workflow_exists():
-        order_data["workflow_state"] = order_doc.get("status")
-        return []
-    transitions = get_transitions(order_doc)
-    actions = []
-    for row in transitions:
-        actions.append(row.get("action"))
-    return actions
+
+# def get_actions(doc, doc_data=None):
+#     from frappe.model.workflow import get_transitions
+
+#     if not check_workflow_exists():
+#         doc_data["workflow_state"] = doc.get("status")
+#         return []
+#     transitions = get_transitions(doc)
+#     actions = []
+#     for row in transitions:
+#         actions.append(row.get("action"))
+#     return actions
+
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
@@ -135,6 +159,7 @@ def update_workflow_state(order_id, action):
     except Exception as e:
         return exception_handler(e)
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_customer_list():
@@ -145,7 +170,7 @@ def get_customer_list():
         )
         gen_response(200, "Customer list get successfully", customer_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for customer")
+        return gen_response(500, "Not permitted for customer")
     except Exception as e:
         return exception_handler(e)
 
@@ -161,7 +186,7 @@ def get_item_list():
         items = get_items_rate(item_list)
         gen_response(200, "Item list get successfully", items)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for item")
+        return gen_response(500, "Not permitted for item")
     except Exception as e:
         exception_handler(e)
 
@@ -198,22 +223,36 @@ def prepare_order_totals(*args, **kwargs):
             item["delivery_date"] = data.get("delivery_date")
             item["warehouse"] = ess_settings.get("default_warehouse")
         global_defaults = get_global_defaults()
-        sales_order_doc = frappe.get_doc(dict(doctype="Sales Order", company=global_defaults.get("default_company")))
+        sales_order_doc = frappe.get_doc(
+            dict(doctype="Sales Order", company=global_defaults.get("default_company"))
+        )
         sales_order_doc.update(data)
         sales_order_doc.run_method("set_missing_values")
         sales_order_doc.run_method("calculate_taxes_and_totals")
         sales_order_doc = json.loads(sales_order_doc.as_json())
-        gen_response(200, "Order details get successfully", get_order_details_with_currency(sales_order_doc,global_defaults.get("default_currency")))
+        gen_response(
+            200,
+            "Order details get successfully",
+            get_order_details_with_currency(
+                sales_order_doc, global_defaults.get("default_currency")
+            ),
+        )
     except Exception as e:
         return exception_handler(e)
 
-def get_order_details_with_currency(sales_order_doc,currency):
+
+def get_order_details_with_currency(sales_order_doc, currency):
     order_response_dict = {}
-    for response_fields in ["total_taxes_and_charges","net_total","discount_amount","grand_total"]:
+    for response_fields in [
+        "total_taxes_and_charges",
+        "net_total",
+        "discount_amount",
+        "grand_total",
+    ]:
         order_response_dict[response_fields] = fmt_money(
-        sales_order_doc.get(response_fields),
-        currency=currency,
-    )
+            sales_order_doc.get(response_fields),
+            currency=currency,
+        )
     return order_response_dict
 
 
@@ -234,13 +273,24 @@ def create_order(*args, **kwargs):
             if not frappe.db.exists("Sales Order", data.get("order_id"), cache=True):
                 return gen_response(500, "Invalid order id.")
             sales_order_doc = frappe.get_doc("Sales Order", data.get("order_id"))
-            _create_update_order(data=data,sales_order_doc=sales_order_doc,default_warehouse=ess_settings.get("default_warehouse"))
+            _create_update_order(
+                data=data,
+                sales_order_doc=sales_order_doc,
+                default_warehouse=ess_settings.get("default_warehouse"),
+            )
             gen_response(200, "Order updated successfully.", sales_order_doc.name)
         else:
             sales_order_doc = frappe.get_doc(
-                dict(doctype="Sales Order", company=global_defaults.get("default_company"))
+                dict(
+                    doctype="Sales Order",
+                    company=global_defaults.get("default_company"),
+                )
             )
-            _create_update_order(data=data,sales_order_doc=sales_order_doc,default_warehouse=ess_settings.get("default_warehouse"))
+            _create_update_order(
+                data=data,
+                sales_order_doc=sales_order_doc,
+                default_warehouse=ess_settings.get("default_warehouse"),
+            )
             if data.get("attachments") is not None:
                 for file in data.get("attachments"):
                     file_doc = frappe.get_doc(
@@ -255,11 +305,12 @@ def create_order(*args, **kwargs):
 
             gen_response(200, "Order created successfully.", sales_order_doc.name)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for create sales order")
+        return gen_response(500, "Not permitted for create sales order")
     except Exception as e:
         return exception_handler(e)
 
-def _create_update_order(data,sales_order_doc,default_warehouse):
+
+def _create_update_order(data, sales_order_doc, default_warehouse):
     delivery_date = data.get("delivery_date")
     for item in data.get("items"):
         item["delivery_date"] = delivery_date
