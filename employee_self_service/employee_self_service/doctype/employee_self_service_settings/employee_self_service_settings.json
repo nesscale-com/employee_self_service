@@ -27,7 +27,7 @@
  ],
  "fields": [
   {
-   "description": "default payable account for expence claim",
+   "description": "Default payable account for expense claim",
    "fieldname": "default_payable_account",
    "fieldtype": "Link",
    "label": "Default Payable Account",
@@ -45,7 +45,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "It is used for push notification",
+   "description": "for the push notification",
    "fieldname": "firebase_server_key",
    "fieldtype": "Small Text",
    "label": "Firebase Server Key"
@@ -58,7 +58,7 @@
    "options": "Price List"
   },
   {
-   "description": "default warehouse for sales order",
+   "description": "Default warehouse for sales order",
    "fieldname": "default_warehouse",
    "fieldtype": "Link",
    "label": "Default Warehouse",
@@ -67,6 +67,7 @@
   {
    "fieldname": "version",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Version"
   },
   {
@@ -79,6 +80,7 @@
    "default": "0",
    "fieldname": "update_version_forcefully",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Update Version Forcefully"
   },
   {
@@ -114,13 +116,14 @@
   },
   {
    "fieldname": "column_break_tyodi",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-08-15 20:56:48.248775",
+ "modified": "2023-08-23 20:55:59.105322",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

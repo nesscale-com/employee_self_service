@@ -15,13 +15,13 @@ def gen_response(status, message, data=[]):
     frappe.response["data"] = data
 
 
-
 def exception_handler(e):
     frappe.log_error(title="ESS Mobile App Error", message=frappe.get_traceback())
     if hasattr(e, "http_status_code"):
         return gen_response(e.http_status_code, cstr(e))
     else:
         return gen_response(500, cstr(e))
+
 
 def generate_key(user):
     user_details = frappe.get_doc("User", user)
@@ -107,3 +107,43 @@ def prepare_json_data(key_list, data):
         if key in key_list:
             return_data[key] = data.get(key)
     return return_data
+
+
+def get_actions(doc, doc_data=None):
+    from frappe.model.workflow import get_transitions
+
+    if not check_workflow_exists(doc.get("doctype")):
+        doc_data["workflow_state"] = doc.get("status")
+        return []
+    transitions = get_transitions(doc)
+    actions = []
+    for row in transitions:
+        actions.append(row.get("action"))
+    return actions
+
+
+def check_workflow_exists(doctype):
+    doc_workflow = frappe.get_all(
+        "Workflow",
+        filters={"document_type": doctype, "is_active": 1},
+        fields=["workflow_state_field"],
+    )
+    if doc_workflow:
+        return doc_workflow[0].workflow_state_field
+    else:
+        return False
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def update_workflow_state(reference_doctype, reference_name, action):
+    try:
+        from frappe.model.workflow import apply_workflow
+
+        doc = frappe.get_doc(reference_doctype, reference_name)
+        apply_workflow(doc, action)
+        return gen_response(200, "Workflow State Updated Successfully")
+    except frappe.PermissionError:
+        return gen_response(500, f"Not permitted for update {reference_doctype}")
+    except Exception as e:
+        return exception_handler(e)
