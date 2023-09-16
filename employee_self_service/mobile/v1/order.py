@@ -21,12 +21,10 @@ from erpnext.accounts.party import get_dashboard_info
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_order_list():
+def get_order_list(start=0, page_length=10, filters=None):
     try:
         global_defaults = get_global_defaults()
         status_field = check_workflow_exists("Sales Order")
-        if not status_field:
-            status_field = "status"
         order_list = frappe.get_list(
             "Sales Order",
             fields=[
@@ -37,6 +35,10 @@ def get_order_list():
                 f"{status_field} as status",
                 "total_qty",
             ],
+            start=start,
+            page_length=page_length,
+            order_by="modified desc",
+            filters=filters,
         )
         for order in order_list:
             order["grand_total"] = fmt_money(

@@ -265,6 +265,16 @@ def make_payment(*args, **kwargs):
                 payment_doc.insert()
         else:
             payment_doc.save()
+        if data.get("attachments") is not None:
+            for file in data.get("attachments"):
+                file_doc = frappe.get_doc(
+                    dict(
+                        doctype="File",
+                        file_url=file.get("file_url"),
+                        attached_to_doctype="Payment Entry",
+                        attached_to_name=payment_doc.name,
+                    )
+                ).insert(ignore_permissions=True)
         return gen_response(200, "Payment added successfully")
     except Exception as e:
         return exception_handler(e)
@@ -357,9 +367,18 @@ def get_payment_entry(id):
             True if payment_entry.get("docstatus") == 0 else False
         )
         payment_entry_doc["references"] = reference_list
+        payment_entry_doc["attachments"] = get_payment_entry_attachments(id)
         return gen_response(200, "Payment Entry get successfully", payment_entry_doc)
     except Exception as e:
         return exception_handler(e)
+
+
+def get_payment_entry_attachments(id):
+    return frappe.get_all(
+        "File",
+        filters={"attached_to_doctype": "Payment Entry", "attached_to_name": id},
+        fields=["*"],
+    )
 
 
 @frappe.whitelist()
