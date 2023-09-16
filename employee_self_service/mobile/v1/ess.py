@@ -17,7 +17,8 @@ from frappe.utils import (
     flt,
     pretty_date,
     fmt_money,
-    add_days
+    add_days,
+    format_time,
 )
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
@@ -96,6 +97,7 @@ def get_leave_type(from_date=None, to_date=None):
         from hrms.hr.doctype.leave_application.leave_application import (
             get_leave_balance_on,
         )
+
         if not from_date:
             from_date = today()
         emp_data = get_employee_by_user(frappe.session.user)
@@ -118,7 +120,7 @@ def get_leave_type(from_date=None, to_date=None):
 @ess_validate(methods=["GET"])
 def get_leave_application_list():
     """
-        Get Leave Application which is already applied. Get Leave Balance Report    
+    Get Leave Application which is already applied. Get Leave Balance Report
     """
     try:
         emp_data = get_employee_by_user(frappe.session.user)
@@ -166,7 +168,7 @@ def get_leave_balance_report(employee, company, fiscal_year):
     # year_end_date = get_date_str(fiscal_year.get("year_end_date"))
     filters_leave_balance = {
         "from_date": today(),
-        "to_date": add_days(today(),1),
+        "to_date": add_days(today(), 1),
         "company": company,
         "employee": employee,
     }
@@ -444,11 +446,11 @@ def get_attendance_details_dashboard():
 def get_last_log_details(employee):
     log_details = frappe.db.sql(
         """SELECT log_type,
-       TIME
-FROM `tabEmployee Checkin`
-WHERE employee=%s
-  AND DATE(TIME)=%s
-ORDER BY TIME DESC""",
+        time
+        FROM `tabEmployee Checkin`
+        WHERE employee=%s
+        AND DATE(time)=%s
+        ORDER BY time DESC""",
         (employee, today()),
         as_dict=1,
     )
@@ -1673,7 +1675,7 @@ def get_task_by_id(task_id=None):
 
         return gen_response(200, "Task", tasks)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read task")
+        return gen_response(500, "Not permitted read task")
     except Exception as e:
         return exception_handler(e)
 
@@ -1887,7 +1889,7 @@ def get_transactions(
                 return report_to_pdf(html)
         return gen_response(200, "Ledger Get Successfully", data)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted general ledger report")
+        return gen_response(500, "Not permitted general ledger report")
     except Exception as e:
         return exception_handler(e)
 
@@ -1899,7 +1901,7 @@ def get_customer_list():
         customer = frappe.get_list("Customer", ["name", "customer_name"])
         return gen_response(200, "Customr list Getting Successfully", customer)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read customer")
+        return gen_response(500, "Not permitted read customer")
     except Exception as e:
         return exception_handler(e)
 
@@ -1911,7 +1913,7 @@ def get_employee_list():
         employee = frappe.get_list("Employee", ["name", "employee_name"])
         return gen_response(200, "Employee list Getting Successfully", employee)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read employee")
+        return gen_response(500, "Not permitted read employee")
     except Exception as e:
         return exception_handler(e)
 
@@ -1950,7 +1952,7 @@ def delete_documents(file_id=None, attached_to_name=None):
         frappe.delete_doc(attached_to_doctype, attached_to_name, force=1)
         return gen_response(200, "you have successfully deleted ESS Document")
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted delete file")
+        return gen_response(500, "Not permitted delete file")
     except Exception as e:
         return exception_handler(e)
 
@@ -1975,7 +1977,7 @@ def create_task(**kwargs):
             )
         return gen_response(200, "Task has been created successfully")
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted for create task")
+        return gen_response(500, "Not permitted for create task")
     except Exception as e:
         return exception_handler(e)
 
@@ -1987,7 +1989,7 @@ def get_project_list():
         project_list = frappe.get_list("Project", ["name", "project_name"])
         return gen_response(200, "Project List getting Successfully", project_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read project")
+        return gen_response(500, "Not permitted read project")
     except Exception as e:
         return exception_handler(e)
 
@@ -1999,7 +2001,7 @@ def get_user_list():
         user_list = frappe.get_list("User", ["name", "full_name", "user_image"])
         return gen_response(200, "User List getting Successfully", user_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read user")
+        return gen_response(500, "Not permitted read user")
     except Exception as e:
         return exception_handler(e)
 

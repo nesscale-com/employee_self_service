@@ -112,9 +112,15 @@ def prepare_json_data(key_list, data):
 def get_actions(doc, doc_data=None):
     from frappe.model.workflow import get_transitions
 
-    if not check_workflow_exists(doc.get("doctype")):
+    if not frappe.db.exists(
+        "Workflow", dict(document_type=doc.get("doctype"), is_active=1)
+    ):
         doc_data["workflow_state"] = doc.get("status")
-        return []
+        status_field = (
+            frappe.get_meta(doc.get("doctype")).get_field("status").options or ""
+        )
+        if status_field:
+            return status_field.split("\n")
     transitions = get_transitions(doc)
     actions = []
     for row in transitions:
@@ -131,7 +137,9 @@ def check_workflow_exists(doctype):
     if doc_workflow:
         return doc_workflow[0].workflow_state_field
     else:
-        return False
+        status_field = frappe.get_meta(doctype).get_field("status")
+        if status_field:
+            return status_field.fieldname
 
 
 @frappe.whitelist()
