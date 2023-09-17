@@ -115,13 +115,13 @@ doctype_js = {"Employee Checkin": "public/js/employee_checkin.js"}
 # }
 doc_events = {
     "Leave Application": {
-        "on_update": "employee_self_service.mobile.ess.on_leave_application_update"
+        "on_update": "employee_self_service.mobile.v1.ess.on_leave_application_update"
     },
     "Expense Claim": {
-        "on_submit": "employee_self_service.mobile.ess.on_expense_submit"
+        "on_submit": "employee_self_service.mobile.v1.ess.on_expense_submit"
     },
     "ToDo": {
-        "after_insert": "employee_self_service.mobile.ess.send_notification_for_task_assign"
+        "after_insert": "employee_self_service.mobile.v1.ess.send_notification_for_task_assign"
     },
 }
 
@@ -129,10 +129,10 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
-    "daily": ["employee_self_service.mobile.ess.daily_notice_board_event"],
+    "daily": ["employee_self_service.mobile.v1.ess.daily_notice_board_event"],
     "cron": {
-        "0 9 * * *": ["employee_self_service.mobile.ess.send_notification_on_event"],
-        "0 9 * * *": ["employee_self_service.mobile.ess.on_holiday_event"],
+        "0 9 * * *": ["employee_self_service.mobile.v1.ess.send_notification_on_event"],
+        "0 9 * * *": ["employee_self_service.mobile.v1.ess.on_holiday_event"],
     },
 }
 

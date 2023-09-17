@@ -67,7 +67,7 @@ def validate_employee(user):
 @ess_validate(methods=["POST"])
 def make_leave_application(*args, **kwargs):
     try:
-        from hrms.hr.doctype.leave_application.leave_application import (
+        from erpnext.hr.doctype.leave_application.leave_application import (
             get_leave_approver,
         )
 
@@ -94,7 +94,7 @@ def make_leave_application(*args, **kwargs):
 @ess_validate(methods=["GET"])
 def get_leave_type(from_date=None, to_date=None):
     try:
-        from hrms.hr.doctype.leave_application.leave_application import (
+        from erpnext.hr.doctype.leave_application.leave_application import (
             get_leave_balance_on,
         )
 
@@ -152,6 +152,7 @@ def get_leave_application_list():
         res = get_leave_balance_report(
             emp_data.get("name"), emp_data.get("company"), fiscal_year
         )
+
         leave_applications = {
             "upcoming": upcoming_leaves,
             "taken": taken_leaves,
@@ -163,18 +164,24 @@ def get_leave_application_list():
 
 
 def get_leave_balance_report(employee, company, fiscal_year):
-    # fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
-    # year_start_date = get_date_str(fiscal_year.get("year_start_date"))
+    fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
+    year_start_date = get_date_str(fiscal_year.get("year_start_date"))
     # year_end_date = get_date_str(fiscal_year.get("year_end_date"))
     filters_leave_balance = {
-        "from_date": today(),
+        "from_date": year_start_date,
         "to_date": add_days(today(), 1),
         "company": company,
         "employee": employee,
     }
     from frappe.desk.query_report import run
 
-    return run("Employee Leave Balance", filters=filters_leave_balance)
+    result = run("Employee Leave Balance", filters=filters_leave_balance)
+    for row in result.get("result"):
+        frappe.log_error(title="180", message=row)
+        frappe.log_error(title="180", message=type(row.get("employee")))
+        if isinstance(row.get("employee"), tuple):
+            row["employee"] = employee
+    return result
 
 
 @frappe.whitelist()
@@ -360,7 +367,7 @@ def download_salary_slip(ss_id):
             )
         language = frappe.get_system_settings("language")
         # return  frappe.utils.get_url()
-        url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+        # url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
         # return url
         download_pdf(res.doctype, res.name, default_print_format, res)
     except Exception as e:
@@ -815,39 +822,39 @@ def get_task_list():
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_task_status():
+def update_task_status(task_id=None, new_status=None):
     try:
-        if not frappe.request.json.get("task_id") or not frappe.request.json.get(
-            "new_status"
-        ):
-            return gen_response(500, "task id and new status is required")
-        assigned_to = frappe.get_value(
-            "Task",
-            {"name": frappe.request.json.get("task_id")},
-            ["_assign", "status"],
-            cache=True,
-            as_dict=True,
-        )
+        if not task_id:
+            return gen_response(500, "task id is required.")
+        if not new_status:
+            return gen_response(500, "New status is required")
+        # assigned_to = frappe.get_value(
+        #     "Task",
+        #     {"name": task_id},
+        #     ["_assign", "status"],
+        #     cache=True,
+        #     as_dict=True,
+        # )
 
-        if assigned_to.get("_assign") == None:
-            return gen_response(500, "Task Not assigned for any user")
+        # if assigned_to.get("_assign") == None:
+        #     return gen_response(500, "Task Not assigned for any user")
 
-        elif frappe.session.user not in assigned_to.get("_assign"):
-            return gen_response(500, "You are not authorized to update this task")
+        # elif frappe.session.user not in assigned_to.get("_assign"):
+        #     return gen_response(500, "You are not authorized to update this task")
 
-        elif frappe.request.json.get("new_status") not in frappe.get_meta(
-            "Task"
-        ).get_field("status").options.split("\n"):
-            return gen_response(500, "Task status invalid")
+        # if new_status not in frappe.get_meta(
+        #     "Task"
+        # ).get_field("status").options.split("\n"):
+        #     return gen_response(500, "Task status invalid")
 
-        elif assigned_to.get("status") == frappe.request.json.get("new_status"):
-            return gen_response(500, "status already up-to-date")
+        # if assigned_to.get("status") == frappe.request.json.get("new_status"):
+        #     return gen_response(500, "status already up-to-date")
 
         frappe.db.set_value(
             "Task",
-            frappe.request.json.get("task_id"),
+            task_id,
             "status",
-            frappe.request.json.get("new_status"),
+            new_status,
         )
 
         return gen_response(200, "Task status updated successfully")
@@ -864,9 +871,7 @@ def get_holiday_list(year=None):
             return gen_response(500, "year is required")
         emp_data = get_employee_by_user(frappe.session.user)
 
-        from erpnext.setup.doctype.employee.employee import (
-            get_holiday_list_for_employee,
-        )
+        from erpnext.hr.doctype.employee.employee import get_holiday_list_for_employee
 
         holiday_list = get_holiday_list_for_employee(
             emp_data.name, raise_exception=False
@@ -1309,7 +1314,7 @@ def notice_board_list(employee=None, date=None):
 
 def holiday_list(date=None):
     emp_data = get_employee_by_user(frappe.session.user)
-    from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+    from erpnext.hr.doctype.employee.employee import get_holiday_list_for_employee
 
     holiday_list = get_holiday_list_for_employee(emp_data.name, raise_exception=False)
 
@@ -1602,13 +1607,13 @@ def get_task_by_id(task_id=None):
     try:
         if not task_id:
             return gen_response(500, "task_id is required", [])
-        filters = [
-            ["Task", "name", "=", task_id],
-            ["Task", "_assign", "like", f"%{frappe.session.user}%"],
-        ]
+        # filters = [
+        #     ["Task", "name", "=", task_id],
+        #     ["Task", "_assign", "like", f"%{frappe.session.user}%"],
+        # ]
         tasks = frappe.db.get_value(
             "Task",
-            filters,
+            {"name": task_id},
             [
                 "name",
                 "subject",
@@ -1922,17 +1927,18 @@ def send_notification_for_task_assign(doc, event):
     from frappe.utils.data import strip_html
 
     if doc.status == "Open" and doc.reference_type == "Task":
-        filters = [["Task", "name", "=", f"{doc.reference_name}"]]
-        task = frappe.db.get_value(
-            "Task", filters, ["subject", "description"], as_dict=1
-        )
+        task_doc = frappe.get_doc(doc.reference_type, doc.reference_name)
+        # filters = [["Task", "name", "=", f"{doc.reference_name}"]]
+        # task = frappe.db.get_value(
+        #     "Task", filters, ["subject", "description"], as_dict=1
+        # )
         create_push_notification(
-            title=f"New Task Assigned - {task.get('subject')}",
-            message=strip_html(str(task.get("description")))
-            if task.get("description")
+            title=f"New Task Assigned - {task_doc.get('subject')}",
+            message=strip_html(str(task_doc.get("description")))
+            if task_doc.get("description")
             else "",
             send_for="Single User",
-            user=doc.allocated_to,
+            user=doc.owner,
             notification_type="task_assignment",
         )
 
@@ -1963,14 +1969,18 @@ def create_task(**kwargs):
     try:
         from frappe.desk.form import assign_to
 
-        data = kwargs
-        task_doc = frappe.get_doc(dict(doctype="Task"))
+        data = json.loads(frappe.request.get_data())
+        task_assign_to = data.get("assign_to")
+        del data["assign_to"]
+        frappe.log_error(title="data", message=data)
+        task_doc = frappe.new_doc("Task")
         task_doc.update(data)
-        task_doc.insert()
-        if data.get("assign_to"):
+        task_doc = task_doc.insert()
+        frappe.log_error(title="assign", message=assign_to)
+        if task_assign_to:
             assign_to.add(
                 {
-                    "assign_to": data.get("assign_to"),
+                    "assign_to": task_assign_to,
                     "doctype": task_doc.doctype,
                     "name": task_doc.name,
                 }
