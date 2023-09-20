@@ -226,17 +226,17 @@ def make_payment(*args, **kwargs):
     try:
         data = kwargs
         if data.get("name"):
-            payment_entry = frappe.get_doc("Payment Entry", data.get("name"))
-            payment_entry.update(data)
+            payment_entry_doc = frappe.get_doc("Payment Entry", data.get("name"))
             if not check_workflow_exists("Payment Entry"):
-                submit = data.get("submit")
+                is_submit = data.get("submit")
                 del data["submit"]
-                if submit == True:
-                    payment_entry.submit()
+                payment_entry_doc.update(data)
+                if is_submit == True:
+                    payment_entry_doc.submit()
                 else:
-                    payment_entry.save()
+                    payment_entry_doc.save()
             else:
-                payment_entry.save()
+                payment_entry_doc.save()
             return gen_response(200, "Payment entry updated successfully")
 
         payment_doc = frappe.get_doc(
@@ -290,6 +290,10 @@ def get_payment_entry_list(start=0, page_length=10, filters=None):
         status_field = check_workflow_exists("Payment Entry")
         if not status_field:
             status_field = "status"
+        if filters.get("status"):
+            status_val = filters.get("status")
+            del filters["status"]
+            filters[status_field] = status_val
         payment_entry_list = frappe.get_list(
             "Payment Entry",
             fields=[
@@ -399,6 +403,32 @@ def delete_payment_entry(id):
             id,
         )
         return gen_response(200, "Payment entry deleted successfully")
+    except Exception as e:
+        frappe.db.rollback()
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+def get_status_list(doctype):
+    try:
+        status_list = []
+        workflow_name = frappe.get_all(
+            "Workflow",
+            filters={"document_type": doctype, "is_active": 1},
+            fields=["name"],
+        )
+        if workflow_name:
+            workflow_states = frappe.get_all(
+                "Workflow Document State",
+                filters=[["parent", "=", workflow_name]],
+                fields=["*"],
+            )
+            for workflow_state in workflow_states:
+                status_list.append(workflow_state.state)
+        else:
+            payment_entry_meta = frappe.get_meta("Payment Entry")
+            status_list = payment_entry_meta.get_field("status").options.split("\n")
+        return gen_response(200, "document status get successfully", status_list)
     except Exception as e:
         frappe.db.rollback()
         return exception_handler(e)
