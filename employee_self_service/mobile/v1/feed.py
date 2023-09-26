@@ -25,7 +25,7 @@ def ess_post(**data):
             post_doc.employee = employee.get("name") if employee else ""
             post_doc.post_datetime = now_datetime()
         post_doc.update(data)
-        post_doc.save()
+        post_doc.save(ignore_permissions=True)
         return gen_response(200, "Post updated successfully")
     except Exception as e:
         return exception_handler(e)
@@ -210,13 +210,13 @@ def poll_user_answer(post_id, answer):
         if poll_answer:
             frappe.db.set_value("ESS Post Poll Log", poll_answer, "answer", answer)
             post_doc = frappe.get_doc("ESS Post", post_id)
-            post_doc.save()
+            post_doc.save(ignore_permissions=True)
         else:
             post_doc = frappe.get_doc("ESS Post", post_id)
             post_doc.append(
                 "ess_post_poll_log", dict(user=frappe.session.user, answer=answer)
             )
-            post_doc.save()
+            post_doc.save(ignore_permissions=True)
         post_data = get_ess_post(post_name=post_id)
         return gen_response(200, "Poll answer added", post_data)
     except Exception as e:
