@@ -25,6 +25,12 @@ def get_order_list(start=0, page_length=10, filters=None):
     try:
         global_defaults = get_global_defaults()
         status_field = check_workflow_exists("Sales Order")
+        if status_field == False:
+            status_field = "status"
+        if filters and filters.get("status"):
+            status_val = filters.get("status")
+            del filters["status"]
+            filters[status_field] = status_val
         order_list = frappe.get_list(
             "Sales Order",
             fields=[

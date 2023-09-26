@@ -1,0 +1,176 @@
+{
+ "_comments": "[]",
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-09-21 15:19:17.155312",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "user_image",
+  "full_name",
+  "publish",
+  "column_break_ajqva",
+  "employee",
+  "post_datetime",
+  "post_type",
+  "designation",
+  "section_break_w5qen",
+  "post_content",
+  "section_break_9mh2c",
+  "ess_post_attachment",
+  "section_break_4n4by",
+  "ess_post_poll_options",
+  "ess_post_poll_log",
+  "section_break_f3wv2",
+  "poll_duration",
+  "column_break_aer8m",
+  "poll_start_date",
+  "column_break_e1edv",
+  "poll_end_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fetch_from": "user.user_image",
+   "fieldname": "user_image",
+   "fieldtype": "Attach",
+   "hidden": 1,
+   "label": "User Image"
+  },
+  {
+   "fieldname": "column_break_ajqva",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "post_datetime",
+   "fieldtype": "Datetime",
+   "label": "Post Datetime"
+  },
+  {
+   "fieldname": "section_break_w5qen",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_9mh2c",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ess_post_attachment",
+   "fieldtype": "Table",
+   "label": "ESS Post Attachment",
+   "options": "ESS Post Attachment"
+  },
+  {
+   "default": "0",
+   "fieldname": "publish",
+   "fieldtype": "Check",
+   "label": "Publish"
+  },
+  {
+   "fieldname": "post_content",
+   "fieldtype": "Text Editor",
+   "label": "Post Content"
+  },
+  {
+   "fieldname": "section_break_4n4by",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ess_post_poll_options",
+   "fieldtype": "Table",
+   "label": "ESS Post Poll Options",
+   "options": "ESS Post Poll Options"
+  },
+  {
+   "fieldname": "ess_post_poll_log",
+   "fieldtype": "Table",
+   "label": "ESS Post Poll Log",
+   "options": "ESS Post Poll Log"
+  },
+  {
+   "fieldname": "post_type",
+   "fieldtype": "Select",
+   "label": "Post Type",
+   "options": "Post\nPoll"
+  },
+  {
+   "fieldname": "section_break_f3wv2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "poll_duration",
+   "fieldtype": "Select",
+   "label": "Poll Duration",
+   "options": "1\n2\n3\n5\n7"
+  },
+  {
+   "fieldname": "column_break_aer8m",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "poll_start_date",
+   "fieldtype": "Date",
+   "label": "Poll Start Date"
+  },
+  {
+   "fieldname": "column_break_e1edv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "poll_end_date",
+   "fieldtype": "Date",
+   "label": "Poll End Date"
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "designation",
+   "fieldtype": "Read Only",
+   "label": "Designation"
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Read Only",
+   "label": "Full Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-09-25 21:40:51.360948",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Post",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
