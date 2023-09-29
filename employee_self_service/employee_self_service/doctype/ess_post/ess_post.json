@@ -1,6 +1,4 @@
 {
- "_comments": "[]",
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "creation": "2023-09-21 15:19:17.155312",
@@ -151,7 +149,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-25 21:40:51.360948",
+ "modified": "2023-09-26 15:50:06.757206",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Post",
@@ -166,6 +164,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
    "share": 1,
    "write": 1
   }
