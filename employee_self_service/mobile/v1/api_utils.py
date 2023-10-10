@@ -116,11 +116,7 @@ def get_actions(doc, doc_data=None):
         "Workflow", dict(document_type=doc.get("doctype"), is_active=1)
     ):
         doc_data["workflow_state"] = doc.get("status")
-        status_field = (
-            frappe.get_meta(doc.get("doctype")).get_field("status").options or ""
-        )
-        if status_field:
-            return status_field.split("\n")
+        return []
     transitions = get_transitions(doc)
     actions = []
     for row in transitions:
@@ -137,9 +133,7 @@ def check_workflow_exists(doctype):
     if doc_workflow:
         return doc_workflow[0].workflow_state_field
     else:
-        status_field = frappe.get_meta(doctype).get_field("status")
-        if status_field:
-            return status_field.fieldname
+        return False
 
 
 @frappe.whitelist()

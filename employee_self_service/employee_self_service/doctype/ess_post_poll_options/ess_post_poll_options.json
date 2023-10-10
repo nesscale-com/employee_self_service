@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-09-23 18:54:08.921129",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "option",
+  "num_of_vote",
+  "percentage"
+ ],
+ "fields": [
+  {
+   "fieldname": "option",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Option"
+  },
+  {
+   "fieldname": "num_of_vote",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Num of vote"
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Percentage"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-09-23 18:57:24.336106",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Post Poll Options",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
