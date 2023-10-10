@@ -644,7 +644,7 @@ def create_employee_log(log_type, location=None):
                 location=location,
             )
         ).insert(ignore_permissions=True)
-        update_shift_last_sync(emp_data)
+        # update_shift_last_sync(emp_data)
         return gen_response(200, "Employee log added")
     except Exception as e:
         return exception_handler(e)
