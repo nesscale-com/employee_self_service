@@ -32,7 +32,21 @@ CUSTOM_FIELDS = {
             "insert_after": "shift_actual_end",
             "translatable": 1,
             "read_only": 1,
-        }
+        },
+        {
+            "fieldname": "odometer_reading",
+            "label": "Odometer reading",
+            "fieldtype": "Data",
+            "insert_after": "log_type",
+            "translatable": 1,
+            "read_only": 1,
+        },
+        {
+            "fieldname": "attendance_image",
+            "label": "Attendance Image",
+            "fieldtype": "Attach",
+            "insert_after": "location",
+        },
     ],
 }
 

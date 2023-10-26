@@ -15,10 +15,15 @@
   "default_price_list",
   "column_break_2",
   "default_print_format",
+  "frappe_version",
   "section_break_sdfg1",
   "firebase_server_key",
   "section_break_yu4ls",
   "location_validate",
+  "column_break_jfldd",
+  "check_in_with_image",
+  "column_break_7khj5",
+  "quick_task",
   "column_break_tyodi",
   "version",
   "update_version_forcefully",
@@ -118,12 +123,39 @@
    "fieldname": "column_break_tyodi",
    "fieldtype": "Column Break",
    "hidden": 1
+  },
+  {
+   "fieldname": "frappe_version",
+   "fieldtype": "Float",
+   "label": "Frappe Version"
+  },
+  {
+   "default": "0",
+   "description": "Capture Image with check-in and check-out",
+   "fieldname": "check_in_with_image",
+   "fieldtype": "Check",
+   "label": "Check In with Image"
+  },
+  {
+   "default": "0",
+   "description": "Allow Quick Task creation with check in",
+   "fieldname": "quick_task",
+   "fieldtype": "Check",
+   "label": "Quick Task"
+  },
+  {
+   "fieldname": "column_break_jfldd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_7khj5",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-08-23 20:55:59.105322",
+ "modified": "2023-10-22 14:54:53.451199",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
