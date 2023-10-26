@@ -28,3 +28,14 @@ def upload_documents():
     except Exception as e:
         frappe.db.rollback()
         return exception_handler(e)
+
+
+def get_attchment(reference_doctype, reference_name):
+    return frappe.get_all(
+        "File",
+        filters={
+            "attached_to_doctype": reference_doctype,
+            "attached_to_name": reference_name,
+        },
+        fields=["*"],
+    )
