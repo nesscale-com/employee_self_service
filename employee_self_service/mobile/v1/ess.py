@@ -409,6 +409,11 @@ def get_dashboard():
             "last_log_time": log_details.get("time").strftime("%I:%M%p")
             if log_details.get("time")
             else "",
+            "check_in_with_image": settings.get("check_in_with_image"),
+            "quick_task": settings.get("quick_task"),
+            "allow_odometer_reading_input": settings.get(
+                "allow_odometer_reading_input"
+            ),
         }
         dashboard_data["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"
@@ -630,7 +635,9 @@ def get_latest_ss(dashboard_data, employee):
 
 
 @frappe.whitelist()
-def create_employee_log(log_type, location=None):
+def create_employee_log(
+    log_type, location=None, odometer_reading=None, attendance_image=None
+):
     try:
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift"]
@@ -642,6 +649,8 @@ def create_employee_log(log_type, location=None):
                 log_type=log_type,
                 time=now_datetime().__str__()[:-7],
                 location=location,
+                odometer_reading=odometer_reading,
+                attendance_image=attendance_image,
             )
         ).insert(ignore_permissions=True)
         # update_shift_last_sync(emp_data)
@@ -1988,6 +1997,73 @@ def create_task(**kwargs):
         return gen_response(200, "Task has been created successfully")
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for create task")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def create_quick_task(**kwargs):
+    try:
+        from frappe.desk.form import assign_to
+
+        data = kwargs
+        task_doc = frappe.get_doc(dict(doctype="Task"))
+        task_doc.update(data)
+        task_doc.exp_end_date = today()
+        task_doc.insert()
+        assign_to.add(
+            {
+                "assign_to": [frappe.session.user],
+                "doctype": task_doc.doctype,
+                "name": task_doc.name,
+            }
+        )
+        return gen_response(200, "Task has been created successfully")
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for create task")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def update_task(**kwargs):
+    try:
+        from frappe.desk.form import assign_to
+
+        data = kwargs
+        task_doc = frappe.get_doc("Task", data.get("name"))
+        task_doc.update(data)
+        task_doc.save()
+        if data.get("assign_to"):
+            assign_to.add(
+                {
+                    "assign_to": data.get("assign_to"),
+                    "doctype": task_doc.doctype,
+                    "name": task_doc.name,
+                }
+            )
+        return gen_response(200, "Task has been updated successfully")
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for update task")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_quick_task_list():
+    try:
+        tasks = frappe.get_all(
+            "Task",
+            fields=["name", "subject", "exp_end_date", "status"],
+            filters={
+                "_assign": ["like", f"%{frappe.session.user}%"],
+                "exp_end_date": ["=", today()],
+            },
+        )
+        return gen_response(200, "Task list getting Successfully", tasks)
     except Exception as e:
         return exception_handler(e)
 
