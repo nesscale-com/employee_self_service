@@ -404,6 +404,9 @@ def get_dashboard():
             else "",
             "check_in_with_image": settings.get("check_in_with_image"),
             "quick_task": settings.get("quick_task"),
+            "allow_odometer_reading_input": settings.get(
+                "allow_odometer_reading_input"
+            ),
         }
         dashboard_data["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"

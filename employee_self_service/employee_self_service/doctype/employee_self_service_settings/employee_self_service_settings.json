@@ -25,6 +25,8 @@
   "column_break_7khj5",
   "quick_task",
   "column_break_tyodi",
+  "allow_odometer_reading_input",
+  "section_break_npr4y",
   "version",
   "update_version_forcefully",
   "section_break_8pigx",
@@ -150,12 +152,22 @@
   {
    "fieldname": "column_break_7khj5",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_odometer_reading_input",
+   "fieldtype": "Check",
+   "label": "Allow Odometer Reading Input"
+  },
+  {
+   "fieldname": "section_break_npr4y",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-22 14:54:53.451199",
+ "modified": "2023-10-28 15:07:35.367513",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
