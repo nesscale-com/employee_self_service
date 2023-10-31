@@ -20,6 +20,7 @@
   "firebase_server_key",
   "section_break_yu4ls",
   "location_validate",
+  "check_in_with_location",
   "column_break_jfldd",
   "check_in_with_image",
   "column_break_7khj5",
@@ -162,12 +163,18 @@
   {
    "fieldname": "section_break_npr4y",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "check_in_with_location",
+   "fieldtype": "Check",
+   "label": "Check in with location"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-10-28 15:07:35.367513",
+ "modified": "2023-10-30 19:10:25.062705",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
