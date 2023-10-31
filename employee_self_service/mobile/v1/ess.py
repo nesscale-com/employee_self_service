@@ -403,6 +403,7 @@ def get_dashboard():
             if log_details.get("time")
             else "",
             "check_in_with_image": settings.get("check_in_with_image"),
+            "check_in_with_location": settings.get("check_in_with_location"),
             "quick_task": settings.get("quick_task"),
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
