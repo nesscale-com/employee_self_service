@@ -410,6 +410,7 @@ def get_dashboard():
             if log_details.get("time")
             else "",
             "check_in_with_image": settings.get("check_in_with_image"),
+            "check_in_with_location": settings.get("check_in_with_location"),
             "quick_task": settings.get("quick_task"),
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
@@ -785,26 +786,23 @@ def get_task_list():
                     "comment_email",
                 ],
             )
-            project_name = frappe.db.get_value(
+            task["project_name"] = frappe.db.get_value(
                 "Project", {"name": task.get("project")}, ["project_name"]
             )
-            task["project_name"] = project_name
 
-            assigned_by = frappe.db.get_value(
+            task["assigned_by"] = frappe.db.get_value(
                 "User",
                 {"name": task.get("assigned_by")},
                 ["full_name as user", "user_image"],
                 as_dict=1,
             )
-            task["assigned_by"] = assigned_by
-            assigned_to = frappe.get_all(
+
+            task["assigned_to"] = frappe.get_all(
                 "User",
                 filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
                 fields=["full_name as user", "user_image"],
                 order_by="creation asc",
             )
-
-            task["assigned_to"] = assigned_to
 
             for comment in comments:
                 comment["commented"] = pretty_date(comment["creation"])
@@ -831,41 +829,40 @@ def get_task_list():
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_task_status(task_id=None, new_status=None):
+def update_task_status():
     try:
-        if not task_id:
-            return gen_response(500, "task id is required.")
-        if not new_status:
-            return gen_response(500, "New status is required")
-        # assigned_to = frappe.get_value(
-        #     "Task",
-        #     {"name": task_id},
-        #     ["_assign", "status"],
-        #     cache=True,
-        #     as_dict=True,
-        # )
-
-        # if assigned_to.get("_assign") == None:
-        #     return gen_response(500, "Task Not assigned for any user")
-
-        # elif frappe.session.user not in assigned_to.get("_assign"):
-        #     return gen_response(500, "You are not authorized to update this task")
-
-        # if new_status not in frappe.get_meta(
-        #     "Task"
-        # ).get_field("status").options.split("\n"):
-        #     return gen_response(500, "Task status invalid")
-
-        # if assigned_to.get("status") == frappe.request.json.get("new_status"):
-        #     return gen_response(500, "status already up-to-date")
-
-        frappe.db.set_value(
+        if not frappe.request.json.get("task_id") or not frappe.request.json.get(
+            "new_status"
+        ):
+            return gen_response(500, "task id and new status is required")
+        assigned_to = frappe.get_value(
             "Task",
-            task_id,
-            "status",
-            new_status,
+            {"name": frappe.request.json.get("task_id")},
+            ["_assign", "status"],
+            cache=True,
+            as_dict=True,
         )
 
+        if assigned_to.get("_assign") == None:
+            return gen_response(500, "Task Not assigned for any user")
+
+        elif frappe.session.user not in assigned_to.get("_assign"):
+            return gen_response(500, "You are not authorized to update this task")
+
+        elif frappe.request.json.get("new_status") not in frappe.get_meta(
+            "Task"
+        ).get_field("status").options.split("\n"):
+            return gen_response(500, "Task status invalid")
+
+        elif assigned_to.get("status") == frappe.request.json.get("new_status"):
+            return gen_response(500, "status already up-to-date")
+
+        task_doc = frappe.get_doc("Task", frappe.request.json.get("task_id"))
+        task_doc.status = frappe.request.json.get("new_status")
+        if task_doc.status == "Completed":
+            task_doc.completed_by = frappe.session.user
+            task_doc.completed_on = today()
+        task_doc.save()
         return gen_response(200, "Task status updated successfully")
 
     except Exception as e:
@@ -896,6 +893,7 @@ def get_holiday_list(year=None):
                 "holiday_date": ("between", [f"{year}-01-01", f"{year}-12-31"]),
             },
             fields=["description", "holiday_date"],
+            order_by="holiday_date asc",
         )
 
         if len(holidays) == 0:
@@ -922,6 +920,10 @@ def get_holiday_list(year=None):
 @ess_validate(methods=["GET"])
 def get_task_list_dashboard():
     try:
+        filters = [
+            ["_assign", "like", f"%{frappe.session.user}%"],
+            ["status", "!=", "Completed"],
+        ]
         tasks = frappe.get_all(
             "Task",
             fields=[
@@ -935,7 +937,7 @@ def get_task_list_dashboard():
                 "_assign as assigned_to",
                 "owner as assigned_by",
             ],
-            filters={"_assign": ["like", f"%{frappe.session.user}%"]},
+            filters=filters,
             limit=4,
         )
         for task in tasks:
