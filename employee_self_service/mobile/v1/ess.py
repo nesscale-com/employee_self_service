@@ -829,15 +829,14 @@ def get_task_list():
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_task_status():
+def update_task_status(task_id=None, new_status=None):
     try:
-        if not frappe.request.json.get("task_id") or not frappe.request.json.get(
-            "new_status"
-        ):
+        if not task_id or not new_status:
             return gen_response(500, "task id and new status is required")
+
         assigned_to = frappe.get_value(
             "Task",
-            {"name": frappe.request.json.get("task_id")},
+            {"name": task_id},
             ["_assign", "status"],
             cache=True,
             as_dict=True,
@@ -849,16 +848,16 @@ def update_task_status():
         elif frappe.session.user not in assigned_to.get("_assign"):
             return gen_response(500, "You are not authorized to update this task")
 
-        elif frappe.request.json.get("new_status") not in frappe.get_meta(
-            "Task"
-        ).get_field("status").options.split("\n"):
+        elif new_status not in frappe.get_meta("Task").get_field(
+            "status"
+        ).options.split("\n"):
             return gen_response(500, "Task status invalid")
 
-        elif assigned_to.get("status") == frappe.request.json.get("new_status"):
+        elif assigned_to.get("status") == new_status:
             return gen_response(500, "status already up-to-date")
 
-        task_doc = frappe.get_doc("Task", frappe.request.json.get("task_id"))
-        task_doc.status = frappe.request.json.get("new_status")
+        task_doc = frappe.get_doc("Task", task_id)
+        task_doc.status = new_status
         if task_doc.status == "Completed":
             task_doc.completed_by = frappe.session.user
             task_doc.completed_on = today()
