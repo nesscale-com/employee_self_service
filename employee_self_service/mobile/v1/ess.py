@@ -30,7 +30,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_global_defaults,
     exception_handler,
 )
-
+from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
@@ -636,6 +636,7 @@ def create_employee_log(
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift"]
         )
+
         log_doc = frappe.get_doc(
             dict(
                 doctype="Employee Checkin",
@@ -644,9 +645,18 @@ def create_employee_log(
                 time=now_datetime().__str__()[:-7],
                 location=location,
                 odometer_reading=odometer_reading,
-                attendance_image=attendance_image,
             )
         ).insert(ignore_permissions=True)
+
+        if "file" in frappe.request.files:
+            file = upload_file()
+            file.attached_to_doctype = "Employee Checkin"
+            file.attached_to_name = log_doc.name
+            file.attached_to_field = "attendance_image"
+            file.save(ignore_permissions=True)
+            log_doc.attendance_image = file.get("file_url")
+            log_doc.save(ignore_permissions=True)
+
         update_shift_last_sync(emp_data)
         return gen_response(200, "Employee log added")
     except Exception as e:
@@ -1173,8 +1183,6 @@ def upload_documents():
     try:
         emp_data = get_employee_by_user(frappe.session.user)
 
-        from frappe.handler import upload_file
-
         file_doc = upload_file()
 
         ess_document = frappe.get_doc(
@@ -1607,6 +1615,7 @@ def change_password(data):
         return exception_handler(e)
 
 
+# Need to refector this api
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_task_by_id(task_id=None):
@@ -1630,6 +1639,8 @@ def get_task_by_id(task_id=None):
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
+                "completed_by",
+                "completed_on",
             ],
             as_dict=1,
         )
@@ -1639,10 +1650,18 @@ def get_task_by_id(task_id=None):
         assigned_by = frappe.db.get_value(
             "User",
             {"name": tasks.get("assigned_by")},
-            ["full_name as user", "user_image"],
+            ["name","full_name as user", "full_name", "user_image"],
             as_dict=1,
         )
         tasks["assigned_by"] = assigned_by
+
+        completed_by = frappe.db.get_value(
+            "User",
+            {"name": tasks.get("completed_by")},
+            ["name","full_name as user", "full_name", "user_image"],
+            as_dict=1,
+        )
+        tasks["completed_by"] = completed_by
 
         project_name = frappe.db.get_value(
             "Project", {"name": tasks.get("project")}, ["project_name"]
@@ -1652,7 +1671,7 @@ def get_task_by_id(task_id=None):
         assigned_to = frappe.get_all(
             "User",
             filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
-            fields=["full_name as user", "user_image"],
+            fields=["name","full_name as user", "full_name", "user_image"],
             order_by="creation asc",
         )
 
@@ -1723,8 +1742,6 @@ def apply_expense():
             )
         ).insert()
 
-        from frappe.handler import upload_file
-
         if "file" in frappe.request.files:
             file = upload_file()
             file.attached_to_doctype = "Expense Claim"
@@ -1741,7 +1758,6 @@ def apply_expense():
 def update_profile_picture():
     try:
         emp_data = get_employee_by_user(frappe.session.user)
-        from frappe.handler import upload_file
 
         employee_profile_picture = upload_file()
         employee_profile_picture.attached_to_doctype = "Employee"
@@ -2012,6 +2028,19 @@ def create_quick_task(**kwargs):
             }
         )
         return gen_response(200, "Task has been created successfully")
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for create task")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def get_task(**kwargs):
+    try:
+        data = kwargs
+        task_doc = frappe.get_doc("Task", data.get("name"))
+        return gen_response(200, "Task get successfully", task_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for create task")
     except Exception as e:
