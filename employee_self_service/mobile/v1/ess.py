@@ -2057,14 +2057,31 @@ def update_task(**kwargs):
         task_doc = frappe.get_doc("Task", data.get("name"))
         task_doc.update(data)
         task_doc.save()
-        if data.get("assign_to"):
-            assign_to.add(
-                {
-                    "assign_to": data.get("assign_to"),
-                    "doctype": task_doc.doctype,
-                    "name": task_doc.name,
-                }
-            )
+
+        # Extract 'owner' values from each dictionary
+        old_assigned_to = [entry['owner'] for entry in assign_to.get(
+            {
+                "doctype": task_doc.doctype,
+                "name": task_doc.name,
+            }
+        )]
+
+        # Remove all assign_to entries that are not in the updated list
+        for assigned_to in old_assigned_to:
+            if assigned_to not in data.get("assign_to"):
+                assign_to.remove(
+                    doctype=task_doc.doctype,
+                    name=task_doc.name,
+                    assign_to=assigned_to
+                )
+                
+        assign_to.add(
+            {
+                "assign_to": data.get("assign_to"),
+                "doctype": task_doc.doctype,
+                "name": task_doc.name
+            }
+        )
         return gen_response(200, "Task has been updated successfully")
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for update task")
