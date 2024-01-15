@@ -69,7 +69,13 @@ def get_ess_post(post_name):
             "answer",
         )
         post_details["total_vote"] = len(post_details.get("ess_post_poll_log"))
-    del post_details["ess_post_poll_log"]
+        
+    if frappe.session.user != post_details.get('user'):
+        del post_details["ess_post_poll_log"]
+    else:
+        for poll_log in post_details["ess_post_poll_log"]:
+            remove_default_fields(poll_log)
+        
     return post_details
 
 
