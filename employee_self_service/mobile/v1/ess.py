@@ -752,8 +752,12 @@ def get_employees_having_an_event_today(event_type, date=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_task_list():
+def get_task_list(start=0, page_length=10, filters=None):
     try:
+        or_filters = {
+            "_assign": ["like", f"%{frappe.session.user}%"],
+            "completed_by": frappe.session.user
+        }
         tasks = frappe.get_all(
             "Task",
             fields=[
@@ -766,8 +770,13 @@ def get_task_list():
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
+                "progress"
             ],
-            filters={"_assign": ["like", f"%{frappe.session.user}%"]},
+            filters = filters,
+            or_filters=or_filters,
+            start=start,
+            page_length=page_length,
+            order_by="modified desc",
         )
         completed_task = []
         incomplete_task = []
@@ -857,14 +866,16 @@ def update_task_status():
         ).get_field("status").options.split("\n"):
             return gen_response(500, "Task status invalid")
 
-        elif assigned_to.get("status") == frappe.request.json.get("new_status"):
-            return gen_response(500, "status already up-to-date")
+        # elif assigned_to.get("status") == frappe.request.json.get("new_status"):
+        #     return gen_response(500, "status already up-to-date")
 
         task_doc = frappe.get_doc("Task", frappe.request.json.get("task_id"))
         task_doc.status = frappe.request.json.get("new_status")
         if task_doc.status == "Completed":
             task_doc.completed_by = frappe.session.user
             task_doc.completed_on = today()
+        if frappe.request.json.get("progress"):
+            task_doc.progress = frappe.request.json.get("progress")
         task_doc.save()
         return gen_response(200, "Task status updated successfully")
 
@@ -1623,8 +1634,7 @@ def get_task_by_id(task_id=None):
         if not task_id:
             return gen_response(500, "task_id is required", [])
         filters = [
-            ["Task", "name", "=", task_id],
-            ["Task", "_assign", "like", f"%{frappe.session.user}%"],
+            ["Task", "name", "=", task_id]
         ]
         tasks = frappe.db.get_value(
             "Task",
@@ -1641,32 +1651,28 @@ def get_task_by_id(task_id=None):
                 "owner as assigned_by",
                 "completed_by",
                 "completed_on",
+                "progress"
             ],
             as_dict=1,
         )
         if not tasks:
             return gen_response(500, "you have not task with this task id", [])
-
-        assigned_by = frappe.db.get_value(
+            
+        tasks["assigned_by"] = frappe.db.get_value(
             "User",
             {"name": tasks.get("assigned_by")},
             ["name","full_name as user", "full_name", "user_image"],
             as_dict=1,
         )
-        tasks["assigned_by"] = assigned_by
-
-        completed_by = frappe.db.get_value(
+        tasks["completed_by"] = frappe.db.get_value(
             "User",
             {"name": tasks.get("completed_by")},
             ["name","full_name as user", "full_name", "user_image"],
             as_dict=1,
         )
-        tasks["completed_by"] = completed_by
-
-        project_name = frappe.db.get_value(
+        tasks["project_name"] = frappe.db.get_value(
             "Project", {"name": tasks.get("project")}, ["project_name"]
         )
-        tasks["project_name"] = project_name
 
         assigned_to = frappe.get_all(
             "User",
@@ -1695,10 +1701,9 @@ def get_task_by_id(task_id=None):
         for comment in comments:
             comment["commented"] = pretty_date(comment["creation"])
             comment["creation"] = comment["creation"].strftime("%I:%M %p")
-            user_image = frappe.get_value(
+            comment["user_image"] = frappe.get_value(
                 "User", comment.comment_email, "user_image", cache=True
             )
-            comment["user_image"] = user_image
 
         tasks["comments"] = comments
         tasks["num_comments"] = len(comments)

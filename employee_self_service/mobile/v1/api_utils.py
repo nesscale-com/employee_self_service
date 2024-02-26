@@ -148,4 +148,5 @@ def update_workflow_state(reference_doctype, reference_name, action):
     except frappe.PermissionError:
         return gen_response(500, f"Not permitted for update {reference_doctype}")
     except Exception as e:
+        frappe.db.rollback()
         return exception_handler(e)
