@@ -176,6 +176,7 @@ def get_customer_list(start=0, page_length=10, filters=None):
             "Customer",
             fields=["name", "customer_name", "mobile_no as phone"],
             start=start,
+            filters=filters,
             page_length=page_length,
             order_by="modified desc",
         )

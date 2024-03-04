@@ -383,7 +383,7 @@ def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
 @ess_validate(methods=["GET"])
 def get_dashboard():
     try:
-        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
+        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company", "image", "employee_name"])
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
         log_details = get_last_log_details(emp_data.get("name"))
@@ -409,9 +409,8 @@ def get_dashboard():
                 "allow_odometer_reading_input"
             ),
         }
-        dashboard_data["employee_image"] = frappe.get_cached_value(
-            "Employee", emp_data.get("name"), "image"
-        )
+        dashboard_data["employee_image"] = emp_data.get("image")
+        dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
         get_last_log_type(dashboard_data, emp_data.get("name"))
@@ -827,14 +826,14 @@ def get_task_list(start=0, page_length=10, filters=None):
             task["comments"] = comments
             task["num_comments"] = len(comments)
 
-            if task.status == "Completed":
-                completed_task.append(task)
-            else:
-                incomplete_task.append(task)
+        #     if task.status == "Completed":
+        #         completed_task.append(task)
+        #     else:
+        #         incomplete_task.append(task)
 
-        response_data = {"tasks": incomplete_task, "completed_tasks": completed_task}
+        # response_data = {"tasks": incomplete_task, "completed_tasks": completed_task}
 
-        return gen_response(200, "Task list getting Successfully", response_data)
+        return gen_response(200, "Task list getting Successfully", tasks)
     except Exception as e:
         return exception_handler(e)
 
@@ -1928,9 +1927,14 @@ def get_transactions(
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_customer_list():
+def get_customer_list(start=0, page_length=10, filters=None):
     try:
-        customer = frappe.get_list("Customer", ["name", "customer_name"])
+        customer = frappe.get_list("Customer", ["name", "customer_name"],  
+            start=start,
+            filters=filters,
+            page_length=page_length,
+            order_by="modified desc",
+        )
         return gen_response(200, "Customr list Getting Successfully", customer)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read customer")
