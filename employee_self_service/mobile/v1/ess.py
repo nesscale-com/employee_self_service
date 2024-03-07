@@ -772,13 +772,11 @@ def get_task_list(start=0, page_length=10, filters=None):
                 "progress"
             ],
             filters = filters,
-            or_filters=or_filters,
             start=start,
             page_length=page_length,
             order_by="modified desc",
         )
-        completed_task = []
-        incomplete_task = []
+        # or_filters=or_filters,
 
         for task in tasks:
             if task["exp_end_date"]:
@@ -808,12 +806,13 @@ def get_task_list(start=0, page_length=10, filters=None):
                 as_dict=1,
             )
 
-            task["assigned_to"] = frappe.get_all(
-                "User",
-                filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                fields=["full_name as user", "user_image"],
-                order_by="creation asc",
-            )
+            if task.get("assigned_to"):
+                task["assigned_to"] = frappe.get_all(
+                    "User",
+                    filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
+                    fields=["full_name as user", "user_image"],
+                    order_by="creation asc",
+                )
 
             for comment in comments:
                 comment["commented"] = pretty_date(comment["creation"])
@@ -1646,6 +1645,8 @@ def get_task_by_id(task_id=None):
                 "status",
                 "description",
                 "exp_end_date",
+                "expected_time",
+                "actual_time",
                 "_assign as assigned_to",
                 "owner as assigned_by",
                 "completed_by",
@@ -1673,14 +1674,13 @@ def get_task_by_id(task_id=None):
             "Project", {"name": tasks.get("project")}, ["project_name"]
         )
 
-        assigned_to = frappe.get_all(
-            "User",
-            filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
-            fields=["name","full_name as user", "full_name", "user_image"],
-            order_by="creation asc",
-        )
-
-        tasks["assigned_to"] = assigned_to
+        if tasks.get("assigned_to"):
+            tasks["assigned_to"] = frappe.get_all(
+                "User",
+                filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
+                fields=["name","full_name as user", "full_name", "user_image"],
+                order_by="creation asc",
+            )
 
         comments = frappe.get_all(
             "Comment",
@@ -2132,3 +2132,22 @@ def get_task_status_list():
         return gen_response(200, "Status get successfully", task_status)
     except Exception as e:
         return exception_handler(e)
+
+
+# def send_notification_on_task_comment(doc, event):
+#     from frappe.utils.data import strip_html
+
+#     if doc.reference_doctype == "Task" and doc.comment_type == "Comment":
+#         filters = [["Comment", "name", "=", f"{doc.reference_name}"]]
+#         task = frappe.db.get_value(
+#             "Comment", filters, ["content", "owner", "creation"], as_dict=1
+#         )
+#         create_push_notification(
+#             title=f"New Task Comment - {task.get('owner')}",
+#             message=strip_html(str(task.get("content")))
+#             if task.get("content")
+#             else "",
+#             send_for="Multiple User",
+#             user=doc.allocated_to,
+#             notification_type="task_comment",
+#         )
