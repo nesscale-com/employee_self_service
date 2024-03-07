@@ -755,7 +755,8 @@ def get_task_list(start=0, page_length=10, filters=None):
     try:
         or_filters = {
             "_assign": ["like", f"%{frappe.session.user}%"],
-            "completed_by": frappe.session.user
+            "completed_by": frappe.session.user,
+            "owner":frappe.session.user
         }
         tasks = frappe.get_all(
             "Task",
@@ -807,13 +808,13 @@ def get_task_list(start=0, page_length=10, filters=None):
                 ["full_name as user", "user_image"],
                 as_dict=1,
             )
-
-            task["assigned_to"] = frappe.get_all(
-                "User",
-                filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                fields=["full_name as user", "user_image"],
-                order_by="creation asc",
-            )
+            if task.get("assigned_to"):
+                task["assigned_to"] = frappe.get_all(
+                    "User",
+                    filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
+                    fields=["full_name as user", "user_image"],
+                    order_by="creation asc",
+                )
 
             for comment in comments:
                 comment["commented"] = pretty_date(comment["creation"])
@@ -878,6 +879,8 @@ def update_task_status():
         task_doc.save()
         return gen_response(200, "Task status updated successfully")
 
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for update task")
     except Exception as e:
         return exception_handler(e)
 

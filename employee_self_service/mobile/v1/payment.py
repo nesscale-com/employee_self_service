@@ -226,17 +226,17 @@ def make_payment(*args, **kwargs):
     try:
         data = kwargs
         if data.get("name"):
-            payment_entry_doc = frappe.get_doc("Payment Entry", data.get("name"))
+            payment_doc = frappe.get_doc("Payment Entry", data.get("name"))
             if not check_workflow_exists("Payment Entry"):
                 is_submit = data.get("submit")
                 del data["submit"]
-                payment_entry_doc.update(data)
+                payment_doc.update(data)
                 if is_submit == True:
-                    payment_entry_doc.submit()
+                    payment_doc.submit()
                 else:
-                    payment_entry_doc.save()
+                    payment_doc.save()
             else:
-                payment_entry_doc.save()
+                payment_doc.save()
         else:
             payment_doc = frappe.get_doc(
                 dict(
