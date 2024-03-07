@@ -36,7 +36,7 @@ def create(**data):
 @ess_validate(methods=["GET"])
 def get_issue_list(start=0, page_length=10, filters=None):
     try:
-        timesheet_list = frappe.get_list(
+        issue_list = frappe.get_list(
             "Issue",
             fields=[
                 "*",
@@ -46,9 +46,9 @@ def get_issue_list(start=0, page_length=10, filters=None):
             order_by="modified desc",
             filters=filters,
         )
-        return gen_response(200, "Issue List getting Successfully", timesheet_list)
+        return gen_response(200, "Issue List getting Successfully", issue_list)
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted read Timesheet")
+        return gen_response(500, "Not permitted read Issue")
     except Exception as e:
         return exception_handler(e)
     
@@ -56,10 +56,10 @@ def get_issue_list(start=0, page_length=10, filters=None):
 @ess_validate(methods=["GET"])
 def get_issue_details(**data):
     try:
-        timesheet_doc= frappe.get_doc("Issue",data.get("name"))
-        return gen_response(200, "Issue get successfully", timesheet_doc)
+        issue_doc= frappe.get_doc("Issue",data.get("name"))
+        return gen_response(200, "Issue get successfully", issue_doc)
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted for read Timesheet")
+        return gen_response(500, "Not permitted for read Issue")
     except Exception as e:
         return exception_handler(e)
     
