@@ -226,45 +226,45 @@ def make_payment(*args, **kwargs):
     try:
         data = kwargs
         if data.get("name"):
-            payment_entry_doc = frappe.get_doc("Payment Entry", data.get("name"))
+            payment_doc = frappe.get_doc("Payment Entry", data.get("name"))
             if not check_workflow_exists("Payment Entry"):
                 is_submit = data.get("submit")
                 del data["submit"]
-                payment_entry_doc.update(data)
+                payment_doc.update(data)
                 if is_submit == True:
-                    payment_entry_doc.submit()
+                    payment_doc.submit()
                 else:
-                    payment_entry_doc.save()
+                    payment_doc.save()
             else:
-                payment_entry_doc.save()
-            return gen_response(200, "Payment entry updated successfully")
-
-        payment_doc = frappe.get_doc(
-            dict(
-                doctype="Payment Entry",
-                naming_series=data.get("naming_series"),
-                payment_type=data.get("payment_type"),
-                posting_date=data.get("posting_date"),
-                mode_of_payment=data.get("mode_of_payment"),
-                company=data.get("company"),
-                party_type=data.get("party_type"),
-                party=data.get("party"),
-                paid_from=data.get("paid_from"),
-                paid_to=data.get("paid_to"),
-                paid_amount=data.get("paid_amount"),
-                reference_no=data.get("reference_no"),
-                reference_date=data.get("reference_date"),
-                received_amount=data.get("paid_amount"),
-                references=data.get("references"),
-            )
-        )
-        if not check_workflow_exists("Payment Entry"):
-            if data.get("submit") == True:
-                payment_doc.submit()
-            else:
-                payment_doc.insert()
+                payment_doc.save()
         else:
-            payment_doc.save()
+            payment_doc = frappe.get_doc(
+                dict(
+                    doctype="Payment Entry",
+                    naming_series=data.get("naming_series"),
+                    payment_type=data.get("payment_type"),
+                    posting_date=data.get("posting_date"),
+                    mode_of_payment=data.get("mode_of_payment"),
+                    company=data.get("company"),
+                    party_type=data.get("party_type"),
+                    party=data.get("party"),
+                    paid_from=data.get("paid_from"),
+                    paid_to=data.get("paid_to"),
+                    paid_amount=data.get("paid_amount"),
+                    reference_no=data.get("reference_no"),
+                    reference_date=data.get("reference_date"),
+                    received_amount=data.get("paid_amount"),
+                    references=data.get("references"),
+                )
+            )
+            if not check_workflow_exists("Payment Entry"):
+                if data.get("submit") == True:
+                    payment_doc.submit()
+                else:
+                    payment_doc.insert()
+            else:
+                payment_doc.save()
+        
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 file_doc = frappe.get_doc(
@@ -275,7 +275,7 @@ def make_payment(*args, **kwargs):
                         attached_to_name=payment_doc.name,
                     )
                 ).insert(ignore_permissions=True)
-        return gen_response(200, "Payment added successfully")
+        return gen_response(200, "Payment updated successfully")
     except Exception as e:
         return exception_handler(e)
 

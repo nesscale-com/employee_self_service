@@ -123,6 +123,9 @@ doc_events = {
     "ToDo": {
         "after_insert": "employee_self_service.mobile.v1.ess.send_notification_for_task_assign"
     },
+    # "Comment": {
+    #     "after_insert": "employee_self_service.mobile.ess.send_notification_on_task_comment"
+    # },
 }
 
 # Scheduled Tasks

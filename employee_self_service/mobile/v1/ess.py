@@ -30,7 +30,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_global_defaults,
     exception_handler,
 )
-
+from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
@@ -390,7 +390,7 @@ def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
 @ess_validate(methods=["GET"])
 def get_dashboard():
     try:
-        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
+        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company", "image", "employee_name"])
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
         log_details = get_last_log_details(emp_data.get("name"))
@@ -416,9 +416,8 @@ def get_dashboard():
                 "allow_odometer_reading_input"
             ),
         }
-        dashboard_data["employee_image"] = frappe.get_cached_value(
-            "Employee", emp_data.get("name"), "image"
-        )
+        dashboard_data["employee_image"] = emp_data.get("image")
+        dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
         get_last_log_type(dashboard_data, emp_data.get("name"))
@@ -643,6 +642,7 @@ def create_employee_log(
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift"]
         )
+
         log_doc = frappe.get_doc(
             dict(
                 doctype="Employee Checkin",
@@ -651,9 +651,19 @@ def create_employee_log(
                 time=now_datetime().__str__()[:-7],
                 location=location,
                 odometer_reading=odometer_reading,
-                attendance_image=attendance_image,
             )
         ).insert(ignore_permissions=True)
+        # update_shift_last_sync(emp_data)
+
+        if "file" in frappe.request.files:
+            file = upload_file()
+            file.attached_to_doctype = "Employee Checkin"
+            file.attached_to_name = log_doc.name
+            file.attached_to_field = "attendance_image"
+            file.save(ignore_permissions=True)
+            log_doc.attendance_image = file.get("file_url")
+            log_doc.save(ignore_permissions=True)
+
         # update_shift_last_sync(emp_data)
         return gen_response(200, "Employee log added")
     except Exception as e:
@@ -749,8 +759,13 @@ def get_employees_having_an_event_today(event_type, date=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_task_list():
+def get_task_list(start=0, page_length=10, filters=None):
     try:
+        or_filters = {
+            "_assign": ["like", f"%{frappe.session.user}%"],
+            "completed_by": frappe.session.user,
+            "owner":frappe.session.user
+        }
         tasks = frappe.get_all(
             "Task",
             fields=[
@@ -763,11 +778,14 @@ def get_task_list():
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
+                "progress"
             ],
-            filters={"_assign": ["like", f"%{frappe.session.user}%"]},
+            filters = filters,
+            start=start,
+            page_length=page_length,
+            order_by="modified desc",
         )
-        completed_task = []
-        incomplete_task = []
+        # or_filters=or_filters,
 
         for task in tasks:
             if task["exp_end_date"]:
@@ -796,13 +814,13 @@ def get_task_list():
                 ["full_name as user", "user_image"],
                 as_dict=1,
             )
-
-            task["assigned_to"] = frappe.get_all(
-                "User",
-                filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                fields=["full_name as user", "user_image"],
-                order_by="creation asc",
-            )
+            if task.get("assigned_to"):
+                task["assigned_to"] = frappe.get_all(
+                    "User",
+                    filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
+                    fields=["full_name as user", "user_image"],
+                    order_by="creation asc",
+                )
 
             for comment in comments:
                 comment["commented"] = pretty_date(comment["creation"])
@@ -815,14 +833,14 @@ def get_task_list():
             task["comments"] = comments
             task["num_comments"] = len(comments)
 
-            if task.status == "Completed":
-                completed_task.append(task)
-            else:
-                incomplete_task.append(task)
+        #     if task.status == "Completed":
+        #         completed_task.append(task)
+        #     else:
+        #         incomplete_task.append(task)
 
-        response_data = {"tasks": incomplete_task, "completed_tasks": completed_task}
+        # response_data = {"tasks": incomplete_task, "completed_tasks": completed_task}
 
-        return gen_response(200, "Task list getting Successfully", response_data)
+        return gen_response(200, "Task list getting Successfully", tasks)
     except Exception as e:
         return exception_handler(e)
 
@@ -853,17 +871,21 @@ def update_task_status(task_id=None, new_status=None):
         ).options.split("\n"):
             return gen_response(500, "Task status invalid")
 
-        elif assigned_to.get("status") == new_status:
-            return gen_response(500, "status already up-to-date")
+        # elif assigned_to.get("status") == frappe.request.json.get("new_status"):
+        #     return gen_response(500, "status already up-to-date")
 
         task_doc = frappe.get_doc("Task", task_id)
         task_doc.status = new_status
         if task_doc.status == "Completed":
             task_doc.completed_by = frappe.session.user
             task_doc.completed_on = today()
+        if frappe.request.json.get("progress"):
+            task_doc.progress = frappe.request.json.get("progress")
         task_doc.save()
         return gen_response(200, "Task status updated successfully")
 
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for update task")
     except Exception as e:
         return exception_handler(e)
 
@@ -1176,8 +1198,6 @@ def get_profile():
 def upload_documents():
     try:
         emp_data = get_employee_by_user(frappe.session.user)
-
-        from frappe.handler import upload_file
 
         file_doc = upload_file()
 
@@ -1611,16 +1631,16 @@ def change_password(data):
         return exception_handler(e)
 
 
+# Need to refector this api
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_task_by_id(task_id=None):
     try:
         if not task_id:
             return gen_response(500, "task_id is required", [])
-        # filters = [
-        #     ["Task", "name", "=", task_id],
-        #     ["Task", "_assign", "like", f"%{frappe.session.user}%"],
-        # ]
+        filters = [
+            ["Task", "name", "=", task_id]
+        ]
         tasks = frappe.db.get_value(
             "Task",
             {"name": task_id},
@@ -1632,35 +1652,42 @@ def get_task_by_id(task_id=None):
                 "status",
                 "description",
                 "exp_end_date",
+                "expected_time",
+                "actual_time",
                 "_assign as assigned_to",
                 "owner as assigned_by",
+                "completed_by",
+                "completed_on",
+                "progress"
             ],
             as_dict=1,
         )
         if not tasks:
             return gen_response(500, "you have not task with this task id", [])
-
-        assigned_by = frappe.db.get_value(
+            
+        tasks["assigned_by"] = frappe.db.get_value(
             "User",
             {"name": tasks.get("assigned_by")},
-            ["full_name as user", "user_image"],
+            ["name","full_name as user", "full_name", "user_image"],
             as_dict=1,
         )
-        tasks["assigned_by"] = assigned_by
-
-        project_name = frappe.db.get_value(
+        tasks["completed_by"] = frappe.db.get_value(
+            "User",
+            {"name": tasks.get("completed_by")},
+            ["name","full_name as user", "full_name", "user_image"],
+            as_dict=1,
+        )
+        tasks["project_name"] = frappe.db.get_value(
             "Project", {"name": tasks.get("project")}, ["project_name"]
         )
-        tasks["project_name"] = project_name
 
-        assigned_to = frappe.get_all(
-            "User",
-            filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
-            fields=["full_name as user", "user_image"],
-            order_by="creation asc",
-        )
-
-        tasks["assigned_to"] = assigned_to
+        if tasks.get("assigned_to"):
+            tasks["assigned_to"] = frappe.get_all(
+                "User",
+                filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
+                fields=["name","full_name as user", "full_name", "user_image"],
+                order_by="creation asc",
+            )
 
         comments = frappe.get_all(
             "Comment",
@@ -1680,10 +1707,9 @@ def get_task_by_id(task_id=None):
         for comment in comments:
             comment["commented"] = pretty_date(comment["creation"])
             comment["creation"] = comment["creation"].strftime("%I:%M %p")
-            user_image = frappe.get_value(
+            comment["user_image"] = frappe.get_value(
                 "User", comment.comment_email, "user_image", cache=True
             )
-            comment["user_image"] = user_image
 
         tasks["comments"] = comments
         tasks["num_comments"] = len(comments)
@@ -1727,8 +1753,6 @@ def apply_expense():
             )
         ).insert()
 
-        from frappe.handler import upload_file
-
         if "file" in frappe.request.files:
             file = upload_file()
             file.attached_to_doctype = "Expense Claim"
@@ -1745,7 +1769,6 @@ def apply_expense():
 def update_profile_picture():
     try:
         emp_data = get_employee_by_user(frappe.session.user)
-        from frappe.handler import upload_file
 
         employee_profile_picture = upload_file()
         employee_profile_picture.attached_to_doctype = "Employee"
@@ -1911,9 +1934,14 @@ def get_transactions(
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_customer_list():
+def get_customer_list(start=0, page_length=10, filters=None):
     try:
-        customer = frappe.get_list("Customer", ["name", "customer_name"])
+        customer = frappe.get_list("Customer", ["name", "customer_name"],  
+            start=start,
+            filters=filters,
+            page_length=page_length,
+            order_by="modified desc",
+        )
         return gen_response(200, "Customr list Getting Successfully", customer)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read customer")
@@ -2029,6 +2057,19 @@ def create_quick_task(**kwargs):
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
+def get_task(**kwargs):
+    try:
+        data = kwargs
+        task_doc = frappe.get_doc("Task", data.get("name"))
+        return gen_response(200, "Task get successfully", task_doc)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for create task")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
 def update_task(**kwargs):
     try:
         from frappe.desk.form import assign_to
@@ -2103,3 +2144,22 @@ def get_task_status_list():
         return gen_response(200, "Status get successfully", task_status)
     except Exception as e:
         return exception_handler(e)
+
+
+# def send_notification_on_task_comment(doc, event):
+#     from frappe.utils.data import strip_html
+
+#     if doc.reference_doctype == "Task" and doc.comment_type == "Comment":
+#         filters = [["Comment", "name", "=", f"{doc.reference_name}"]]
+#         task = frappe.db.get_value(
+#             "Comment", filters, ["content", "owner", "creation"], as_dict=1
+#         )
+#         create_push_notification(
+#             title=f"New Task Comment - {task.get('owner')}",
+#             message=strip_html(str(task.get("content")))
+#             if task.get("content")
+#             else "",
+#             send_for="Multiple User",
+#             user=doc.allocated_to,
+#             notification_type="task_comment",
+#         )

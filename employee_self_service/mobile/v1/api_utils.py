@@ -52,7 +52,7 @@ def ess_validate(methods):
 def get_employee_by_user(user, fields=["name"]):
     if isinstance(fields, str):
         fields = [fields]
-    emp_data = frappe.db.get_value(
+    emp_data = frappe.get_cached_value(
         "Employee",
         {"user_id": user},
         fields,
@@ -148,4 +148,5 @@ def update_workflow_state(reference_doctype, reference_name, action):
     except frappe.PermissionError:
         return gen_response(500, f"Not permitted for update {reference_doctype}")
     except Exception as e:
+        frappe.db.rollback()
         return exception_handler(e)

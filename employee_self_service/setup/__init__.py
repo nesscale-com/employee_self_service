@@ -9,7 +9,6 @@ def after_install():
     create_custom_fields()
     add_default_language_in_ess_settings()
 
-
 def create_custom_fields():
     print("Creating custom fields")
     _create_custom_fields(get_all_custom_fields(), ignore_validate=True)
@@ -29,11 +28,12 @@ def get_all_custom_fields():
 
 
 def add_default_language_in_ess_settings():
-    ess_settings = frappe.get_doc(
-        "Employee Self Service Settings", "Employee Self Service Settings"
-    )
-    if not len(ess_settings.get("ess_language")) >= 1:
-        ess_settings.append(
-            "ess_language", dict(language="en", language_name="English")
+    if frappe.db.exists("DocType","Employee Self Service Settings"):
+        ess_settings = frappe.get_doc(
+            "Employee Self Service Settings", "Employee Self Service Settings"
         )
-        ess_settings.save(ignore_permissions=True)
+        if not len(ess_settings.get("ess_language")) >= 1:
+            ess_settings.append(
+                "ess_language", dict(language="en", language_name="English")
+            )
+            ess_settings.save(ignore_permissions=True)
