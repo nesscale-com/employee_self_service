@@ -770,72 +770,71 @@ def get_task_list(start=0, page_length=10, filters=None):
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
-                "progress"
+                "progress",
+                "completed_by"
             ],
             filters = filters,
             start=start,
             page_length=page_length,
             order_by="modified desc",
         )
-        # or_filters=or_filters,
 
         for task in tasks:
-            if task["exp_end_date"]:
-                task["exp_end_date"] = task["exp_end_date"].strftime("%d-%m-%Y")
-            comments = frappe.get_all(
-                "Comment",
-                filters={
-                    "reference_name": ["like", "%{0}%".format(task.get("name"))],
-                    "comment_type": "Comment",
-                },
-                fields=[
-                    "content as comment",
-                    "comment_by",
-                    "reference_name",
-                    "creation",
-                    "comment_email",
-                ],
-            )
-            task["project_name"] = frappe.db.get_value(
-                "Project", {"name": task.get("project")}, ["project_name"]
-            )
-
-            task["assigned_by"] = frappe.db.get_value(
-                "User",
-                {"name": task.get("assigned_by")},
-                ["full_name as user", "user_image"],
-                as_dict=1,
-            )
-            if task.get("assigned_to"):
-                task["assigned_to"] = frappe.get_all(
-                    "User",
-                    filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                    fields=["full_name as user", "user_image"],
-                    order_by="creation asc",
+            if frappe.session.user == task.get("assigned_to") or frappe.session.user == task.get("assigned_by") or frappe.session.user == task.get("completed_by"):
+                if task["exp_end_date"]:
+                    task["exp_end_date"] = task["exp_end_date"].strftime("%d-%m-%Y")
+                get_task_comments(task)
+                task["project_name"] = frappe.db.get_value(
+                    "Project", {"name": task.get("project")}, ["project_name"]
                 )
-
-            for comment in comments:
-                comment["commented"] = pretty_date(comment["creation"])
-                comment["creation"] = comment["creation"].strftime("%I:%M %p")
-                user_image = frappe.get_value(
-                    "User", comment.comment_email, "user_image", cache=True
-                )
-                comment["user_image"] = user_image
-
-            task["comments"] = comments
-            task["num_comments"] = len(comments)
-
-        #     if task.status == "Completed":
-        #         completed_task.append(task)
-        #     else:
-        #         incomplete_task.append(task)
-
-        # response_data = {"tasks": incomplete_task, "completed_tasks": completed_task}
+                get_task_assigned_by(task)
+                if task.get("assigned_to"):
+                    task["assigned_to"] = frappe.get_all(
+                        "User",
+                        filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
+                        fields=["full_name as user", "user_image"],
+                        order_by="creation asc",
+                    )
 
         return gen_response(200, "Task list getting Successfully", tasks)
     except Exception as e:
         return exception_handler(e)
 
+def get_task_assigned_by(task):
+    task["assigned_by"] = frappe.db.get_value(
+        "User",
+        {"name": task.get("assigned_by")},
+        ["full_name as user", "user_image"],
+        as_dict=1,
+    )
+
+
+
+def get_task_comments(task):
+    comments = frappe.get_all(
+        "Comment",
+        filters={
+            "reference_name": ["like", "%{0}%".format(task.get("name"))],
+            "comment_type": "Comment",
+        },
+        fields=[
+            "content as comment",
+            "comment_by",
+            "reference_name",
+            "creation",
+            "comment_email",
+        ],
+    )    
+    for comment in comments:
+        comment["commented"] = pretty_date(comment["creation"])
+        comment["creation"] = comment["creation"].strftime("%I:%M %p")
+        user_image = frappe.get_value(
+            "User", comment.comment_email, "user_image", cache=True
+        )
+        comment["user_image"] = user_image
+
+    task["comments"] = comments
+    task["num_comments"] = len(comments)
 
 def validate_assign_task(task_id):
     assigned_to = frappe.get_value(
