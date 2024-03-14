@@ -845,36 +845,42 @@ def get_task_list(start=0, page_length=10, filters=None):
         return exception_handler(e)
 
 
-def validate_assign_task(task_id):
-    assigned_to = frappe.get_value(
-        "Task",
-        {"name": task_id},
-        ["_assign", "status"],
-        cache=True,
-        as_dict=True,
-    )
-
-    if assigned_to.get("_assign") == None:
-        frappe.throw("Task not assigned for any user")
-
-    elif frappe.session.user not in assigned_to.get("_assign"):
-        frappe.throw("You are not authorized to update this task")
-
-
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def update_task_status(task_id=None, new_status=None):
     try:
         if not task_id or not new_status:
             return gen_response(500, "task id and new status is required")
-        validate_assign_task(task_id=task_id)
+
+        assigned_to = frappe.get_value(
+            "Task",
+            {"name": task_id},
+            ["_assign", "status"],
+            cache=True,
+            as_dict=True,
+        )
+
+        if assigned_to.get("_assign") == None:
+            return gen_response(500, "Task Not assigned for any user")
+
+        elif frappe.session.user not in assigned_to.get("_assign"):
+            return gen_response(500, "You are not authorized to update this task")
+
+        elif new_status not in frappe.get_meta("Task").get_field(
+            "status"
+        ).options.split("\n"):
+            return gen_response(500, "Task status invalid")
+
+        # elif assigned_to.get("status") == frappe.request.json.get("new_status"):
+        #     return gen_response(500, "status already up-to-date")
+
         task_doc = frappe.get_doc("Task", task_id)
-        if task_doc.get("status") == new_status:
-            return gen_response(500, "status already up-to-date")
         task_doc.status = new_status
         if task_doc.status == "Completed":
             task_doc.completed_by = frappe.session.user
             task_doc.completed_on = today()
+        if frappe.request.json.get("progress"):
+            task_doc.progress = frappe.request.json.get("progress")
         task_doc.save()
         return gen_response(200, "Task status updated successfully")
 
@@ -883,20 +889,6 @@ def update_task_status(task_id=None, new_status=None):
     except Exception as e:
         return exception_handler(e)
 
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def update_task_progress(task_id=None,progress=None):
-    try:
-        if not task_id or not progress:
-            return gen_response(500, "task id and progress is required")
-        validate_assign_task(task_id=task_id)
-        if progress:
-            frappe.db.set_value("Task",task_id,"progress",progress)
-        return gen_response(200, "Progress updated successfully")
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for update task")
-    except Exception as e:
-        return exception_handler(e)
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -1944,7 +1936,7 @@ def get_transactions(
 @ess_validate(methods=["GET"])
 def get_customer_list(start=0, page_length=10, filters=None):
     try:
-        customer = frappe.get_list("Customer", fields=["name", "customer_name"],  
+        customer = frappe.get_list("Customer", ["name", "customer_name"],  
             start=start,
             filters=filters,
             page_length=page_length,

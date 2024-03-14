@@ -1,8 +1,7 @@
 import frappe
 from bs4 import BeautifulSoup
 from frappe import _
-from frappe.utils import cstr,now
-import json
+from frappe.utils import cstr
 
 import wrapt
 
