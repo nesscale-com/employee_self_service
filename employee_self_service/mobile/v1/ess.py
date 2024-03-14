@@ -753,12 +753,8 @@ def get_employees_having_an_event_today(event_type, date=None):
 @ess_validate(methods=["GET"])
 def get_task_list(start=0, page_length=10, filters=None):
     try:
-        or_filters = {
-            "_assign": ["like", f"%{frappe.session.user}%"],
-            "completed_by": frappe.session.user,
-            "owner":frappe.session.user
-        }
-        tasks = frappe.get_all(
+        frappe.log_error(title="filters",message=filters)
+        tasks = frappe.get_list(
             "Task",
             fields=[
                 "name",
@@ -770,31 +766,32 @@ def get_task_list(start=0, page_length=10, filters=None):
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
-                "progress",
-                "completed_by"
+                "progress"
             ],
             filters = filters,
             start=start,
             page_length=page_length,
             order_by="modified desc",
         )
-
         for task in tasks:
-            if frappe.session.user == task.get("assigned_to") or frappe.session.user == task.get("assigned_by") or frappe.session.user == task.get("completed_by"):
-                if task["exp_end_date"]:
-                    task["exp_end_date"] = task["exp_end_date"].strftime("%d-%m-%Y")
-                get_task_comments(task)
-                task["project_name"] = frappe.db.get_value(
-                    "Project", {"name": task.get("project")}, ["project_name"]
+            # if frappe.session.user == task.get("assigned_by") or frappe.session.user == task.get("completed_by") or (task.get("assigned_to") and frappe.session.user in task.get("assigned_to")):
+            if task["exp_end_date"]:
+                task["exp_end_date"] = task["exp_end_date"].strftime("%d-%m-%Y")
+            get_task_comments(task)
+            task["project_name"] = frappe.db.get_value(
+                "Project", {"name": task.get("project")}, ["project_name"]
+            )
+            get_task_assigned_by(task)
+            if task.get("assigned_to"):
+                task["assigned_to"] = frappe.get_all(
+                    "User",
+                    filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
+                    fields=["full_name as user", "user_image"],
+                    order_by="creation asc",
                 )
-                get_task_assigned_by(task)
-                if task.get("assigned_to"):
-                    task["assigned_to"] = frappe.get_all(
-                        "User",
-                        filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                        fields=["full_name as user", "user_image"],
-                        order_by="creation asc",
-                    )
+            else:
+                task["assigned_to"] = []
+                # updated_task.append(task)
 
         return gen_response(200, "Task list getting Successfully", tasks)
     except Exception as e:
