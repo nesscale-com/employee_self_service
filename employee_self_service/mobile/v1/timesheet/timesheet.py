@@ -90,9 +90,10 @@ def get_task_list(filters=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_project_list():
+def get_project_list(start=0, page_length=10, filters=None):
     try:
-        project_list = frappe.get_list("Project",filters={},fields=["name","project_name"])
+        project_list = frappe.get_list("Project",filters=filters,fields=["name","project_name"],start=start,
+            page_length=page_length,)
         return gen_response(200,"Project list get successfully",project_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for read project")
