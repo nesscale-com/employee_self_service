@@ -766,7 +766,8 @@ def get_task_list(start=0, page_length=10, filters=None):
                 "exp_end_date",
                 "_assign as assigned_to",
                 "owner as assigned_by",
-                "progress"
+                "progress",
+                "issue"
             ],
             filters = filters,
             start=start,
@@ -1657,7 +1658,8 @@ def get_task_by_id(task_id=None):
                 "owner as assigned_by",
                 "completed_by",
                 "completed_on",
-                "progress"
+                "progress",
+                "issue"
             ],
             as_dict=1,
         )
