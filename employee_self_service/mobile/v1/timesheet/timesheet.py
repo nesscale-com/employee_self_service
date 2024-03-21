@@ -8,7 +8,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_employee_by_user,
 )
-
+from frappe.utils import get_datetime
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
@@ -24,6 +24,8 @@ def create_timesheet(**data):
         else:
             timesheet_doc = frappe.new_doc("Timesheet")
         timesheet_doc.update(data)
+        timesheet_doc.time_logs = []
+        timesheet_doc.append("time_logs",data.get("time_logs"))
         timesheet_doc.employee = emp_data.name
         timesheet_doc.company = emp_data.company
         timesheet_doc.save()
