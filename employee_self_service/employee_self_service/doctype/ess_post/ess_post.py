@@ -21,6 +21,7 @@ class ESSPost(Document):
                 else:
                     op.num_of_vote = 0
                     op.percentage = 0
+            self.update_post = not self.update_post
 
     def get_answe_map(self):
         answers = {}

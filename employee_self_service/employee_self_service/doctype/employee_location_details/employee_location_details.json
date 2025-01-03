@@ -28,7 +28,7 @@
   },
   {
    "fieldname": "time",
-   "fieldtype": "Time",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Time"
   },
@@ -46,7 +46,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-07-27 12:12:30.306543",
+ "modified": "2024-11-22 20:06:34.622082",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Location Details",

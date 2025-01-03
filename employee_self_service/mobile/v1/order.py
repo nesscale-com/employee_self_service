@@ -116,6 +116,11 @@ def get_order(*args, **kwargs):
                 item.get("price_list_rate"),
                 currency=global_defaults.get("default_currency"),
             )
+            if item.get("price_list_rate") == 0:
+                item["price_list_rate"] = item.get("rate")
+                item["price_list_rate_currency"] = fmt_money(
+                    item.get("rate"), currency=global_defaults.get("default_currency")
+                )
             item_list.append(
                 prepare_json_data(
                     [

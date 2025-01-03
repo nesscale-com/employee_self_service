@@ -5,11 +5,11 @@ from frappe import enqueue
 import google.auth.transport.requests
 from google.oauth2 import service_account
 import os   
-from frappe.utils import parse_val
+from frappe.utils import parse_val,cint
 
 event_mapping = {
-    "before_save": "New",
-    "after_save": "Save",
+    "after_insert": "New",
+    "on_update": "Save",
     "on_submit": "Submit",
     "before_cancel": "Cancel",
     "after_cancel": "Cancel",
@@ -28,42 +28,93 @@ def notification(doc, event):
 
 
 def get_user_tokens(notification_id, doc):
+    """
+    Fetch user tokens for push notifications based on the ESS Notification Recipient configuration.
+    """
     to_users_data = []
+    
+    # Fetch recipients from the notification configuration
     recipients = frappe.get_all(
         "ESS Notification Recipient",
         filters={"parent": notification_id},
-        fields=["receiver_by_document_field", "receiver_by_role"],
+        fields=["*"]
     )
 
+    if not recipients:
+        return to_users_data  # Return empty list if no recipients are defined
+
+    user_emails = set()  # Use a set to avoid duplicate emails
     for recipient in recipients:
-        role_name = recipient["receiver_by_role"]
-        user_field = doc.get(recipient["receiver_by_document_field"])
-        get_users_data = frappe.db.sql(
-            """
-            SELECT u.email
-            FROM `tabUser` u
-            JOIN `tabHas Role` hr ON u.name = hr.parent
-            WHERE hr.role = %s
-        """,
-            role_name,
-            as_dict=True,
-        )
-        user_emails = [user["email"] for user in get_users_data]
-        if user_field:
-            user_emails.append(user_field)
-        filters = [
-            ["name","in",user_emails]
-        ]
+        # Fetch emails based on role
+        if recipient.get("receiver_by_role"):
+            role_users = frappe.db.sql(
+                """
+                SELECT u.email
+                FROM `tabUser` u
+                JOIN `tabHas Role` hr ON u.name = hr.parent
+                WHERE hr.role = %s
+                """,
+                (recipient["receiver_by_role"],),
+                as_dict=True,
+            )
+            user_emails.update([user["email"] for user in role_users])
+
+        # Fetch email from document field
+        if recipient.get("receiver_by_document_field"):
+            data_field, child_field = _parse_receiver_by_document_field(
+                recipient.receiver_by_document_field
+            )
+            if child_field:
+                for d in doc.get(child_field):
+                    email_id = d.get(data_field)
+                    user_emails.add(email_id)
+            # field from current doc
+            else:
+                user_field_email = doc.get(data_field)
+                if user_field_email:
+                    user_emails.add(user_field_email)
+
+        # Fetch email from employee linked field
+        if recipient.get("receiver_by_employee_field"):
+            employee_id = doc.get(recipient["receiver_by_employee_field"])
+            if employee_id:
+                employee_user = frappe.db.get_value("Employee", employee_id, "user_id")
+                if employee_user:
+                    user_emails.add(employee_user)
+
+        # Include all assignees if specified
+        if cint(recipient.get("send_to_all_assignees")) == 1:
+            assignees = doc.get("_assign")
+            if assignees:
+                user_emails.update(json.loads(assignees))
+
+    if user_emails:
+        # Fetch tokens from Employee Device Info based on collected user emails
         to_users_data = frappe.get_all(
             "Employee Device Info",
-            filters=filters,
-            fields=["name","token"],
+            filters={"name": ["in", list(user_emails)]},
+            fields=["name", "token"],
         )
+
     return to_users_data
 
 
+def _parse_receiver_by_document_field(s):
+	fragments = s.split(",")
+	# fields from child table or linked doctype
+	if len(fragments) > 1:
+		data_field, child_field = fragments
+	else:
+		data_field, child_field = fragments[0], None
+	return data_field, child_field
+
+
 def notification_processing(doc, event):
+    if doc.doctype == "Expense Claim":
+        frappe.log_error(f"Triggered for {doc.doctype} {doc.name} with event {event}", "Notification Debug")
     if not doc.flags.in_insert:
+        if doc.doctype == "Expense Claim":
+            frappe.log_error("in")
         # value change is not applicable in insert
         event_mapping['on_change'] = 'Value Change'
     event_type = event_mapping.get(event)
@@ -81,6 +132,8 @@ def notification_processing(doc, event):
         },
         fields=["name", "subject", "message", "condition", "document_type","value_changed"],
     )
+    if doc.doctype == "Expense Claim":
+        frappe.log_error(title="notification",message=notifications)
     if not notifications:
         return
     recipients = []
@@ -136,6 +189,8 @@ def send_notification(doc, notification, recipients):
         )
 
 def notification_log(notification_name, doctype, subject, message, recipient,token):
+    if frappe.session.user == recipient:
+        return
     notification_log = frappe.new_doc("ESS Notification Log")
     notification_log.notification_name = notification_name
     notification_log.document_type = doctype

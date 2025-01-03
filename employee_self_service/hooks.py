@@ -116,8 +116,8 @@ doctype_js = {"Employee Checkin": "public/js/employee_checkin.js"}
 
 doc_events = {
     "*": {
-        "before_save":"employee_self_service.send_notification.notification",
-        "after_save":"employee_self_service.send_notification.notification",
+        "after_insert":"employee_self_service.send_notification.notification",
+        "on_update":"employee_self_service.send_notification.notification",
         "on_submit":"employee_self_service.send_notification.notification",
         "before_cancel":"employee_self_service.send_notification.notification",
         "after_cancel":"employee_self_service.send_notification.notification",
