@@ -2228,3 +2228,15 @@ def get_profile_detail_tabs():
         return gen_response(200, "Profile Details get successfully", response)
     except Exception as e:
         return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_hr_policies():
+    try:
+        current_user = frappe.session.user
+        frappe.set_user("Administrator")
+        hr_policies_doc = frappe.get_doc("HR Policies")
+        frappe.set_user(current_user)
+        return gen_response(200, "HR Policy get successfully", hr_policies_doc)
+    except Exception as e:
+        return exception_handler(e)
