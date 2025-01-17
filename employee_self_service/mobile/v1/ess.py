@@ -391,7 +391,7 @@ def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
 def get_dashboard():
     try:
         emp_data = get_employee_by_user(
-            frappe.session.user, fields=["name", "company", "image", "employee_name"]
+            frappe.session.user, fields=["name", "company", "image", "employee_name", "designation"]
         )
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
@@ -419,7 +419,8 @@ def get_dashboard():
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
             ),
-            "approval_requests": get_workflow_documents(internal=True)
+            "approval_requests": get_workflow_documents(internal=True),
+            "designation": emp_data.get("designation")
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -443,7 +444,7 @@ def get_leave_balance_dashboard():
             res = get_leave_balance_report(
                 emp_data.get("name"), emp_data.get("company"), fiscal_year
             )
-            dashboard_data["leave_balance"] = res["result"]
+            dashboard_data["leave_balance"] = res.get("result", [])
         return gen_response(200, "Leave balance data get successfully", dashboard_data)
     except Exception as e:
         return exception_handler(e)
@@ -2235,7 +2236,7 @@ def get_hr_policies():
     try:
         current_user = frappe.session.user
         frappe.set_user("Administrator")
-        hr_policies_doc = frappe.get_doc("HR Policies")
+        hr_policies_doc = frappe.get_doc("ESS HR Policies")
         frappe.set_user(current_user)
         return gen_response(200, "HR Policy get successfully", hr_policies_doc)
     except Exception as e:

@@ -1,33 +1,36 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-01-12 23:07:34.466487",
+ "creation": "2025-01-17 14:39:42.275140",
+ "default_view": "List",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "enabled",
-  "hr_policies_document"
+  "hr_policies"
  ],
  "fields": [
-  {
-   "fieldname": "hr_policies_document",
-   "fieldtype": "Attach",
-   "label": "HR Policies Document"
-  },
   {
    "default": "0",
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled"
+  },
+  {
+   "fieldname": "hr_policies",
+   "fieldtype": "Table",
+   "label": "HR Policies",
+   "options": "ESS HR Policy Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-01-13 16:02:56.025074",
+ "modified": "2025-01-17 14:40:55.693041",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
- "name": "HR Policies",
+ "name": "ESS HR Policies",
  "owner": "Administrator",
  "permissions": [
   {

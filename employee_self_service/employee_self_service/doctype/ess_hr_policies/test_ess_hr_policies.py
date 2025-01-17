@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestHRPolicies(FrappeTestCase):
+class TestESSHRPolicies(FrappeTestCase):
 	pass
