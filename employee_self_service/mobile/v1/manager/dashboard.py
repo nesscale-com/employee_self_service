@@ -73,47 +73,51 @@ def get_accounting_dashboard(filter_by="monthly"):
     dict: Accounting dashboard data based on the selected filter.
     """
     # Define placeholder data
+    # income, expense, profit
+    # in profit loss only value of profit is shown
     data = {
         "monthly": {
             "duration": ["Jan", "Feb", "Mar"],
             "cashflow_values": [10000, 15000, 12000],
             "accounts_values": [8000, 12000, 10000],
-            "revenue_expenses": [
-                {"income": 150000, "expense": 2000, "profit": 148000},
-                {"income": 180000, "expense": 2500, "profit": 177500},
-                {"income": 120000, "expense": 1500, "profit": 118500}
-            ],
+            "revenue_expenses": {
+                "income": [150000, 180000, 120000],
+                "expense": [2000, 2500, 1500],
+                "profit": [148000, 177500, 118500]
+            },
             "profit_loss": [
-                {"income": 150000, "expense": 2000, "profit": 148000},
-                {"income": 180000, "expense": 2500, "profit": 177500},
-                {"income": 120000, "expense": 1500, "profit": 118500}
-            ]
+                [150000, 2000, 148000],
+                [180000, 2500, 177500],
+                [120000, 1500, 118500]
+            ],
+            "profit": [148000, 177500, 118500]
         },
         "quarterly": {
             "duration": ["Q1", "Q2", "Q3", "Q4"],
             "cashflow_values": [50000, 60000, 45000, 70000],
             "accounts_values": [40000, 50000, 35000, 60000],
-            "revenue_expenses": [
-                {"income": 450000, "expense": 6000, "profit": 444000},
-                {"income": 540000, "expense": 7500, "profit": 532500},
-                {"income": 360000, "expense": 5000, "profit": 355000}
-            ],
+            "revenue_expenses": {
+                "income": [450000, 540000, 360000],
+                "expense": [6000, 7500, 5000],
+                "profit": [444000, 532500, 355000]
+            },
             "profit_loss": [
-                {"income": 450000, "expense": 6000, "profit": 444000},
-                {"income": 540000, "expense": 7500, "profit": 532500},
-                {"income": 360000, "expense": 5000, "profit": 355000}
-            ]
+                [450000, 6000, 444000],
+                [540000, 7500, 532500],
+                [360000, 5000, 355000]
+            ],
+            "profit": [444000, 532500, 355000]
         },
         "yearly": {
             "duration": ["2024"],
             "cashflow_values": [300000],
             "accounts_values": [200000],
             "revenue_expenses": [
-                {"income": 1800000, "expense": 24000, "profit": 1776000}
+                [1800000, 24000, 1776000]
             ],
             "profit_loss": [
-                {"income": 1800000, "expense": 24000, "profit": 1776000}
-            ]
+                [1800000, 24000, 1776000]
+            ],
         }
     }
 
@@ -138,19 +142,20 @@ def get_accounting_dashboard(filter_by="monthly"):
                 "values2": filtered_data["accounts_values"]
             },
             "RevenueAndExpenses": {
-                "TotalIncome": sum(item["income"] for item in filtered_data["revenue_expenses"]),
-                "TotalExpense": sum(item["expense"] for item in filtered_data["revenue_expenses"]),
-                "NetProfit": sum(item["profit"] for item in filtered_data["revenue_expenses"]),
+                "TotalIncome": sum(item for item in filtered_data["revenue_expenses"]['income']),
+                "TotalExpense": sum(item for item in filtered_data["revenue_expenses"]['expense']),
+                "NetProfit": sum(item for item in filtered_data["revenue_expenses"]['profit']),
                 "duration": filtered_data["duration"],
-                "values1": filtered_data["revenue_expenses"],
-                "values2": filtered_data["revenue_expenses"]
+                "income": filtered_data["revenue_expenses"]['income'],
+                "expense": filtered_data["revenue_expenses"]['expense'],
+                "profit": filtered_data["revenue_expenses"]['profit'],
             },
             "ProfitAndLoss": {
-                "TotalIncome": sum(item["income"] for item in filtered_data["profit_loss"]),
-                "TotalExpense": sum(item["expense"] for item in filtered_data["profit_loss"]),
-                "NetProfit": sum(item["profit"] for item in filtered_data["profit_loss"]),
+                "TotalIncome": sum(item[0] for item in filtered_data["profit_loss"]),
+                "TotalExpense": sum(item[1] for item in filtered_data["profit_loss"]),
+                "NetProfit": sum(item[2] for item in filtered_data["profit_loss"]),
                 "duration": filtered_data["duration"],
-                "values": filtered_data["profit_loss"]
+                "profit": filtered_data["profit"]
             }
     }
     return gen_response(200, "Stats get successfully", place_holder_data)

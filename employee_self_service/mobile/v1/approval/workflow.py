@@ -13,10 +13,22 @@ from frappe.model.workflow import get_transitions
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_active_workflow_document(internal=False):
+def get_active_workflow_document(module=None,internal=False):
     try:
         all_workflows = []
         workflows = frappe.get_all("Workflow",filters={"is_active":1},fields=["document_type"])
+        if module:
+            filtered_workflows = []
+            for wf in workflows:
+                # Fetch the module of the document_type
+                doctype_module = frappe.db.get_value("DocType", wf["document_type"], "module")
+                
+                # Check if module matches the given parameter
+                if doctype_module == module:
+                    filtered_workflows.append(wf)
+            
+            workflows = filtered_workflows  # Update the workflows list
+
         if internal:
             return workflows
         all_workflows.append({"document_type":"All"})
@@ -29,7 +41,7 @@ def get_active_workflow_document(internal=False):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_workflow_documents(start=1, page_length=10, document_type=None, internal=False):
+def get_workflow_documents(start=1, page_length=10, document_type=None,module=None,internal=False):
     try:
         # Initialize variables
         all_documents = []
@@ -37,7 +49,7 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
             document_type = 'All'
         # Determine the list of doctypes to query
         if document_type in [None, "All"]:
-            workflows = get_active_workflow_document(internal=True)
+            workflows = get_active_workflow_document(internal=True,module=module)
             workflow_doctypes = [row.document_type for row in workflows if not row.document_type in ["All",None,'']]
         else:
             workflow_doctypes = [document_type]
@@ -68,14 +80,14 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
         for doc in workflow_documents:
             if doc.get("workflow_state"):
                 transitions = get_transitions(frappe.get_doc(doc["doctype"], doc["name"]))
-                if transitions:
+                if len(transitions) >= 1:
                     all_documents.append(doc)
                     temp_start += 1
             if temp_start == end_index:
                 break
         all_documents = all_documents[start_index:end_index]
         if internal:
-            return cstr(len(all_documents))
+            return len(all_documents)
 
         return gen_response(
             200,

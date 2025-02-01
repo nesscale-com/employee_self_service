@@ -64,6 +64,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.post_type == \"Post\"",
    "fieldname": "section_break_9mh2c",
    "fieldtype": "Section Break"
   },
@@ -85,6 +86,7 @@
    "label": "Post Content"
   },
   {
+   "depends_on": "eval:doc.post_type == \"Poll\"",
    "fieldname": "section_break_4n4by",
    "fieldtype": "Section Break"
   },
@@ -98,7 +100,8 @@
    "fieldname": "ess_post_poll_log",
    "fieldtype": "Table",
    "label": "ESS Post Poll Log",
-   "options": "ESS Post Poll Log"
+   "options": "ESS Post Poll Log",
+   "read_only": 1
   },
   {
    "fieldname": "post_type",
@@ -107,6 +110,7 @@
    "options": "Post\nPoll"
   },
   {
+   "depends_on": "eval:doc.post_type == \"Poll\"",
    "fieldname": "section_break_f3wv2",
    "fieldtype": "Section Break"
   },
@@ -149,7 +153,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-26 15:50:06.757206",
+ "modified": "2025-01-31 13:00:05.637585",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Post",

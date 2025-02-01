@@ -19,6 +19,7 @@ from frappe.utils import (
     fmt_money,
     add_days,
     format_time,
+    cint
 )
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
@@ -397,6 +398,7 @@ def get_dashboard():
         # attendance_details = get_attendance_details(emp_data)
         log_details = get_last_log_details(emp_data.get("name"))
         settings = get_ess_settings()
+        approval_requests = get_workflow_documents(internal=True)
         dashboard_data = {
             "notice_board": notice_board,
             "leave_balance": [],
@@ -415,12 +417,11 @@ def get_dashboard():
             ),
             "check_in_with_image": settings.get("check_in_with_image"),
             "check_in_with_location": settings.get("check_in_with_location"),
-            "quick_task": settings.get("quick_task"),
-            "allow_odometer_reading_input": settings.get(
-                "allow_odometer_reading_input"
-            ),
-            "approval_requests": get_workflow_documents(internal=True),
-            "designation": emp_data.get("designation")
+            "approval_requests": cstr(approval_requests),
+            "designation": emp_data.get("designation"),
+            "allow_share_updates": 0,
+            "allow_approvals": 1 if cint(approval_requests) > 0 else 0,
+            "allow_manager_view": 1 if cint(approval_requests) > 0 else 0,
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -531,6 +532,7 @@ def get_attendance_details(emp_data):
             flt(days_off) + flt(attendance_report.get("total_present"))
         )
         total_present = attendance_report.get("total_present")
+
     attendance_details = {
         "month_title": f"{frappe.utils.getdate().strftime('%B')} Details",
         "data": [
@@ -1080,9 +1082,9 @@ def get_attendance_list(year=None, month=None):
                 "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
                 "status",
                 "working_hours",
-                "in_time",
-                "out_time",
-                "late_entry",
+                "DATE_FORMAT(in_time, '%h:%i %p') AS in_time",
+                "DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
+                "late_entry"
             ],
         )
 
@@ -1093,7 +1095,7 @@ def get_attendance_list(year=None, month=None):
             employee_checkin_details = frappe.get_all(
                 "Employee Checkin",
                 filters={"attendance": attendance.get("name")},
-                fields=["log_type", "time_format(time, '%h:%i%p') as time"],
+                fields=["log_type", "time_format(time, '%h:%i %p') as time"],
             )
 
             attendance["employee_checkin_detail"] = employee_checkin_details
@@ -1108,7 +1110,6 @@ def get_attendance_list(year=None, month=None):
                 absent_count += 1
 
             del attendance["name"]
-            del attendance["status"]
             del attendance["late_entry"]
 
         attendance_details = {

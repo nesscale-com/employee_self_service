@@ -17,13 +17,9 @@
   "enable_ess_notification",
   "section_break_yu4ls",
   "location_validate",
+  "column_break_8avhw",
   "check_in_with_location",
-  "column_break_jfldd",
-  "check_in_with_image",
-  "column_break_7khj5",
-  "quick_task",
-  "column_break_tyodi",
-  "allow_odometer_reading_input",
+  "column_break_k30m6",
   "submit_timesheet",
   "section_break_npr4y",
   "version",
@@ -100,39 +96,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "column_break_tyodi",
-   "fieldtype": "Column Break",
-   "hidden": 1
-  },
-  {
-   "default": "0",
-   "description": "Capture Image with check-in and check-out",
-   "fieldname": "check_in_with_image",
-   "fieldtype": "Check",
-   "label": "Check In with Image"
-  },
-  {
-   "default": "0",
-   "description": "Allow Quick Task creation with check in",
-   "fieldname": "quick_task",
-   "fieldtype": "Check",
-   "label": "Quick Task"
-  },
-  {
-   "fieldname": "column_break_jfldd",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_7khj5",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "allow_odometer_reading_input",
-   "fieldtype": "Check",
-   "label": "Allow Odometer Reading Input"
-  },
-  {
    "fieldname": "section_break_npr4y",
    "fieldtype": "Section Break"
   },
@@ -158,12 +121,20 @@
    "fieldname": "enable_ess_notification",
    "fieldtype": "Check",
    "label": "Enable ESS Notification"
+  },
+  {
+   "fieldname": "column_break_8avhw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_k30m6",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-11-15 01:52:34.790062",
+ "modified": "2025-02-01 11:10:54.575751",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
