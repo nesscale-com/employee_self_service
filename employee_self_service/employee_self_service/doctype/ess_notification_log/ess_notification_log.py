@@ -14,7 +14,7 @@ class ESSNotificationLog(Document):
 		
 		# Prepare the payload
 		payload = {
-			"product_name": "Nesscale ESS",
+			"product_name": "ESS Securetech",
 			"subject": self.subject,
 			"message": self.message,
 			"notification_type": "info",
