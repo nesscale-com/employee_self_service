@@ -25,7 +25,11 @@
   "version",
   "update_version_forcefully",
   "section_break_8pigx",
-  "ess_language"
+  "ess_language",
+  "sso_config_section",
+  "tenant_id",
+  "column_break_ufoky",
+  "client_id"
  ],
  "fields": [
   {
@@ -129,12 +133,32 @@
   {
    "fieldname": "column_break_k30m6",
    "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sso_config_section",
+   "fieldtype": "Section Break",
+   "label": "SSO Config"
+  },
+  {
+   "fieldname": "tenant_id",
+   "fieldtype": "Data",
+   "label": "Tenant ID"
+  },
+  {
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "label": "Client ID"
+  },
+  {
+   "fieldname": "column_break_ufoky",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-01 11:10:54.575751",
+ "modified": "2025-02-03 09:57:50.603621",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

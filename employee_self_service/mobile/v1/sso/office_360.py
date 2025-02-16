@@ -65,7 +65,8 @@ def azure_login(access_token):
 
 @frappe.whitelist(allow_guest=True)
 def get_office360_details():
+    settings = get_ess_settings()
     return {
-        "tenant_id": "15c454c4-a26d-491f-9d25-549d62f4e2b4",
-        "client_id": "4fe26052-cb2e-4b90-958e-b50e4be40fbc",
+        "tenant_id": settings.get("tenant_id"),
+        "client_id": settings.get("client_id"),
     }

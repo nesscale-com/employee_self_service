@@ -2,6 +2,7 @@ import frappe
 from bs4 import BeautifulSoup
 from frappe import _
 from frappe.utils import cstr
+from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
 
 import wrapt
 
@@ -167,3 +168,17 @@ def get_system_timezone() -> str:
     return (
         frappe.get_system_settings("time_zone") or "Asia/Kolkata"
     )  # Default to India ?!
+
+
+def get_till_date_holiday_month_wise(emp_data, start_date, end_date):
+    holiday_list = get_holiday_list_for_employee(emp_data.name, raise_exception=False)
+    if not holiday_list:
+        return 0
+
+    return frappe.db.count(
+        "Holiday",
+        filters={
+            "parent": holiday_list,
+            "holiday_date": ("between", [start_date, end_date]),
+        }
+    )

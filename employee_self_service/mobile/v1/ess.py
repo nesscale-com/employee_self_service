@@ -32,6 +32,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     convert_timezone,
     get_system_timezone,
+    get_till_date_holiday_month_wise
 )
 from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
@@ -513,60 +514,60 @@ def get_notice_board(employee=None):
     return notice_board_employee
 
 
-def get_attendance_details(emp_data):
-    last_date = get_last_day(today())
-    first_date = get_first_day(today())
-    total_days = date_diff(last_date, first_date) + 1
-    till_date_days = date_diff(today(), first_date)
-    days_off = 0
-    absent = 0
-    total_present = 0
-    attendance_report = run_attendance_report(
-        emp_data.get("name"), emp_data.get("company")
-    )
-    if attendance_report:
-        days_off = flt(attendance_report.get("total_leaves")) + flt(
-            attendance_report.get("total_holidays")
-        )
-        absent = till_date_days - (
-            flt(days_off) + flt(attendance_report.get("total_present"))
-        )
-        total_present = attendance_report.get("total_present")
-
-    attendance_details = {
-        "month_title": f"{frappe.utils.getdate().strftime('%B')} Details",
-        "data": [
-            {
-                "type": "Total Days",
-                "data": [
-                    till_date_days,
-                    total_days,
-                ],
-            },
-            {
-                "type": "Presents",
-                "data": [
-                    total_present,
-                    till_date_days,
-                ],
-            },
-            {
-                "type": "Absents",
-                "data": [
-                    absent,
-                    till_date_days,
-                ],
-            },
-            {
-                "type": "Days off",
-                "data": [
-                    days_off,
-                    till_date_days,
-                ],
-            },
-        ],
-    }
-    return attendance_details
+def get_attendance_details(emp_data, year = None, month = None):
+	last_date = get_last_day(today())
+	first_date = get_first_day(today())
+	total_days = date_diff(last_date, first_date) + 1
+	till_date_days = date_diff(today(), first_date)
+	days_off = 0
+	absent = 0
+	total_present = 0
+	attendance_report = run_attendance_report(
+		emp_data.get("name"), emp_data.get("company")
+	)
+	holidays = get_till_date_holiday_month_wise(emp_data,first_date,today())
+	if attendance_report:
+		days_off = flt(attendance_report.get("total_leaves")) + flt(
+			holidays
+		)
+		absent = till_date_days - (
+			flt(days_off) + flt(attendance_report.get("total_present"))
+		)
+		total_present = attendance_report.get("total_present")
+	attendance_details = {
+		"month_title": f"{frappe.utils.getdate().strftime('%B')}",
+		"data": [
+			{
+				"type": "Total Days",
+				"data": [
+					till_date_days,
+					total_days,
+				],
+			},
+			{
+				"type": "Presents",
+				"data": [
+					total_present,
+					till_date_days,
+				],
+			},
+			{
+				"type": "Absents",
+				"data": [
+					absent,
+					till_date_days,
+				],
+			},
+			{
+				"type": "Days off",
+				"data": [
+					days_off,
+					till_date_days,
+				],
+			},
+		],
+	}
+	return attendance_details
 
 
 @frappe.whitelist()
