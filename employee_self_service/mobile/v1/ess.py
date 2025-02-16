@@ -162,14 +162,14 @@ def get_leave_application_list():
         leave_applications = {
             "upcoming": upcoming_leaves,
             "taken": taken_leaves,
-            "balance": res["result"],
+            "balance": res,
         }
         return gen_response(200, "Leave data getting successfully", leave_applications)
     except Exception as e:
         return exception_handler(e)
 
 
-def get_leave_balance_report(employee, company, fiscal_year):
+def get_leave_balance_report_old(employee, company, fiscal_year):
     fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
     year_start_date = get_date_str(fiscal_year.get("year_start_date"))
     year_end_date = get_date_str(fiscal_year.get("year_end_date"))
@@ -183,6 +183,33 @@ def get_leave_balance_report(employee, company, fiscal_year):
 
     return run("Employee Leave Balance", filters=filters_leave_balance)
 
+
+def get_leave_balance_report(employee, company, fiscal_year):
+	"""
+	Returns a map of leave type and balance details like:
+	{
+			'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
+			'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
+	}
+	"""
+	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
+
+	date = getdate()
+	leave_balance = []
+
+	leave_details = get_leave_details(employee, date)
+	allocation = leave_details["leave_allocation"]
+
+	for leave_type, details in allocation.items():
+		leave_balance.append({
+			"leave_type":leave_type,
+			"leaves_allocated":details.get("remaining_leaves"),
+			"leaves_taken":details.get("leaves_taken"),
+			"employee":employee,
+			"closing_balance":details.get("remaining_leaves")
+		})
+
+	return leave_balance
 
 # moved to expense.py
 @frappe.whitelist()
@@ -446,7 +473,7 @@ def get_leave_balance_dashboard():
             res = get_leave_balance_report(
                 emp_data.get("name"), emp_data.get("company"), fiscal_year
             )
-            dashboard_data["leave_balance"] = res.get("result", [])
+            dashboard_data["leave_balance"] = res
         return gen_response(200, "Leave balance data get successfully", dashboard_data)
     except Exception as e:
         return exception_handler(e)
