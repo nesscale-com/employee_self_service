@@ -1,0 +1,62 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-04 01:55:31.792385",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_like_and_comment_notification",
+  "enable_holiday_notification",
+  "enable_birthday_anniversary_notification",
+  "enable_check_in_check_out_reminder"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enable_like_and_comment_notification",
+   "fieldtype": "Check",
+   "label": "Enable Like And Comment Notification"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_holiday_notification",
+   "fieldtype": "Check",
+   "label": "Enable Holiday Notification"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_birthday_anniversary_notification",
+   "fieldtype": "Check",
+   "label": "Enable Birthday/Anniversary Notification"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_check_in_check_out_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Check-In/Check-out Reminder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-01-04 18:09:36.072348",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Notification Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

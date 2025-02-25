@@ -75,6 +75,7 @@ def get_visit_list():
                 "DATE_FORMAT(date, '%d-%m-%Y') as date",
                 "time_format(time, '%h:%i:%s') as time",
                 "visit_type",
+                "description"
             ],
         )
         return gen_response(200, "Visit list get successfully", visit_list)

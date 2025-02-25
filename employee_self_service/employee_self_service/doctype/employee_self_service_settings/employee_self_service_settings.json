@@ -29,7 +29,11 @@
   "version",
   "update_version_forcefully",
   "section_break_8pigx",
-  "ess_language"
+  "ess_language",
+  "section_break_fiyn",
+  "start_time",
+  "column_break_iopq",
+  "end_time"
  ],
  "fields": [
   {
@@ -158,12 +162,32 @@
    "fieldname": "enable_ess_notification",
    "fieldtype": "Check",
    "label": "Enable ESS Notification"
+  },
+  {
+   "fieldname": "section_break_fiyn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "If no shift is assigned to the employee, this start time will be used to send check-in reminders.",
+   "fieldname": "start_time",
+   "fieldtype": "Time",
+   "label": "Start Time"
+  },
+  {
+   "fieldname": "column_break_iopq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "If no shift is assigned to the employee, this end time will be used to send check-out reminders.",
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "label": "End Time"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-11-15 01:52:34.790062",
+ "modified": "2025-01-04 18:01:35.632232",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

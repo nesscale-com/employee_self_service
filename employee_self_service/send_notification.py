@@ -2,10 +2,8 @@ import frappe
 import requests
 import json
 from frappe import enqueue
-import google.auth.transport.requests
-from google.oauth2 import service_account
-import os   
 from frappe.utils import parse_val,cint
+from employee_self_service.utils import notification_log
 
 event_mapping = {
     "after_insert": "New",
@@ -110,11 +108,7 @@ def _parse_receiver_by_document_field(s):
 
 
 def notification_processing(doc, event):
-    if doc.doctype == "Expense Claim":
-        frappe.log_error(f"Triggered for {doc.doctype} {doc.name} with event {event}", "Notification Debug")
     if not doc.flags.in_insert:
-        if doc.doctype == "Expense Claim":
-            frappe.log_error("in")
         # value change is not applicable in insert
         event_mapping['on_change'] = 'Value Change'
     event_type = event_mapping.get(event)
@@ -187,15 +181,3 @@ def send_notification(doc, notification, recipients):
             user.get("name"),
             user.get("token")
         )
-
-def notification_log(notification_name, doctype, subject, message, recipient,token):
-    if frappe.session.user == recipient:
-        return
-    notification_log = frappe.new_doc("ESS Notification Log")
-    notification_log.notification_name = notification_name
-    notification_log.document_type = doctype
-    notification_log.subject = subject
-    notification_log.message = message
-    notification_log.recipient = recipient
-    notification_log.token = token
-    notification_log.insert(ignore_permissions=True)

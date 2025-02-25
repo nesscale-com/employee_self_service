@@ -122,6 +122,12 @@ doc_events = {
         "before_cancel":"employee_self_service.send_notification.notification",
         "after_cancel":"employee_self_service.send_notification.notification",
         "on_change":"employee_self_service.send_notification.notification"
+    },
+    "Comment": {
+        "after_insert":"employee_self_service.events.after_insert_comment"
+    },
+    "Employee Checkin": {
+        "after_insert":"employee_self_service.events.set_location_address"
     }
 }
 
@@ -131,8 +137,7 @@ doc_events = {
 scheduler_events = {
     "daily": ["employee_self_service.mobile.ess.daily_notice_board_event"],
     "cron": {
-        "0 9 * * *": ["employee_self_service.mobile.ess.send_notification_on_event"],
-        "0 9 * * *": ["employee_self_service.mobile.ess.on_holiday_event"],
+        "0 9 * * *": ["employee_self_service.background_jobs.process_daily_ess_jobs"]
     },
 }
 
@@ -190,6 +195,10 @@ scheduler_events = {
 # auth_hooks = [
 # 	"employee_self_service.auth.validate"
 # ]
+
+jinja = {
+    "methods": ["employee_self_service.utils.strip_and_clean_html"]
+}
 
 fixtures = [
     {

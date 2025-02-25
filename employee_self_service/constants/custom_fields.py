@@ -34,18 +34,17 @@ CUSTOM_FIELDS = {
             "read_only": 1,
         },
         {
-            "fieldname": "odometer_reading",
-            "label": "Odometer reading",
-            "fieldtype": "Data",
-            "insert_after": "log_type",
-            "translatable": 1,
-            "read_only": 1,
-        },
-        {
             "fieldname": "attendance_image",
             "label": "Attendance Image",
             "fieldtype": "Attach",
             "insert_after": "location",
+        },
+        {
+            "fieldname": "log_location",
+            "label": "Log Location",
+            "fieldtype": "Small Text",
+            "read_only":1,
+            "insert_after": "attendance_image",
         },
     ],
     "Item Group": [
