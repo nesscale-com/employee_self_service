@@ -8,7 +8,12 @@
   "enable_like_and_comment_notification",
   "enable_holiday_notification",
   "enable_birthday_anniversary_notification",
-  "enable_check_in_check_out_reminder"
+  "section_break_rexb",
+  "enable_check_in_reminder",
+  "check_in_reminder_after",
+  "column_break_ftpu",
+  "enable_check_out_reminder",
+  "check_out_reminder_after"
  ],
  "fields": [
   {
@@ -31,15 +36,41 @@
   },
   {
    "default": "0",
-   "fieldname": "enable_check_in_check_out_reminder",
+   "fieldname": "enable_check_in_reminder",
    "fieldtype": "Check",
-   "label": "Enable Check-In/Check-out Reminder"
+   "label": "Enable Check-In Reminder"
+  },
+  {
+   "fieldname": "section_break_rexb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ftpu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_check_out_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Check Out Reminder"
+  },
+  {
+   "depends_on": "enable_check_in_reminder",
+   "fieldname": "check_in_reminder_after",
+   "fieldtype": "Int",
+   "label": "Check-in Reminder After Minutes"
+  },
+  {
+   "depends_on": "enable_check_out_reminder",
+   "fieldname": "check_out_reminder_after",
+   "fieldtype": "Int",
+   "label": "Check-out Reminder After Minutes"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-01-04 18:09:36.072348",
+ "modified": "2025-02-27 02:12:57.642405",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Notification Settings",

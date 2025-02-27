@@ -52,7 +52,7 @@ def user_location(*args, **kwargs):
                 dict(doctype="Employee Location", employee=current_employee.get("name"))
             )
             location_doc.update(data)
-            location_doc.insert()
+            location_doc.insert(ignore_permissions=True)
         else:
             location_doc = frappe.get_doc(
                 "Employee Location",
@@ -90,7 +90,7 @@ def user_location(*args, **kwargs):
 """
             # frappe.log_error(title="ESS Mobile App debug", message=compact_json)
             # location_doc.location_map = compact_json
-            location_doc.save()
+            location_doc.save(ignore_permissions=True)
 
         gen_response(200, "Location updated successfully.")
 

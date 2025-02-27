@@ -137,7 +137,11 @@ doc_events = {
 scheduler_events = {
     "daily": ["employee_self_service.mobile.ess.daily_notice_board_event"],
     "cron": {
-        "0 9 * * *": ["employee_self_service.background_jobs.process_daily_ess_jobs"]
+        "0 9 * * *": ["employee_self_service.background_jobs.process_daily_ess_jobs"],
+        "0/5 * * * *": [
+			"employee_self_service.background_jobs.reminder_for_checkin",
+            "employee_self_service.background_jobs.reminder_for_checkout",
+		],
     },
 }
 
