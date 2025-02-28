@@ -116,12 +116,18 @@ doctype_js = {"Employee Checkin": "public/js/employee_checkin.js"}
 
 doc_events = {
     "*": {
-        "before_save":"employee_self_service.send_notification.notification",
-        "after_save":"employee_self_service.send_notification.notification",
+        "after_insert":"employee_self_service.send_notification.notification",
+        "on_update":"employee_self_service.send_notification.notification",
         "on_submit":"employee_self_service.send_notification.notification",
         "before_cancel":"employee_self_service.send_notification.notification",
         "after_cancel":"employee_self_service.send_notification.notification",
         "on_change":"employee_self_service.send_notification.notification"
+    },
+    "Comment": {
+        "after_insert":"employee_self_service.events.after_insert_comment"
+    },
+    "Employee Checkin": {
+        "after_insert":"employee_self_service.events.set_location_address"
     }
 }
 
@@ -131,8 +137,11 @@ doc_events = {
 scheduler_events = {
     "daily": ["employee_self_service.mobile.ess.daily_notice_board_event"],
     "cron": {
-        "0 9 * * *": ["employee_self_service.mobile.ess.send_notification_on_event"],
-        "0 9 * * *": ["employee_self_service.mobile.ess.on_holiday_event"],
+        "0 9 * * *": ["employee_self_service.background_jobs.process_daily_ess_jobs"],
+        "0/5 * * * *": [
+			"employee_self_service.background_jobs.reminder_for_checkin",
+            "employee_self_service.background_jobs.reminder_for_checkout",
+		],
     },
 }
 
@@ -190,6 +199,10 @@ scheduler_events = {
 # auth_hooks = [
 # 	"employee_self_service.auth.validate"
 # ]
+
+jinja = {
+    "methods": ["employee_self_service.utils.strip_and_clean_html"]
+}
 
 fixtures = [
     {

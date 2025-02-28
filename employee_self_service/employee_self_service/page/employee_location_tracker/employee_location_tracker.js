@@ -67,7 +67,7 @@ frappe.pages['employee-location-tracker'].on_page_load = function (wrapper) {
 			console.log(locations)
 			console.log({ lat: locations[0].latitude, lng: locations[0].longitude })
 			const map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 10,
+				zoom: 20,
 				center: { lat: parseFloat(locations[0].latitude), lng: parseFloat(locations[0].longitude) }
 			});
 			const seq = {

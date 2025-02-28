@@ -34,7 +34,7 @@ from erpnext.accounts.utils import get_fiscal_year
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
     create_push_notification,
 )
-
+from employee_self_service.utils import get_employees_having_an_event_today
 
 @frappe.whitelist(allow_guest=True)
 def login(usr, pwd):
@@ -667,43 +667,6 @@ def create_employee_birthday_board(event_type):
                     employees=[dict(employee=emp.get("emp_id"))],
                 )
             ).insert(ignore_permissions=True)
-
-
-def get_employees_having_an_event_today(event_type, date=None):
-    if event_type == "birthday":
-        condition_column = "date_of_birth"
-    elif event_type == "work_anniversary":
-        condition_column = "date_of_joining"
-    else:
-        return
-
-    employees_born_today = frappe.db.multisql(
-        {
-            "mariadb": f"""
-			SELECT `name` as 'emp_id',`personal_email`, `company`, `company_email`, `user_id`, `employee_name` AS 'name', `image`, `date_of_joining`
-			FROM `tabEmployee`
-			WHERE
-				DAY({condition_column}) = DAY(%(today)s)
-			AND
-				MONTH({condition_column}) = MONTH(%(today)s)
-			AND
-				`status` = 'Active'
-		""",
-            "postgres": f"""
-			SELECT "name" AS 'emp_id',"personal_email", "company", "company_email", "user_id", "employee_name" AS 'name', "image"
-			FROM "tabEmployee"
-			WHERE
-				DATE_PART('day', {condition_column}) = date_part('day', %(today)s)
-			AND
-				DATE_PART('month', {condition_column}) = date_part('month', %(today)s)    
-			AND
-				"status" = 'Active'
-		""",
-        },
-        dict(today=getdate(date), condition_column=condition_column),
-        as_dict=1,
-    )
-    return employees_born_today
 
 
 @frappe.whitelist()
@@ -1431,62 +1394,6 @@ def notification_list():
         return gen_response(200, "Push Notification", notification)
     except Exception as e:
         return exception_handel(e)
-
-
-def send_notification_on_event():
-    birthday_events = get_employees_having_an_event_today("birthday", date=today())
-    for event in birthday_events:
-        create_push_notification(
-            title=f"{event.get('name')}' s Birthday",
-            message=f"Say Congratulation on {event['name']} Birthday",
-            send_for="All User",
-            notification_type="event",
-        )
-
-    anniversary_events = get_employees_having_an_event_today(
-        "work_anniversary", date=today()
-    )
-    for anniversary in anniversary_events:
-        create_push_notification(
-            title=f"{anniversary.get('name')}' s Work Anniversary",
-            message=f"Say Congratulation on {anniversary['name']} Work Anniversary",
-            send_for="All User",
-            notification_type="event",
-        )
-
-
-def global_holiday_list(date=None):
-    global_company = frappe.db.get_single_value("Global Defaults", "default_company")
-    employee_holiday_list = frappe.get_all(
-        "Employee",
-        {"company": global_company, "holiday_list": ("!=", "")},
-        ["employee", "holiday_list", "user_id"],
-    )
-    holidays = []
-    for employee in employee_holiday_list:
-        filters = [
-            ["Holiday", "holiday_date", "=", getdate(date)],
-            ["Holiday", "parent", "=", employee.holiday_list],
-        ]
-        holidays_list = frappe.get_all(
-            "Holiday", filters=filters, fields=["'holiday' as title", "description"]
-        )
-        for holiday in holidays_list:
-            holiday["user_id"] = employee.user_id
-            holidays.append(holiday)
-    return holidays
-
-
-def on_holiday_event():
-    holiday_list = global_holiday_list(date=today())
-    for holiday in holiday_list:
-        create_push_notification(
-            title=f"{holiday.get('title')}",
-            message=f"{holiday.get('description')}",
-            send_for="Single User",
-            user=holiday.get("user_id"),
-            notification_type="Holiday",
-        )
 
 
 @frappe.whitelist()
