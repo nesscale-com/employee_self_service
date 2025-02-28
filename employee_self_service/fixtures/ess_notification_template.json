@@ -1,0 +1,50 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-01-04 02:09:24.533371",
+  "name": "Notification Like",
+  "notification_message": "Your post was liked by {{user_name}}",
+  "notification_title": "Your post got a like!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-01-04 02:09:49.938388",
+  "name": "Post Comment",
+  "notification_message": "Your post was comment by {{user_name}}",
+  "notification_title": "Your post got a comment!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-01-04 17:30:19.450833",
+  "name": "Birthday Notification",
+  "notification_message": "Wishing you a day filled with joy, laughter, and wonderful moments. Have an amazing birthday celebration!",
+  "notification_title": "Happy Birthday {{employee_name}}!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-01-04 17:34:28.354228",
+  "name": "Work Anniversary",
+  "notification_message": "Thank you for your dedication and hard work. Wishing you continued success and happiness on this special day!",
+  "notification_title": "Congratulations on Your Work Anniversary, {{employee_name}}!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-02-28 10:42:19.903565",
+  "name": "Missed Checkin Reminder",
+  "notification_message": "{{employee_name}}, you haven't checked in yet. Please check in now!",
+  "notification_title": "⏰ Reminder: Checkin Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "ESS Notification Template",
+  "modified": "2025-02-28 10:43:08.024992",
+  "name": "Missed Checkout Reminder",
+  "notification_message": "{{employee_name}}, your work shift ended. Please check out to log accurate hours.",
+  "notification_title": "⏰ Reminder: Checkout Pending"
+ }
+]
