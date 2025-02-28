@@ -202,3 +202,7 @@ def get_attachments(document_type,document):
         filters={"attached_to_doctype": document_type, "attached_to_name": document},
         fields=["file_url", "file_name"],
     )
+
+@frappe.whitelist(allow_guest=True)
+def ping():
+    return "pong"
