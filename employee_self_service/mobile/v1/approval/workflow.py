@@ -5,7 +5,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_employee_by_user,
 )
-from frappe.utils import cint,get_url_to_form
+from frappe.utils import cint,get_url_to_form,cstr
 from operator import itemgetter
 from frappe.model.workflow import get_transitions
 
@@ -29,46 +29,74 @@ def get_active_workflow_document(internal=False):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_workflow_documents(start=1, page_length=10,document_type=None,internal=False):
+def get_workflow_documents(start=1, page_length=10, document_type=None, internal=False):
     try:
-        documents = []
-        if document_type == "All" or not document_type:
+        # Initialize variables
+        all_documents = []
+        if document_type == '':
+            document_type = 'All'
+        # Determine the list of doctypes to query
+        if document_type in [None, "All"]:
             workflows = get_active_workflow_document(internal=True)
-
-            for row in workflows:
-                workflow_documents = frappe.get_list(row.document_type, filters={}, fields=["name", "workflow_state", "modified"], order_by="modified desc")
-                append_document(workflow_documents=workflow_documents, documents=documents, doctype=row.document_type)
+            workflow_doctypes = [row.document_type for row in workflows if not row.document_type in ["All",None,'']]
         else:
-            workflow_documents = frappe.get_list(document_type, filters={}, fields=["name", "workflow_state", "modified"], order_by="modified desc")
-            append_document(workflow_documents=workflow_documents, documents=documents, doctype=document_type)
-            
+            workflow_doctypes = [document_type]
+
+        # Fetch documents with pending actions
+        workflow_documents = []
+        for doctype in workflow_doctypes:
+            # Fetch workflow documents with valid transitions
+            workflow_document = frappe.get_list(
+                doctype,
+                filters={
+                    "workflow_state": ["!=", None],  # Exclude NULL values
+                    "workflow_state": ["!=", ""],   # Exclude empty strings
+                },
+                fields=["name", "workflow_state", "modified", f"'{doctype}' as doctype"],
+                order_by="modified desc"
+            )
+            workflow_documents.extend(workflow_document)  # Add documents to a single list
+
+        # Sort the combined list of documents by 'modified' field in descending order
+        workflow_documents = sorted(workflow_documents, key=lambda x: x['modified'], reverse=True)
+
+        # Apply pagination
+        start_index = (cint(start) - 1)
+        end_index = start_index + cint(page_length)
+        # Filter only documents with pending actions (transitions)
+        temp_start = 0
+        for doc in workflow_documents:
+            if doc.get("workflow_state"):
+                transitions = get_transitions(frappe.get_doc(doc["doctype"], doc["name"]))
+                if transitions:
+                    all_documents.append(doc)
+                    temp_start += 1
+            if temp_start == end_index:
+                break
+        all_documents = all_documents[start_index:end_index]
         if internal:
-            return len(documents)
-        # Sort documents by modified date
-        documents.sort(key=itemgetter("modified"), reverse=True)
+            return cstr(len(all_documents))
 
-        # Pagination
-        start_index = (cint(start) - 1) * cint(page_length)
-        end_index = min(start_index + cint(page_length), len(documents))
-        paginated_documents = documents[start_index:end_index]
-
-        return gen_response(200, "Workflow documents fetched successfully", paginated_documents)
+        return gen_response(
+            200,
+            "Workflow documents fetched successfully",all_documents
+        )
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted to read Timesheet")
+        return gen_response(500, "Not permitted to read document")
     except Exception as e:
         return exception_handler(e)
 
-def append_document(workflow_documents, documents, doctype):
-    for row in workflow_documents:
-        doc = frappe.get_doc(doctype, row["name"])
-        try:
-            transitions = get_transitions(doc)
-            # Only append documents that have available actions (transitions)
-            if transitions:
-                row["doctype"] = doctype
-                documents.append(row)
-        except Exception as e:
-            pass
+# def append_document(workflow_documents, documents, doctype):
+#     for row in workflow_documents:
+#         doc = frappe.get_doc(doctype, row["name"])
+#         try:
+#             transitions = get_transitions(doc)
+#             # Only append documents that have available actions (transitions)
+#             if transitions:
+#                 row["doctype"] = doctype
+#                 documents.append(row)
+#         except Exception as e:
+#             pass
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])

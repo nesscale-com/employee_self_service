@@ -25,6 +25,7 @@
    "options": "Employee"
   },
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -63,7 +64,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-27 12:31:14.148577",
+ "modified": "2024-11-22 20:09:40.786123",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Location",

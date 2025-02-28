@@ -82,6 +82,19 @@ def get_activity_type_list():
         return exception_handler(e)
     
 @frappe.whitelist()
+@ess_validate(methods=["POST"])
+def delete_timesheet(timesheet_id=None):
+    if not timesheet_id:
+        return gen_response(500, "Timesheet ID cannot be blank.")
+    try:
+        frappe.delete_doc("Timesheet", timesheet_id, force=1)
+        return gen_response(200, "Timesheet deleted successfully.")
+    except frappe.PermissionError:
+        return gen_response(500, str(e))
+    except Exception as e:
+        return exception_handler(e)
+    
+@frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_task_list(filters=None):
     try:

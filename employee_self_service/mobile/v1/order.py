@@ -101,6 +101,7 @@ def get_order(*args, **kwargs):
             "cost_center",
             "company",
             "set_warehouse",
+            "discount_amount",
         ]:
             order_data[response_field] = order_doc.get(response_field)
         item_list = []
@@ -111,6 +112,15 @@ def get_order(*args, **kwargs):
             item["rate_currency"] = fmt_money(
                 item.get("rate"), currency=global_defaults.get("default_currency")
             )
+            item["price_list_rate_currency"] = fmt_money(
+                item.get("price_list_rate"),
+                currency=global_defaults.get("default_currency"),
+            )
+            if item.get("price_list_rate") == 0:
+                item["price_list_rate"] = item.get("rate")
+                item["price_list_rate_currency"] = fmt_money(
+                    item.get("rate"), currency=global_defaults.get("default_currency")
+                )
             item_list.append(
                 prepare_json_data(
                     [
@@ -121,6 +131,10 @@ def get_order(*args, **kwargs):
                         "rate",
                         "image",
                         "rate_currency",
+                        "discount_amount",
+                        "discount_percentage",
+                        "price_list_rate",
+                        "price_list_rate_currency",
                     ],
                     item,
                 )
@@ -138,6 +152,11 @@ def get_order(*args, **kwargs):
         )
         order_data["total_unpaid"] = fmt_money(
             dashboard_info[0].get("total_unpaid") if dashboard_info else 0.0,
+            currency=global_defaults.get("default_currency"),
+        )
+        order_data["discount"] = order_data["discount_amount"]
+        order_data["discount_amount"] = fmt_money(
+            order_data["discount_amount"] if order_data["discount_amount"] else 0.0,
             currency=global_defaults.get("default_currency"),
         )
         order_data["attachments"] = get_attachments(data.get("order_id"))
@@ -239,6 +258,11 @@ def get_items_rate(items, customer=None):
             currency=global_defaults.get("default_currency"),
         )
         item["rate"] = item_price[0].price_list_rate if item_price else 0.0
+        item["price_list_rate"] = item_price[0].price_list_rate if item_price else 0.0
+        item["price_list_rate_currency"] = fmt_money(
+            item_price[0].price_list_rate if item_price else 0.0,
+            currency=global_defaults.get("default_currency"),
+        )
     return items
 
 
@@ -295,6 +319,8 @@ def prepare_order_totals(*args, **kwargs):
             dict(doctype="Sales Order", company=global_defaults.get("default_company"))
         )
         sales_order_doc.update(data)
+        sales_order_doc.apply_discount_on = "Grand Total"
+
         sales_order_doc.run_method("set_missing_values")
         sales_order_doc.run_method("calculate_taxes_and_totals")
         sales_order_doc = json.loads(sales_order_doc.as_json())
@@ -316,6 +342,7 @@ def get_order_details_with_currency(sales_order_doc, currency):
         "net_total",
         "discount_amount",
         "grand_total",
+        "total",
     ]:
         order_response_dict[response_fields] = fmt_money(
             sales_order_doc.get(response_fields),
@@ -394,6 +421,7 @@ def _create_update_order(data, sales_order_doc, default_warehouse):
     for item in data.get("items"):
         item["delivery_date"] = delivery_date
         item["warehouse"] = default_warehouse
+    sales_order_doc.apply_discount_on = "Grand Total"
     sales_order_doc.update(data)
     sales_order_doc.run_method("set_missing_values")
     sales_order_doc.run_method("calculate_taxes_and_totals")

@@ -7,6 +7,8 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
 )
 
+from frappe.utils import today
+
 """save user location"""
 
 """{
@@ -43,25 +45,18 @@ def user_location(*args, **kwargs):
         current_employee = get_employee_by_user(frappe.session.user)
         if not frappe.db.exists(
             "Employee Location",
-            {"employee": current_employee.get("name"), "date": data.get("date")},
+            {"employee": current_employee.get("name"), "date": today()},
             cache=True,
         ):
             location_doc = frappe.get_doc(
-                dict(
-                    doctype="Employee Location",
-                    employee=current_employee.get("name"),
-                    date=data.get("date"),
-                )
+                dict(doctype="Employee Location", employee=current_employee.get("name"))
             )
             location_doc.update(data)
-            location_doc.insert()
+            location_doc.insert(ignore_permissions=True)
         else:
             location_doc = frappe.get_doc(
                 "Employee Location",
-                {
-                    "employee": current_employee.get("name"),
-                    "date": data.get("date"),
-                },
+                {"employee": current_employee.get("name")},
             )
             for location in data.get("location"):
                 location_doc.append("location", location)
@@ -95,7 +90,7 @@ def user_location(*args, **kwargs):
 """
             # frappe.log_error(title="ESS Mobile App debug", message=compact_json)
             # location_doc.location_map = compact_json
-            location_doc.save()
+            location_doc.save(ignore_permissions=True)
 
         gen_response(200, "Location updated successfully.")
 
