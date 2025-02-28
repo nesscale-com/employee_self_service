@@ -205,14 +205,13 @@ jinja = {
 }
 
 fixtures = [
+    # {
+    #     "dt": "Ess Translation",
+    # },
     {
-        "dt": "Notice Board Template",
+        "dt":"ESS Notification"
     },
     {
-        "dt": "Notice Board Template Type",
-    },
-    {"dt": "Custom DocPerm", "filters": [["name", "in", ["5318c19ff9", "c3d5dc5296"]]]},
-    {
-        "dt": "Ess Translation",
-    },
+        "dt":"ESS Notification Template"
+    }
 ]
