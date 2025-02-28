@@ -56,6 +56,7 @@ frappe.notification = {
         frm.set_df_property("date_changed", "options", get_date_change_options());
   
         let receiver_fields = [];
+        let employee_receiver_fields = [];
         receiver_fields = $.map(fields, function (d) {
           // Add User and Email fields from child into select dropdown
           if (frappe.model.table_fields.includes(d.fieldtype)) {
@@ -72,11 +73,32 @@ frappe.notification = {
               : null;
           }
         });
+        employee_receiver_fields = $.map(fields, function (d) {
+          // Add User and Email fields from child into select dropdown
+          if (frappe.model.table_fields.includes(d.fieldtype)) {
+            let child_fields = frappe.get_doc("DocType", d.options).fields;
+            return $.map(child_fields, function (df) {
+              return df.options == "Employee" && df.fieldtype == "Link"
+                ? get_select_options(df, d.fieldname)
+                : null;
+            });
+            // Add User and Email fields from parent into select dropdown
+          } else {
+            return d.options == "Employee" && d.fieldtype == "Link"
+              ? get_select_options(d)
+              : null;
+          }
+        });
         // set email recipient options
         frm.fields_dict.recipients.grid.update_docfield_property(
           "receiver_by_document_field",
           "options",
           [""].concat(["owner"]).concat(receiver_fields)
+        );
+        frm.fields_dict.recipients.grid.update_docfield_property(
+          "receiver_by_employee_field",
+          "options",
+          [""].concat(employee_receiver_fields)
         );
       });
     },

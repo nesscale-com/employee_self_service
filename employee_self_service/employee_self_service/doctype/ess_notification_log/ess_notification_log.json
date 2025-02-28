@@ -6,12 +6,18 @@
  "engine": "InnoDB",
  "field_order": [
   "notification_name",
-  "document_type",
+  "recipient",
+  "read",
+  "column_break_nmub",
   "subject",
   "message",
-  "recipient",
+  "column_break_yexy",
+  "document_type",
   "token",
-  "read"
+  "section_break_yksq",
+  "reference_document",
+  "column_break_dcnx",
+  "reference_name"
  ],
  "fields": [
   {
@@ -54,12 +60,39 @@
   {
    "fieldname": "token",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "label": "Token"
+  },
+  {
+   "fieldname": "column_break_nmub",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yexy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_yksq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reference_document",
+   "fieldtype": "Read Only",
+   "label": "Reference Document"
+  },
+  {
+   "fieldname": "column_break_dcnx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Read Only",
+   "label": "Reference Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-15 02:02:04.795823",
+ "modified": "2025-01-03 03:26:12.795283",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Notification Log",

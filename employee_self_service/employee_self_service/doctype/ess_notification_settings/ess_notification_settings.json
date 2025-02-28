@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-04 01:55:31.792385",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_like_and_comment_notification",
+  "enable_holiday_notification",
+  "enable_birthday_anniversary_notification",
+  "section_break_rexb",
+  "enable_check_in_reminder",
+  "check_in_reminder_after",
+  "column_break_ftpu",
+  "enable_check_out_reminder",
+  "check_out_reminder_after"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enable_like_and_comment_notification",
+   "fieldtype": "Check",
+   "label": "Enable Like And Comment Notification"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_holiday_notification",
+   "fieldtype": "Check",
+   "label": "Enable Holiday Notification"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_birthday_anniversary_notification",
+   "fieldtype": "Check",
+   "label": "Enable Birthday/Anniversary Notification"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_check_in_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Check-In Reminder"
+  },
+  {
+   "fieldname": "section_break_rexb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ftpu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_check_out_reminder",
+   "fieldtype": "Check",
+   "label": "Enable Check Out Reminder"
+  },
+  {
+   "depends_on": "enable_check_in_reminder",
+   "fieldname": "check_in_reminder_after",
+   "fieldtype": "Int",
+   "label": "Check-in Reminder After Minutes"
+  },
+  {
+   "depends_on": "enable_check_out_reminder",
+   "fieldname": "check_out_reminder_after",
+   "fieldtype": "Int",
+   "label": "Check-out Reminder After Minutes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-02-27 02:12:57.642405",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Notification Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
