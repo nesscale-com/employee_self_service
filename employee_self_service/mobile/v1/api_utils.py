@@ -1,9 +1,9 @@
 import frappe
 from bs4 import BeautifulSoup
 from frappe import _
-from frappe.utils import cstr,now
+from frappe.utils import cstr,now,getdate
 import json
-from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+from erpnext.hr.doctype.employee.employee import get_holiday_list_for_employee
 import wrapt
 IGNORE_PATH = ["create_timesheet"]
 
@@ -182,23 +182,29 @@ def get_system_timezone() -> str:
 
 def get_till_date_holiday_month_wise(emp_data, start_date, end_date):
     holiday_list = get_holiday_list_for_employee(emp_data.name, raise_exception=False)
+    frappe.log_error(title="holiday_list",message=holiday_list)
     if not holiday_list:
         return 0
 
-    return frappe.db.count(
-        "Holiday",
-        filters={
-            "parent": holiday_list,
-            "holiday_date": ("between", [start_date, end_date]),
-        }
+    holiday_list_str = ', '.join(f"'{hl}'" for hl in holiday_list)
+    # Execute raw SQL query
+    result = frappe.db.sql(
+        f"""
+        SELECT COUNT(*)
+        FROM `tabHoliday`
+        WHERE parent IN ({holiday_list_str})
+        AND holiday_date BETWEEN %s AND %s
+        """,
+        (start_date, end_date)
     )
 
+    return result[0][0] if result else 0
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_approver(document_type):
     try:
-        from hrms.hr.doctype.department_approver.department_approver import get_approvers
+        from erpnext.hr.doctype.department_approver.department_approver import get_approvers
         emp_data = get_employee_by_user(frappe.session.user)
         leave_approver = get_approvers(doctype=document_type, txt='', searchfield='', start=0, page_len=20,filters={"employee":emp_data.name,"doctype":document_type})
         keys = ["user", "first_name", "last_name"]
