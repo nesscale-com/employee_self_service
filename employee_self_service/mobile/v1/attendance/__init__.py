@@ -8,7 +8,7 @@ from employee_self_service.mobile.v1.api_utils import (
     convert_timezone,
     get_system_timezone,
 )
-from erpnext.setup.doctype.employee.employee import (
+from erpnext.hr.doctype.employee.employee import (
     get_holiday_list_for_employee,
 )
 from frappe.utils import getdate, cint

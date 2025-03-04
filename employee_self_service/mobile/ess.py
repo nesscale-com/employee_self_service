@@ -803,7 +803,7 @@ def get_holiday_list(year=None):
             return gen_response(500, "year is required")
         emp_data = get_employee_by_user(frappe.session.user)
 
-        from erpnext.setup.doctype.employee.employee import (
+        from erpnext.hr.doctype.employee.employee import (
             get_holiday_list_for_employee,
         )
 
@@ -1248,7 +1248,7 @@ def notice_board_list(employee=None, date=None):
 
 def holiday_list(date=None):
     emp_data = get_employee_by_user(frappe.session.user)
-    from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+    from erpnext.hr.doctype.employee.employee import get_holiday_list_for_employee
 
     holiday_list = get_holiday_list_for_employee(emp_data.name, raise_exception=False)
 

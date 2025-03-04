@@ -217,7 +217,7 @@ def get_leave_application_list():
 		leave_applications = {
 			"upcoming": upcoming_leaves,
 			"taken": taken_leaves,
-			"balance": res["result"],
+			"balance": res,
 		}
 		return gen_response(200, "Leave data getting successfully", leave_applications)
 	except Exception as e:
@@ -276,22 +276,26 @@ def get_leave_balance_report_old(employee, company, fiscal_year):
 	return run("Employee Leave Balance", filters=filters_leave_balance)["result"]
 
 def get_leave_balance_report(employee, company, fiscal_year):
-    fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
-    year_start_date = get_date_str(fiscal_year.get("year_start_date"))
-    year_end_date = get_date_str(fiscal_year.get("year_end_date"))
-    filters_leave_balance = {
-        "from_date": year_start_date,
-        "to_date": add_days(today(), 1),
-        "company": company,
-        "employee": employee,
-    }
-    from frappe.desk.query_report import run
 
-    result = run("Employee Leave Balance", filters=filters_leave_balance)
-    for row in result.get("result"):
-        if isinstance(row.get("employee"), tuple):
-            row["employee"] = employee
-    return result
+	from erpnext.hr.doctype.leave_application.leave_application import get_leave_details
+	date = getdate()
+	leave_balance = []
+
+	leave_details = get_leave_details(employee, date)
+	allocation = leave_details["leave_allocation"]
+
+	for leave_type, details in allocation.items():
+		leave_balance.append({
+			"leave_type":leave_type,
+			"total_leaves":details.get("total_leaves"),
+			"leaves_allocated":details.get("remaining_leaves"),
+			"leaves_taken":details.get("leaves_taken"),
+			"expired_leaves":details.get("expired_leaves"),
+			"employee":employee,
+			"closing_balance":details.get("remaining_leaves")
+		})
+
+	return leave_balance
 
 
 # moved to expense.py
@@ -1268,22 +1272,24 @@ def get_attendance_list(year=None, month=None):
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def add_comment(reference_doctype=None, reference_name=None, content=None):
-	try:
+    try:
+        from frappe.desk.form.utils import add_comment
 
-		comment_by = frappe.db.get_value(
-			"User", frappe.session.user, "full_name", as_dict=1
-		)
-		add_ess_comment(
-			reference_doctype=reference_doctype,
-			reference_name=reference_name,
-			content=content,
-			comment_email=frappe.session.user,
-			comment_by=comment_by.get("full_name"),
-		)
-		return gen_response(200, "Comment added successfully")
+        comment_by = frappe.db.get_value(
+            "User", frappe.session.user, "full_name", as_dict=1
+        )
 
-	except Exception as e:
-		return exception_handler(e)
+        add_comment(
+            reference_doctype=reference_doctype,
+            reference_name=reference_name,
+            content=content,
+            comment_email=frappe.session.user,
+            comment_by=comment_by.get("full_name"),
+        )
+        return gen_response(200, "Comment added successfully")
+
+    except Exception as e:
+        return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -1810,7 +1816,7 @@ def get_task_by_id(task_id=None):
 		filters = [["Task", "name", "=", task_id]]
 		tasks = frappe.db.get_value(
 			"Task",
-			filters,
+			{"name": task_id},
 			[
 				"name",
 				"subject",
@@ -2181,12 +2187,14 @@ def create_task(**kwargs):
 
 		data = kwargs
 		task_doc = frappe.get_doc(dict(doctype="Task"))
+		task_assign_to = data.get("assign_to")
+		del data["assign_to"]
 		task_doc.update(data)
 		task_doc.insert()
-		if data.get("assign_to"):
+		if task_assign_to:
 			assign_to.add(
 				{
-					"assign_to": data.get("assign_to"),
+					"assign_to": task_assign_to,
 					"doctype": task_doc.doctype,
 					"name": task_doc.name,
 				}
@@ -2239,26 +2247,35 @@ def get_task(**kwargs):
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def update_task(**kwargs):
-	try:
-		from frappe.desk.form import assign_to
+    try:
+        from frappe.desk.form import assign_to
 
-		data = kwargs
-		task_doc = frappe.get_doc("Task", data.get("name"))
-		task_doc.update(data)
-		task_doc.save()
-		if data.get("assign_to"):
-			assign_to.add(
-				{
-					"assign_to": data.get("assign_to"),
-					"doctype": task_doc.doctype,
-					"name": task_doc.name,
-				}
-			)
-		return gen_response(200, "Task has been updated successfully")
-	except frappe.PermissionError:
-		return gen_response(500, "Not permitted for update task")
-	except Exception as e:
-		return exception_handler(e)
+        data = kwargs
+        task_doc = frappe.get_doc("Task", data.get("name"))
+        if data.get("assign_to"):
+            assign_to_list = data.get("assign_to")
+            del data["assign_to"]
+        
+        task_doc.update(data)
+        task_doc.save()
+        if assign_to_list:
+            if isinstance(assign_to_list, str):
+                assign_to_list = [assign_to_list]
+            
+            # for assign_to_user in assign_to_list:
+            assign_to.add(
+                {
+                    "assign_to": assign_to_list,
+                    "doctype": task_doc.doctype,
+                    "name": task_doc.name,
+                }
+            )
+
+        return gen_response(200, "Task has been updated successfully")
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted to update task")
+    except Exception as e:
+        return exception_handler(e)
 
 
 

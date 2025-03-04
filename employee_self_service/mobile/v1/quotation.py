@@ -221,8 +221,6 @@ def get_item_list(filters=None):
     except Exception as e:
         exception_handler(e)
 
-
-
 @frappe.whitelist()
 def scan_item(barcode):
     try:

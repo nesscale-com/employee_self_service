@@ -126,8 +126,6 @@ def notification_processing(doc, event):
         },
         fields=["name", "subject", "message", "condition", "document_type","value_changed"],
     )
-    if doc.doctype == "Expense Claim":
-        frappe.log_error(title="notification",message=notifications)
     if not notifications:
         return
     recipients = []
