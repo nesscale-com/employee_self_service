@@ -207,6 +207,7 @@ def get_customer_list(start=0, page_length=10, filters=None):
 @ess_validate(methods=["GET"])
 def get_item_list(filters=None):
     try:
+        from employee_self_service.mobile.v1.order import get_items_rate
         if not filters:
             filters = []
         filters.append(["Item", "show_in_mobile", "=", 1])
@@ -220,33 +221,6 @@ def get_item_list(filters=None):
     except Exception as e:
         exception_handler(e)
 
-
-def get_items_rate(items, customer=None):
-    global_defaults = get_global_defaults()
-    price_list = get_default_price_list(customer=customer)
-    if not price_list:
-        frappe.throw(
-            _(
-                "Please set a price list for the customer or define a default in the Selling Settings."
-            )
-        )
-    for item in items:
-        item_price = frappe.get_all(
-            "Item Price",
-            filters={"item_code": item.name, "price_list": price_list},
-            fields=["price_list_rate"],
-        )
-        item["rate_currency"] = fmt_money(
-            item_price[0].price_list_rate if item_price else 0.0,
-            currency=global_defaults.get("default_currency"),
-        )
-        item["rate"] = item_price[0].price_list_rate if item_price else 0.0
-        item["price_list_rate"] = item_price[0].price_list_rate
-        item["price_list_rate_currency"] = fmt_money(
-            item_price[0].price_list_rate if item_price else 0.0,
-            currency=global_defaults.get("default_currency"),
-        )
-    return items
 
 
 @frappe.whitelist()
