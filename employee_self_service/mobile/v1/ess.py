@@ -2295,7 +2295,7 @@ def get_project_list():
 @ess_validate(methods=["GET"])
 def get_user_list():
 	try:
-		user_list = frappe.get_list("User", ["name", "full_name", "user_image"])
+		user_list = frappe.get_all("User",filters={"user_type":"System User","enabled":1}, fields=["name", "full_name", "user_image"])
 		return gen_response(200, "User List getting Successfully", user_list)
 	except frappe.PermissionError:
 		return gen_response(500, "Not permitted read user")
@@ -2372,7 +2372,7 @@ def get_hr_policies():
 	try:
 		current_user = frappe.session.user
 		frappe.set_user("Administrator")
-		hr_policies_doc = frappe.get_doc("HR Policies")
+		hr_policies_doc = frappe.get_doc("Company Policy")
 		frappe.set_user(current_user)
 		return gen_response(200, "HR Policy get successfully", hr_policies_doc)
 	except Exception as e:

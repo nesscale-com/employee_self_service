@@ -158,6 +158,7 @@
    "default": "0",
    "fieldname": "allow_odometer_reading_input",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": " Allow Odometer Reading Input"
   },
   {
@@ -171,7 +172,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-28 03:04:19.300596",
+ "modified": "2025-02-28 17:26:38.525457",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
