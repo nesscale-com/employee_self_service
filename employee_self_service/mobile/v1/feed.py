@@ -10,6 +10,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_employee_by_user,
     remove_default_fields,
 )
+from employee_self_service.utils import strip_and_clean_html,add_ess_comment
 
 
 @frappe.whitelist()

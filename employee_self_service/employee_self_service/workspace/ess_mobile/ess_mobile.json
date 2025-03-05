@@ -1,0 +1,137 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"tBazFTVVnr\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ESS Mobile</span>\",\"col\":12}},{\"id\":\"JhvATR9Kjh\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"uWQdGpOpAW\",\"type\":\"card\",\"data\":{\"card_name\":\"ESS Notifications\",\"col\":4}},{\"id\":\"41kJ2kgdCN\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters & Other\",\"col\":4}}]",
+ "creation": "2025-02-28 10:50:09.384631",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "color-energy-points",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "ESS Mobile",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Self Service Settings",
+   "link_count": 0,
+   "link_to": "Employee Self Service Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Notification Settings",
+   "link_count": 0,
+   "link_to": "ESS Notification Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Notifications",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Notification",
+   "link_count": 0,
+   "link_to": "ESS Notification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Notification Template",
+   "link_count": 0,
+   "link_to": "ESS Notification Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Notification Log",
+   "link_count": 0,
+   "link_to": "ESS Notification Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters & Other",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Location",
+   "link_count": 0,
+   "link_to": "ESS Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "HR Policies",
+   "link_count": 0,
+   "link_to": "HR Policies",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Reminder Log",
+   "link_count": 0,
+   "link_to": "ESS Reminder Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-02-28 17:03:30.581498",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Mobile",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 33.0,
+ "shortcuts": [],
+ "title": "ESS Mobile"
+}
