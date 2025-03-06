@@ -85,7 +85,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Masters & Other",
-   "link_count": 3,
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -103,9 +103,19 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "ESS Location Assignment",
+   "link_count": 0,
+   "link_to": "ESS Location Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "HR Policies",
    "link_count": 0,
-   "link_to": "HR Policies",
+   "link_to": "Company Policy",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -121,7 +131,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-02-28 17:03:30.581498",
+ "modified": "2025-03-06 19:54:57.403356",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Mobile",
@@ -130,7 +140,11 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
  "sequence_id": 33.0,
  "shortcuts": [],
  "title": "ESS Mobile"
