@@ -96,8 +96,19 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "ESS Location Assignment",
+   "link_count": 0,
+   "link_to": "ESS Location Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "HR Policies",
-   "link_to": "HR Policies",
+   "link_count": 0,
+   "link_to": "Company Policy",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -112,12 +123,20 @@
    "type": "Link"
   }
  ],
- "modified": "2025-02-28 17:24:48.223544",
+ "modified": "2025-03-06 19:54:57.403356",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Mobile",
  "owner": "Administrator",
- "pin_to_bottom": 1,
- "pin_to_top": 0,
- "shortcuts": []
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 33.0,
+ "shortcuts": [],
+ "title": "ESS Mobile"
 }
