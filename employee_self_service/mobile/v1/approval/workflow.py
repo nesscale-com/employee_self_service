@@ -5,10 +5,9 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_employee_by_user,
 )
-from frappe.utils import cint,get_url_to_form,cstr
+from frappe.utils import cint, get_url_to_form, cstr
 from operator import itemgetter
 from frappe.model.workflow import get_transitions
-
 
 
 @frappe.whitelist()
@@ -16,16 +15,21 @@ from frappe.model.workflow import get_transitions
 def get_active_workflow_document(internal=False):
     try:
         all_workflows = []
-        workflows = frappe.get_all("Workflow",filters={"is_active":1},fields=["document_type"])
+        workflows = frappe.get_all(
+            "Workflow", filters={"is_active": 1}, fields=["document_type"]
+        )
         if internal:
             return workflows
-        all_workflows.append({"document_type":"All"})
+        all_workflows.append({"document_type": "All"})
         all_workflows.extend(workflows)
-        return gen_response(200,"Active Workflow document get successfully",all_workflows)
+        return gen_response(
+            200, "Active Workflow document get successfully", all_workflows
+        )
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read Timesheet")
     except Exception as e:
         return exception_handler(e)
+
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -33,12 +37,16 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
     try:
         # Initialize variables
         all_documents = []
-        if document_type == '':
-            document_type = 'All'
+        if document_type == "":
+            document_type = "All"
         # Determine the list of doctypes to query
         if document_type in [None, "All"]:
             workflows = get_active_workflow_document(internal=True)
-            workflow_doctypes = [row.document_type for row in workflows if not row.document_type in ["All",None,'']]
+            workflow_doctypes = [
+                row.document_type
+                for row in workflows
+                if not row.document_type in ["All", None, ""]
+            ]
         else:
             workflow_doctypes = [document_type]
 
@@ -50,24 +58,35 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
                 doctype,
                 filters={
                     "workflow_state": ["!=", None],  # Exclude NULL values
-                    "workflow_state": ["!=", ""],   # Exclude empty strings
+                    "workflow_state": ["!=", ""],  # Exclude empty strings
                 },
-                fields=["name", "workflow_state", "modified", f"'{doctype}' as doctype"],
-                order_by="modified desc"
+                fields=[
+                    "name",
+                    "workflow_state",
+                    "modified",
+                    f"'{doctype}' as doctype",
+                ],
+                order_by="modified desc",
             )
-            workflow_documents.extend(workflow_document)  # Add documents to a single list
+            workflow_documents.extend(
+                workflow_document
+            )  # Add documents to a single list
 
         # Sort the combined list of documents by 'modified' field in descending order
-        workflow_documents = sorted(workflow_documents, key=lambda x: x['modified'], reverse=True)
+        workflow_documents = sorted(
+            workflow_documents, key=lambda x: x["modified"], reverse=True
+        )
 
         # Apply pagination
-        start_index = (cint(start) - 1)
+        start_index = cint(start) - 1
         end_index = start_index + cint(page_length)
         # Filter only documents with pending actions (transitions)
         temp_start = 0
         for doc in workflow_documents:
             if doc.get("workflow_state"):
-                transitions = get_transitions(frappe.get_doc(doc["doctype"], doc["name"]))
+                transitions = get_transitions(
+                    frappe.get_doc(doc["doctype"], doc["name"])
+                )
                 if transitions:
                     all_documents.append(doc)
                     temp_start += 1
@@ -78,13 +97,13 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
             return cstr(len(all_documents))
 
         return gen_response(
-            200,
-            "Workflow documents fetched successfully",all_documents
+            200, "Workflow documents fetched successfully", all_documents
         )
     except frappe.PermissionError:
         return gen_response(500, "Not permitted to read document")
     except Exception as e:
         return exception_handler(e)
+
 
 # def append_document(workflow_documents, documents, doctype):
 #     for row in workflow_documents:
@@ -98,17 +117,18 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
 #         except Exception as e:
 #             pass
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_actions(document_type,document_no):
+def get_actions(document_type, document_no):
     try:
-        doc = frappe.get_doc(document_type,document_no)
+        doc = frappe.get_doc(document_type, document_no)
 
         transitions = get_transitions(doc)
         actions = []
         for row in transitions:
             actions.append(row.get("action"))
-        return gen_response(200,"Document action list get successfully",actions)
+        return gen_response(200, "Document action list get successfully", actions)
     except frappe.PermissionError:
         return gen_response(500, f"Not permitted for action")
     except Exception as e:
@@ -130,19 +150,32 @@ def update_workflow_state(document_type, document_no, action):
         frappe.db.rollback()
         return exception_handler(e)
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_erp_link_for_document(document_type,document_no):
+def get_erp_link_for_document(document_type, document_no):
     try:
-        return gen_response(200,"Document link get successfully",get_url_to_form(document_type, document_no))
+        return gen_response(
+            200,
+            "Document link get successfully",
+            get_url_to_form(document_type, document_no),
+        )
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_print(document_type,document_no):
+def get_print(document_type, document_no):
     try:
-        default_print_format = frappe.db.get_value("Property Setter",dict(property="default_print_format", doc_type=document_type),"value") or "Standard"
+        default_print_format = (
+            frappe.db.get_value(
+                "Property Setter",
+                dict(property="default_print_format", doc_type=document_type),
+                "value",
+            )
+            or "Standard"
+        )
         from frappe.utils.print_format import download_pdf
 
         return download_pdf(
@@ -152,4 +185,3 @@ def get_print(document_type,document_no):
         )
     except Exception as e:
         return exception_handler(e)
-    
