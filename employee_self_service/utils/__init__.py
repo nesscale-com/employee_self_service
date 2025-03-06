@@ -1,55 +1,72 @@
 import frappe
 import re
 from bs4 import BeautifulSoup
-from frappe.utils import today,add_days,getdate
+from frappe.utils import today, add_days, getdate
 from frappe.core.doctype.file.file import extract_images_from_html
 from frappe.desk.form.document_follow import follow_document
 import html
+from frappe import _
+
 
 def get_holiday_list_for_employee(employee, raise_exception=True):
-	if employee:
-		holiday_list, company = frappe.get_cached_value("Employee", employee, ["holiday_list", "company"])
-	else:
-		holiday_list = ""
-		company = frappe.db.get_single_value("Global Defaults", "default_company")
+    if employee:
+        holiday_list, company = frappe.get_cached_value(
+            "Employee", employee, ["holiday_list", "company"]
+        )
+    else:
+        holiday_list = ""
+        company = frappe.db.get_single_value("Global Defaults", "default_company")
 
-	if not holiday_list:
-		holiday_list = frappe.get_cached_value("Company", company, "default_holiday_list")
+    if not holiday_list:
+        holiday_list = frappe.get_cached_value(
+            "Company", company, "default_holiday_list"
+        )
 
-	if not holiday_list and raise_exception:
-		frappe.throw(
-			_("Please set a default Holiday List for Employee {0} or Company {1}").format(employee, company)
-		)
+    if not holiday_list and raise_exception:
+        frappe.throw(
+            _(
+                "Please set a default Holiday List for Employee {0} or Company {1}"
+            ).format(employee, company)
+        )
 
-	return holiday_list
+    return holiday_list
 
 
-def is_holiday(employee, date=None, raise_exception=True, only_non_weekly=False, with_description=False):
-	"""
-	Returns True if given Employee has an holiday on the given date
-			:param employee: Employee `name`
-			:param date: Date to check. Will check for today if None
-			:param raise_exception: Raise an exception if no holiday list found, default is True
-			:param only_non_weekly: Check only non-weekly holidays, default is False
-	"""
+def is_holiday(
+    employee,
+    date=None,
+    raise_exception=True,
+    only_non_weekly=False,
+    with_description=False,
+):
+    """
+    Returns True if given Employee has an holiday on the given date
+                    :param employee: Employee `name`
+                    :param date: Date to check. Will check for today if None
+                    :param raise_exception: Raise an exception if no holiday list found, default is True
+                    :param only_non_weekly: Check only non-weekly holidays, default is False
+    """
 
-	holiday_list = get_holiday_list_for_employee(employee, raise_exception)
-	if not date:
-		date = today()
+    holiday_list = get_holiday_list_for_employee(employee, raise_exception)
+    if not date:
+        date = today()
 
-	if not holiday_list:
-		return False
+    if not holiday_list:
+        return False
 
-	filters = {"parent": holiday_list, "holiday_date": date}
-	if only_non_weekly:
-		filters["weekly_off"] = False
+    filters = {"parent": holiday_list, "holiday_date": date}
+    if only_non_weekly:
+        filters["weekly_off"] = False
 
-	holidays = frappe.get_all("Holiday", fields=["description"], filters=filters, pluck="description")
+    holidays = frappe.get_all(
+        "Holiday", fields=["description"], filters=filters, pluck="description"
+    )
 
-	if with_description:
-		return len(holidays) > 0, holidays
+    if with_description:
+        return len(holidays) > 0, holidays
 
-	return len(holidays) > 0
+    return len(holidays) > 0
+
 
 def get_employees_having_an_event_today(event_type, date=None):
     if event_type == "birthday":
@@ -87,7 +104,8 @@ def get_employees_having_an_event_today(event_type, date=None):
     )
     return employees_born_today
 
-def notification_log(notification_name, doctype, subject, message, recipient,token):
+
+def notification_log(notification_name, doctype, subject, message, recipient, token):
     if frappe.session.user == recipient:
         return
     notification_log = frappe.new_doc("ESS Notification Log")
@@ -116,21 +134,23 @@ def strip_and_clean_html(html):
     return soup.get_text(strip=True)  # Get cleaned text
 
 
-def add_ess_comment(reference_doctype, reference_name, content, comment_email, comment_by):
-	"""allow any logged user to post a comment"""
-	doc = frappe.get_doc(
-		dict(
-			doctype="Comment",
-			reference_doctype=reference_doctype,
-			reference_name=reference_name,
-			comment_email=comment_email,
-			comment_type="Comment",
-			comment_by=comment_by,
-		)
-	)
-	reference_doc = frappe.get_doc(reference_doctype, reference_name)
-	doc.content = extract_images_from_html(reference_doc, content, is_private=True)
-	doc.insert(ignore_permissions=True)
+def add_ess_comment(
+    reference_doctype, reference_name, content, comment_email, comment_by
+):
+    """allow any logged user to post a comment"""
+    doc = frappe.get_doc(
+        dict(
+            doctype="Comment",
+            reference_doctype=reference_doctype,
+            reference_name=reference_name,
+            comment_email=comment_email,
+            comment_type="Comment",
+            comment_by=comment_by,
+        )
+    )
+    reference_doc = frappe.get_doc(reference_doctype, reference_name)
+    doc.content = extract_images_from_html(reference_doc, content, is_private=True)
+    doc.insert(ignore_permissions=True)
 
-	follow_document(doc.reference_doctype, doc.reference_name, frappe.session.user)
-	return doc.as_dict()
+    follow_document(doc.reference_doctype, doc.reference_name, frappe.session.user)
+    return doc.as_dict()
