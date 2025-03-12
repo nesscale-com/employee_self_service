@@ -510,6 +510,10 @@ def get_last_log_details(employee):
             log_details[0].time = convert_timezone(
                 log_details[0].time, system_timezone, user_time_zone
             )
+        if log_details[0].log_type == "IN":
+            in_logs = [log for log in log_details if log["log_type"] == "IN"]
+            first_check_in = in_logs[-1]
+            return first_check_in
         return log_details[0]
     else:
         return {"log_type": "OUT", "time": None}
