@@ -1243,6 +1243,8 @@ def get_profile():
                 "personal_email",
                 "cell_number",
                 "emergency_phone_number",
+                "custom_linkedin_profile",
+                "custom_front"
             ],
             as_dict=True,
         )
