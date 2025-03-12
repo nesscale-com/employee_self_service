@@ -1122,7 +1122,7 @@ def get_attendance_list(year=None, month=None):
         )
 
         if not employee_attendance_list:
-            return gen_response(500, "no attendance found for this year and month", [])
+            return gen_response(500, "No attendance found for this month.", [])
 
         for attendance in employee_attendance_list:
             employee_checkin_details = frappe.get_all(
