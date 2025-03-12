@@ -980,6 +980,7 @@ def get_holiday_list(year=None):
             filters={
                 "parent": holiday_list,
                 "holiday_date": ("between", [f"{year}-01-01", f"{year}-12-31"]),
+                "weekly_off": 0
             },
             fields=["description", "holiday_date"],
             order_by="holiday_date asc",
