@@ -31,7 +31,7 @@ from employee_self_service.mobile.v1.api_utils import (
 	exception_handler,
 	convert_timezone,
 	get_system_timezone,
-	get_till_date_holiday_month_wise
+	get_till_date_holiday_month_wise,
 )
 from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
@@ -274,12 +274,13 @@ def get_leave_balance_report_old(employee, company, fiscal_year):
 
 	return run("Employee Leave Balance", filters=filters_leave_balance)["result"]
 
+
 def get_leave_balance_report(employee, company, fiscal_year):
 	"""
 	Returns a map of leave type and balance details like:
 	{
-			'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
-			'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
+	'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
+	'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
 	}
 	"""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
@@ -291,15 +292,17 @@ def get_leave_balance_report(employee, company, fiscal_year):
 	allocation = leave_details["leave_allocation"]
 
 	for leave_type, details in allocation.items():
-		leave_balance.append({
-			"leave_type":leave_type,
-			"total_leaves":details.get("total_leaves"),
-			"leaves_allocated":details.get("remaining_leaves"),
-			"leaves_taken":details.get("leaves_taken"),
-			"expired_leaves":details.get("expired_leaves"),
-			"employee":employee,
-			"closing_balance":details.get("remaining_leaves")
-		})
+		leave_balance.append(
+			{
+				"leave_type": leave_type,
+				"total_leaves": details.get("total_leaves"),
+				"leaves_allocated": details.get("remaining_leaves"),
+				"leaves_taken": details.get("leaves_taken"),
+				"expired_leaves": details.get("expired_leaves"),
+				"employee": employee,
+				"closing_balance": details.get("remaining_leaves"),
+			}
+		)
 
 	return leave_balance
 
@@ -602,6 +605,10 @@ def get_last_log_details(employee):
 			log_details[0].time = convert_timezone(
 				log_details[0].time, system_timezone, user_time_zone
 			)
+		if log_details[0].log_type == "IN":
+			in_logs = [log for log in log_details if log["log_type"] == "IN"]
+			first_check_in = in_logs[-1]
+			return first_check_in
 		return log_details[0]
 	else:
 		return {"log_type": "OUT", "time": None}
@@ -633,7 +640,7 @@ def get_notice_board(employee=None):
 	return notice_board_employee
 
 
-def get_attendance_details(emp_data, year = None, month = None):
+def get_attendance_details(emp_data, year=None, month=None):
 	last_date = get_last_day(today())
 	first_date = get_first_day(today())
 	total_days = date_diff(last_date, first_date) + 1
@@ -644,11 +651,9 @@ def get_attendance_details(emp_data, year = None, month = None):
 	attendance_report = run_attendance_report(
 		emp_data.get("name"), emp_data.get("company")
 	)
-	holidays = get_till_date_holiday_month_wise(emp_data,first_date,today())
+	holidays = get_till_date_holiday_month_wise(emp_data, first_date, today())
 	if attendance_report:
-		days_off = flt(attendance_report.get("total_leaves")) + flt(
-			holidays
-		)
+		days_off = flt(attendance_report.get("total_leaves")) + flt(holidays)
 		absent = till_date_days - (
 			flt(days_off) + flt(attendance_report.get("total_present"))
 		)
@@ -777,7 +782,7 @@ def create_employee_log(
 ):
 	try:
 		emp_data = get_employee_by_user(
-			frappe.session.user, fields=["name", "default_shift"]
+			frappe.session.user, fields=["name", "default_shift", "branch"]
 		)
 
 		log_doc = frappe.get_doc(
@@ -1631,7 +1636,7 @@ def employee_device_info(**kwargs):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def notification_list():
+def notification_list_old():
 	try:
 		single_filters = [
 			["Push Notification", "user", "=", frappe.session.user],
@@ -1668,6 +1673,50 @@ def notification_list():
 				"User", frappe.session.user, "user_image"
 			)
 		return gen_response(200, "Notification list get successfully", notification)
+	except Exception as e:
+		return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def notification_list(start=0, page_length=20):
+	try:
+		filters = [
+			["ESS Notification Log", "recipient", "=", frappe.session.user],
+		]
+		# ["ESS Notification Log", "read", "=", 0],
+		notifications = frappe.get_all(
+			"ESS Notification Log",
+			filters=filters,
+			fields=[
+				"subject as 'title'",
+				"message",
+				"creation",
+				"reference_document",
+				"reference_name",
+				"other_info",
+				"read",
+			],
+			start=start,
+			page_length=page_length,
+		)
+		user_image = frappe.get_value("User", frappe.session.user, "user_image")
+		for notification in notifications:
+			notification["creation"] = pretty_date(notification.get("creation"))
+			notification["user_image"] = user_image
+		return gen_response(200, "Notification list get successfully", notifications)
+	except Exception as e:
+		return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def mark_read_notification():
+	try:
+		frappe.db.set_value(
+			"ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
+		)
+		return gen_response(200, "Notification mark read successfully")
 	except Exception as e:
 		return exception_handler(e)
 
@@ -2305,7 +2354,11 @@ def get_project_list():
 @ess_validate(methods=["GET"])
 def get_user_list():
 	try:
-		user_list = frappe.get_all("User",filters={"user_type":"System User","enabled":1}, fields=["name", "full_name", "user_image"])
+		user_list = frappe.get_all(
+			"User",
+			filters={"user_type": "System User", "enabled": 1},
+			fields=["name", "full_name", "user_image"],
+		)
 		return gen_response(200, "User List getting Successfully", user_list)
 	except frappe.PermissionError:
 		return gen_response(500, "Not permitted read user")
@@ -2409,14 +2462,11 @@ def get_attendance_list_by_date(date=None):
 			return gen_response(500, "year and month is required", [])
 		emp_data = get_employee_by_user(frappe.session.user)
 
-
 		employee_attendance_list = frappe.get_all(
 			"Attendance",
 			filters={
 				"employee": emp_data.get("name"),
-				"attendance_date": [
-					"=", date
-				],
+				"attendance_date": ["=", date],
 			},
 			fields=[
 				"name",
@@ -2458,21 +2508,33 @@ def get_attendance_list_by_date(date=None):
 						employee_checkin["time"], system_timezone, user_time_zone
 					).strftime("%I:%M %p")
 			else:
-				attendance["in_time"] = attendance["in_time"].strftime("%I:%M %p") if attendance["in_time"] else attendance["in_time"]
-				attendance["out_time"] = attendance["out_time"].strftime("%I:%M %p") if attendance["out_time"] else attendance["out_time"]
+				attendance["in_time"] = (
+					attendance["in_time"].strftime("%I:%M %p")
+					if attendance["in_time"]
+					else attendance["in_time"]
+				)
+				attendance["out_time"] = (
+					attendance["out_time"].strftime("%I:%M %p")
+					if attendance["out_time"]
+					else attendance["out_time"]
+				)
 				employee_checkin_details = frappe.get_all(
 					"Employee Checkin",
 					filters={"attendance": attendance.get("name")},
-					fields=["log_type", "time_format(time, '%h:%i%p') as time", "location"],
+					fields=[
+						"log_type",
+						"time_format(time, '%h:%i%p') as time",
+						"location",
+					],
 				)
 
 			attendance["employee_checkin_detail"] = employee_checkin_details
 
 			# if attendance["status"] == "Present":
-				# present_count += 1
+			# present_count += 1
 
-				# if attendance["late_entry"] == 1:
-				#     late_count += 1
+			# if attendance["late_entry"] == 1:
+			#     late_count += 1
 
 			# elif attendance["status"] == "Absent":
 			#     absent_count += 1
@@ -2487,5 +2549,3 @@ def get_attendance_list_by_date(date=None):
 
 	except Exception as e:
 		return exception_handler(e)
-
-
