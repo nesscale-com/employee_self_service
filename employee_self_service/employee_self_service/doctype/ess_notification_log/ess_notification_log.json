@@ -17,7 +17,9 @@
   "section_break_yksq",
   "reference_document",
   "column_break_dcnx",
-  "reference_name"
+  "reference_name",
+  "column_break_yqns",
+  "other_info"
  ],
  "fields": [
   {
@@ -88,11 +90,20 @@
    "fieldname": "reference_name",
    "fieldtype": "Read Only",
    "label": "Reference Name"
+  },
+  {
+   "fieldname": "column_break_yqns",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_info",
+   "fieldtype": "Read Only",
+   "label": "Other Info"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-03 03:26:12.795283",
+ "modified": "2025-03-10 18:35:52.075380",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Notification Log",
