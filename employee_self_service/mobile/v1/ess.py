@@ -549,7 +549,7 @@ def get_attendance_details(emp_data, year = None, month = None):
 	last_date = get_last_day(today())
 	first_date = get_first_day(today())
 	total_days = date_diff(last_date, first_date) + 1
-	till_date_days = date_diff(today(), first_date) + 1
+	till_date_days = date_diff(today(), first_date)
 	days_off = 0
 	absent = 0
 	total_present = 0
