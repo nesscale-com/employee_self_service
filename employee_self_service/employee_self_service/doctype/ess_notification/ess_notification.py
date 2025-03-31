@@ -29,7 +29,7 @@ class ESSNotification(Document):
 			frappe.throw(_("Please specify which value field must be checked"))
 
 		self.validate_condition()
-		frappe.cache.hdel("notifications", self.document_type)
+		frappe.cache().hdel("notifications", self.document_type)
 
 	def validate_condition(self):
 		temp_doc = frappe.new_doc(self.document_type)
@@ -122,7 +122,7 @@ class ESSNotification(Document):
 		return receiver_list
 
 	def on_trash(self):
-		frappe.cache.hdel("notifications", self.document_type)
+		frappe.cache().hdel("notifications", self.document_type)
 
 
 @frappe.whitelist()

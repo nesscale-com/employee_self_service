@@ -1306,11 +1306,11 @@ def get_attendance_list(year=None, month=None):
 				if attendance["in_time"]:
 					attendance["in_time"] = convert_timezone(
 						attendance["in_time"], system_timezone, user_time_zone
-					).strftime("%I:%M %p")
+					).strftime("%Y-%m-%d %H:%M:%S")
 				if attendance["out_time"]:
 					attendance["out_time"] = convert_timezone(
 						attendance["out_time"], system_timezone, user_time_zone
-					).strftime("%I:%M %p")
+					).strftime("%Y-%m-%d %H:%M:%S")
 				employee_checkin_details = frappe.get_all(
 					"Employee Checkin",
 					filters={"attendance": attendance.get("name")},
