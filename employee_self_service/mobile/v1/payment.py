@@ -207,7 +207,7 @@ def get_invoice_list(party_type, party, account, paid_amount=0):
         from erpnext.accounts.utils import get_outstanding_invoices
 
         outstanding_invoice = get_outstanding_invoices(
-            party_type=party_type, party=party, account=account
+            party_type=party_type, party=party, account=[account]
         )
         paid_amount = flt(paid_amount)
         for reference in outstanding_invoice:
