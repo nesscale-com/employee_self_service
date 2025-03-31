@@ -73,7 +73,7 @@ def get_expense_claims():
             )
 
             month_year = get_month_year_details(expense)
-            expense["posting_date"] = expense.get("posting_date").strftime('%d-%m-%Y')
+            expense["posting_date"] = expense.get("posting_date").strftime("%d-%m-%Y")
             if not month_year in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
@@ -82,6 +82,7 @@ def get_expense_claims():
         return gen_response(200, "Expense date get successfully", expense_data)
     except Exception as e:
         return exception_handler(e)
+
 
 # Expense Claims List
 @frappe.whitelist()
@@ -117,10 +118,7 @@ def get_expense_claims_list():
             order_by="`tabExpense Claim`.posting_date desc",
             group_by="`tabExpense Claim`.name",
         )
-        expense_data = {
-            "pending":[],
-            "other":[]
-        }
+        expense_data = {"pending": [], "other": []}
         for expense in claims:
             expense["total_claimed_amount"] = fmt_money(
                 expense["total_claimed_amount"],
@@ -134,6 +132,7 @@ def get_expense_claims_list():
         return gen_response(200, "Expense data get successfully", expense_data)
     except Exception as e:
         return exception_handler(e)
+
 
 # Helper to get month wise details
 def get_month_year_details(expense):
@@ -171,6 +170,11 @@ def get_expense_claim_type_totals():
             order_by="`tabExpense Claim`.posting_date desc",
             group_by="`tabExpense Claim Detail`.expense_type",
         )
+
+        for claim in claims:
+            claim["total_amount_currency"] = fmt_money(
+                claim["total_amount"], currency=global_defaults.get("default_currency")
+            )
 
         return gen_response(200, "Expense date get successfully", claims)
     except Exception as e:
@@ -304,6 +308,11 @@ def get_expense(*args, **kwargs):
         expense_doc = json.loads(
             frappe.get_doc("Expense Claim", data.get("id")).as_json()
         )
+        for expense_item in expense_doc.get("expenses"):
+            expense_item["amount_in_currency"] = fmt_money(
+                expense_item.get("amount"),
+                currency=global_defaults.get("default_currency"),
+            )
         expense_doc["attachments"] = get_attachments(data.get("id"))
         expense_doc["total_claimed_amount"] = fmt_money(
             expense_doc["total_claimed_amount"],
