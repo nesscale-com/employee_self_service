@@ -1,11 +1,12 @@
 import frappe
 import erpnext
 from frappe import _
-from frappe.utils import today, flt
+from frappe.utils import today, flt, fmt_money
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
     ess_validate,
     exception_handler,
+    get_global_defaults,
 )
 from employee_self_service.mobile.v1.file import get_attchment
 
@@ -68,6 +69,7 @@ def get_default_company_cost_center(company):
     except Exception as e:
         return exception_handler(e)
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_company_list():
@@ -120,6 +122,7 @@ def make_petty_expense_entry(*args, **data):
 @ess_validate(methods=["GET"])
 def get_petty_expense_list(start=0, page_length=10, filters=None):
     try:
+        global_defaults = get_global_defaults()
         petty_expense_entry_list = frappe.get_list(
             "Petty Expense",
             fields=[
@@ -130,6 +133,11 @@ def get_petty_expense_list(start=0, page_length=10, filters=None):
             order_by="modified desc",
             filters=filters,
         )
+        for petty_expense_entry in petty_expense_entry_list:
+            petty_expense_entry["amount_in_currency"] = fmt_money(
+                petty_expense_entry.get("amount"),
+                currency=global_defaults.get("default_currency"),
+            )
         return gen_response(
             200,
             "petty expense entry details get successfully",
@@ -149,7 +157,12 @@ def get_petty_expense_entry(id):
             return gen_response(500, "Petty Expense Entry id is required")
         if not frappe.db.exists("Petty Expense", id):
             return gen_response(500, "Petty Expense entry does not exists")
+        global_defaults = get_global_defaults()
         petty_expense_entry = frappe.get_doc("Petty Expense", id).as_dict()
+        petty_expense_entry["amount_in_currency"] = fmt_money(
+            petty_expense_entry.get("amount"),
+            currency=global_defaults.get("default_currency"),
+        )
 
         petty_expense_entry["attachments"] = get_attchment("Petty Expense", id)
         return gen_response(

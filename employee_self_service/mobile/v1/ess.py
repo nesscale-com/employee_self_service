@@ -51,10 +51,13 @@ def login(usr, pwd):
 		validate_employee(login_manager.user)
 		login_manager.post_login()
 		if frappe.response["message"] == "Logged In":
-			emp_data = get_employee_by_user(login_manager.user)
+			emp_data = get_employee_by_user(
+				login_manager.user, fields=["name", "gender"]
+			)
 			frappe.response["user"] = login_manager.user
 			frappe.response["key_details"] = generate_key(login_manager.user)
 			frappe.response["employee_id"] = emp_data.get("name")
+			frappe.response["gender"] = emp_data.get("gender")
 		gen_response(200, frappe.response["message"])
 	except frappe.AuthenticationError:
 		gen_response(500, frappe.response["message"])
@@ -516,7 +519,8 @@ def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
 def get_dashboard():
 	try:
 		emp_data = get_employee_by_user(
-			frappe.session.user, fields=["name", "company", "image", "employee_name"]
+			frappe.session.user,
+			fields=["name", "company", "image", "employee_name", "gender"],
 		)
 		notice_board = get_notice_board(emp_data.get("name"))
 		# attendance_details = get_attendance_details(emp_data)
@@ -545,6 +549,14 @@ def get_dashboard():
 				"allow_odometer_reading_input"
 			),
 			"approval_requests": get_workflow_documents(internal=True),
+			"gender": emp_data.get("gender"),
+			"capture_location_for_quotation": settings.get(
+				"capture_location_for_quotation"
+			),
+			"capture_location_for_sales_order": settings.get(
+				"capture_location_for_sales_order"
+			),
+			"out_of_location_checkout": settings.get("out_of_location_checkout"),
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")
@@ -728,29 +740,62 @@ def get_latest_leave(dashboard_data, employee):
 		dashboard_data["latest_leave"] = leave_applications[0]
 
 
+# def get_latest_expense(dashboard_data, employee):
+#     global_defaults = get_global_defaults()
+#     expense_list = frappe.get_all(
+#         "Expense Claim",
+#         filters={"employee": employee},
+#         fields=["name"],
+#         order_by="modified desc",
+#     )
+#     if len(expense_list) >= 1:
+#         expense_doc = frappe.get_doc("Expense Claim", expense_list[0].name)
+#         for row in expense_doc.expenses:
+#             dashboard_data["latest_expense"] = dict(
+#                 status=expense_doc.approval_status,
+#                 date=row.expense_date.strftime("%d-%m-%Y"),
+#                 expense_type=row.expense_type,
+#                 description=row.description,
+#                 # amount=expense_doc.expenses[0].amount,
+#                 amount=fmt_money(
+#                     row.amount,
+#                     currency=global_defaults.get("default_currency"),
+#                 ),
+#                 name=expense_doc.name,
+#             )
+
+
 def get_latest_expense(dashboard_data, employee):
 	global_defaults = get_global_defaults()
-	expense_list = frappe.get_all(
+
+	latest_expense = frappe.get_all(
 		"Expense Claim",
 		filters={"employee": employee},
-		fields=["name"],
+		fields=["name", "approval_status"],
 		order_by="modified desc",
+		limit_page_length=1,
 	)
-	if len(expense_list) >= 1:
-		expense_doc = frappe.get_doc("Expense Claim", expense_list[0].name)
-		for row in expense_doc.expenses:
-			dashboard_data["latest_expense"] = dict(
-				status=expense_doc.approval_status,
-				date=row.expense_date.strftime("%d-%m-%Y"),
-				expense_type=row.expense_type,
-				description=row.description,
-				# amount=expense_doc.expenses[0].amount,
-				amount=fmt_money(
-					row.amount,
-					currency=global_defaults.get("default_currency"),
-				),
-				name=expense_doc.name,
-			)
+
+	if not latest_expense:
+		return  # Exit early if no expense claims exist
+
+	expense_doc = frappe.get_doc("Expense Claim", latest_expense[0].name)
+	if not expense_doc.expenses:
+		return  # Exit if there are no expenses
+
+	first_expense = expense_doc.expenses[0]  # Directly access the first row
+
+	dashboard_data["latest_expense"] = {
+		"status": expense_doc.approval_status,
+		"date": first_expense.expense_date.strftime("%d-%m-%Y"),
+		"expense_type": first_expense.expense_type,
+		"description": first_expense.description,
+		"amount": fmt_money(
+			expense_doc.total_claimed_amount, currency=global_defaults.get("default_currency")
+		),
+		"name": expense_doc.name,
+		"total_expenses": len(expense_doc.expenses),
+	}
 
 
 def get_latest_ss(dashboard_data, employee):
@@ -793,6 +838,40 @@ def create_employee_log(
 				time=now_datetime().__str__()[:-7],
 				location=location,
 				odometer_reading=odometer_reading,
+			)
+		).insert(ignore_permissions=True)
+
+		if "file" in frappe.request.files:
+			file = upload_file()
+			file.attached_to_doctype = "Employee Checkin"
+			file.attached_to_name = log_doc.name
+			file.attached_to_field = "attendance_image"
+			file.save(ignore_permissions=True)
+			log_doc.attendance_image = file.get("file_url")
+			log_doc.save(ignore_permissions=True)
+
+		update_shift_last_sync(emp_data)
+		return gen_response(200, "Employee log added")
+	except Exception as e:
+		return exception_handler(e)
+
+
+@frappe.whitelist()
+def create_out_location_checkout(out_time, reason, location=None):
+	try:
+		emp_data = get_employee_by_user(
+			frappe.session.user, fields=["name", "default_shift", "branch"]
+		)
+
+		log_doc = frappe.get_doc(
+			dict(
+				doctype="Employee Checkin",
+				employee=emp_data.get("name"),
+				log_type="OUT",
+				time=out_time,
+				location=location,
+				out_of_location_checkout=1,
+				out_of_location_checkout_reason=reason,
 			)
 		).insert(ignore_permissions=True)
 

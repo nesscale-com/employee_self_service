@@ -43,8 +43,22 @@ CUSTOM_FIELDS = {
             "fieldname": "log_location",
             "label": "Log Location",
             "fieldtype": "Small Text",
-            "read_only":1,
+            "read_only": 1,
             "insert_after": "attendance_image",
+        },
+        {
+            "fieldname": "out_of_location_checkout",
+            "label": "Out of Location Checkout",
+            "fieldtype": "Check",
+            "insert_after": "log_location",
+            "read_only": 1,
+        },
+        {
+            "fieldname": "out_of_location_checkout_reason",
+            "label": "Out of Location Checkout Reason",
+            "fieldtype": "Small Text",
+            "insert_after": "out_of_location_checkout",
+            "read_only": 1,
         },
     ],
     "Item Group": [
