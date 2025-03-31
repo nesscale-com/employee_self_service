@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from frappe.utils import today, flt
+from frappe.utils import today, flt, fmt_money
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
     ess_validate,
@@ -8,6 +8,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_actions,
     check_workflow_exists,
+    get_global_defaults,
 )
 
 
@@ -332,6 +333,12 @@ def get_payment_entry_list(start=0, page_length=10, filters=None):
             order_by="modified desc",
             filters=filters,
         )
+        global_defaults = get_global_defaults()
+        for payment_entry in payment_entry_list:
+            payment_entry["paid_amount_in_currency"] = fmt_money(
+                payment_entry.get("paid_amount"),
+                currency=global_defaults.get("default_currency"),
+            )
 
         gen_response(200, "Payment Entry list get successfully", payment_entry_list)
     except frappe.PermissionError:
@@ -352,7 +359,7 @@ def get_payment_entry(id):
         if not frappe.db.exists("Payment Entry", id):
             return gen_response(500, "Payment entry does not exists")
         payment_entry = frappe.get_doc("Payment Entry", id).as_dict()
-
+        global_defaults = get_global_defaults()
         payment_entry_doc = prepare_json_data(
             [
                 "name",
@@ -394,6 +401,10 @@ def get_payment_entry(id):
         )
         payment_entry_doc["references"] = reference_list
         payment_entry_doc["attachments"] = get_payment_entry_attachments(id)
+        payment_entry_doc["paid_amount_in_currency"] = fmt_money(
+            payment_entry.get("paid_amount"),
+            currency=global_defaults.get("default_currency"),
+        )
         return gen_response(200, "Payment Entry get successfully", payment_entry_doc)
     except Exception as e:
         return exception_handler(e)
