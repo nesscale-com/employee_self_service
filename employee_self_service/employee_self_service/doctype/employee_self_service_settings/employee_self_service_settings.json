@@ -16,16 +16,21 @@
   "geofencing_based_on",
   "section_break_xjas",
   "enable_ess_notification",
+  "check_in_with_image",
+  "column_break_vbkm",
+  "quick_task",
+  "column_break_nbmu",
+  "submit_timesheet",
   "section_break_yu4ls",
   "location_validate",
   "check_in_with_location",
   "column_break_jfldd",
-  "check_in_with_image",
+  "capture_location_for_quotation",
+  "capture_location_for_sales_order",
   "column_break_7khj5",
-  "quick_task",
-  "column_break_tyodi",
-  "submit_timesheet",
+  "out_of_location_checkout",
   "allow_odometer_reading_input",
+  "allow_number_of_out_of_location_checkout",
   "section_break_npr4y",
   "version",
   "update_version_forcefully",
@@ -62,6 +67,7 @@
   },
   {
    "default": "1",
+   "description": "Enable this to Stop Location based Attendance Validation",
    "fieldname": "location_validate",
    "fieldtype": "Check",
    "label": "Stop Location Validate"
@@ -98,12 +104,8 @@
   },
   {
    "fieldname": "section_break_yu4ls",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_tyodi",
-   "fieldtype": "Column Break",
-   "hidden": 1
+   "fieldtype": "Section Break",
+   "label": "Location Configuration"
   },
   {
    "default": "0",
@@ -133,6 +135,7 @@
   },
   {
    "default": "0",
+   "description": "Enable to Save Location with Attendance",
    "fieldname": "check_in_with_location",
    "fieldtype": "Check",
    "label": "Check in with location"
@@ -146,7 +149,8 @@
   },
   {
    "fieldname": "section_break_xjas",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Other Configuration"
   },
   {
    "default": "0",
@@ -167,12 +171,48 @@
    "fieldtype": "Select",
    "label": "Geofencing Based on",
    "options": "Branch\nShift\nESS Location"
+  },
+  {
+   "default": "0",
+   "description": "Enable this to Capture Location at the time of Sales Order Creation",
+   "fieldname": "capture_location_for_sales_order",
+   "fieldtype": "Check",
+   "label": "Capture location for Sales Order"
+  },
+  {
+   "default": "0",
+   "description": "Enable this to Capture Location at the time of Quotation Creation",
+   "fieldname": "capture_location_for_quotation",
+   "fieldtype": "Check",
+   "label": "Capture Location for Quotation"
+  },
+  {
+   "default": "0",
+   "fieldname": "out_of_location_checkout",
+   "fieldtype": "Check",
+   "label": "Allow Out of Location Checkout"
+  },
+  {
+   "fieldname": "column_break_vbkm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nbmu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "2",
+   "depends_on": "out_of_location_checkout",
+   "description": "maximum number of allowed for an employee within a given month",
+   "fieldname": "allow_number_of_out_of_location_checkout",
+   "fieldtype": "Int",
+   "label": "Allow Number of Out of Location Checkout"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-28 17:26:38.525457",
+ "modified": "2025-03-20 10:17:02.332704",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
