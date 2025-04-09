@@ -226,11 +226,14 @@ def apply_expense(**data):
                 items=frappe.form_dict.items,
             )
         )
+        
+        attachments = data.get("attachments")
+        data.pop("attachments")
         expense_doc.update(data)
         expense_doc.insert()
 
-        if data.get("attachments") is not None:
-            for file in data.get("attachments"):
+        if attachments is not None:
+            for file in attachments:
                 file_doc = frappe.get_doc(
                     {
                         "doctype": "File",
