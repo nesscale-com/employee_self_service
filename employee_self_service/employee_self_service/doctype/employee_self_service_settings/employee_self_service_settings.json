@@ -19,6 +19,7 @@
   "check_in_with_image",
   "column_break_vbkm",
   "quick_task",
+  "enable_project_and_task_in_expense_claim",
   "column_break_nbmu",
   "submit_timesheet",
   "section_break_yu4ls",
@@ -207,12 +208,19 @@
    "fieldname": "allow_number_of_out_of_location_checkout",
    "fieldtype": "Int",
    "label": "Allow Number of Out of Location Checkout"
+  },
+  {
+   "default": "0",
+   "description": "Show Project and Task field in expense claim on Nesscale ESS.",
+   "fieldname": "enable_project_and_task_in_expense_claim",
+   "fieldtype": "Check",
+   "label": "Enable Project & Task in Expense Claim"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-20 10:17:02.332704",
+ "modified": "2025-04-03 17:22:39.023369",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

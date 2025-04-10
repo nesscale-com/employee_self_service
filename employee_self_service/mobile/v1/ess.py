@@ -551,6 +551,7 @@ def get_dashboard():
 				"capture_location_for_sales_order"
 			),
 			"out_of_location_checkout": settings.get("out_of_location_checkout"),
+			"enable_project_and_task_in_expense_claim":settings.get("enable_project_and_task_in_expense_claim")
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")
