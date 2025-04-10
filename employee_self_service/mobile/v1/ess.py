@@ -560,6 +560,9 @@ def get_dashboard():
             "enable_project_and_task_in_expense_claim": settings.get(
                 "enable_project_and_task_in_expense_claim"
             ),
+            "notification_count": frappe.db.count(
+                "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
+            ),
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
