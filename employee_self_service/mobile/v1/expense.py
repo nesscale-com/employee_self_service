@@ -321,6 +321,14 @@ def get_expense(*args, **kwargs):
             expense_doc["total_claimed_amount"],
             currency=global_defaults.get("default_currency"),
         )
+        if expense_doc.get("project"):
+            expense_doc["project_name"] = frappe.db.get_value(
+                "Project", expense_doc.get("project"), "project_name"
+            )
+        if expense_doc.get("task"):
+            expense_doc["task_name"] = frappe.db.get_value(
+                "Task", expense_doc.get("task"), "subject"
+            )
         gen_response(200, "Expense detail get successfully.", expense_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for Expense")
