@@ -22,6 +22,7 @@
   "enable_project_and_task_in_expense_claim",
   "column_break_nbmu",
   "submit_timesheet",
+  "enable_device_restrictions",
   "section_break_yu4ls",
   "location_validate",
   "check_in_with_location",
@@ -215,12 +216,18 @@
    "fieldname": "enable_project_and_task_in_expense_claim",
    "fieldtype": "Check",
    "label": "Enable Project & Task in Expense Claim"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_device_restrictions",
+   "fieldtype": "Check",
+   "label": "Enable Device Restrictions"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-03 17:22:39.023369",
+ "modified": "2025-04-10 15:12:20.424823",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
