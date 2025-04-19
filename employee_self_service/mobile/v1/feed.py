@@ -10,7 +10,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_employee_by_user,
     remove_default_fields,
 )
-from employee_self_service.utils import strip_and_clean_html,add_ess_comment
+from employee_self_service.utils import strip_and_clean_html, add_ess_comment
 
 
 @frappe.whitelist()
@@ -70,13 +70,13 @@ def get_ess_post(post_name):
             "answer",
         )
         post_details["total_vote"] = len(post_details.get("ess_post_poll_log"))
-        
-    if frappe.session.user != post_details.get('user'):
+
+    if frappe.session.user != post_details.get("user"):
         del post_details["ess_post_poll_log"]
     else:
         for poll_log in post_details["ess_post_poll_log"]:
             remove_default_fields(poll_log)
-        
+
     return post_details
 
 
@@ -226,5 +226,14 @@ def poll_user_answer(post_id, answer):
             post_doc.save(ignore_permissions=True)
         post_data = get_ess_post(post_name=post_id)
         return gen_response(200, "Poll answer added", post_data)
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+def get_post_detail(post_name):
+    try:
+        post_details = get_ess_post(post_name=post_name)
+        return gen_response(200, "Post details get successfully", post_details)
     except Exception as e:
         return exception_handler(e)
