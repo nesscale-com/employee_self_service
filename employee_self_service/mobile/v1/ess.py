@@ -44,16 +44,19 @@ from employee_self_service.utils import add_ess_comment
 
 
 @frappe.whitelist(allow_guest=True)
-def login(usr, pwd):
+def login(usr, pwd, unique_id=None):
 	try:
 		login_manager = LoginManager()
 		login_manager.authenticate(usr, pwd)
 		validate_employee(login_manager.user)
+		emp_data = get_employee_by_user(login_manager.user, fields=["name", "gender"])
+		# Register device (throws exception if device is not valid)
+		if unique_id:
+			if not register_device(emp_data.get("name"), unique_id):
+				return
 		login_manager.post_login()
 		if frappe.response["message"] == "Logged In":
-			emp_data = get_employee_by_user(
-				login_manager.user, fields=["name", "gender"]
-			)
+
 			frappe.response["user"] = login_manager.user
 			frappe.response["key_details"] = generate_key(login_manager.user)
 			frappe.response["employee_id"] = emp_data.get("name")
@@ -71,6 +74,41 @@ def validate_employee(user):
 	if not frappe.db.exists("Employee", dict(user_id=user)):
 		frappe.response["message"] = "Please link Employee with this user"
 		raise frappe.AuthenticationError(frappe.response["message"])
+
+
+def register_device(employee, unique_id):
+	# check if device registration exists for this employee
+	# if not enter the given number and create registration
+	# if exists than validate the given number with existing number
+	# if number mataches than allow login
+	# else through frappe exceptions
+	try:
+		ess_settings = get_ess_settings()
+		if not ess_settings.get("enable_device_restrictions"):
+			return True
+
+		existing_registration = frappe.db.exists(
+			"Employee Device Registration", {"employee": employee}
+		)
+
+		if not existing_registration:
+			# Register the device if not exists
+			doc = frappe.new_doc("Employee Device Registration")
+			doc.employee = employee
+			doc.unique_id = unique_id
+			doc.insert(ignore_permissions=True)
+		else:
+			# Fetch the existing device_id to compare
+			registered_device_id = frappe.db.get_value(
+				"Employee Device Registration", existing_registration, "unique_id"
+			)
+			if registered_device_id != unique_id:
+				gen_response(500, "Device not recognized. Please contact admin.")
+				return False
+		return True
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "register_device_error")
+		frappe.throw("An error occurred during device registration.")
 
 
 @frappe.whitelist()
@@ -466,34 +504,34 @@ def get_salary_slip_details(ss_id):
 @frappe.whitelist()
 @ess_validate(methods=["GET", "POST"])
 def download_salary_slip(ss_id):
-    try:
-        emp_data = get_employee_by_user(frappe.session.user)
-        res = frappe.get_doc("Salary Slip", ss_id)
-        if not emp_data.get("name") == res.get("employee"):
-            return gen_response(
-                500, "Does not have persmission to read this salary slip"
-            )
-        default_print_format = frappe.db.get_value(
-            "Employee Self Service Settings",
-            "Employee Self Service Settings",
-            "default_print_format",
-        )
-        if not default_print_format:
-            default_print_format = (
-                frappe.db.get_value(
-                    "Property Setter",
-                    dict(property="default_print_format", doc_type=res.doctype),
-                    "value",
-                )
-                or "Standard"
-            )
-        language = frappe.get_system_settings("language")
-        # return  frappe.utils.get_url()
-        # url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
-        # return url
-        download_pdf(res.doctype, res.name, default_print_format, res)
-    except Exception as e:
-        return exception_handler(e)
+	try:
+		emp_data = get_employee_by_user(frappe.session.user)
+		res = frappe.get_doc("Salary Slip", ss_id)
+		if not emp_data.get("name") == res.get("employee"):
+			return gen_response(
+				500, "Does not have persmission to read this salary slip"
+			)
+		default_print_format = frappe.db.get_value(
+			"Employee Self Service Settings",
+			"Employee Self Service Settings",
+			"default_print_format",
+		)
+		if not default_print_format:
+			default_print_format = (
+				frappe.db.get_value(
+					"Property Setter",
+					dict(property="default_print_format", doc_type=res.doctype),
+					"value",
+				)
+				or "Standard"
+			)
+		language = frappe.get_system_settings("language")
+		# return  frappe.utils.get_url()
+		# url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+		# return url
+		download_pdf(res.doctype, res.name, default_print_format, res)
+	except Exception as e:
+		return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -551,7 +589,12 @@ def get_dashboard():
 				"capture_location_for_sales_order"
 			),
 			"out_of_location_checkout": settings.get("out_of_location_checkout"),
-			"enable_project_and_task_in_expense_claim":settings.get("enable_project_and_task_in_expense_claim")
+			"enable_project_and_task_in_expense_claim": settings.get(
+				"enable_project_and_task_in_expense_claim"
+			),
+			"notification_count": frappe.db.count(
+				"ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
+			),
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")
@@ -786,7 +829,8 @@ def get_latest_expense(dashboard_data, employee):
 		"expense_type": first_expense.expense_type,
 		"description": first_expense.description,
 		"amount": fmt_money(
-			expense_doc.total_claimed_amount, currency=global_defaults.get("default_currency")
+			expense_doc.total_claimed_amount,
+			currency=global_defaults.get("default_currency"),
 		),
 		"name": expense_doc.name,
 		"total_expenses": len(expense_doc.expenses),
@@ -1357,24 +1401,24 @@ def get_attendance_list(year=None, month=None):
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def add_comment(reference_doctype=None, reference_name=None, content=None):
-    try:
-        from frappe.desk.form.utils import add_comment
+	try:
+		from frappe.desk.form.utils import add_comment
 
-        comment_by = frappe.db.get_value(
-            "User", frappe.session.user, "full_name", as_dict=1
-        )
+		comment_by = frappe.db.get_value(
+			"User", frappe.session.user, "full_name", as_dict=1
+		)
 
-        add_comment(
-            reference_doctype=reference_doctype,
-            reference_name=reference_name,
-            content=content,
-            comment_email=frappe.session.user,
-            comment_by=comment_by.get("full_name"),
-        )
-        return gen_response(200, "Comment added successfully")
+		add_comment(
+			reference_doctype=reference_doctype,
+			reference_name=reference_name,
+			content=content,
+			comment_email=frappe.session.user,
+			comment_by=comment_by.get("full_name"),
+		)
+		return gen_response(200, "Comment added successfully")
 
-    except Exception as e:
-        return exception_handler(e)
+	except Exception as e:
+		return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -1704,6 +1748,16 @@ def employee_device_info(**kwargs):
 				)
 			).insert(ignore_permissions=True)
 
+		emp_data = get_employee_by_user(frappe.session.user)
+		existing_registration = frappe.db.exists(
+			"Employee Device Registration", {"employee": emp_data.get("name")}
+		)
+		if not existing_registration and data.get("unique_id"):
+			# Register the device if not exists
+			doc = frappe.new_doc("Employee Device Registration")
+			doc.employee = emp_data.get("name")
+			doc.unique_id = data.get("unique_id")
+			doc.insert(ignore_permissions=True)
 		return gen_response(200, "Device information saved successfully!")
 	except Exception as e:
 		return exception_handler(e)
@@ -2376,35 +2430,35 @@ def get_task(**kwargs):
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def update_task(**kwargs):
-    try:
-        from frappe.desk.form import assign_to
+	try:
+		from frappe.desk.form import assign_to
 
-        data = kwargs
-        task_doc = frappe.get_doc("Task", data.get("name"))
-        if data.get("assign_to"):
-            assign_to_list = data.get("assign_to")
-            del data["assign_to"]
-        
-        task_doc.update(data)
-        task_doc.save()
-        if assign_to_list:
-            if isinstance(assign_to_list, str):
-                assign_to_list = [assign_to_list]
-            
-            # for assign_to_user in assign_to_list:
-            assign_to.add(
-                {
-                    "assign_to": assign_to_list,
-                    "doctype": task_doc.doctype,
-                    "name": task_doc.name,
-                }
-            )
+		data = kwargs
+		task_doc = frappe.get_doc("Task", data.get("name"))
+		if data.get("assign_to"):
+			assign_to_list = data.get("assign_to")
+			del data["assign_to"]
+		
+		task_doc.update(data)
+		task_doc.save()
+		if assign_to_list:
+			if isinstance(assign_to_list, str):
+				assign_to_list = [assign_to_list]
+			
+			# for assign_to_user in assign_to_list:
+			assign_to.add(
+				{
+					"assign_to": assign_to_list,
+					"doctype": task_doc.doctype,
+					"name": task_doc.name,
+				}
+			)
 
-        return gen_response(200, "Task has been updated successfully")
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted to update task")
-    except Exception as e:
-        return exception_handler(e)
+		return gen_response(200, "Task has been updated successfully")
+	except frappe.PermissionError:
+		return gen_response(500, "Not permitted to update task")
+	except Exception as e:
+		return exception_handler(e)
 
 
 
