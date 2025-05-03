@@ -208,11 +208,14 @@ def get_customer_list(start=0, page_length=10, filters=None):
 def get_item_list(filters=None):
     try:
         from employee_self_service.mobile.v1.order import get_items_rate
+
         if not filters:
             filters = []
         filters.append(["Item", "show_in_mobile", "=", 1])
         item_list = frappe.get_list(
-            "Item", fields=["name", "item_name", "item_code", "image"], filters=filters
+            "Item",
+            fields=["name", "item_name", "item_code", "image", "stock_uom"],
+            filters=filters,
         )
         items = get_items_rate(item_list)
         gen_response(200, "Item list get successfully", items)
@@ -225,12 +228,13 @@ def get_item_list(filters=None):
 def scan_item(barcode):
     try:
         from erpnext.stock.utils import scan_barcode
+        from employee_self_service.mobile.v1.order import get_items_rate
 
         item_details = scan_barcode(barcode)
         item_list = frappe.get_list(
             "Item",
             filters={"name": item_details.get("item_code")},
-            fields=["name", "item_name", "item_code", "image"],
+            fields=["name", "item_name", "item_code", "image", "stock_uom"],
         )
         items = get_items_rate(item_list)
         if len(items) >= 1:
