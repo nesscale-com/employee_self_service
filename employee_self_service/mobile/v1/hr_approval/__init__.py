@@ -220,6 +220,9 @@ def get_team_expense_details(expense_id):
             expense_doc["total_claimed_amount"],
             currency=global_defaults.get("default_currency"),
         )
+        expense_doc["currency_symbol"] = frappe.db.get_value(
+            "Currency", global_defaults.get("default_currency"), "symbol"
+        )
         return gen_response(200, "Expense detail get successfully.", expense_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for Expense")
@@ -229,7 +232,7 @@ def get_team_expense_details(expense_id):
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_status(document, document_no, status):
+def update_status(document, document_no, status, expenses=None):
     try:
         status_field_map = {
             "Leave Application": "status",
@@ -237,6 +240,11 @@ def update_status(document, document_no, status):
         }
         doc = frappe.get_doc(document, document_no)
         doc.update({f"{status_field_map.get(document)}": status})
+        if document == "Expense Claim" and expenses:
+            for expense in expenses:
+                for row in doc.expenses:
+                    if row.get("name") == expense.get("name"):
+                        row.sanctioned_amount = expense.get("sanctioned_amount")
         doc.submit()
         return gen_response(200, "Document status updated")
     except Exception as e:
