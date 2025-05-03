@@ -1585,7 +1585,7 @@ def document_list():
 
             return gen_response(200, "Documents get successfully", documents)
         else:
-            return gen_response(500, "No documents found for employee", [])
+            return gen_response(200, "No documents found for employee", [])
     except Exception as e:
         return exception_handler(e)
 
