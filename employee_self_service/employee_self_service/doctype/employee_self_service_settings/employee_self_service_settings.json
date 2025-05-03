@@ -111,7 +111,7 @@
   },
   {
    "default": "0",
-   "description": "Capture Image with check-in and check-out",
+   "description": "Capture Image with check-in and check-out (Premium)",
    "fieldname": "check_in_with_image",
    "fieldtype": "Check",
    "label": "Check In with Image"
@@ -179,7 +179,7 @@
    "description": "Enable this to Capture Location at the time of Sales Order Creation",
    "fieldname": "capture_location_for_sales_order",
    "fieldtype": "Check",
-   "label": "Capture location for Sales Order"
+   "label": "Capture Location for Sales Order"
   },
   {
    "default": "0",
@@ -219,6 +219,7 @@
   },
   {
    "default": "0",
+   "description": "Restricts the user to log in only from their first used device. Other devices will be blocked. (Premium)",
    "fieldname": "enable_device_restrictions",
    "fieldtype": "Check",
    "label": "Enable Device Restrictions"
@@ -227,7 +228,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-10 15:12:20.424823",
+ "modified": "2025-04-20 09:38:24.500513",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
