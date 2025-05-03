@@ -228,7 +228,9 @@ def get_item_list(filters=None, customer=None):
             filters = []
         filters.append(["Item", "show_in_mobile", "=", 1])
         item_list = frappe.get_list(
-            "Item", fields=["name", "item_name", "item_code", "image"], filters=filters
+            "Item",
+            fields=["name", "item_name", "item_code", "image", "stock_uom"],
+            filters=filters,
         )
         items = get_items_rate(item_list, customer=customer)
         gen_response(200, "Item list get successfully", items)
@@ -250,20 +252,101 @@ def get_items_rate(items, customer=None):
     for item in items:
         item_price = frappe.get_all(
             "Item Price",
-            filters={"item_code": item.name, "price_list": price_list},
+            filters={
+                "item_code": item.name,
+                "price_list": price_list,
+                "uom": item.stock_uom,
+            },
             fields=["price_list_rate"],
+            order_by="valid_from desc",
         )
-        item["rate_currency"] = fmt_money(
-            item_price[0].price_list_rate if item_price else 0.0,
+        item_price = _get_item_price(
+            item_code=item.name,
+            price_list=price_list,
+            uom=item.stock_uom,
+        )
+        item_price_currency = fmt_money(
+            item_price if item_price else 0.0,
             currency=global_defaults.get("default_currency"),
         )
-        item["rate"] = item_price[0].price_list_rate if item_price else 0.0
-        item["price_list_rate"] = item_price[0].price_list_rate if item_price else 0.0
-        item["price_list_rate_currency"] = fmt_money(
-            item_price[0].price_list_rate if item_price else 0.0,
-            currency=global_defaults.get("default_currency"),
-        )
+        item["rate_currency"] = item_price_currency
+        item["rate"] = item_price if item_price else 0.0
+        item["price_list_rate"] = item_price if item_price else 0.0
+        item["price_list_rate_currency"] = item_price_currency
     return items
+
+
+def _get_item_price(item_code, price_list, uom):
+    item_price = frappe.db.get_value(
+        "Item Price",
+        {"price_list": price_list, "item_code": item_code, "uom": uom},
+        "price_list_rate",
+        order_by="valid_from desc",
+    )
+    return item_price or 0.0
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_uoms(customer, item):
+    try:
+        global_defaults = get_global_defaults()
+        sales_price_list = get_default_price_list(customer=customer)
+        item_doc = frappe.get_doc("Item", item)
+        uoms = []
+        default_uom_price = _get_item_price(
+            item_code=item_doc.get("name"),
+            price_list=sales_price_list,
+            uom=item_doc.get("stock_uom"),
+        )
+        for uom_row in item_doc.get("uoms"):
+            if uom_row.get("uom") == item_doc.get('stock_uom'):
+                uom_hint = f"{uom_row.get('uom')} is default uom"
+            else:
+                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
+            uom_details = dict(
+                uom=uom_row.get("uom"),
+                conversion_factor=uom_row.get("conversion_factor"),
+                uom_hint=uom_hint
+            )
+            get_uom_item_price(
+                sales_price_list, item, uom_details, default_uom_price, global_defaults
+            )
+            uoms.append(uom_details)
+        return gen_response(200, "uom details get successfully", uoms)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for item")
+    except Exception as e:
+        exception_handler(e)
+
+
+def get_uom_item_price(
+    price_list, item_code, uom=None, default_uom_price=0.0, global_defaults=None
+):
+    item_price = _get_item_price(
+        item_code=item_code,
+        price_list=price_list,
+        uom=uom.get("uom"),
+    )
+    if item_price:
+        item_price_currency = fmt_money(
+            item_price if item_price else 0.0,
+            currency=global_defaults.get("default_currency"),
+        )
+        uom["rate_currency"] = item_price_currency
+        uom["rate"] = item_price if item_price else 0.0
+        uom["price_list_rate"] = item_price if item_price else 0.0
+        uom["price_list_rate_currency"] = item_price_currency
+    else:
+        item_price = default_uom_price * uom.get("conversion_factor")
+        item_price_currency = fmt_money(
+            item_price if item_price else 0.0,
+            currency=global_defaults.get("default_currency"),
+        )
+        uom["rate_currency"] = item_price_currency
+        uom["rate"] = item_price if item_price else 0.0
+        uom["price_list_rate"] = item_price if item_price else 0.0
+        uom["price_list_rate_currency"] = item_price_currency
 
 
 def get_default_price_list(customer=None):
@@ -292,7 +375,7 @@ def scan_item(barcode):
         item_list = frappe.get_list(
             "Item",
             filters={"name": item_details.get("item_code")},
-            fields=["name", "item_name", "item_code", "image"],
+            fields=["name", "item_name", "item_code", "image", "stock_uom"],
         )
         items = get_items_rate(item_list)
         if len(items) >= 1:
