@@ -19,7 +19,7 @@ from frappe.utils import (
 	fmt_money,
 	add_days,
 	format_time,
-	cint
+	cint,
 )
 from employee_self_service.mobile.v1.api_utils import (
 	gen_response,
@@ -32,7 +32,7 @@ from employee_self_service.mobile.v1.api_utils import (
 	exception_handler,
 	convert_timezone,
 	get_system_timezone,
-	get_till_date_holiday_month_wise
+	get_till_date_holiday_month_wise,
 )
 from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
@@ -92,6 +92,24 @@ def make_leave_application(*args, **kwargs):
 		)
 		leave_application_doc.update(kwargs)
 		res = leave_application_doc.insert()
+
+		if not kwargs.get("custom_leave_document") == None:
+			frappe.db.set_value(
+				"File",
+				kwargs.get("custom_leave_document"),
+				{
+					"attached_to_name": leave_application_doc.name,
+					"attached_to_doctype": "Leave Application",
+					"attached_to_field": "custom_leave_document",
+				},
+			)
+
+		# if "custom_leave_document" in frappe.request.files:
+		#     file = upload_file()
+		#     file.attached_to_doctype = "File"
+		#     file.attached_to_name = leave_application_doc.name
+		#     file.attached_to_field = "custom_leave_document"
+		#     file.save(ignore_permissions=True)
 		gen_response(200, "Leave application successfully added!")
 	except Exception as e:
 		return exception_handler(e)
@@ -157,7 +175,10 @@ def get_leave_application_list():
 		if not fiscal_year:
 			return gen_response(500, "Fiscal year not set")
 		res = get_leave_balance_report(
-			emp_data.get("name"), emp_data.get("company"), fiscal_year,annual_leave=True
+			emp_data.get("name"),
+			emp_data.get("company"),
+			fiscal_year,
+			annual_leave=True,
 		)
 		leave_applications = {
 			"upcoming": upcoming_leaves,
@@ -184,12 +205,12 @@ def get_leave_balance_report_old(employee, company, fiscal_year):
 	return run("Employee Leave Balance", filters=filters_leave_balance)
 
 
-def get_leave_balance_report(employee, company, fiscal_year,annual_leave=False):
+def get_leave_balance_report(employee, company, fiscal_year, annual_leave=False):
 	"""
 	Returns a map of leave type and balance details like:
 	{
-			'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
-			'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
+					'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
+					'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
 	}
 	"""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details
@@ -203,24 +224,28 @@ def get_leave_balance_report(employee, company, fiscal_year,annual_leave=False):
 	for leave_type, details in allocation.items():
 		if annual_leave:
 			if leave_type == "Annual Leave":
-				leave_balance.append({
-					"leave_type":leave_type,
-					"leaves_allocated":details.get("remaining_leaves"),
-					"leaves_taken":details.get("leaves_taken"),
-					"employee":employee,
-					"closing_balance":details.get("remaining_leaves")
-				})
+				leave_balance.append(
+					{
+						"leave_type": leave_type,
+						"leaves_allocated": details.get("remaining_leaves"),
+						"leaves_taken": details.get("leaves_taken"),
+						"employee": employee,
+						"closing_balance": details.get("remaining_leaves"),
+					}
+				)
 		else:
-			leave_balance.append({
-				"leave_type":leave_type,
-				"leaves_allocated":details.get("remaining_leaves"),
-				"leaves_taken":details.get("leaves_taken"),
-				"employee":employee,
-				"closing_balance":details.get("remaining_leaves")
-			})
-
+			leave_balance.append(
+				{
+					"leave_type": leave_type,
+					"leaves_allocated": details.get("remaining_leaves"),
+					"leaves_taken": details.get("leaves_taken"),
+					"employee": employee,
+					"closing_balance": details.get("remaining_leaves"),
+				}
+			)
 
 	return leave_balance
+
 
 # moved to expense.py
 @frappe.whitelist()
@@ -431,7 +456,8 @@ def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
 def get_dashboard():
 	try:
 		emp_data = get_employee_by_user(
-			frappe.session.user, fields=["name", "company", "image", "employee_name", "designation"]
+			frappe.session.user,
+			fields=["name", "company", "image", "employee_name", "designation"],
 		)
 		notice_board = get_notice_board(emp_data.get("name"))
 		# attendance_details = get_attendance_details(emp_data)
@@ -461,6 +487,12 @@ def get_dashboard():
 			"allow_share_updates": 0,
 			"allow_approvals": 1 if cint(approval_requests) > 0 else 0,
 			"allow_manager_view": 1 if cint(approval_requests) > 0 else 0,
+			"show_leave_balance_in_list_view": settings.get(
+				"show_leave_balance_in_list_view"
+			),
+			"notification_count": frappe.db.count(
+				"ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
+			),
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")
@@ -506,7 +538,7 @@ def get_last_log_details(employee):
 	log_details = frappe.db.sql(
 		"""SELECT log_type,
 		time
-		FROM `tabEmployee Checkin`
+		FROM `tabWeb Check in`
 		WHERE employee=%s
 		AND DATE(time)=%s
 		ORDER BY time DESC""",
@@ -556,7 +588,7 @@ def get_notice_board(employee=None):
 	return notice_board_employee
 
 
-def get_attendance_details(emp_data, year = None, month = None):
+def get_attendance_details(emp_data, year=None, month=None):
 	last_date = get_last_day(today())
 	first_date = get_first_day(today())
 	total_days = date_diff(last_date, first_date) + 1
@@ -567,11 +599,9 @@ def get_attendance_details(emp_data, year = None, month = None):
 	attendance_report = run_attendance_report(
 		emp_data.get("name"), emp_data.get("company")
 	)
-	holidays = get_till_date_holiday_month_wise(emp_data,first_date,today())
+	holidays = get_till_date_holiday_month_wise(emp_data, first_date, today())
 	if attendance_report:
-		days_off = flt(attendance_report.get("total_leaves")) + flt(
-			holidays
-		)
+		days_off = flt(attendance_report.get("total_leaves")) + flt(holidays)
 		absent = till_date_days - (
 			flt(days_off) + flt(attendance_report.get("total_present"))
 		)
@@ -696,7 +726,7 @@ def get_latest_ss(dashboard_data, employee):
 
 @frappe.whitelist()
 def create_employee_log(
-	log_type, location=None, odometer_reading=None, attendance_image=None
+	log_type, location=None, check_in_type=None, check_in_reference=None
 ):
 	try:
 		emp_data = get_employee_by_user(
@@ -705,25 +735,28 @@ def create_employee_log(
 
 		log_doc = frappe.get_doc(
 			dict(
-				doctype="Employee Checkin",
+				doctype="Web Check in",
 				employee=emp_data.get("name"),
 				log_type=log_type,
 				time=now_datetime().__str__()[:-7],
 				location=location,
-				odometer_reading=odometer_reading,
+				checkin_type=check_in_type
 			)
-		).insert(ignore_permissions=True)
+		)
+		if check_in_type=="Work from Home" or check_in_type=="Others":
+			log_doc.description = check_in_reference
+		if check_in_type=="Project":
+			log_doc.project = check_in_reference
+		if check_in_type=="Customer Meeting":
+			log_doc.customer = check_in_reference
+		if check_in_type=="Conference":
+			log_doc.conference_name = check_in_reference
+		if check_in_type=="Training":
+			log_doc.training_name = check_in_reference
+		
+		log_doc.insert(ignore_permissions=True)
 
-		if "file" in frappe.request.files:
-			file = upload_file()
-			file.attached_to_doctype = "Employee Checkin"
-			file.attached_to_name = log_doc.name
-			file.attached_to_field = "attendance_image"
-			file.save(ignore_permissions=True)
-			log_doc.attendance_image = file.get("file_url")
-			log_doc.save(ignore_permissions=True)
-
-		update_shift_last_sync(emp_data)
+		# update_shift_last_sync(emp_data)
 		return gen_response(200, "Employee log added")
 	except Exception as e:
 		return exception_handler(e)
@@ -741,7 +774,7 @@ def update_shift_last_sync(emp_data):
 
 def get_last_log_type(dashboard_data, employee):
 	logs = frappe.get_all(
-		"Employee Checkin",
+		"Web Check in",
 		filters={"employee": employee},
 		fields=["log_type"],
 		order_by="time desc",
@@ -991,7 +1024,7 @@ def get_holiday_list(year=None):
 			filters={
 				"parent": holiday_list,
 				"holiday_date": ("between", [f"{year}-01-01", f"{year}-12-31"]),
-				"weekly_off": 0
+				"weekly_off": 0,
 			},
 			fields=["description", "holiday_date"],
 			order_by="holiday_date asc",
@@ -1128,7 +1161,7 @@ def get_attendance_list(year=None, month=None):
 				"working_hours",
 				"DATE_FORMAT(in_time, '%h:%i %p') AS in_time",
 				"DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
-				"late_entry"
+				"late_entry",
 			],
 		)
 
@@ -1255,7 +1288,7 @@ def get_profile():
 				"cell_number",
 				"emergency_phone_number",
 				"custom_linkedin_profile",
-				"custom_front"
+				"custom_front",
 			],
 			as_dict=True,
 		)
@@ -1330,32 +1363,14 @@ def document_list():
 
 		emp_data = get_employee_by_user(frappe.session.user)
 		documents = frappe.get_all(
-			"ESS Documents",
+			"Employee Document",
 			filters={
-				"employee_no": emp_data.get("name"),
+				"employee": emp_data.get("name"),
 			},
-			fields=["name", "attachement"],
+			fields=["name", "attachement", "document_name", "document_type", "document_sr_no"],
 		)
 
 		if documents:
-			for doc in documents:
-				file = frappe.get_value(
-					"File",
-					{
-						"file_url": doc.get("attachement"),
-						"attached_to_doctype": "ESS Documents",
-						"attached_to_name": doc.get("name"),
-					},
-					["name", "file_name", "file_size"],
-					as_dict=1,
-				)
-				if file:
-					doc["file_name"] = file.get("file_name")
-					doc["file_size"] = get_file_size(
-						(get_file_path(file.get("file_name"))), unit="auto"
-					)
-					doc["file_id"] = file.get("name")
-
 			return gen_response(200, "Documents get successfully", documents)
 		else:
 			return gen_response(500, "No documents found for employee", [])
@@ -1533,7 +1548,7 @@ def employee_device_info(**kwargs):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def notification_list():
+def notification_list_old():
 	try:
 		single_filters = [
 			["Push Notification", "user", "=", frappe.session.user],
@@ -1570,6 +1585,35 @@ def notification_list():
 				"User", frappe.session.user, "user_image"
 			)
 		return gen_response(200, "Notification list get successfully", notification)
+	except Exception as e:
+		return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def notification_list(start=0, page_length=20):
+	try:
+		filters = [
+			["ESS Notification Log", "recipient", "=", frappe.session.user],
+		]
+		# ["ESS Notification Log", "read", "=", 0],
+		notifications = frappe.get_all(
+			"ESS Notification Log",
+			filters=filters,
+			fields=[
+				"subject as 'title'",
+				"message",
+				"creation",
+				"read",
+			],
+			start=start,
+			page_length=page_length,
+		)
+		user_image = frappe.get_value("User", frappe.session.user, "user_image")
+		for notification in notifications:
+			notification["creation"] = pretty_date(notification.get("creation"))
+			notification["user_image"] = user_image
+		return gen_response(200, "Notification list get successfully", notifications)
 	except Exception as e:
 		return exception_handler(e)
 
@@ -1634,15 +1678,15 @@ def on_holiday_event():
 @ess_validate(methods=["GET"])
 def get_branch():
 	try:
-		emp_data = get_employee_by_user(frappe.session.user, fields=["branch"])
+		emp_data = get_employee_by_user(frappe.session.user, fields=["ess_location"])
 		branch = frappe.db.get_value(
-			"Branch",
-			{"branch": emp_data.get("branch")},
-			["branch", "latitude", "longitude", "radius"],
+			"ESS Location",
+			emp_data.get("ess_location"),
+			["name", "latitude", "longitude", "radius"],
 			as_dict=1,
 		)
 
-		return gen_response(200, "Branch", branch)
+		return gen_response(200, "ESS Location", branch)
 	except Exception as e:
 		return exception_handler(e)
 
@@ -2277,6 +2321,7 @@ def get_profile_detail_tabs():
 	except Exception as e:
 		return exception_handler(e)
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_hr_policies():
@@ -2288,3 +2333,39 @@ def get_hr_policies():
 		return gen_response(200, "HR Policy get successfully", hr_policies_doc)
 	except Exception as e:
 		return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_conference_list():
+	try:
+		conference_list = frappe.get_all("Training Event", filters={"type": "Conference"}, fields=["name"])
+		return gen_response(200, "Conference List getting Successfully", conference_list)
+	except frappe.PermissionError:
+		return gen_response(500, "Not permitted read user")
+	except Exception as e:
+		return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_training_list():
+	try:
+		conference_list = frappe.get_all("Training Event", filters=[["Training Event","type","!=","Conference"]], fields=["name"])
+		return gen_response(200, "Conference List getting Successfully", conference_list)
+	except frappe.PermissionError:
+		return gen_response(500, "Not permitted read user")
+	except Exception as e:
+		return exception_handler(e)
+
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def mark_read_notification():
+    try:
+        frappe.db.set_value(
+            "ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
+        )
+        return gen_response(200, "Notification mark read successfully")
+    except Exception as e:
+        return exception_handler(e)
