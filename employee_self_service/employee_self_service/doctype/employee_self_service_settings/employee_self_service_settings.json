@@ -24,6 +24,8 @@
   "section_break_npr4y",
   "version",
   "update_version_forcefully",
+  "section_break_gnauc",
+  "show_leave_balance_in_list_view",
   "section_break_8pigx",
   "ess_language",
   "sso_config_section",
@@ -153,12 +155,22 @@
   {
    "fieldname": "column_break_ufoky",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_gnauc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_leave_balance_in_list_view",
+   "fieldtype": "Check",
+   "label": "Show Leave Balance In List View"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-03 09:57:50.603621",
+ "modified": "2025-03-17 15:27:55.792319",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
