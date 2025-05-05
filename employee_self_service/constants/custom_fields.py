@@ -64,6 +64,15 @@ CUSTOM_FIELDS = {
             "insert_after": "disabled",
         },
     ],
+    "Employee": [
+        {
+            "fieldname": "ess_location",
+            "label": "ESS Location",
+            "fieldtype": "Link",
+            "options": "ESS Location",
+            "insert_after": "branch",
+        },
+    ],
 }
 
 
