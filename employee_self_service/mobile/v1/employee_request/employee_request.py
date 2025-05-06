@@ -42,6 +42,17 @@ def get_request_type_list():
     except Exception as e:
         return exception_handler(e)
 
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_request_category():
+    try:
+        request_category_list = frappe.get_all("Employee Request Category", fields=["name"])
+
+        return gen_response(200, "Request Category Get Successfully", request_category_list)
+
+    except Exception as e:
+        return exception_handler(e)
+
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -77,6 +88,7 @@ def create_employee_request(**data):
             request_doc = frappe.new_doc("Employee Request Form")
         request_doc.employee = emp_data.name
         request_doc.request_type = data.get("request_type")
+        request_doc.request_category = data.get("request_category")
         request_doc.date = today()
         request_doc.notes = data.get("notes")
         request_doc.save()
