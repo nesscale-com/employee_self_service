@@ -726,7 +726,7 @@ def get_latest_ss(dashboard_data, employee):
 
 @frappe.whitelist()
 def create_employee_log(
-	log_type, location=None, check_in_type=None, check_in_reference=None
+	log_type, location=None, check_in_type=None, check_in_reference=None, latitude=None, longitude=None
 ):
 	try:
 		emp_data = get_employee_by_user(
@@ -739,7 +739,8 @@ def create_employee_log(
 				employee=emp_data.get("name"),
 				log_type=log_type,
 				time=now_datetime().__str__()[:-7],
-				location=location,
+				latitude=latitude,
+				longitude=longitude,
 				checkin_type=check_in_type
 			)
 		)
