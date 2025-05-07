@@ -33,9 +33,9 @@ def get_request_list(start=0, page_length=20):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_request_type_list():
+def get_request_type_list(request_category=None):
     try:
-        request_type_list = frappe.get_all("Employee Request Type", fields=["name"])
+        request_type_list = frappe.get_all("Employee Request Type",filters={'request_category':request_category}, fields=["name"])
 
         return gen_response(200, "Request Type Get Successfully", request_type_list)
 
