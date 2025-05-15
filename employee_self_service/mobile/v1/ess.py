@@ -644,39 +644,34 @@ def get_attendance_details_dashboard():
 
 def get_last_log_details(employee):
     log_details = frappe.db.sql(
-        """
-        SELECT log_type, time
+        """SELECT log_type,
+        time
         FROM `tabEmployee Checkin`
-        WHERE employee = %s AND DATE(time) = %s
-        ORDER BY time DESC
-        """,
+        WHERE employee=%s
+        AND DATE(time)=%s
+        ORDER BY time DESC""",
         (employee, today()),
-        as_dict=True,
+        as_dict=1,
     )
 
-    if not log_details:
-        return {"log_type": "OUT", "time": None}
-
-    user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
-    system_timezone = get_system_timezone()
-
-    # Convert the most recent log time
-    if user_time_zone and log_details[0].time:
-        log_details[0]["time"] = convert_timezone(
-            log_details[0]["time"], system_timezone, user_time_zone
-        )
-
-    if log_details[0]["log_type"] == "IN":
-        in_logs = [log for log in log_details if log["log_type"] == "IN"]
-        if in_logs:
-            last_in_log = in_logs[-1]
-            if user_time_zone and last_in_log["time"]:
-                last_in_log["time"] = convert_timezone(
-                    last_in_log["time"], system_timezone, user_time_zone
+    if log_details:
+        user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
+        system_timezone = get_system_timezone()
+        if user_time_zone:
+            log_details[0].time = convert_timezone(
+                log_details[0].time, system_timezone, user_time_zone
+            )
+        if log_details[0].log_type == "IN":
+            in_logs = [log for log in log_details if log["log_type"] == "IN"]
+            if user_time_zone:
+                in_logs[-1].time = convert_timezone(
+                    in_logs[-1].time, system_timezone, user_time_zone
                 )
-            return last_in_log
-
-    return log_details[0]
+            first_check_in = in_logs[-1]
+            return first_check_in
+        return log_details[0]
+    else:
+        return {"log_type": "OUT", "time": None}
 
 
 def get_notice_board(employee=None):
