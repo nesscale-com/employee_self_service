@@ -152,14 +152,21 @@ def update_workflow_state(reference_doctype, reference_name, action):
         return exception_handler(e)
 
 
-def convert_timezone(timestamp, from_timestamp, time_zone):
+def convert_timezone(timestamp, from_tz, to_tz):
     from pytz import UnknownTimeZoneError, timezone
 
-    fromtimezone = timezone(from_timestamp).localize(timestamp)
-    try:
-        return fromtimezone.astimezone(timezone(time_zone))
-    except UnknownTimeZoneError:
-        return fromtimezone
+    from_zone = timezone(from_tz)
+    to_zone = timezone(to_tz)
+
+    # If the datetime object is naive (no tzinfo), localize it
+    if timestamp.tzinfo is None:
+        timestamp = from_zone.localize(timestamp)
+    else:
+        # If tz-aware but not in expected timezone, normalize it
+        timestamp = timestamp.astimezone(from_zone)
+
+    # Convert to target timezone
+    return timestamp.astimezone(to_zone)
 
 
 def get_system_timezone() -> str:
@@ -179,7 +186,7 @@ def get_till_date_holiday_month_wise(emp_data, start_date, end_date):
         filters={
             "parent": holiday_list,
             "holiday_date": ("between", [start_date, end_date]),
-        }
+        },
     )
 
 
@@ -187,21 +194,33 @@ def get_till_date_holiday_month_wise(emp_data, start_date, end_date):
 @ess_validate(methods=["GET"])
 def get_approver(document_type):
     try:
-        from hrms.hr.doctype.department_approver.department_approver import get_approvers
+        from hrms.hr.doctype.department_approver.department_approver import (
+            get_approvers,
+        )
+
         emp_data = get_employee_by_user(frappe.session.user)
-        leave_approver = get_approvers(doctype=document_type, txt='', searchfield='', start=0, page_len=20,filters={"employee":emp_data.name,"doctype":document_type})
+        leave_approver = get_approvers(
+            doctype=document_type,
+            txt="",
+            searchfield="",
+            start=0,
+            page_len=20,
+            filters={"employee": emp_data.name, "doctype": document_type},
+        )
         keys = ["user", "first_name", "last_name"]
         mapped_data = [dict(zip(keys, row)) for row in leave_approver]
-        return gen_response(200,"approver receive successfully",mapped_data)
+        return gen_response(200, "approver receive successfully", mapped_data)
     except Exception as e:
         return exception_handler(e)
 
-def get_attachments(document_type,document):
+
+def get_attachments(document_type, document):
     return frappe.get_all(
         "File",
         filters={"attached_to_doctype": document_type, "attached_to_name": document},
         fields=["file_url", "file_name"],
     )
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():

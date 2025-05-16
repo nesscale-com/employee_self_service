@@ -663,6 +663,10 @@ def get_last_log_details(employee):
             )
         if log_details[0].log_type == "IN":
             in_logs = [log for log in log_details if log["log_type"] == "IN"]
+            if user_time_zone:
+                in_logs[-1].time = convert_timezone(
+                    in_logs[-1].time, system_timezone, user_time_zone
+                )
             first_check_in = in_logs[-1]
             return first_check_in
         return log_details[0]
