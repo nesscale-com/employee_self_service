@@ -1,15 +1,10 @@
 import frappe
 import json
 from frappe import _
-from frappe.utils import pretty_date, getdate, fmt_money
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    exception_handler,
-    get_employee_by_user,
-    remove_default_fields,
-    get_global_defaults,
-)
+from frappe.utils import *
+from erpnext.accounts.utils import get_fiscal_year
+from erpnext import get_default_company
+from employee_self_service.mobile.v1.api_utils import *
 from employee_self_service.mobile.v1.manager.manager_utils import get_action
 
 
@@ -18,13 +13,55 @@ from employee_self_service.mobile.v1.manager.manager_utils import get_action
 def get_dashboard_stats():
     try:
         stats = {
-            "clock_in": 48,
-            "clock_out": 10,
-            "not_clock_in": 7,
-            "on_leave": 10,
-            "approval": 13,
-            "tasks": 40
+            "total_employees": 0,
+            "clock_in": 0,
+            "clock_out": 0,
+            "on_leave": 0,
+            "not_clock_in": 0,
         }
+
+        # Step-1: Get all employees that current user has permission to access
+        employee_list = frappe.get_list("Employee", pluck="name")
+        
+        if not employee_list:
+            frappe.throw(_("No employees found"))
+        
+        stats["total_employees"] = len(employee_list)
+        
+        # Step-2: Get all check-ins for today for these employees
+        checkins_today = frappe.get_all("Employee Checkin",
+                            filters={
+                                "time": ["between", [f"{today()} 00:00:00", f"{today()} 23:59:59"]],
+                                "employee": ["in", employee_list]
+                            },
+                            fields=["employee", "log_type"])
+        
+        employee_check_in_today = [emp["employee"] for emp in checkins_today]
+
+        for checkin in checkins_today:
+            if checkin["log_type"] == "IN":
+                stats["clock_in"] += 1
+            elif checkin["log_type"] == "OUT":
+                stats["clock_out"] += 1
+        
+        # Step-3: Get leave applications for these employees
+        employees_on_leave = frappe.get_all("Leave Application",
+                                filters={
+                                    "status": "Approved",
+                                    "docstatus": 1,
+                                    "from_date": ["<=", today()],
+                                    "to_date": [">=", today()],
+                                    "employee": ["in", employee_list]
+                                },
+                                pluck="employee")
+        
+        stats["on_leave"] = len(employees_on_leave)
+
+        # Step-4: Get not_clock_in employees
+        for emp in employee_list:
+            if emp not in employee_check_in_today:
+                stats["not_clock_in"] += 1
+
         return gen_response(200, "Stats get successfully", stats)
     except Exception as e:
         return exception_handler(e)
@@ -162,52 +199,79 @@ def get_accounting_dashboard(filter_by="monthly"):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_crm_dashboard(filter_by="monthly"):
-    """
-    Fetch CRM dashboard data with filters: monthly, quarterly, yearly.
-    
-    Args:
-    filter_by (str): Filter for data, values can be 'monthly', 'quarterly', 'yearly'. Default is 'monthly'.
+def get_crm_dashboard():
+    fiscal_year, fy_start, fy_end = get_fiscal_year(today())
+    company = get_default_company()
 
-    Returns:
-    dict: CRM dashboard data based on the selected filter.
-    """
+    current_month_start = get_first_day(today())
+    current_month_end = get_last_day(today())
+    previous_month_start = get_first_day(add_months(today(), -1))
+    previous_month_end = get_last_day(add_months(today(), -1))
+
+    def get_deals(filters, fields=None):
+        return frappe.get_list("Opportunity", filters=filters, fields=fields)
+
+    def get_pipeline_deals(start_date, end_date):
+        return get_deals(
+            filters=[
+                ["transaction_date", "between", [start_date, end_date]],
+                ["status", "not in", ["Lost", "Closed", "Converted"]],
+                ["company", "=", company]
+            ],
+            fields=["opportunity_amount"]
+        )
+
+    # Initialize response
     data = {
-        "monthly": {
-            "duration": ["Jan", "Feb", "Mar"],
-            "lead_conversion_rate": [20, 15, 10],
-            "total_sales": [200, 400, 450]
-        },
-        "quarterly": {
-            "duration": ["Q1", "Q2", "Q3", "Q4"],
-            "lead_conversion_rate": [45, 60, 50, 70],
-            "total_sales": [1050, 1200, 950, 1300]
-        },
-        "yearly": {
-            "duration": ["2024"],
-            "lead_conversion_rate": [225],
-            "total_sales": [4500]
-        }
+        "total_number_of_deals_closed": len(get_deals([
+            ["transaction_date", "between", [fy_start, fy_end]],
+            ["status", "=", "Converted"],
+            ["company", "=", company]
+        ], fields=["name"])),
+
+        "total_number_of_deals_created": len(get_deals([
+            ["company", "=", company]
+        ], fields=["name"])),
+
+        "amount_in_pipeline": {"amount_of_deals": 0, "performance_percentage": 0},
+        "deals_in_pipeline": {"counts_of_deals": 0, "performance_percentage": 0},
+
+        "lost_deals": len(get_deals([
+            ["transaction_date", "between", [fy_start, fy_end]],
+            ["status", "=", "Lost"],
+            ["company", "=", company]
+        ], fields=["name"])),
+
+        "deals_stopped": len(get_deals([
+            ["transaction_date", "between", [fy_start, fy_end]],
+            ["status", "=", "Closed"],
+            ["company", "=", company]
+        ], fields=["name"])),
     }
 
-    if filter_by not in data:
-        frappe.throw(_("Invalid filter. Use 'monthly', 'quarterly', or 'yearly'."))
+    # Pipeline Amounts
+    pipeline_deals = get_pipeline_deals(fy_start, fy_end)
+    current_pipeline = get_pipeline_deals(current_month_start, current_month_end)
+    previous_pipeline = get_pipeline_deals(previous_month_start, previous_month_end)
 
-    filtered_data = data[filter_by]
-    
-    place_holder_data =  {
-            "TotalLead": 200,  # Static for placeholder
-            "LeadConversionRate": {
-                "duration": filtered_data["duration"],
-                "values": filtered_data["lead_conversion_rate"]
-            },
-            "TotalSales": {
-                "numberOfTotalSales": sum(filtered_data["total_sales"]),
-                "duration": filtered_data["duration"],
-                "values": filtered_data["total_sales"]
-            }
-    }
-    return gen_response(200, "Stats get successfully", place_holder_data)
+    total_pipeline_amount = sum(flt(d.opportunity_amount) for d in pipeline_deals)
+    current_amount = sum(flt(d.opportunity_amount) for d in current_pipeline)
+    previous_amount = sum(flt(d.opportunity_amount) for d in previous_pipeline)
+
+    percent_change = calculate_percentage_change(current_amount, previous_amount)
+
+    data["amount_in_pipeline"]["amount_of_deals"] = total_pipeline_amount
+    data["amount_in_pipeline"]["performance_percentage"] = percent_change
+    data["deals_in_pipeline"]["counts_of_deals"] = len(pipeline_deals)
+    data["deals_in_pipeline"]["performance_percentage"] = percent_change
+
+    return gen_response(200, "CRM Dashboard Stats fetched successfully", data)
+
+
+def calculate_percentage_change(current, previous):
+    if previous == 0:
+        return 100.0 if current > 0 else 0.0
+    return round(((current - previous) / previous) * 100, 2)
 
 
 @frappe.whitelist()
@@ -271,25 +335,48 @@ def get_hr_dashboard():
     dict: HR dashboard data.
     """
     place_holder_data = {
-            "employee_count": {
-                "total_emp": 502,
-                "active_emp": 402,
-                "new_emp": 100
-            },
-            "turnover_rate": {
-                "turnover_rate": 10,
-                "annualized": 40,
-                "aug_emp": 100
-            },
-            "AbsenteeismRate": {
-                "absenteeism_rate": 4.3,
-                "work_days": 231,
-                "off_days": 31
-            },
-            "Hire_and_Terminates": {
-                "new_hires": 22,
-                "terminates": 10
-            }
-        
+        "employee_count": {
+            "total_emp": 0,
+            "active_emp": 0,
+            "inactive_emp": 0
+        },
+        "turnover_rate": {
+            "turnover_rate": 10,
+            "annualized": 40,
+            "aug_emp": 100
+        },
+        "AbsenteeismRate": {
+            "absenteeism_rate": 4.3,
+            "work_days": 231,
+            "off_days": 31
+        },
+        "Hire_and_Terminates": {
+            "new_hires": 0,
+            "terminates": 0
+        }  
     }
-    return gen_response(200, "Stats get successfully", place_holder_data)
+
+    # Fetch all employees 
+    employee_list = frappe.get_list(
+        "Employee",
+        fields=["status", "relieving_date", "date_of_joining"]
+    )
+
+    for emp in employee_list:
+        place_holder_data["employee_count"]["total_emp"] += 1
+        
+        # Status check
+        if emp.status == "Active":
+            place_holder_data["employee_count"]["active_emp"] += 1
+        else:
+            place_holder_data["employee_count"]["inactive_emp"] += 1
+
+        # New hires in last 30 days
+        if emp.date_of_joining and getdate(emp.date_of_joining) >= getdate(add_days(today(), -30)):
+            place_holder_data["Hire_and_Terminates"]["new_hires"] += 1
+
+        # Terminations in last 30 days
+        if emp.relieving_date and getdate(emp.relieving_date) >= getdate(add_days(today(), -30)):
+            place_holder_data["Hire_and_Terminates"]["terminates"] += 1
+
+    return gen_response(200, "HR Dashboard Stats get successfully", place_holder_data)
