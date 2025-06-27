@@ -135,6 +135,7 @@ def get_order(*args, **kwargs):
                         "discount_percentage",
                         "price_list_rate",
                         "price_list_rate_currency",
+                        "uom"
                     ],
                     item,
                 )
@@ -173,19 +174,6 @@ def get_attachments(id):
         filters={"attached_to_doctype": "Sales Order", "attached_to_name": id},
         fields=["file_url", "file_name"],
     )
-
-
-# def get_actions(doc, doc_data=None):
-#     from frappe.model.workflow import get_transitions
-
-#     if not check_workflow_exists():
-#         doc_data["workflow_state"] = doc.get("status")
-#         return []
-#     transitions = get_transitions(doc)
-#     actions = []
-#     for row in transitions:
-#         actions.append(row.get("action"))
-#     return actions
 
 
 @frappe.whitelist()
@@ -300,14 +288,14 @@ def get_uoms(customer, item):
             uom=item_doc.get("stock_uom"),
         )
         for uom_row in item_doc.get("uoms"):
-            if uom_row.get("uom") == item_doc.get('stock_uom'):
+            if uom_row.get("uom") == item_doc.get("stock_uom"):
                 uom_hint = f"{uom_row.get('uom')} is default uom"
             else:
                 uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),
-                uom_hint=uom_hint
+                uom_hint=uom_hint,
             )
             get_uom_item_price(
                 sales_price_list, item, uom_details, default_uom_price, global_defaults

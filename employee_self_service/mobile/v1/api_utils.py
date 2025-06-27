@@ -115,9 +115,13 @@ def get_actions(doc, doc_data=None):
     if not frappe.db.exists(
         "Workflow", dict(document_type=doc.get("doctype"), is_active=1)
     ):
-        doc_data["workflow_state"] = doc.get("status")
+        if doc_data:
+            doc_data["workflow_state"] = doc.get("status")
         return []
-    transitions = get_transitions(doc)
+    try:
+        transitions = get_transitions(doc)
+    except Exception as e:
+        return []
     actions = []
     for row in transitions:
         actions.append(row.get("action"))

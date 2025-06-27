@@ -77,38 +77,27 @@ def validate_employee(user):
 
 
 def register_device(employee, unique_id):
-    # check if device registration exists for this employee
-    # if not enter the given number and create registration
-    # if exists than validate the given number with existing number
-    # if number mataches than allow login
-    # else through frappe exceptions
-    try:
-        ess_settings = get_ess_settings()
-        if not ess_settings.get("enable_device_restrictions"):
-            return True
-
-        existing_registration = frappe.db.exists(
-            "Employee Device Registration", {"employee": employee}
-        )
-
-        if not existing_registration:
-            # Register the device if not exists
-            doc = frappe.new_doc("Employee Device Registration")
-            doc.employee = employee
-            doc.unique_id = unique_id
-            doc.insert(ignore_permissions=True)
-        else:
-            # Fetch the existing device_id to compare
-            registered_device_id = frappe.db.get_value(
-                "Employee Device Registration", existing_registration, "unique_id"
-            )
-            if registered_device_id != unique_id:
-                gen_response(500, "Device not recognized. Please contact admin.")
-                return False
+    ess_settings = get_ess_settings()
+    if not ess_settings.get("enable_device_restrictions"):
         return True
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "register_device_error")
-        frappe.throw("An error occurred during device registration.")
+
+    registered_device_id = frappe.db.get_value(
+        "Employee Device Registration", {"employee": employee}, "unique_id"
+    )
+
+    if not registered_device_id:
+        # No existing device, so register the current one
+        frappe.get_doc(
+            {
+                "doctype": "Employee Device Registration",
+                "employee": employee,
+                "unique_id": unique_id,
+            }
+        ).insert(ignore_permissions=True)
+    elif registered_device_id != unique_id:
+        frappe.throw("Device not recognized. Please contact admin.")
+
+    return True
 
 
 @frappe.whitelist()
@@ -600,6 +589,9 @@ def get_dashboard():
             ),
             "notification_count": frappe.db.count(
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
+            ),
+            "role_based_menu_visibility": settings.get(
+                "enable_role_based_menu_visibility"
             ),
         }
         # "approval_requests": get_workflow_documents(internal=True)
