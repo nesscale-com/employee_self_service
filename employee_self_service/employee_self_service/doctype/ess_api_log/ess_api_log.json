@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-27 10:38:07.002164",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "timestamp",
+  "ip",
+  "latitude",
+  "longitude",
+  "column_break_sbme",
+  "user",
+  "version",
+  "api_name",
+  "module",
+  "http_status_code",
+  "section_break_nfcy",
+  "kwarguments",
+  "result",
+  "column_break_aidi",
+  "arguments",
+  "exception"
+ ],
+ "fields": [
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "label": "Timestamp"
+  },
+  {
+   "fieldname": "ip",
+   "fieldtype": "Read Only",
+   "label": "IP"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Read Only",
+   "label": "Latitude"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Read Only",
+   "label": "Longitude"
+  },
+  {
+   "fieldname": "column_break_sbme",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Read Only",
+   "label": "User"
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Read Only",
+   "label": "Version"
+  },
+  {
+   "fieldname": "api_name",
+   "fieldtype": "Read Only",
+   "label": "API Name"
+  },
+  {
+   "fieldname": "module",
+   "fieldtype": "Read Only",
+   "label": "Module"
+  },
+  {
+   "fieldname": "http_status_code",
+   "fieldtype": "Read Only",
+   "label": "http_status_code"
+  },
+  {
+   "fieldname": "section_break_nfcy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "kwarguments",
+   "fieldtype": "Long Text",
+   "label": "kwarguments"
+  },
+  {
+   "fieldname": "column_break_aidi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "arguments",
+   "fieldtype": "Long Text",
+   "label": "Arguments"
+  },
+  {
+   "fieldname": "result",
+   "fieldtype": "Code",
+   "label": "Result"
+  },
+  {
+   "fieldname": "exception",
+   "fieldtype": "Code",
+   "label": "Exception"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-27 10:41:41.602386",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS API Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
