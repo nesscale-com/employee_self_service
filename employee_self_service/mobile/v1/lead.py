@@ -80,38 +80,25 @@ def get_lead_list():
         return gen_response(403, "Not permitted to list leads.")
     except Exception as e:
         return exception_handler(e)
-
+        
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
 def get_options(fieldname):
-    meta = frappe.get_meta("Lead")
-    options = []
-    for df in meta.fields:
-        if df.fieldname == fieldname and df.fieldtype == "Select" and df.options:
-            options = [
-                {"name": opt.strip()}
-                for opt in df.options.split("\n")
-                if opt.strip()
-            ]
-            break
-    return options
-    
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_lead_type_list():
     try:
-        lead_type_options = get_options("type")
-        return gen_response(200, "Lead type list fetched successfully.", lead_type_options)
+        if not fieldname:
+            return gen_response(500, "Field name is required to fetch options.")
 
-    except frappe.PermissionError:
-        return gen_response(403, "Not permitted to list lead types.")
-    except Exception as e:
-        return exception_handler(e)
-    
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_request_type_list():
-    try:
-        request_type_options = get_options("request_type")
-        return gen_response(200, "Request type list fetched successfully.", request_type_options)
+        meta = frappe.get_meta("Lead")
+        options = []
+        for df in meta.fields:
+            if df.fieldname == fieldname and df.fieldtype == "Select" and df.options:
+                options = [
+                    {"name": opt.strip()}
+                    for opt in df.options.split("\n")
+                    if opt.strip()
+                ]
+                break
+        return gen_response(200, "Request type list fetched successfully.", options)
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to list request types.")
     except Exception as e:
@@ -141,34 +128,12 @@ def get_industry_type_list():
     
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_no_of_employees_list():
-    try:
-        no_of_employees_options = get_options("no_of_employees")
-        return gen_response(200, "No of Employees list fetched successfully.", no_of_employees_options)
-    except frappe.PermissionError:
-        return gen_response(403, "Not permitted to list No of Employees.")
-    except Exception as e:
-        return exception_handler(e)
-    
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
 def get_country_list():
     try:
         country = frappe.get_all("Country",fields=["name"])
         return gen_response(200, "Country list fetched successfully.", country)
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to list Countries.")
-    except Exception as e:
-        return exception_handler(e)
-    
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_status_list():
-    try:
-        status_options = get_options("status")
-        return gen_response(200, "Status list fetched successfully.", status_options)
-    except frappe.PermissionError:
-        return gen_response(403, "Not permitted to list Status.")
     except Exception as e:
         return exception_handler(e)
 
