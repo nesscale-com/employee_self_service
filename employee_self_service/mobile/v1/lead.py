@@ -98,9 +98,9 @@ def get_options(fieldname):
                     if opt.strip()
                 ]
                 break
-        return gen_response(200, "Request type list fetched successfully.", options)
+        return gen_response(200, "Options fetched successfully.", options)
     except frappe.PermissionError:
-        return gen_response(403, "Not permitted to list request types.")
+        return gen_response(403, "Not permitted to list options.")
     except Exception as e:
         return exception_handler(e)
 
