@@ -2,6 +2,7 @@ import json
 import frappe
 from frappe import _
 from employee_self_service.mobile.v1.api_utils import *
+import frappe.utils
 try:
     from erpnext.crm.utils import get_open_activities
 except Exception as e:
@@ -14,6 +15,21 @@ def create_lead(**data):
         lead_doc = frappe.get_doc(doctype="Lead")
         lead_doc.update(data)
         lead_doc.insert()
+
+        if data.get("assigned_to"):
+            for user in data.get("assigned_to"):
+                todo = frappe.get_doc({
+                    "doctype": "ToDo",
+                    "date": frappe.utils.now(),
+                    "allocated_to": user,
+                    "description": data.get("company_name"),
+                    "reference_type": "Lead",
+                    "reference_name": lead_doc.name,
+                    "priority":"Medium",
+                    "status": "Open",
+                })
+                todo.insert()
+
         return gen_response(200, "Lead created successfully.", lead_doc.name)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for create lead")
@@ -64,7 +80,59 @@ def delete_lead(name):
     except Exception as e:
         return exception_handler(e)
     
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def user_assignment(**data):
+    try:
+        validate_required_fields(data, ["reference_type", "reference_name", "assigned_to"])
+        for user in data.get("assigned_to"):
+            todo = frappe.get_doc({
+                "doctype": "ToDo",
+                "date": frappe.utils.nowdate(),
+                "allocated_to": user,
+                "description": data.get("description"),
+                "reference_type": data.get("reference_type"),
+                "reference_name": data.get("reference_name"),
+                "priority": "Medium",
+                "status": "Open"
+            })
+            todo.insert(ignore_permissions=True)
+        return gen_response(200, "User Assignment Created successfully.")
+    except frappe.PermissionError:
+        return gen_response(403, "Not permitted to Create User Assignment.")
+    except Exception as e:
+        return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def user_remove_assignment(**data):
+    try:
+        validate_required_fields(data, ["reference_type", "reference_name", "assigned_to"])
+
+        filters = {
+            "reference_type": data.get("reference_type"),
+            "reference_name": data.get("reference_name"),
+            "allocated_to": ["in", data.get("assigned_to")],
+            "status": "Open"
+        }
+
+        todos = frappe.get_all("ToDo", filters=filters, pluck="name")
+        if not todos:
+            return gen_response(404, "No open assignments found for removal.")
+        for name in todos:
+            frappe.db.set_value("ToDo", name, "status", "Cancelled")
+        return gen_response(200, "User Assignment Removed successfully.")
     
+    except frappe.PermissionError:
+        return gen_response(403, "Not permitted to Remove User Assignment.")
+    except Exception as e:
+        return exception_handler(e)
+    
+def validate_required_fields(data, required_fields):
+    missing = [field for field in required_fields if not data.get(field)]
+    if missing:
+        return gen_response(400, f"{', '.join(missing)} field(s) are required for update.")
+
 #--------------Lead Dropdown/list APIs----------------#
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
