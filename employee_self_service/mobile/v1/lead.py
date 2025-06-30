@@ -1,6 +1,7 @@
 import json
 import frappe
 from frappe import _
+from datetime import datetime
 from employee_self_service.mobile.v1.api_utils import *
 import frappe.utils
 try:
@@ -41,6 +42,7 @@ def create_lead(**data):
 def get_lead_details(name):
     try:
         lead_doc = json.loads(frappe.get_doc("Lead", name).as_json())
+        lead_doc["creation_date"] = datetime.strptime(str(lead_doc.get("creation")), "%Y-%m-%d %H:%M:%S.%f").strftime("%d-%m-%Y")
         return gen_response(200, "Lead fetched successfully.", lead_doc)
     except frappe.DoesNotExistError:
         return gen_response(404, "Lead not found.")
@@ -131,7 +133,7 @@ def user_remove_assignment(**data):
 def validate_required_fields(data, required_fields):
     missing = [field for field in required_fields if not data.get(field)]
     if missing:
-        return gen_response(400, f"{', '.join(missing)} field(s) are required for update.")
+        frappe.throw(_(f"{', '.join(missing)} field(s) are required for update."))
 
 #--------------Lead Dropdown/list APIs----------------#
 @frappe.whitelist()
@@ -265,5 +267,17 @@ def create_lead_event(**data):
         return gen_response(200, "Lead event created successfully.", {"event_name": event.name})
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to create Lead Event.")
+    except Exception as e:
+        return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def close_activity(**data):
+    try:
+        validate_required_fields(data, ["reference_type", "reference_name"])
+        frappe.db.set_value(data.get("reference_type"),data.get("reference_name"),"status","Closed")
+        return gen_response(200, "Activity Closed successfully.")
+    except frappe.PermissionError:
+        return gen_response(403, "Not permitted to close activity.")
     except Exception as e:
         return exception_handler(e)
