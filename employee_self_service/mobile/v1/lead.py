@@ -153,15 +153,17 @@ def get_lead_list():
         
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_options(fieldname):
+def get_options(**data):
     try:
-        if not fieldname:
+        if not data.get("reference_type"):
+            return gen_response(500, "Referenece Type is required to fetch options.") 
+        if not data.get("fieldname"):
             return gen_response(500, "Field name is required to fetch options.")
 
-        meta = frappe.get_meta("Lead")
+        meta = frappe.get_meta(data.get("reference_type"))
         options = []
         for df in meta.fields:
-            if df.fieldname == fieldname and df.fieldtype == "Select" and df.options:
+            if df.fieldname == data.get("fieldname") and df.fieldtype == "Select" and df.options:
                 options = [
                     {"name": opt.strip()}
                     for opt in df.options.split("\n")
