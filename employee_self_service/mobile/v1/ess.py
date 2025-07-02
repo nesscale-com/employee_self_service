@@ -726,7 +726,7 @@ def get_latest_ss(dashboard_data, employee):
 
 @frappe.whitelist()
 def create_employee_log(
-	log_type, location=None, check_in_type=None, check_in_reference=None, latitude=None, longitude=None
+	log_type, location=None, check_in_type=None, check_in_reference=None, latitude=None, longitude=None, project=None
 ):
 	try:
 		emp_data = get_employee_by_user(
@@ -741,19 +741,21 @@ def create_employee_log(
 				time=now_datetime().__str__()[:-7],
 				latitude=latitude,
 				longitude=longitude,
-				checkin_type=check_in_type
+				checkin_type=check_in_type,
+				description=check_in_reference,
+				project=project
 			)
 		)
-		if check_in_type=="Work from Home" or check_in_type=="Others":
-			log_doc.description = check_in_reference
-		if check_in_type=="Project":
-			log_doc.project = check_in_reference
-		if check_in_type=="Customer Meeting":
-			log_doc.customer = check_in_reference
-		if check_in_type=="Conference":
-			log_doc.conference_name = check_in_reference
-		if check_in_type=="Training":
-			log_doc.training_name = check_in_reference
+		# if check_in_type=="Work from Home":
+		# if check_in_type=="Project":
+		# 	log_doc.project = check_in_reference
+		# 	log_doc.description = check_in_reference
+		# if check_in_type=="Customer Meeting":
+		# 	log_doc.customer = check_in_reference
+		# if check_in_type=="Conference":
+		# 	log_doc.conference_name = check_in_reference
+		# if check_in_type=="Training":
+		# 	log_doc.training_name = check_in_reference
 		
 		log_doc.insert(ignore_permissions=True)
 
