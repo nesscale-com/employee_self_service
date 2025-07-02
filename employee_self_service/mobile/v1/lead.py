@@ -215,6 +215,9 @@ def get_country_list():
 def get_lead_open_activities(name):
     try:
         open_activities = get_open_activities("Lead", name)
+        for event in open_activities.get("events", []):
+            event["starts_on"] = event.get("starts_on").strftime("%Y-%m-%d") if event.get("starts_on") else None
+            event["ends_on"] = event.get("ends_on").strftime("%Y-%m-%d") if event.get("ends_on") else None
         return gen_response(200, "Lead Open activity list fetched successfully.", open_activities)
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to list Lead Open activities.")
