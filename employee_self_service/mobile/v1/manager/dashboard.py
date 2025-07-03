@@ -221,35 +221,35 @@ def get_crm_dashboard():
             fields=["opportunity_amount"]
         )
 
-    # Initialize response
-    data = {
-        "total_number_of_deals_closed": len(get_deals([
-            ["transaction_date", "between", [fy_start, fy_end]],
-            ["status", "=", "Converted"],
-            ["company", "=", company]
-        ], fields=["name"])),
+    def calculate_percentage_change(current, previous):
+        if previous == 0:
+            return 100 if current > 0 else 0
+        return round(((current - previous) / previous) * 100, 2)
 
-        "total_number_of_deals_created": len(get_deals([
-            ["company", "=", company]
-        ], fields=["name"])),
+    # Fetch Deal Lists
+    deals_closed = get_deals([
+        ["transaction_date", "between", [fy_start, fy_end]],
+        ["status", "=", "Converted"],
+        ["company", "=", company]
+    ], fields=["name"])
 
-        "amount_in_pipeline": {"amount_of_deals": 0, "performance_percentage": 0},
-        "deals_in_pipeline": {"counts_of_deals": 0, "performance_percentage": 0},
+    total_deals = get_deals([
+        ["company", "=", company]
+    ], fields=["name"])
 
-        "lost_deals": len(get_deals([
-            ["transaction_date", "between", [fy_start, fy_end]],
-            ["status", "=", "Lost"],
-            ["company", "=", company]
-        ], fields=["name"])),
+    lost_deals = get_deals([
+        ["transaction_date", "between", [fy_start, fy_end]],
+        ["status", "=", "Lost"],
+        ["company", "=", company]
+    ], fields=["name"])
 
-        "deals_stopped": len(get_deals([
-            ["transaction_date", "between", [fy_start, fy_end]],
-            ["status", "=", "Closed"],
-            ["company", "=", company]
-        ], fields=["name"])),
-    }
+    stopped_deals = get_deals([
+        ["transaction_date", "between", [fy_start, fy_end]],
+        ["status", "=", "Closed"],
+        ["company", "=", company]
+    ], fields=["name"])
 
-    # Pipeline Amounts
+    # Pipeline Data
     pipeline_deals = get_pipeline_deals(fy_start, fy_end)
     current_pipeline = get_pipeline_deals(current_month_start, current_month_end)
     previous_pipeline = get_pipeline_deals(previous_month_start, previous_month_end)
@@ -259,13 +259,40 @@ def get_crm_dashboard():
     previous_amount = sum(flt(d.opportunity_amount) for d in previous_pipeline)
 
     percent_change = calculate_percentage_change(current_amount, previous_amount)
+    deal_count_change = calculate_percentage_change(len(current_pipeline), len(previous_pipeline))
 
-    data["amount_in_pipeline"]["amount_of_deals"] = total_pipeline_amount
-    data["amount_in_pipeline"]["performance_percentage"] = percent_change
-    data["deals_in_pipeline"]["counts_of_deals"] = len(pipeline_deals)
-    data["deals_in_pipeline"]["performance_percentage"] = percent_change
+    # Final Dashboard Response
+    dashboard = [
+        {
+            "title": "Deals Closed (Current Fiscal Year)",
+            "value": len(deals_closed),
+        },
+        {
+            "title": "Total Number of Deals",
+            "value": len(total_deals),
+        },
+        {
+            "title": "Amount in Pipeline",
+            "value": total_pipeline_amount,
+            "subtext": f"{percent_change}% from last month"
+        },
+        {
+            "title": "Deals in Pipeline",
+            "value": len(pipeline_deals),
+            "subtext": f"{deal_count_change}% from last month"
+        },
+        {
+            "title": "Lost Opportunities",
+            "value": len(lost_deals),
+        },
+        {
+            "title": "Deals Stopped",
+            "value": len(stopped_deals),
+        }
+    ]
 
-    return gen_response(200, "CRM Dashboard Stats fetched successfully", data)
+    return gen_response(200, "CRM Dashboard Stats fetched successfully", dashboard)
+
 
 
 def calculate_percentage_change(current, previous):
