@@ -2242,7 +2242,7 @@ def get_quick_task_list():
 @ess_validate(methods=["GET"])
 def get_project_list():
 	try:
-		project_list = frappe.get_list("Project", ["name", "project_name"])
+		project_list = frappe.get_list("Project",filters={"name":["not like","%ST-HR%"]}, fields=["name", "project_name"])
 		return gen_response(200, "Project List getting Successfully", project_list)
 	except frappe.PermissionError:
 		return gen_response(500, "Not permitted read project")
