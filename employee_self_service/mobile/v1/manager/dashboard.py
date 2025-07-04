@@ -262,9 +262,19 @@ def get_crm_dashboard():
     deal_count_change = calculate_percentage_change(len(current_pipeline), len(previous_pipeline))
 
     # Final Dashboard Response
+    # Determine color based on percent_change
+    if percent_change > 0:
+        color = "#28a745"  # green
+    elif percent_change < 0:
+        color = "#dc3545"  # red
+    elif percent_change == 0:
+        color = "#FFA500"  # orange
+    else:
+        color = "#111111"  # black
+
     dashboard = [
         {
-            "title": "Deals Closed (Current Fiscal Year)",
+            "title": "Deals Closed (Current FY)",
             "value": len(deals_closed),
         },
         {
@@ -274,12 +284,14 @@ def get_crm_dashboard():
         {
             "title": "Amount in Pipeline",
             "value": total_pipeline_amount,
-            "subtext": f"{percent_change}% from last month"
+            "subtext": f"{percent_change}% from last month",
+            "color": color
         },
         {
             "title": "Deals in Pipeline",
             "value": len(pipeline_deals),
-            "subtext": f"{deal_count_change}% from last month"
+            "subtext": f"{deal_count_change}% from last month",
+            "color": color
         },
         {
             "title": "Lost Opportunities",
