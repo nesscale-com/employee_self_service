@@ -264,13 +264,13 @@ def get_crm_dashboard():
     # Final Dashboard Response
     # Determine color based on percent_change
     if percent_change > 0:
-        color = "#28a745"  # green
+        color = "0xff28a745"  # green
     elif percent_change < 0:
-        color = "#dc3545"  # red
+        color = "0xffdc3545"  # red
     elif percent_change == 0:
-        color = "#FFA500"  # orange
+        color = "0xffFFA500"  # orange
     else:
-        color = "#111111"  # black
+        color = "0xff111111"  # black
 
     dashboard = [
         {
