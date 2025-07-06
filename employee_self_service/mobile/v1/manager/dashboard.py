@@ -255,6 +255,7 @@ def get_crm_dashboard():
     previous_pipeline = get_pipeline_deals(previous_month_start, previous_month_end)
 
     total_pipeline_amount = sum(flt(d.opportunity_amount) for d in pipeline_deals)
+    total_pipeline_amount = round(total_pipeline_amount / 1_000_000, 2)
     current_amount = sum(flt(d.opportunity_amount) for d in current_pipeline)
     previous_amount = sum(flt(d.opportunity_amount) for d in previous_pipeline)
 
