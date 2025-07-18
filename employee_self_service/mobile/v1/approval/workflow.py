@@ -15,22 +15,37 @@ from frappe.model.workflow import get_transitions
 def get_active_workflow_document(module=None, internal=False):
     try:
         all_workflows = []
-        workflows = frappe.get_all(
-            "Workflow", filters={"is_active": 1}, fields=["document_type"]
-        )
+        workflow_filters = {}
         if module:
-            filtered_workflows = []
-            for wf in workflows:
-                # Fetch the module of the document_type
-                doctype_module = frappe.db.get_value(
-                    "DocType", wf["document_type"], "module"
-                )
+            workflow_filters = {'module': module}
 
-                # Check if module matches the given parameter
-                if doctype_module == module:
-                    filtered_workflows.append(wf)
+        defined_workflows = frappe.get_all(
+            "ESS Workflow Setting Details",
+            filters=workflow_filters,
+            fields=["workflow"],
+            pluck="workflow"
+        )
 
-            workflows = filtered_workflows  # Update the workflows list
+        workflows = frappe.get_all(
+            "Workflow",
+            filters=[
+                ["Workflow", "is_active", "=", 1],
+                ["Workflow", "name", "in", defined_workflows]
+                ],
+            fields=["document_type"]
+        )
+
+        # filtered_workflows = []
+        # for wf in workflows:
+        #     # Fetch the module of the document_type
+        #     doctype_module = frappe.db.get_value(
+        #         "DocType", wf["document_type"], "module"
+        #     )
+
+        #     # Check if module matches the given parameter
+        #     if doctype_module == module:
+        #         filtered_workflows.append(wf)
+        # workflows = filtered_workflows  # Update the workflows list
 
         if internal:
             return workflows

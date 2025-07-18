@@ -2,7 +2,9 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('ESS Post', {
-	// refresh: function(frm) {
-
-	// }
+	validate: function(frm) {
+        if (!frm.doc.category) {
+            frappe.throw(__('Category is mandatory'));
+        }
+    }
 });

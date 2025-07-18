@@ -11,6 +11,7 @@
   "user_image",
   "full_name",
   "publish",
+  "category",
   "column_break_ajqva",
   "employee",
   "post_datetime",
@@ -149,11 +150,18 @@
    "fieldname": "full_name",
    "fieldtype": "Read Only",
    "label": "Full Name"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "ESS Post Category"
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-31 13:00:05.637585",
+ "modified": "2025-07-15 16:50:03.328777",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Post",
@@ -184,6 +192,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
