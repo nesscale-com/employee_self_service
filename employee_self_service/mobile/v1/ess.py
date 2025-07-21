@@ -1142,7 +1142,80 @@ def get_task_list_dashboard():
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_attendance_list(year=None, month=None):
+def get_attendance_detail(year=None, month=None):
+    try:
+        if not year or not month:
+            return gen_response(500, "year and month is required", [])
+        emp_data = get_employee_by_user(frappe.session.user)
+        present_count = 0
+        absent_count = 0
+        late_count = 0
+
+        employee_attendance_list = frappe.get_all(
+            "Attendance",
+            filters={
+                "employee": emp_data.get("name"),
+                "attendance_date": [
+                    "between",
+                    [
+                        f"{int(year)}-{int(month)}-01",
+                        f"{int(year)}-{int(month)}-{calendar.monthrange(int(year), int(month))[1]}",
+                    ],
+                ],
+            },
+            fields=[
+                "name",
+                "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
+                "attendance_date as date",
+                "status",
+                "working_hours",
+                "DATE_FORMAT(in_time, '%h:%i %p') AS in_time",
+                "DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
+                "late_entry",
+            ]
+        )
+
+        if not employee_attendance_list:
+            return gen_response(500, "No attendance found for this month.", [])
+
+        for attendance in employee_attendance_list:
+            employee_checkin_details = frappe.get_all(
+                "Employee Checkin",
+                filters={"attendance": attendance.get("name")},
+                fields=["log_type", "time_format(time, '%h:%i %p') as time"],
+            )
+
+            attendance["employee_checkin_detail"] = employee_checkin_details
+
+            if attendance["status"] == "Present":
+                present_count += 1
+
+                if attendance["late_entry"] == 1:
+                    late_count += 1
+
+            elif attendance["status"] == "Absent":
+                absent_count += 1
+
+            del attendance["name"]
+            del attendance["late_entry"]
+
+        attendance_details = {
+            "days_in_month": calendar.monthrange(int(year), int(month))[1],
+            "present": present_count,
+            "absent": absent_count,
+            "late": late_count,
+        }
+
+        return gen_response(
+            200, "Attendance data getting successfully", attendance_details
+        )
+
+    except Exception as e:
+        return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_attendance_list(year=None, month=None, start=0, page_length=10):
     try:
         if not year or not month:
             return gen_response(500, "year and month is required", [])
@@ -1173,6 +1246,8 @@ def get_attendance_list(year=None, month=None):
                 "DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
                 "late_entry",
             ],
+            start=start,
+            page_length=page_length,
         )
 
         if not employee_attendance_list:
@@ -1215,6 +1290,7 @@ def get_attendance_list(year=None, month=None):
 
     except Exception as e:
         return exception_handler(e)
+
 
 
 @frappe.whitelist()
@@ -2387,7 +2463,8 @@ def get_training_list():
         return gen_response(500, "Not permitted read user")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def mark_read_notification():
@@ -2398,24 +2475,28 @@ def mark_read_notification():
         return gen_response(200, "Notification mark read successfully")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def create_missing_log(**data):
     try:
-        employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "name")
+        employee = frappe.db.get_value(
+            "Employee", {"user_id": frappe.session.user}, "name"
+        )
         if not employee:
             return gen_response(404, "Employee not found for current user")
 
-        doc = frappe.get_doc({
-            "doctype": "Web Check in",
-            **data,
-            "employee": employee,
-            "edit_checkin_time": 1
-        })
+        doc = frappe.get_doc(
+            {
+                "doctype": "Web Check in",
+                **data,
+                "employee": employee,
+                "edit_checkin_time": 1,
+            }
+        )
         doc.insert()
 
         return gen_response(200, "Missing Log created successfully")
     except Exception as e:
         return exception_handler(e)
-
