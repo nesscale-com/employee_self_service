@@ -1,0 +1,183 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{destination_language} Import on {creation}",
+ "beta": 1,
+ "creation": "2025-07-22 15:36:07.532251",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "destination_language",
+  "import_type",
+  "download_template",
+  "import_file",
+  "payload_count",
+  "html_5",
+  "google_sheets_url",
+  "refresh_google_sheet",
+  "column_break_ihtr",
+  "status",
+  "template_options",
+  "import_warnings_section",
+  "template_warnings",
+  "import_warnings",
+  "section_import_preview",
+  "import_preview",
+  "import_log_section",
+  "show_failed_logs",
+  "import_log_preview"
+ ],
+ "fields": [
+  {
+   "fieldname": "destination_language",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Destination Language",
+   "options": "Language",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "download_template",
+   "fieldtype": "Button",
+   "label": "Download Template"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "import_file",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Import File"
+  },
+  {
+   "fieldname": "payload_count",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Payload Count",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:!doc.__islocal && !doc.import_file\n",
+   "description": "Must be a publicly accessible Google Sheets URL",
+   "fieldname": "google_sheets_url",
+   "fieldtype": "Data",
+   "label": "Import from Google Sheets",
+   "read_only_depends_on": "eval: ['Success', 'Partial Success'].includes(doc.status)"
+  },
+  {
+   "depends_on": "eval:doc.google_sheets_url && !doc.__unsaved &&  ['Success', 'Partial Success'].includes(doc.status)",
+   "fieldname": "refresh_google_sheet",
+   "fieldtype": "Button",
+   "label": "Refresh Google Sheet"
+  },
+  {
+   "fieldname": "column_break_ihtr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Pending\nSuccess\nPartial Success\nError\nTimed Out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "template_options",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Template Options",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "template_warnings",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Template Warnings",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "import_warnings",
+   "fieldtype": "HTML",
+   "label": "Import Warnings"
+  },
+  {
+   "fieldname": "import_preview",
+   "fieldtype": "HTML",
+   "label": "Import Preview"
+  },
+  {
+   "fieldname": "import_log_section",
+   "fieldtype": "Section Break",
+   "label": "Import Log"
+  },
+  {
+   "fieldname": "import_log_preview",
+   "fieldtype": "HTML",
+   "label": "Import Log Preview"
+  },
+  {
+   "fieldname": "import_warnings_section",
+   "fieldtype": "Section Break",
+   "label": "Import File Errors and Warnings"
+  },
+  {
+   "fieldname": "section_import_preview",
+   "fieldtype": "Section Break",
+   "label": "Preview"
+  },
+  {
+   "fieldname": "import_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Import Type",
+   "options": "\nInsert New Records\nUpdate Existing Records",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "show_failed_logs",
+   "fieldtype": "Check",
+   "label": "Show Only Failed Logs"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal && !doc.import_file",
+   "fieldname": "html_5",
+   "fieldtype": "HTML",
+   "options": "<h5 class=\"text-muted uppercase\">Or</h5>"
+  }
+ ],
+ "grid_page_length": 50,
+ "hide_toolbar": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-07-22 19:31:25.193677",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Translation Setting",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

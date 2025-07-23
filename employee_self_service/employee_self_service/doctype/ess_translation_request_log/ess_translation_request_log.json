@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "creation": "2025-07-22 16:08:16.319936",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "MyISAM",
+ "field_order": [
+  "ess_translation_request",
+  "row_indexes",
+  "success",
+  "docname",
+  "messages",
+  "exception",
+  "log_index"
+ ],
+ "fields": [
+  {
+   "fieldname": "row_indexes",
+   "fieldtype": "Code",
+   "label": "Row Indexes",
+   "options": "JSON"
+  },
+  {
+   "default": "0",
+   "fieldname": "success",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Success"
+  },
+  {
+   "fieldname": "docname",
+   "fieldtype": "Data",
+   "label": "Reference Name"
+  },
+  {
+   "fieldname": "messages",
+   "fieldtype": "Code",
+   "label": "Messages",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "exception",
+   "fieldtype": "Text",
+   "label": "Exception"
+  },
+  {
+   "fieldname": "log_index",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Log Index"
+  },
+  {
+   "fieldname": "ess_translation_request",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "ESS Translation Request",
+   "options": "ESS Translation Setting"
+  }
+ ],
+ "grid_page_length": 50,
+ "in_create": 1,
+ "links": [],
+ "modified": "2025-07-22 16:22:29.959478",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Translation Request Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "read_only": 1,
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
