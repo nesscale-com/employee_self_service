@@ -28,7 +28,7 @@ def create_attendance_request(*args, **kwargs):
             500,
             f"Please provide the following fields to proceed: {', '.join(missing_fields)}.",
         )
-
+    del data["include_holidays"]
     try:
         employee = frappe.get_value(
             "Employee", {"user_id": frappe.session.user}, "name"
@@ -96,14 +96,14 @@ def get_attendance_request_list(**data):
                 "to_date",
                 "half_day",
                 "half_day_date",
-                "include_holidays",
-                "shift",
                 "reason",
                 "explanation",
-            ],
+            ]
         )
 
         for request in attendance_request_list:
+            request["include_holidays"] = 0
+            request["shift"] = ""
             if request.get("from_date"):
                 request["from_date"] = getdate(request["from_date"]).strftime(
                     "%d-%m-%Y"
@@ -153,13 +153,13 @@ def get_attendance_request(request_id=None):
                 "to_date",
                 "half_day",
                 "half_day_date",
-                "include_holidays",
-                "shift",
                 "reason",
                 "explanation",
             ],
             as_dict=True,
         )
+        request_doc["include_holidays"] = 0
+        request_doc["shift"] = ""
         if request_doc.get("from_date"):
             request_doc["from_date"] = getdate(request_doc["from_date"]).strftime(
                 "%d-%m-%Y"
