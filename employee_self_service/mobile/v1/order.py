@@ -15,6 +15,7 @@ from employee_self_service.mobile.v1.api_utils import (
     check_workflow_exists,
 )
 from erpnext.accounts.party import get_dashboard_info
+from datetime import datetime
 
 """order list api for mobile app"""
 
@@ -23,37 +24,58 @@ from erpnext.accounts.party import get_dashboard_info
 @ess_validate(methods=["GET"])
 def get_order_list(start=0, page_length=10, filters=None):
     try:
+        if isinstance(filters, str):
+            filters = frappe.parse_json(filters)
+
         global_defaults = get_global_defaults()
-        status_field = check_workflow_exists("Sales Order")
-        if status_field == False:
-            status_field = "status"
+        status_field = check_workflow_exists("Sales Order") or "status"
+
+        # Move 'status' into dynamic status field
         if filters and filters.get("status"):
-            status_val = filters.get("status")
-            del filters["status"]
-            filters[status_field] = status_val
+            filters[status_field] = filters.pop("status")
+
+        # Handle 'item' filter separately (joins with Sales Order Item)
+        if filters and filters.get("item"):
+            updated_filters = []
+            for key, value in filters.items():
+                frappe.log_error(title="key", message=cstr(key))
+                if key == "item":
+                    updated_filters.append(
+                        ["Sales Order Item", "item_code", "=", value]
+                    )
+                else:
+                    updated_filters.append(["Sales Order", key, "=", value])
+            frappe.log_error(title="filters", message=updated_filters)
         order_list = frappe.get_list(
             "Sales Order",
             fields=[
                 "name",
                 "customer",
                 "customer_name",
-                "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
+                "transaction_date",
                 "grand_total",
                 f"{status_field} as status",
                 "total_qty",
             ],
             start=start,
             page_length=page_length,
-            order_by="modified desc",
-            filters=filters,
+            order_by="`tabSales Order`.modified desc",
+            filters=filters if not filters.get("item") else updated_filters,
         )
+
         for order in order_list:
             order["grand_total"] = fmt_money(
                 order["grand_total"], currency=global_defaults.get("default_currency")
             )
-        gen_response(200, "Order list get successfully", order_list)
+            order["transaction_date"] = datetime.strftime(
+                order["transaction_date"], "%d-%m-%Y"
+            )
+
+        return gen_response(200, "Order list fetched successfully", order_list)
+
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted for sales order")
+        return gen_response(403, "Not permitted for Sales Order")
+
     except Exception as e:
         return exception_handler(e)
 
@@ -68,6 +90,33 @@ def get_order_list(start=0, page_length=10, filters=None):
 #         return sales_order_workflow[0].workflow_state_field
 #     else:
 #         return False
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_order_status():
+    try:
+        # Get status options from Sales Order doctype meta
+        meta = frappe.get_meta("Sales Order")
+        status_field_meta = meta.get_field("status")
+        status_options = []
+
+        if status_field_meta and status_field_meta.options:
+            # Remove empty/blank options
+            status_options = [
+                opt.strip()
+                for opt in status_field_meta.options.split("\n")
+                if opt.strip()
+            ]
+
+        return gen_response(
+            200,
+            "Order status options fetched successfully",
+            status_options,
+        )
+
+    except Exception as e:
+        return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -135,6 +184,7 @@ def get_order(*args, **kwargs):
                         "discount_percentage",
                         "price_list_rate",
                         "price_list_rate_currency",
+                        "uom",
                     ],
                     item,
                 )
@@ -175,19 +225,6 @@ def get_attachments(id):
     )
 
 
-# def get_actions(doc, doc_data=None):
-#     from frappe.model.workflow import get_transitions
-
-#     if not check_workflow_exists():
-#         doc_data["workflow_state"] = doc.get("status")
-#         return []
-#     transitions = get_transitions(doc)
-#     actions = []
-#     for row in transitions:
-#         actions.append(row.get("action"))
-#     return actions
-
-
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def update_workflow_state(order_id, action):
@@ -222,7 +259,14 @@ def get_customer_list(start=0, page_length=10, filters=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_item_list(filters=None, customer=None):
+def get_item_list(
+    start=0,
+    page_length=10,
+    filters=None,
+    customer=None,
+    for_filters=None,
+    or_filters=None,
+):
     try:
         if not filters:
             filters = []
@@ -231,8 +275,14 @@ def get_item_list(filters=None, customer=None):
             "Item",
             fields=["name", "item_name", "item_code", "image", "stock_uom"],
             filters=filters,
+            start=start,
+            or_filters=or_filters,
+            page_length=page_length,
         )
-        items = get_items_rate(item_list, customer=customer)
+        if for_filters:
+            items = item_list
+        else:
+            items = get_items_rate(item_list, customer=customer)
         gen_response(200, "Item list get successfully", items)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for item")
@@ -300,14 +350,14 @@ def get_uoms(customer, item):
             uom=item_doc.get("stock_uom"),
         )
         for uom_row in item_doc.get("uoms"):
-            if uom_row.get("uom") == item_doc.get('stock_uom'):
+            if uom_row.get("uom") == item_doc.get("stock_uom"):
                 uom_hint = f"{uom_row.get('uom')} is default uom"
             else:
                 uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),
-                uom_hint=uom_hint
+                uom_hint=uom_hint,
             )
             get_uom_item_price(
                 sales_price_list, item, uom_details, default_uom_price, global_defaults

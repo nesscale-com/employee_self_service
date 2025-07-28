@@ -41,6 +41,7 @@ from employee_self_service.employee_self_service.doctype.push_notification.push_
 )
 from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
 from employee_self_service.utils import add_ess_comment
+from employee_self_service.mobile.v1.task import *
 
 
 @frappe.whitelist(allow_guest=True)
@@ -77,38 +78,27 @@ def validate_employee(user):
 
 
 def register_device(employee, unique_id):
-    # check if device registration exists for this employee
-    # if not enter the given number and create registration
-    # if exists than validate the given number with existing number
-    # if number mataches than allow login
-    # else through frappe exceptions
-    try:
-        ess_settings = get_ess_settings()
-        if not ess_settings.get("enable_device_restrictions"):
-            return True
-
-        existing_registration = frappe.db.exists(
-            "Employee Device Registration", {"employee": employee}
-        )
-
-        if not existing_registration:
-            # Register the device if not exists
-            doc = frappe.new_doc("Employee Device Registration")
-            doc.employee = employee
-            doc.unique_id = unique_id
-            doc.insert(ignore_permissions=True)
-        else:
-            # Fetch the existing device_id to compare
-            registered_device_id = frappe.db.get_value(
-                "Employee Device Registration", existing_registration, "unique_id"
-            )
-            if registered_device_id != unique_id:
-                gen_response(500, "Device not recognized. Please contact admin.")
-                return False
+    ess_settings = get_ess_settings()
+    if not ess_settings.get("enable_device_restrictions"):
         return True
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "register_device_error")
-        frappe.throw("An error occurred during device registration.")
+
+    registered_device_id = frappe.db.get_value(
+        "Employee Device Registration", {"employee": employee}, "unique_id"
+    )
+
+    if not registered_device_id:
+        # No existing device, so register the current one
+        frappe.get_doc(
+            {
+                "doctype": "Employee Device Registration",
+                "employee": employee,
+                "unique_id": unique_id,
+            }
+        ).insert(ignore_permissions=True)
+    elif registered_device_id != unique_id:
+        frappe.throw("Device not recognized. Please contact admin.")
+
+    return True
 
 
 @frappe.whitelist()
@@ -601,6 +591,9 @@ def get_dashboard():
             "notification_count": frappe.db.count(
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
             ),
+            "role_based_menu_visibility": settings.get(
+                "enable_role_based_menu_visibility"
+            ),
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -1028,157 +1021,6 @@ def get_employees_having_an_event_today(event_type, date=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_task_list(start=0, page_length=10, filters=None, today_task=False):
-    try:
-        filters = update_task_filters(filters, today_task)
-        tasks = frappe.get_list(
-            "Task",
-            fields=[
-                "name",
-                "subject",
-                "project",
-                "priority",
-                "status",
-                "description",
-                "exp_end_date",
-                "_assign as assigned_to",
-                "owner as assigned_by",
-                "progress",
-                "issue",
-            ],
-            filters=filters,
-            start=start,
-            page_length=page_length,
-            order_by="modified desc",
-        )
-        for task in tasks:
-            # if frappe.session.user == task.get("assigned_by") or frappe.session.user == task.get("completed_by") or (task.get("assigned_to") and frappe.session.user in task.get("assigned_to")):
-            if task["exp_end_date"]:
-                task["exp_end_date"] = task["exp_end_date"].strftime("%d %b %Y")
-            get_task_comments(task)
-            task["project_name"] = frappe.db.get_value(
-                "Project", {"name": task.get("project")}, ["project_name"]
-            )
-            get_task_assigned_by(task)
-            if task.get("assigned_to"):
-                task["assigned_to"] = frappe.get_all(
-                    "User",
-                    filters=[
-                        ["User", "email", "in", json.loads(task.get("assigned_to"))]
-                    ],
-                    fields=["full_name as user", "user_image"],
-                    order_by="creation asc",
-                )
-            else:
-                task["assigned_to"] = []
-                # updated_task.append(task)
-
-        return gen_response(200, "Task list getting Successfully", tasks)
-    except Exception as e:
-        return exception_handler(e)
-
-
-def update_task_filters(filters, today_task):
-    if isinstance(filters, str):
-        filters = json.loads(filters)
-    if today_task:
-        filters.append(["Task", "exp_end_date", "=", today()])
-    return filters
-
-
-def get_task_assigned_by(task):
-    task["assigned_by"] = frappe.db.get_value(
-        "User",
-        {"name": task.get("assigned_by")},
-        ["full_name as user", "user_image"],
-        as_dict=1,
-    )
-
-
-def get_task_comments(task):
-    comments = frappe.get_all(
-        "Comment",
-        filters={
-            "reference_name": ["like", "%{0}%".format(task.get("name"))],
-            "comment_type": "Comment",
-        },
-        fields=[
-            "content as comment",
-            "comment_by",
-            "reference_name",
-            "creation",
-            "comment_email",
-        ],
-    )
-    for comment in comments:
-        comment["commented"] = pretty_date(comment["creation"])
-        comment["creation"] = comment["creation"].strftime("%I:%M %p")
-        user_image = frappe.get_value(
-            "User", comment.comment_email, "user_image", cache=True
-        )
-        comment["user_image"] = user_image
-
-    task["comments"] = comments
-    task["num_comments"] = len(comments)
-
-
-def validate_assign_task(task_id):
-    assigned_to = frappe.get_value(
-        "Task",
-        {"name": task_id},
-        ["_assign", "status"],
-        cache=True,
-        as_dict=True,
-    )
-
-    if assigned_to.get("_assign") == None:
-        frappe.throw("Task not assigned for any user")
-
-    elif frappe.session.user not in assigned_to.get("_assign"):
-        frappe.throw("You are not authorized to update this task")
-
-
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def update_task_status(task_id=None, new_status=None):
-    try:
-        if not task_id or not new_status:
-            return gen_response(500, "task id and new status is required")
-        validate_assign_task(task_id=task_id)
-        task_doc = frappe.get_doc("Task", task_id)
-        if task_doc.get("status") == new_status:
-            return gen_response(500, "status already up-to-date")
-        task_doc.status = new_status
-        if task_doc.status == "Completed":
-            task_doc.completed_by = frappe.session.user
-            task_doc.completed_on = today()
-        task_doc.save()
-        return gen_response(200, "Task status updated successfully")
-
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for update task")
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def update_task_progress(task_id=None, progress=None):
-    try:
-        if not task_id or not progress:
-            return gen_response(500, "task id and progress is required")
-        validate_assign_task(task_id=task_id)
-        if progress:
-            frappe.db.set_value("Task", task_id, "progress", progress)
-        return gen_response(200, "Progress updated successfully")
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for update task")
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
 def get_holiday_list(year=None):
     try:
         if not year:
@@ -1222,87 +1064,6 @@ def get_holiday_list(year=None):
                 }
             )
         return gen_response(200, "Holiday list get successfully", holiday_list)
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_task_list_dashboard():
-    try:
-        filters = [
-            ["_assign", "like", f"%{frappe.session.user}%"],
-            ["status", "!=", "Completed"],
-        ]
-        tasks = frappe.get_all(
-            "Task",
-            fields=[
-                "name",
-                "subject",
-                "project",
-                "priority",
-                "status",
-                "description",
-                "exp_end_date",
-                "_assign as assigned_to",
-                "owner as assigned_by",
-                "progress",
-            ],
-            filters=filters,
-            limit=4,
-        )
-        for task in tasks:
-            if task["exp_end_date"]:
-                task["exp_end_date"] = task["exp_end_date"].strftime("%d %b %Y")
-            comments = frappe.get_all(
-                "Comment",
-                filters={
-                    "reference_name": ["like", "%{0}%".format(task.get("name"))],
-                    "comment_type": "Comment",
-                },
-                fields=[
-                    "content as comment",
-                    "comment_by",
-                    "reference_name",
-                    "creation",
-                    "comment_email",
-                ],
-            )
-
-            project_name = frappe.db.get_value(
-                "Project", {"name": task.get("project")}, ["project_name"]
-            )
-            task["project_name"] = project_name
-
-            assigned_by = frappe.db.get_value(
-                "User",
-                {"name": task.get("assigned_by")},
-                ["full_name as user", "user_image"],
-                as_dict=1,
-            )
-            task["assigned_by"] = assigned_by
-
-            for comment in comments:
-                comment["commented"] = pretty_date(comment["creation"])
-                comment["creation"] = comment["creation"].strftime("%I:%M %p")
-                user_image = frappe.get_value(
-                    "User", comment.comment_email, "user_image", cache=True
-                )
-                comment["user_image"] = user_image
-
-            assigned_to = frappe.get_all(
-                "User",
-                filters=[["User", "email", "in", json.loads(task.get("assigned_to"))]],
-                fields=["full_name as user", "user_image"],
-                order_by="creation asc",
-            )
-
-            task["assigned_to"] = assigned_to
-
-            task["comments"] = comments
-            task["num_comments"] = len(comments)
-
-        return gen_response(200, "Task list get successfully", tasks)
     except Exception as e:
         return exception_handler(e)
 
@@ -1998,95 +1759,6 @@ def change_password(data):
         return exception_handler(e)
 
 
-# Need to refector this api
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_task_by_id(task_id=None):
-    try:
-        if not task_id:
-            return gen_response(500, "task_id is required", [])
-        filters = [["Task", "name", "=", task_id]]
-        tasks = frappe.db.get_value(
-            "Task",
-            filters,
-            [
-                "name",
-                "subject",
-                "project",
-                "priority",
-                "status",
-                "description",
-                "exp_end_date",
-                "expected_time",
-                "actual_time",
-                "_assign as assigned_to",
-                "owner as assigned_by",
-                "completed_by",
-                "completed_on",
-                "progress",
-                "issue",
-            ],
-            as_dict=1,
-        )
-        if not tasks:
-            return gen_response(500, "you have not task with this task id", [])
-
-        tasks["assigned_by"] = frappe.db.get_value(
-            "User",
-            {"name": tasks.get("assigned_by")},
-            ["name", "full_name as user", "full_name", "user_image"],
-            as_dict=1,
-        )
-        tasks["completed_by"] = frappe.db.get_value(
-            "User",
-            {"name": tasks.get("completed_by")},
-            ["name", "full_name as user", "full_name", "user_image"],
-            as_dict=1,
-        )
-        tasks["project_name"] = frappe.db.get_value(
-            "Project", {"name": tasks.get("project")}, ["project_name"]
-        )
-
-        if tasks.get("assigned_to"):
-            tasks["assigned_to"] = frappe.get_all(
-                "User",
-                filters=[["User", "email", "in", json.loads(tasks.get("assigned_to"))]],
-                fields=["name", "full_name as user", "full_name", "user_image"],
-                order_by="creation asc",
-            )
-
-        comments = frappe.get_all(
-            "Comment",
-            filters={
-                "reference_name": ["like", "%{0}%".format(tasks.get("name"))],
-                "comment_type": "Comment",
-            },
-            fields=[
-                "content as comment",
-                "comment_by",
-                "reference_name",
-                "creation",
-                "comment_email",
-            ],
-        )
-
-        for comment in comments:
-            comment["commented"] = pretty_date(comment["creation"])
-            comment["creation"] = comment["creation"].strftime("%I:%M %p")
-            comment["user_image"] = frappe.get_value(
-                "User", comment.comment_email, "user_image", cache=True
-            )
-
-        tasks["comments"] = comments
-        tasks["num_comments"] = len(comments)
-
-        return gen_response(200, "Task", tasks)
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted read task")
-    except Exception as e:
-        return exception_handler(e)
-
-
 # moved to expense.py
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
@@ -2174,7 +1846,7 @@ def get_transactions(
         if not party:
             emp_data = get_employee_by_user(frappe.session.user)
             party = [emp_data.get("name")]
-        allowed_party_types = ["Employee", "Customer"]
+        allowed_party_types = ["Employee", "Customer", "Supplier"]
 
         if party_type not in allowed_party_types:
             frappe.throw(
@@ -2197,6 +1869,10 @@ def get_transactions(
         if party_type == "Employee" and isinstance(party, list) and len(party) == 1:
             filters_report["party_name"] = frappe.db.get_value(
                 party_type, party[0], "employee_name"
+            )
+        elif party_type == "Supplier" and isinstance(party, list) and len(party) == 1:
+            filters_report["party_name"] = frappe.db.get_value(
+                party_type, party[0], "supplier_name"
             )
         else:
             filters_report["party_name"] = (
@@ -2330,6 +2006,25 @@ def get_employee_list():
         return exception_handler(e)
 
 
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_supplier_list(start=0, page_length=10, filters=None):
+    try:
+        supplier_list = frappe.get_list(
+            "Supplier",
+            ["name", "supplier_name", "mobile_no as phone"],
+            start=start,
+            filters=filters,
+            page_length=page_length,
+            order_by="modified desc",
+        )
+        return gen_response(200, "Supplier list get successfully", supplier_list)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted read supplier")
+    except Exception as e:
+        return exception_handler(e)
+
+
 def send_notification_for_task_assign(doc, event):
     from frappe.utils.data import strip_html
 
@@ -2373,31 +2068,6 @@ def delete_documents(file_id=None, attached_to_name=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def create_task(**kwargs):
-    try:
-        from frappe.desk.form import assign_to
-
-        data = kwargs
-        task_doc = frappe.get_doc(dict(doctype="Task"))
-        task_doc.update(data)
-        task_doc.insert()
-        if data.get("assign_to"):
-            assign_to.add(
-                {
-                    "assign_to": data.get("assign_to"),
-                    "doctype": task_doc.doctype,
-                    "name": task_doc.name,
-                }
-            )
-        return gen_response(200, "Task has been created successfully")
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for create task")
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
 def create_quick_task(**kwargs):
     try:
         from frappe.desk.form import assign_to
@@ -2421,42 +2091,18 @@ def create_quick_task(**kwargs):
         return exception_handler(e)
 
 
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def get_task(**kwargs):
-    try:
-        data = kwargs
-        task_doc = frappe.get_doc("Task", data.get("name"))
-        return gen_response(200, "Task get successfully", task_doc)
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for create task")
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def update_task(**kwargs):
-    try:
-        from frappe.desk.form import assign_to
-
-        data = kwargs
-        task_doc = frappe.get_doc("Task", data.get("name"))
-        task_doc.update(data)
-        task_doc.save()
-        if data.get("assign_to"):
-            assign_to.add(
-                {
-                    "assign_to": data.get("assign_to"),
-                    "doctype": task_doc.doctype,
-                    "name": task_doc.name,
-                }
-            )
-        return gen_response(200, "Task has been updated successfully")
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for update task")
-    except Exception as e:
-        return exception_handler(e)
+# deprecated this api
+# @frappe.whitelist()
+# @ess_validate(methods=["POST"])
+# def get_task(**kwargs):
+#     try:
+#         data = kwargs
+#         task_doc = frappe.get_doc("Task", data.get("name"))
+#         return gen_response(200, "Task get successfully", task_doc)
+#     except frappe.PermissionError:
+#         return gen_response(500, "Not permitted for create task")
+#     except Exception as e:
+#         return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -2478,18 +2124,6 @@ def get_quick_task_list():
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_project_list():
-    try:
-        project_list = frappe.get_list("Project", ["name", "project_name"])
-        return gen_response(200, "Project List getting Successfully", project_list)
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted read project")
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
 def get_user_list():
     try:
         user_list = frappe.get_all(
@@ -2502,37 +2136,6 @@ def get_user_list():
         return gen_response(500, "Not permitted read user")
     except Exception as e:
         return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_task_status_list():
-    try:
-        task_status = frappe.get_meta("Task").get_field("status").options or ""
-        if task_status:
-            task_status = task_status.split("\n")
-        return gen_response(200, "Status get successfully", task_status)
-    except Exception as e:
-        return exception_handler(e)
-
-
-# def send_notification_on_task_comment(doc, event):
-#     from frappe.utils.data import strip_html
-
-#     if doc.reference_doctype == "Task" and doc.comment_type == "Comment":
-#         filters = [["Comment", "name", "=", f"{doc.reference_name}"]]
-#         task = frappe.db.get_value(
-#             "Comment", filters, ["content", "owner", "creation"], as_dict=1
-#         )
-#         create_push_notification(
-#             title=f"New Task Comment - {task.get('owner')}",
-#             message=strip_html(str(task.get("content")))
-#             if task.get("content")
-#             else "",
-#             send_for="Multiple User",
-#             user=doc.allocated_to,
-#             notification_type="task_comment",
-#         )
 
 
 @frappe.whitelist()
@@ -2685,5 +2288,18 @@ def get_attendance_list_by_date(date=None):
             200, "Attendance data getting successfully", employee_attendance_list
         )
 
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_backend_ess_version():
+    try:
+        from employee_self_service import __version__
+
+        return gen_response(
+            200, "Backend version get successfully", {"version": __version__}
+        )
     except Exception as e:
         return exception_handler(e)
