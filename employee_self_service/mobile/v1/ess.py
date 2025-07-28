@@ -596,6 +596,9 @@ def get_dashboard():
 			"notification_count": frappe.db.count(
 				"ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
 			),
+			"role_based_menu_visibility": settings.get(
+                "enable_role_based_menu_visibility"
+            )
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")

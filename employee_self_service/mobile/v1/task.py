@@ -339,19 +339,23 @@ def get_task_by_id(task_id=None):
 def create_task(**kwargs):
     try:
         from frappe.desk.form import assign_to
-
+        
         data = kwargs
+        assignee = data.pop("assign_to", None)  # avoid name conflict
+
         task_doc = frappe.get_doc(dict(doctype="Task"))
         task_doc.update(data)
         task_doc.insert()
-        if data.get("assign_to"):
+
+        if assignee:
             assign_to.add(
                 {
-                    "assign_to": data.get("assign_to"),
+                    "assign_to": assignee,
                     "doctype": task_doc.doctype,
                     "name": task_doc.name,
                 }
             )
+
         return gen_response(200, "Task has been created successfully")
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for create task")
@@ -366,13 +370,14 @@ def update_task(**kwargs):
         from frappe.desk.form import assign_to
 
         data = kwargs
+        assignee = data.pop("assign_to", None)  # avoid name conflict
         task_doc = frappe.get_doc("Task", data.get("name"))
         task_doc.update(data)
         task_doc.save()
-        if data.get("assign_to"):
+        if assignee:
             assign_to.add(
                 {
-                    "assign_to": data.get("assign_to"),
+                    "assign_to": assignee,
                     "doctype": task_doc.doctype,
                     "name": task_doc.name,
                 }
