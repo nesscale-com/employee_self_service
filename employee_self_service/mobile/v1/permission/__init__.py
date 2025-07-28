@@ -72,6 +72,8 @@ ESS_MENU_DOCTYPE_MAPPING = {
     "Quotation": {"name": "Quotation", "is_report": 0},
     "Attend Req": {"name": "Attendance Request", "is_report": 0},
     "Shift Req": {"name": "Shift Request", "is_report": 0},
+    "Lead": {"name": "Lead", "is_report": 0},
+    "Task": {"name": "Task", "is_report": 0},
 }
 
 
