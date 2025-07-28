@@ -130,6 +130,7 @@ def get_team_expenses(start=0, page_length=20):
                 "`tabExpense Claim`.posting_date",
                 "`tabExpense Claim`.company",
                 "`tabExpense Claim Detail`.expense_type",
+                "`tabExpense Claim Detail`.name as expense_detail_name",
                 "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
             ]
 
@@ -164,6 +165,7 @@ def get_team_expenses(start=0, page_length=20):
             "`tabExpense Claim`.posting_date",
             "`tabExpense Claim`.company",
             "`tabExpense Claim Detail`.expense_type",
+            "`tabExpense Claim Detail`.name as expense_detail_name",
             "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
         ]
 
@@ -238,14 +240,42 @@ def update_status(document, document_no, status, expenses=None):
             "Leave Application": "status",
             "Expense Claim": "approval_status",
         }
+        status_field = status_field_map.get(document)
+
+        if not status_field:
+            return gen_response(400, f"Unsupported document type: {document}")
+
         doc = frappe.get_doc(document, document_no)
-        doc.update({f"{status_field_map.get(document)}": status})
+
+        if not doc.has_permlevel_access_to(status_field, permission_type="write"):
+            field_label = status_field.replace("_", " ").title()
+            return gen_response(
+                403,
+                f"You do not have permission to update the '{field_label}' field in this {document}.",
+            )
+
+        doc.set(status_field, status)
+
         if document == "Expense Claim" and expenses:
             for expense in expenses:
                 for row in doc.expenses:
                     if row.get("name") == expense.get("name"):
                         row.sanctioned_amount = expense.get("sanctioned_amount")
+
         doc.submit()
-        return gen_response(200, "Document status updated")
+
+        return gen_response(
+            200, f"{document} '{document_no}' status updated to '{status}'."
+        )
+
+    except frappe.PermissionError:
+        return gen_response(
+            403,
+            f"You are not permitted to perform this action on {document} '{document_no}'.",
+        )
+
+    except frappe.DoesNotExistError:
+        return gen_response(404, f"{document} '{document_no}' not found.")
+
     except Exception as e:
         return exception_handler(e)

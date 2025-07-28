@@ -316,9 +316,17 @@ def get_expense(*args, **kwargs):
                 expense_item.get("amount"),
                 currency=global_defaults.get("default_currency"),
             )
+            expense_item["section_amount_in_currency"] = fmt_money(
+                expense_item.get("sanctioned_amount"),
+                currency=global_defaults.get("default_currency"),
+            )
         expense_doc["attachments"] = get_attachments(data.get("id"))
         expense_doc["total_claimed_amount"] = fmt_money(
             expense_doc["total_claimed_amount"],
+            currency=global_defaults.get("default_currency"),
+        )
+        expense_doc["total_sanctioned_amount_in_currency"] = fmt_money(
+            expense_doc["total_sanctioned_amount"],
             currency=global_defaults.get("default_currency"),
         )
         if expense_doc.get("project"):
