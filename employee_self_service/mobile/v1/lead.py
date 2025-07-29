@@ -177,6 +177,9 @@ def get_lead_list():
                 "request_type",
                 "email_id",
                 "mobile_no",
+                "company_name",
+                "source",
+                "modified",
             ],
             order_by="creation desc",
         )
