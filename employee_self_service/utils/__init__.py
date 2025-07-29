@@ -1,7 +1,7 @@
 import frappe
 import re
 from bs4 import BeautifulSoup
-from frappe.utils import today, add_days, getdate
+from frappe.utils import today, cint, getdate
 from frappe.core.doctype.file.file import extract_images_from_html
 from frappe.desk.form.document_follow import follow_document
 import html
@@ -167,3 +167,26 @@ def add_ess_comment(
 
     follow_document(doc.reference_doctype, doc.reference_name, frappe.session.user)
     return doc.as_dict()
+
+
+@frappe.whitelist()
+def clear_linked_device(employee):
+    registered_device_id = frappe.db.get_value(
+        "Employee Device Registration", {"employee": employee}, "name"
+    )
+    if registered_device_id:
+        frappe.delete_doc("Employee Device Registration", registered_device_id)
+
+
+@frappe.whitelist()
+def is_device_button_enable(employee):
+    if not cint(
+        frappe.db.get_value(
+            "Employee Self Service Settings", None, "enable_device_restrictions"
+        )
+    ):
+        return False
+
+    return bool(
+        frappe.db.exists("Employee Device Registration", {"employee": employee})
+    )
