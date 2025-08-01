@@ -41,31 +41,54 @@ from employee_self_service.employee_self_service.doctype.push_notification.push_
 )
 from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
 from employee_self_service.utils import add_ess_comment
+from frappe.integrations.doctype.ldap_settings.ldap_settings import LDAPSettings
 
 
 @frappe.whitelist(allow_guest=True)
-def login(usr, pwd, unique_id=None):
+def login(usr, pwd, unique_id=None, login_type="standard"):
     try:
         login_manager = LoginManager()
-        login_manager.authenticate(usr, pwd)
+
+        if login_type == "ldap":
+            ldap_settings = frappe.get_doc("LDAP Settings")
+            if not ldap_settings.enabled:
+                gen_response(400, "LDAP is not enabled in the system.")
+                return
+
+            # Authenticate via LDAP
+            user = ldap_settings.authenticate(username=usr, password=pwd)
+            login_manager.login_as(user.name)
+
+        else:
+            # Default: standard login
+            login_manager.authenticate(usr, pwd)
+
+        # Validate Employee
         validate_employee(login_manager.user)
         emp_data = get_employee_by_user(login_manager.user, fields=["name", "gender"])
-        # Register device (throws exception if device is not valid)
+
+        # Register Device
         if unique_id:
             if not register_device(emp_data.get("name"), unique_id):
                 return
-        login_manager.post_login()
-        if frappe.response["message"] == "Logged In":
 
+        # Complete Login
+        login_manager.post_login()
+
+        if frappe.response.get("message") == "Logged In":
             frappe.response["user"] = login_manager.user
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
             frappe.response["gender"] = emp_data.get("gender")
+
         gen_response(200, frappe.response["message"])
+
     except frappe.AuthenticationError:
-        gen_response(500, frappe.response["message"])
+        gen_response(401, "Invalid credentials")
+
     except frappe.SecurityException:
-        gen_response(401, frappe.response["message"])
+        gen_response(403, "Access denied")
+
     except Exception as e:
         return exception_handler(e)
 
