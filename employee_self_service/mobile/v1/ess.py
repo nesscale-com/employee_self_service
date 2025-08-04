@@ -57,6 +57,7 @@ def login(usr, pwd, unique_id=None, login_type="standard"):
 
             # Authenticate via LDAP
             user = ldap_settings.authenticate(username=usr, password=pwd)
+            frappe.log_error(title="ldap user", message=str(user))
             login_manager.login_as(user.name)
 
         else:
@@ -84,9 +85,11 @@ def login(usr, pwd, unique_id=None, login_type="standard"):
         gen_response(200, frappe.response["message"])
 
     except frappe.AuthenticationError:
+        frappe.log_error(title="invalida credentials", message=frappe.get_traceback())
         gen_response(401, "Invalid credentials")
 
     except frappe.SecurityException:
+        frappe.log_error(title="Access denied", message=frappe.get_traceback())
         gen_response(403, "Access denied")
 
     except Exception as e:
