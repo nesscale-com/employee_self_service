@@ -18,6 +18,7 @@ TODO_FIELDS = [
     "reference_type",
     "reference_name",
     "allocated_to",
+    "assigned_by",
     "_assign",
 ]
 TODO_ERR = {
@@ -91,6 +92,10 @@ def get_todo_list(view_type="all", start=0, page_length=10):
                 if todo["name"] not in seen:
                     final.append(todo)
                     seen.add(todo["name"])
+
+        for f in final:
+            f["assigned_by"] = fetch_user(f.get("assigned_by"))
+            f["allocated_to"] = fetch_user(f.get("allocated_to"))
 
         return gen_response(200, "ToDo list fetched", final)
     except Exception as e:
