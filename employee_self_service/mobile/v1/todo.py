@@ -59,7 +59,6 @@ def get_todo_list(view_type="all", start=0, page_length=10):
         else:
             return gen_response(400, "Invalid view type")
 
-        # Base ToDos query (with pagination for main view)
         todos = frappe.get_all(
             "ToDo",
             filters=(
@@ -103,7 +102,7 @@ def get_todo_by_id(todo_id=None):
     try:
         if not todo_id:
             return gen_response(500, TODO_ERR["id_required"])
-        todo = frappe.db.get_value("ToDo", todo_id, TODO_FIELDS, as_dict=True)
+        todo = frappe.get_doc("ToDo", todo_id)
         if not todo:
             return gen_response(404, TODO_ERR["not_found"])
         validate_todo_access(todo)
@@ -118,21 +117,11 @@ def get_todo_by_id(todo_id=None):
 @ess_validate(methods=["POST"])
 def create_todo(**kwargs):
     try:
-        from frappe.desk.form import assign_to
-
         data = frappe._dict(kwargs)
         todo = frappe.get_doc({"doctype": "ToDo"})
         todo.update(data)
         todo.owner = frappe.session.user
         todo.insert()
-        if data.get("assign_to"):
-            assign_to.add(
-                {
-                    "assign_to": data.get("assign_to"),
-                    "doctype": todo.doctype,
-                    "name": todo.name,
-                }
-            )
         return gen_response(200, "ToDo created successfully", {"name": todo.name})
     except Exception as e:
         return exception_handler(e)
@@ -150,5 +139,45 @@ def update_todo(**kwargs):
         todo.update(data)
         todo.save()
         return gen_response(200, "ToDo updated successfully")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def update_todo_status(name=None, status=None):
+    try:
+        if not name:
+            return gen_response(500, TODO_ERR["id_required"])
+        if not status:
+            return gen_response(500, "New status is required")
+        todo = frappe.get_doc("ToDo", name)
+        validate_todo_access(todo)
+        if todo.status == status:
+            return gen_response(200, "Status already up to date")
+        todo.status = status
+        todo.save()
+        return gen_response(200, "Status updated successfully")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_todo_status_list():
+    try:
+        meta = frappe.get_meta("ToDo")
+        options = []
+        for df in meta.fields:
+            if df.fieldname == "status" and df.fieldtype == "Select" and df.options:
+                options = [
+                    {"name": opt.strip()}
+                    for opt in df.options.split("\n")
+                    if opt.strip()
+                ]
+                break
+        return gen_response(200, "ToDo Status List fetched successfully.", options)
+    except frappe.PermissionError:
+        return gen_response(403, "Not permitted to list options.")
     except Exception as e:
         return exception_handler(e)
