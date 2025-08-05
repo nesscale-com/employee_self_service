@@ -128,7 +128,7 @@ def create_todo(**kwargs):
         if data.get("assign_to"):
             assign_to.add(
                 {
-                    "assign_to": [data.get("assign_to")],
+                    "assign_to": data.get("assign_to"),
                     "doctype": todo.doctype,
                     "name": todo.name,
                 }
