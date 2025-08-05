@@ -6,6 +6,7 @@ from employee_self_service.mobile.v1.api_utils import (
     ess_validate,
     exception_handler,
 )
+from .task import fetch_user
 
 TODO_FIELDS = [
     "name",
@@ -102,7 +103,9 @@ def get_todo_by_id(todo_id=None):
     try:
         if not todo_id:
             return gen_response(500, TODO_ERR["id_required"])
-        todo = frappe.get_doc("ToDo", todo_id)
+        todo = frappe.get_doc("ToDo", todo_id).as_dict()
+        todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
+        todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
         if not todo:
             return gen_response(404, TODO_ERR["not_found"])
         validate_todo_access(todo)
