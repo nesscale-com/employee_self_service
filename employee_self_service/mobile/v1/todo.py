@@ -42,7 +42,7 @@ def validate_todo_access(todo):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_todo_list(view_type="all", start=0, page_length=10):
+def get_todo_list(view_type="all", start=0, page_length=10, filters=[]):
     try:
         user = frappe.session.user
         base_filters = []
@@ -64,9 +64,9 @@ def get_todo_list(view_type="all", start=0, page_length=10):
         todos = frappe.get_all(
             "ToDo",
             filters=(
-                base_filters + [["allocated_to", "=", user]]
+                filters + base_filters + [["allocated_to", "=", user]]
                 if view_type != "created_by_me"
-                else base_filters
+                else base_filters + filters
             ),
             fields=TODO_FIELDS,
             start=start,
