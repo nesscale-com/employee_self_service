@@ -42,10 +42,11 @@ def validate_todo_access(todo):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_todo_list(view_type="all", start=0, page_length=10, filters=[]):
+def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
     try:
         user = frappe.session.user
         base_filters = []
+        filters = filters or []
 
         if view_type == "today":
             base_filters = [
