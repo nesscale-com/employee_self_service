@@ -1,7 +1,7 @@
 import json
 import frappe
 from frappe import _
-from frappe.utils import cstr, fmt_money
+from frappe.utils import cstr, fmt_money, cint
 
 from erpnext.accounts.utils import getdate
 from employee_self_service.mobile.v1.api_utils import (
@@ -15,45 +15,70 @@ from employee_self_service.mobile.v1.api_utils import (
     check_workflow_exists,
 )
 from erpnext.accounts.party import get_dashboard_info
+from frappe.model.workflow import get_transitions
 
 """order list api for mobile app"""
 
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_order_list(start=0, page_length=10, filters=None):
+def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
     try:
         global_defaults = get_global_defaults()
-        status_field = check_workflow_exists("Sales Order")
-        if status_field == False:
-            status_field = "status"
-        if filters and filters.get("status"):
-            status_val = filters.get("status")
-            del filters["status"]
-            filters[status_field] = status_val
-        order_list = frappe.get_list(
-            "Sales Order",
-            fields=[
-                "name",
-                "customer",
-                "customer_name",
-                "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
-                "grand_total",
-                f"{status_field} as status",
-                "total_qty",
-            ],
-            start=start,
-            page_length=page_length,
-            order_by="modified desc",
-            filters=filters,
-        )
-        for order in order_list:
-            order["grand_total"] = fmt_money(
-                order["grand_total"], currency=global_defaults.get("default_currency")
+        status_field = check_workflow_exists("Sales Order") or "status"
+        start, page_length = cint(start), cint(page_length)
+
+        if filters and isinstance(filters, dict) and filters.get("status"):
+            filters[status_field] = filters.pop("status")
+
+        fields = [
+            "name",
+            "customer",
+            "customer_name",
+            "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
+            "grand_total",
+            f"{status_field} as status",
+            "total_qty",
+        ]
+
+        if list_type == "pending":
+            raw_orders = frappe.get_list(
+                "Sales Order",
+                fields=fields,
+                filters=filters,
+                order_by="modified desc",
+                limit_page_length=500,
             )
-        gen_response(200, "Order list get successfully", order_list)
+
+            # Filter orders with available workflow transitions
+            order_list = []
+            for doc in raw_orders:
+                so_doc = frappe.get_doc("Sales Order", doc.name)
+                if get_transitions(so_doc):
+                    order_list.append(doc)
+                if len(order_list) >= (start + page_length):
+                    break
+
+            # Apply pagination
+            order_list = order_list[start : start + page_length]
+        else:
+            order_list = frappe.get_list(
+                "Sales Order",
+                fields=fields,
+                filters=filters,
+                start=start,
+                page_length=page_length,
+                order_by="modified desc",
+            )
+
+        currency = global_defaults.get("default_currency")
+        for order in order_list:
+            order["grand_total"] = fmt_money(order["grand_total"], currency=currency)
+
+        return gen_response(200, "Order list fetched successfully", order_list)
+
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted for sales order")
+        return gen_response(403, "Not permitted for Sales Order")
     except Exception as e:
         return exception_handler(e)
 
