@@ -347,3 +347,46 @@ def get_attachments(id):
         filters={"attached_to_doctype": "Expense Claim", "attached_to_name": id},
         fields=["file_url", "file_name"],
     )
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_bull_agreetech_list():
+    try:
+        records = frappe.get_all(
+            "Bull Agreetech Center",
+            fields=["name", "center_name"],
+            order_by="name desc"
+        )
+        return gen_response(200, "Bull Agreetech Center records fetched", records)
+    except Exception as e:
+        return exception_handler(e)
+
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_sales_outward_list():
+    try:
+        records = frappe.get_all(
+            "Sales Outward",
+            fields=["name"],
+            order_by="name desc"
+        )
+        return gen_response(200, "Sales Outward records fetched", records)
+    except Exception as e:
+        return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_jams_outward_list():
+    try:
+        records = frappe.get_all(
+            "JAMS Outward",
+            fields=["name"],
+            order_by="name desc"
+        )
+        return gen_response(200, "JAMS Outward records fetched", records)
+    except Exception as e:
+        return exception_handler(e)
+
