@@ -300,14 +300,14 @@ def get_uoms(customer, item):
             uom=item_doc.get("stock_uom"),
         )
         for uom_row in item_doc.get("uoms"):
-            if uom_row.get("uom") == item_doc.get('stock_uom'):
+            if uom_row.get("uom") == item_doc.get("stock_uom"):
                 uom_hint = f"{uom_row.get('uom')} is default uom"
             else:
                 uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),
-                uom_hint=uom_hint
+                uom_hint=uom_hint,
             )
             get_uom_item_price(
                 sales_price_list, item, uom_details, default_uom_price, global_defaults
