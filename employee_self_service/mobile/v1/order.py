@@ -15,7 +15,7 @@ from employee_self_service.mobile.v1.api_utils import (
     check_workflow_exists,
 )
 from erpnext.accounts.party import get_dashboard_info
-from frappe.model.workflow import get_transitions
+from frappe.model.workflow import get_transitions, apply_workflow
 
 """order list api for mobile app"""
 
@@ -24,14 +24,24 @@ from frappe.model.workflow import get_transitions
 @ess_validate(methods=["GET"])
 def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
     try:
-        global_defaults = get_global_defaults()
-        status_field = check_workflow_exists("Sales Order") or "status"
         start, page_length = cint(start), cint(page_length)
+        filters = filters or {}
+        if not isinstance(filters, dict):
+            filters = {}
+        global_defaults = get_global_defaults()
+        currency = global_defaults.get("default_currency")
+        status_field = check_workflow_exists("Sales Order") or "status"
 
-        if filters and isinstance(filters, dict) and filters.get("status"):
+        # Ensure filters is always a dict
+        filters = filters or {}
+        if not isinstance(filters, dict):
+            filters = {}
+
+        if filters.get("status"):
             filters[status_field] = filters.pop("status")
 
-        fields = [
+        # Common fields
+        base_fields = [
             "name",
             "customer",
             "customer_name",
@@ -42,15 +52,17 @@ def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
         ]
 
         if list_type == "pending":
+            filters[status_field] = "Waiting"
+            base_fields.append("custom_pollen_status as status")
+
             raw_orders = frappe.get_list(
                 "Sales Order",
-                fields=fields,
+                fields=base_fields,
                 filters=filters,
                 order_by="modified desc",
-                limit_page_length=500,
+                limit_page_length=500,  # Wide fetch for filtering transitions
             )
 
-            # Filter orders with available workflow transitions
             order_list = []
             for doc in raw_orders:
                 so_doc = frappe.get_doc("Sales Order", doc.name)
@@ -59,19 +71,19 @@ def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
                 if len(order_list) >= (start + page_length):
                     break
 
-            # Apply pagination
             order_list = order_list[start : start + page_length]
+
         else:
             order_list = frappe.get_list(
                 "Sales Order",
-                fields=fields,
+                fields=base_fields,
                 filters=filters,
                 start=start,
                 page_length=page_length,
                 order_by="modified desc",
             )
 
-        currency = global_defaults.get("default_currency")
+        # Format currency
         for order in order_list:
             order["grand_total"] = fmt_money(order["grand_total"], currency=currency)
 
@@ -127,6 +139,8 @@ def get_order(*args, **kwargs):
             "company",
             "set_warehouse",
             "discount_amount",
+            "custom_pollen_status",
+            "custom_is_waiting",
         ]:
             order_data[response_field] = order_doc.get(response_field)
         item_list = []
@@ -562,6 +576,98 @@ def get_warehouse_list(filters=None):
         filters.append(["Warehouse", "is_group", "=", 0])
         item_group_list = frappe.get_list("Warehouse", fields=["name"], filters=filters)
         gen_response(200, "Warehouse list get successfully", item_group_list)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for item")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def pollen_action_role_list():
+    try:
+        roles = [
+            "AO",
+            "TO",
+            "ZO",
+            "ZM",
+            "MM",
+            "CEO",
+            "OC",
+            "CMD",
+        ]
+        gen_response(200, "Waiting Approval Role list get successfully", roles)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for item")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def pollen_action_role_assignment(order_id, role):
+    try:
+        doc = frappe.get_doc("Sales Order", order_id)
+        doc.custom_finance_assign_role = role
+        doc.custom_pollen_status = f"At {role}"
+        doc.save()
+        apply_workflow(doc, f"AT {role}")
+        return gen_response(
+            200,
+            "Role Assigned successfully",
+        )
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for item")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def pollen_action_add_comment(order_id, comment, release_order=False):
+    try:
+        doc = frappe.get_doc("Sales Order", order_id)
+        if release_order:
+            formatted_comment = f"""
+                <div style="padding:10px; border-left:4px solid #17a2b8; background:#f8f9fa; border-radius:4px;">
+                    📌 <strong>Sales Order Manually Released</strong><br/>
+                    <b>Sales Order:</b> {doc.name}<br/>
+                    <b>Requested By:</b> {frappe.session.user_fullname} ({frappe.session.user})<br/>
+                    <b>Comment:</b> {comment}
+                </div>
+            """
+            doc.add_comment(comment_type="Comment", text=formatted_comment)
+            doc.custom_pollen_status = ""
+            doc.custom_manually_approved = 1
+            doc.custom_is_waiting = 0
+            doc.save()
+            apply_workflow(doc, "AT Dispatch")
+            return gen_response(
+                200,
+                "Order Manually Released successfully",
+            )
+        else:
+            formatted_comment = f"""
+                <div style="padding: 10px 15px; background: #f1f5f9; border-left: 5px solid #2b8a3e; border-radius: 4px;">
+                    <p style="margin: 0 0 5px;">
+                        <strong>📤 Sales Order Forwarded</strong>
+                    </p>
+                    <p style="margin: 0;">
+                        <b>🧾 Order:</b> <code>{doc.name}</code><br>
+                        <b>👤 Forwarded By:</b> {frappe.session.user_fullname} ({frappe.session.user})<br>
+                        <b>💬 Comment:</b> {comment}
+                    </p>
+                </div>
+            """
+
+            doc.add_comment(comment_type="Comment", text=formatted_comment)
+            doc.custom_pollen_status = "Waiting For Finance"
+            doc.save()
+            apply_workflow(doc, "Waiting")
+            return gen_response(
+                200,
+                "Comment Added successfully",
+            )
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for item")
     except Exception as e:
