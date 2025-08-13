@@ -13,6 +13,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_actions,
     check_workflow_exists,
+    get_date_range,
 )
 from erpnext.accounts.party import get_dashboard_info
 from datetime import datetime
@@ -22,7 +23,19 @@ from datetime import datetime
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_order_list(start=0, page_length=10, filters=None):
+def get_order_list(
+    start=0,
+    page_length=10,
+    order_by="modified",
+    sort_order="desc",
+    filters=None,
+    posting_date_type=None,
+    posting_date_from=None,
+    posting_date_to=None,
+    delivery_date_type=None,
+    delivery_date_from=None,
+    delivery_date_to=None,
+):
     try:
         if isinstance(filters, str):
             filters = frappe.parse_json(filters)
@@ -30,22 +43,64 @@ def get_order_list(start=0, page_length=10, filters=None):
         global_defaults = get_global_defaults()
         status_field = check_workflow_exists("Sales Order") or "status"
 
+        if posting_date_type and not posting_date_type == "Custom Date":
+            posting_duration_details = get_date_range(posting_date_type)
+            posting_date_from = posting_duration_details.get("from_date")
+            posting_date_to = posting_duration_details.get("to_date")
+
+        if delivery_date_type and not delivery_date_type == "Custom Date":
+            delivery_duration_details = get_date_range(delivery_date_type)
+            delivery_date_from = delivery_duration_details.get("from_date")
+            delivery_date_to = delivery_duration_details.get("to_date")
+
         # Move 'status' into dynamic status field
         if filters and filters.get("status"):
             filters[status_field] = filters.pop("status")
 
         # Handle 'item' filter separately (joins with Sales Order Item)
-        if filters and filters.get("item"):
-            updated_filters = []
+        updated_filters = []
+
+        if filters:
             for key, value in filters.items():
-                frappe.log_error(title="key", message=cstr(key))
-                if key == "item":
+                if key == "item_name":
                     updated_filters.append(
                         ["Sales Order Item", "item_code", "=", value]
                     )
                 else:
                     updated_filters.append(["Sales Order", key, "=", value])
-            frappe.log_error(title="filters", message=updated_filters)
+
+        if posting_date_type and posting_date_from and posting_date_to:
+            updated_filters.append(
+                [
+                    "Sales Order",
+                    "transaction_date",
+                    "Between",
+                    [posting_date_from, posting_date_to],
+                ]
+            )
+        if delivery_date_type and delivery_date_from and delivery_date_to:
+            updated_filters.append(
+                [
+                    "Sales Order",
+                    "delivery_date",
+                    "Between",
+                    [delivery_date_from, delivery_date_to],
+                ]
+            )
+
+            # # Add date range filter only if both dates are available
+            # if from_date and to_date:
+            #     updated_filters.append(
+            #         ["Sales Order", "transaction_date", "Between", [from_date, to_date]]
+            #     )
+            # # Add date range filter only if both dates are available
+            # if from_date and to_date:
+            #     updated_filters.append(
+            #         ["Sales Order", "transaction_date", "Between", [from_date, to_date]]
+            #     )
+
+            # If no filters and no date range, use original filters format
+        frappe.log_error(f"{order_by} {sort_order}")
         order_list = frappe.get_list(
             "Sales Order",
             fields=[
@@ -59,8 +114,8 @@ def get_order_list(start=0, page_length=10, filters=None):
             ],
             start=start,
             page_length=page_length,
-            order_by="`tabSales Order`.modified desc",
-            filters=filters if not filters.get("item") else updated_filters,
+            order_by=f"{order_by} {sort_order}",
+            filters=updated_filters,
         )
 
         for order in order_list:

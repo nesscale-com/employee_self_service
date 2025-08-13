@@ -12,6 +12,56 @@ from employee_self_service.mobile.v1.api_utils import (
 )
 from employee_self_service.mobile.v1.manager.manager_utils import get_action
 
+
+def _employee_sets_today(emp_list):
+    if not emp_list:
+        return set(), set(), set(), set()
+
+    start = f"{today()} 00:00:00"
+    end = f"{today()} 23:59:59"
+
+    in_set = set(
+        frappe.get_all(
+            "Employee Checkin",
+            filters={
+                "time": ["between", [start, end]],
+                "employee": ["in", emp_list],
+                "log_type": "IN",
+            },
+            pluck="employee",
+        )
+    )
+
+    out_set = set(
+        frappe.get_all(
+            "Employee Checkin",
+            filters={
+                "time": ["between", [start, end]],
+                "employee": ["in", emp_list],
+                "log_type": "OUT",
+            },
+            pluck="employee",
+        )
+    )
+
+    leave_set = set(
+        frappe.get_all(
+            "Leave Application",
+            filters={
+                "status": "Approved",
+                "docstatus": 1,
+                "from_date": ["<=", today()],
+                "to_date": [">=", today()],
+                "employee": ["in", emp_list],
+            },
+            pluck="employee",
+        )
+    )
+
+    not_in_set = set(emp_list) - in_set - leave_set
+    return in_set, out_set, leave_set, not_in_set
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_dashboard_stats():
@@ -22,84 +72,79 @@ def get_dashboard_stats():
             "clock_out": 0,
             "on_leave": 0,
             "not_clock_in": 0,
-            "approval": 13,
-            "tasks": 40
+            "approval": 0,
+            "tasks": 0,
         }
 
-        # Step-1: Get all employees that current user has permission to access
-        employee_list = frappe.get_list("Employee", 
-                                      filters={"status": "Active"}, 
-                                      pluck="name")
-        
-        if not employee_list:
-            frappe.throw(_("No active employees found"))
-        
-        stats["total_employees"] = len(employee_list)
-        
-        # Step-2: Get all check-ins for today for these employees
-        checkins_today = frappe.get_all("Employee Checkin",
-                            filters={
-                                "time": ["between", [f"{today()} 00:00:00", f"{today()} 23:59:59"]],
-                                "employee": ["in", employee_list]
-                            },
-                            fields=["employee", "log_type"])
-        
-        employee_check_in_today = [emp["employee"] for emp in checkins_today]
+        # permitted active employees
+        emp_list = (
+            frappe.get_list("Employee", filters={"status": "Active"}, pluck="name")
+            or []
+        )
+        stats["total_employees"] = len(emp_list)
 
-        for checkin in checkins_today:
-            if checkin["log_type"] == "IN":
-                stats["clock_in"] += 1
-            elif checkin["log_type"] == "OUT":
-                stats["clock_out"] += 1
-        
-        # Step-3: Get leave applications for these employees
-        employees_on_leave = frappe.get_all("Leave Application",
-                                filters={
-                                    "status": "Approved",
-                                    "docstatus": 1,
-                                    "from_date": ["<=", today()],
-                                    "to_date": [">=", today()],
-                                    "employee": ["in", employee_list]
-                                },
-                                pluck="employee")
-        
-        stats["on_leave"] = len(employees_on_leave)
+        in_set, out_set, leave_set, not_in_set = _employee_sets_today(emp_list)
 
-        # Step-4: Get not_clock_in employees
-        for emp in employee_list:
-            if emp not in employee_check_in_today and emp not in employees_on_leave:
-                stats["not_clock_in"] += 1
-        
+        stats["clock_in"] = len(in_set)
+        stats["clock_out"] = len(out_set)
+        stats["on_leave"] = len(leave_set)
+        stats["not_clock_in"] = len(not_in_set)
+
         return gen_response(200, "Stats retrieved successfully", stats)
     except Exception as e:
         return exception_handler(e)
 
+
+# type must be one of: clock_in, clock_out, on_leave, not_clock_in
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_dashboard_stats_list(type):
     try:
+        kind = (type or "").strip().lower()
+        if kind not in {"clock_in", "clock_out", "on_leave", "not_clock_in"}:
+            return gen_response(
+                400,
+                "Invalid type",
+                {"allowed": ["clock_in", "clock_out", "on_leave", "not_clock_in"]},
+            )
+
+        emp_list = (
+            frappe.get_list("Employee", filters={"status": "Active"}, pluck="name")
+            or []
+        )
+        if not emp_list:
+            return gen_response(200, "No employees", [])
+
+        in_set, out_set, leave_set, not_in_set = _employee_sets_today(emp_list)
+        bucket = {
+            "clock_in": in_set,
+            "clock_out": out_set,
+            "on_leave": leave_set,
+            "not_clock_in": not_in_set,
+        }[kind]
+
+        if not bucket:
+            return gen_response(200, "No records", [])
+
+        # fetch display info once
+        rows = frappe.get_all(
+            "Employee",
+            filters={"name": ["in", list(bucket)]},
+            fields=["name", "employee_name", "image", "gender"],
+        )
         data = [
             {
-                "image": "/files/logo.svg" ,
-                "name": "Nilesh Makwana"
-            },
-            {
-                "image": "/files/logo.svg" ,
-                "name": "Nilesh Makwana"
-            },
-            {
-                "image": "/files/logo.svg" ,
-                "name": "Nilesh Makwana"
-            },
-            {
-                "image": "/files/logo.svg" ,
-                "name": "Nilesh Makwana"
-            },
-            {
-                "image": "/files/logo.svg" ,
-                "name": "Nilesh Makwana"
-            },
+                "employee": r.name,
+                "name": r.employee_name or r.name,
+                "image": r.image or "",
+                "gender": r.gender,
+            }
+            for r in rows
         ]
-        return gen_response(200, "Stats get successfully", data)
+
+        # optional: keep UI stable by name ordering (simple)
+        data.sort(key=lambda x: x["name"].lower())
+
+        return gen_response(200, "Stats fetched successfully", data)
     except Exception as e:
         return exception_handler(e)
