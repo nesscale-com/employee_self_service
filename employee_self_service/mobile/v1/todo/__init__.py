@@ -31,8 +31,6 @@ TODO_ERR = {
 
 def validate_todo_access(todo):
     user = frappe.session.user
-    frappe.log_error(title=str(user))
-    frappe.log_error(title=str(user), message=str(todo))
     if not todo:
         frappe.throw(TODO_ERR["not_found"])
     if not (
@@ -97,11 +95,11 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
 def get_dashboard_todo_count():
     return frappe.db.count(
         "ToDo",
-        filters=[
-            ["date", "=", today()],
-            ["status", "=", "Open"],
-            ["allocated_to", "=", frappe.session.user],
-        ],
+        filters={
+            "date": today(),
+            "status": "Open",
+            "allocated_to": frappe.session.user,
+        },
     )
 
 
