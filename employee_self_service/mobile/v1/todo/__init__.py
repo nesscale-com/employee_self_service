@@ -18,7 +18,7 @@ TODO_FIELDS = [
     "description",
     "reference_type",
     "reference_name",
-    "allocated_to",
+    "owner as allocated_to",
     "assigned_by",
     "_assign",
 ]
@@ -34,8 +34,7 @@ def validate_todo_access(todo):
     if not todo:
         frappe.throw(TODO_ERR["not_found"])
     if not (
-        todo.get("allocated_to") == user
-        or todo.get("owner") == user
+        todo.get("owner") == user
         or user in json.loads(todo.get("_assign") or "[]")
     ):
         frappe.throw(TODO_ERR["unauthorized"])
@@ -66,7 +65,7 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
         todos = frappe.get_all(
             "ToDo",
             filters=(
-                filters + base_filters + [["allocated_to", "=", user]]
+                filters + base_filters + [["owner", "=", user]]
                 if view_type != "created_by_me"
                 else base_filters + filters
             ),
@@ -78,7 +77,7 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
 
         for todo in todos:
             todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
-            todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
+            todo["allocated_to"] = fetch_user(todo.get("owner"))
             todo["comments"] = frappe.db.count(
                 "Comment",
                 filters={
@@ -98,7 +97,7 @@ def get_dashboard_todo_count():
         filters={
             "date": today(),
             "status": "Open",
-            "allocated_to": frappe.session.user,
+            "owner": frappe.session.user,
         },
     )
 
@@ -112,7 +111,7 @@ def get_todo_by_id(todo_id=None):
         todo = frappe.get_doc("ToDo", todo_id).as_dict()
         validate_todo_access(todo)
         todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
-        todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
+        todo["allocated_to"] = fetch_user(todo.get("owner"))
         todo["navigate_route"] = get_mobile_app_route(
             todo.get("reference_type"),
             todo.get("reference_name"),
