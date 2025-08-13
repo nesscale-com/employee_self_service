@@ -5,8 +5,9 @@ from employee_self_service.mobile.v1.api_utils import (
     gen_response,
     ess_validate,
     exception_handler,
+    get_mobile_app_route,
 )
-from .task import fetch_user
+from employee_self_service.mobile.v1.task import fetch_user
 
 TODO_FIELDS = [
     "name",
@@ -30,6 +31,8 @@ TODO_ERR = {
 
 def validate_todo_access(todo):
     user = frappe.session.user
+    frappe.log_error(title=str(user))
+    frappe.log_error(title=str(user), message=str(todo))
     if not todo:
         frappe.throw(TODO_ERR["not_found"])
     if not (
@@ -75,32 +78,31 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
             order_by="modified desc",
         )
 
-        final = todos
-
-        # Add assigned ToDos from _assign JSON (only for "today" and "all")
-        if view_type in ("all", "today"):
-            assigned_todos = frappe.get_all(
-                "ToDo",
-                filters=[
-                    ["_assign", "like", f'%"{user}"%'],
-                    ["status", "!=", "Closed"],
-                ],
-                fields=TODO_FIELDS,
+        for todo in todos:
+            todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
+            todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
+            todo["comments"] = frappe.db.count(
+                "Comment",
+                filters={
+                    "reference_doctype": "ToDo",
+                    "reference_name": todo.get("name"),
+                },
             )
-            # Deduplicate using name
-            seen = {todo["name"] for todo in todos}
-            for todo in assigned_todos:
-                if todo["name"] not in seen:
-                    final.append(todo)
-                    seen.add(todo["name"])
 
-        for f in final:
-            f["assigned_by"] = fetch_user(f.get("assigned_by"))
-            f["allocated_to"] = fetch_user(f.get("allocated_to"))
-
-        return gen_response(200, "ToDo list fetched", final)
+        return gen_response(200, "ToDo list fetched", todos)
     except Exception as e:
         return exception_handler(e)
+
+
+def get_dashboard_todo_count():
+    return frappe.db.count(
+        "ToDo",
+        filters=[
+            ["date", "=", today()],
+            ["status", "=", "Open"],
+            ["allocated_to", "=", frappe.session.user],
+        ],
+    )
 
 
 @frappe.whitelist()
@@ -110,11 +112,15 @@ def get_todo_by_id(todo_id=None):
         if not todo_id:
             return gen_response(500, TODO_ERR["id_required"])
         todo = frappe.get_doc("ToDo", todo_id).as_dict()
+        validate_todo_access(todo)
         todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
         todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
+        todo["navigate_route"] = get_mobile_app_route(
+            todo.get("reference_type"),
+            todo.get("reference_name"),
+        )
         if not todo:
             return gen_response(404, TODO_ERR["not_found"])
-        validate_todo_access(todo)
         return gen_response(200, "ToDo fetched", todo)
     except frappe.PermissionError:
         return gen_response(403, TODO_ERR["unauthorized"])
@@ -130,6 +136,7 @@ def create_todo(**kwargs):
         todo = frappe.get_doc({"doctype": "ToDo"})
         todo.update(data)
         todo.owner = frappe.session.user
+        todo.assigned_by = frappe.session.user
         todo.insert()
         return gen_response(200, "ToDo created successfully", {"name": todo.name})
     except Exception as e:
