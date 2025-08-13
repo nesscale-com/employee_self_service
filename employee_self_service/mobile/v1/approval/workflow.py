@@ -35,30 +35,35 @@ def get_active_workflow_document(internal=False):
 @ess_validate(methods=["GET"])
 def get_workflow_documents(start=1, page_length=10, document_type=None, internal=False):
     try:
-        # Initialize variables
-        all_documents = []
+        start = cint(start)
+        page_length = cint(page_length)
+        start_index = start
+
         if document_type == "":
             document_type = "All"
+
         # Determine the list of doctypes to query
         if document_type in [None, "All"]:
             workflows = get_active_workflow_document(internal=True)
             workflow_doctypes = [
                 row.document_type
                 for row in workflows
-                if not row.document_type in ["All", None, ""]
+                if row.document_type not in ["All", None, ""]
             ]
         else:
             workflow_doctypes = [document_type]
 
-        # Fetch documents with pending actions
-        workflow_documents = []
+        all_documents = []
+        collected_count = 0
+        scanned_count = 0
+        total_count = 0  # Track total documents with transitions
+
         for doctype in workflow_doctypes:
-            # Fetch workflow documents with valid transitions
-            workflow_document = frappe.get_list(
+            # Get only documents with workflow_state
+            workflow_documents = frappe.get_list(
                 doctype,
                 filters={
-                    "workflow_state": ["!=", None],  # Exclude NULL values
-                    "workflow_state": ["!=", ""],  # Exclude empty strings
+                    "workflow_state": ["!=", ""],
                 },
                 fields=[
                     "name",
@@ -68,33 +73,27 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
                 ],
                 order_by="modified desc",
             )
-            workflow_documents.extend(
-                workflow_document
-            )  # Add documents to a single list
 
-        # Sort the combined list of documents by 'modified' field in descending order
-        workflow_documents = sorted(
-            workflow_documents, key=lambda x: x["modified"], reverse=True
-        )
-
-        # Apply pagination
-        start_index = cint(start) - 1
-        end_index = start_index + cint(page_length)
-        # Filter only documents with pending actions (transitions)
-        temp_start = 0
-        for doc in workflow_documents:
-            if doc.get("workflow_state"):
+            for doc in workflow_documents:
+                # Check if document has transitions
                 transitions = get_transitions(
                     frappe.get_doc(doc["doctype"], doc["name"])
                 )
                 if transitions:
-                    all_documents.append(doc)
-                    temp_start += 1
-            if temp_start == end_index:
+                    total_count += 1  # Count all documents with transitions
+                    if scanned_count >= start_index and collected_count < page_length:
+                        all_documents.append(doc)
+                        collected_count += 1
+                    scanned_count += 1
+
+                if collected_count >= page_length and not internal:
+                    break
+
+            if collected_count >= page_length and not internal:
                 break
-        all_documents = all_documents[start_index:end_index]
+
         if internal:
-            return cstr(len(all_documents))
+            return cstr(total_count)  # Return total count, not just current page
 
         return gen_response(
             200, "Workflow documents fetched successfully", all_documents
