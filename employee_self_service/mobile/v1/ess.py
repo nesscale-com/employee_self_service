@@ -32,6 +32,7 @@ from employee_self_service.mobile.v1.api_utils import (
     convert_timezone,
     get_system_timezone,
     get_till_date_holiday_month_wise,
+    get_mobile_app_route,
 )
 from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
@@ -42,6 +43,7 @@ from employee_self_service.employee_self_service.doctype.push_notification.push_
 from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
 from employee_self_service.utils import add_ess_comment
 from employee_self_service.mobile.v1.task import *
+from employee_self_service.mobile.v1.todo import get_dashboard_todo_count
 
 
 @frappe.whitelist(allow_guest=True)
@@ -594,6 +596,8 @@ def get_dashboard():
             "role_based_menu_visibility": settings.get(
                 "enable_role_based_menu_visibility"
             ),
+            "enable_todo": settings.get("enable_todo"),
+            "todo_count": get_dashboard_todo_count(),
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -1601,6 +1605,10 @@ def notification_list(start=0, page_length=20):
         )
         user_image = frappe.get_value("User", frappe.session.user, "user_image")
         for notification in notifications:
+            notification["navigate_route"] = get_mobile_app_route(
+                notification.get("reference_document"),
+                notification.get("reference_name"),
+            )
             notification["creation"] = pretty_date(notification.get("creation"))
             notification["user_image"] = user_image
         return gen_response(200, "Notification list get successfully", notifications)

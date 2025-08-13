@@ -4,6 +4,7 @@ from frappe import _
 from frappe.utils import cstr
 from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
 import wrapt
+from employee_self_service.mobile.v1.constants import MOBILE_APP_ROUTES
 
 
 def gen_response(status, message, data=[]):
@@ -229,3 +230,81 @@ def get_attachments(document_type, document):
 @frappe.whitelist(allow_guest=True)
 def ping():
     return "pong"
+
+
+# Duration Types Supported in `get_date_range`:
+#     - "Current Month"
+#     - "Last Month"
+#     - "Last 3 Month"
+#     - "Last 6 Month"
+#     - "Current Financial Year"
+#     - "Last Financial Year"
+@frappe.whitelist()
+def get_date_range(duration_type):
+    from frappe.utils import add_days
+    from frappe.utils.data import get_first_day, today, add_months
+    from erpnext.accounts.utils import get_fiscal_year
+
+    if duration_type == "Current Month":
+        return {"from_date": get_first_day(today()), "to_date": today()}
+    if duration_type == "Last Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        return {
+            "from_date": get_first_day(last_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Last 3 Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        last_month_start_month_end_date = add_months(last_month_end_date, -2)
+        return {
+            "from_date": get_first_day(last_month_start_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Last 6 Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        last_month_start_month_end_date = add_months(last_month_end_date, -5)
+        return {
+            "from_date": get_first_day(last_month_start_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Current Financial Year":
+        fiscal_year = get_fiscal_year(today(), as_dict=1)
+        if not fiscal_year:
+            frappe.throw("No Any Financial Year Active")
+        return {
+            "from_date": fiscal_year.get("year_start_date"),
+            "to_date": fiscal_year.get("year_end_date"),
+        }
+    if duration_type == "Last Financial Year":
+        current_fiscal_year = get_fiscal_year(today(), as_dict=1)
+        if not current_fiscal_year:
+            frappe.throw("No Any Financial Year Active")
+        last_fiscal_year = get_fiscal_year(
+            add_days(current_fiscal_year.get("year_start_date"), -1), as_dict=1
+        )
+        if not last_fiscal_year:
+            frappe.throw("No Any Data In Last Financial Year")
+        return {
+            "from_date": last_fiscal_year.get("year_start_date"),
+            "to_date": last_fiscal_year.get("year_end_date"),
+        }
+
+
+@frappe.whitelist()
+def get_mobile_app_route(reference_type: str = None, reference_name: str = None) -> str:
+    """Return mobile app route based on reference type & name.
+    If no match found, return /main
+    """
+    if not reference_type:
+        return "/main"
+    detail_view = 1 if reference_name else 0
+
+    for route in MOBILE_APP_ROUTES:
+        if (
+            route["doctype_reference"] == reference_type
+            and route["in_detail_view"] == detail_view
+        ):
+            if detail_view and "{id}" in route["app_route"]:
+                return route["app_route"].replace("{id}", reference_name)
+            return route["app_route"]
+    return None
