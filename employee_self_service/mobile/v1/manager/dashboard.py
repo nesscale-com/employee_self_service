@@ -58,7 +58,7 @@ def _employee_sets_today(emp_list):
         )
     )
 
-    not_in_set = set(emp_list) - in_set - leave_set
+    not_in_set = set(emp_list) - in_set - leave_set - out_set
     return in_set, out_set, leave_set, not_in_set
 
 
