@@ -20,6 +20,7 @@
   "column_break_vbkm",
   "quick_task",
   "enable_project_and_task_in_expense_claim",
+  "enable_todo",
   "column_break_nbmu",
   "submit_timesheet",
   "enable_device_restrictions",
@@ -231,12 +232,19 @@
    "fieldname": "enable_role_based_menu_visibility",
    "fieldtype": "Check",
    "label": "Enable Role Based Menu Visibility"
+  },
+  {
+   "default": "0",
+   "description": "Allows employees to view, create, and manage their assigned ToDo tasks directly from the app.",
+   "fieldname": "enable_todo",
+   "fieldtype": "Check",
+   "label": "Enable ToDo"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-06 01:45:35.484767",
+ "modified": "2025-08-11 18:52:15.869643",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

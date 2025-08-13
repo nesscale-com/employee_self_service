@@ -37,3 +37,5 @@ Employee Self Service is distributed under the GNU/General Public License. See t
 ## Support and Contact
 
 For any issues, questions, or feedback, please feel free to reach out via email: [info@nesscale.com](mailto:your_info@nesscale.com)
+
+for more details visit https://ess.nesscale.app
