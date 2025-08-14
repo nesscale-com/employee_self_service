@@ -29,16 +29,16 @@ TODO_ERR = {
 }
 
 
-def validate_todo_access(todo):
-    user = frappe.session.user
-    if not todo:
-        frappe.throw(TODO_ERR["not_found"])
-    if not (
-        todo.get("allocated_to") == user
-        or todo.get("owner") == user
-        or user in json.loads(todo.get("_assign") or "[]")
-    ):
-        frappe.throw(TODO_ERR["unauthorized"])
+# def validate_todo_access(todo):
+#     user = frappe.session.user
+#     if not todo:
+#         frappe.throw(TODO_ERR["not_found"])
+#     if not (
+#         todo.get("allocated_to") == user
+#         or todo.get("owner") == user
+#         or user in json.loads(todo.get("_assign") or "[]")
+#     ):
+#         frappe.throw(TODO_ERR["unauthorized"])
 
 
 @frappe.whitelist()
@@ -92,16 +92,6 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
         return exception_handler(e)
 
 
-def get_dashboard_todo_count():
-    return frappe.db.count(
-        "ToDo",
-        filters={
-            "date": today(),
-            "status": "Open",
-            "allocated_to": frappe.session.user,
-        },
-    )
-
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -110,7 +100,6 @@ def get_todo_by_id(todo_id=None):
         if not todo_id:
             return gen_response(500, TODO_ERR["id_required"])
         todo = frappe.get_doc("ToDo", todo_id).as_dict()
-        validate_todo_access(todo)
         todo["assigned_by"] = fetch_user(todo.get("assigned_by"))
         todo["allocated_to"] = fetch_user(todo.get("allocated_to"))
         todo["navigate_route"] = get_mobile_app_route(
@@ -149,7 +138,6 @@ def update_todo(**kwargs):
         if not data.get("name"):
             return gen_response(500, TODO_ERR["id_required"])
         todo = frappe.get_doc("ToDo", data.name)
-        validate_todo_access(todo)
         todo.update(data)
         todo.save()
         return gen_response(200, "ToDo updated successfully")
@@ -166,7 +154,6 @@ def update_todo_status(name=None, status=None):
         if not status:
             return gen_response(500, "New status is required")
         todo = frappe.get_doc("ToDo", name)
-        validate_todo_access(todo)
         if todo.status == status:
             return gen_response(200, "Status already up to date")
         todo.status = status
