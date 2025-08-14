@@ -37,7 +37,7 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
     try:
         start = cint(start)
         page_length = cint(page_length)
-        start_index = start + 1
+        start_index = start
         end_index = start + page_length
 
         if document_type == "":
