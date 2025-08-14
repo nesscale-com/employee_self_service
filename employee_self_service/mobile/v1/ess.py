@@ -43,7 +43,7 @@ from employee_self_service.employee_self_service.doctype.push_notification.push_
 from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
 from employee_self_service.utils import add_ess_comment
 from employee_self_service.mobile.v1.task import *
-from employee_self_service.mobile.v1.todo import get_dashboard_todo_count
+from employee_self_service.mobile.v1.transactions import *
 
 
 @frappe.whitelist(allow_guest=True)
@@ -578,7 +578,7 @@ def get_dashboard():
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
             ),
-            "approval_requests": get_workflow_documents(internal=True),
+            "approval_requests": cstr(get_workflow_documents(internal=True)) + "+",
             "gender": emp_data.get("gender"),
             "capture_location_for_quotation": settings.get(
                 "capture_location_for_quotation"
@@ -1591,6 +1591,7 @@ def notification_list(start=0, page_length=20):
             "ESS Notification Log",
             filters=filters,
             fields=[
+                "name",
                 "subject as 'title'",
                 "message",
                 "creation",
@@ -1604,6 +1605,7 @@ def notification_list(start=0, page_length=20):
         )
         user_image = frappe.get_value("User", frappe.session.user, "user_image")
         for notification in notifications:
+            notification["name"] = cstr(notification.get("name"))
             notification["navigate_route"] = get_mobile_app_route(
                 notification.get("reference_document"),
                 notification.get("reference_name"),
@@ -1617,11 +1619,14 @@ def notification_list(start=0, page_length=20):
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def mark_read_notification():
+def mark_read_notification(name=None):
     try:
-        frappe.db.set_value(
-            "ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
-        )
+        if not name:
+            frappe.db.set_value(
+                "ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
+            )
+        else:
+            frappe.db.set_value("ESS Notification Log", {"name": name}, "read", 1)
         return gen_response(200, "Notification mark read successfully")
     except Exception as e:
         return exception_handler(e)
@@ -1839,7 +1844,7 @@ def update_profile_picture():
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_transactions(
+def get_transactions_old(
     from_date=None, to_date=None, party_type=None, party=None, download="false"
 ):
     try:
