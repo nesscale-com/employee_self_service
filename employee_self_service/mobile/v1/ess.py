@@ -601,8 +601,7 @@ def get_dashboard():
 			"role_based_menu_visibility": settings.get(
                 "enable_role_based_menu_visibility"
             ),
-			"enable_todo": settings.get("enable_todo"),
-            "todo_count": get_dashboard_todo_count(),
+			"enable_todo": settings.get("enable_todo")
 		}
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")

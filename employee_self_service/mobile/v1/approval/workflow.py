@@ -38,11 +38,11 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
         start = cint(start)
         page_length = cint(page_length)
         start_index = start
+        end_index = start + page_length
 
         if document_type == "":
             document_type = "All"
 
-        # Determine the list of doctypes to query
         if document_type in [None, "All"]:
             workflows = get_active_workflow_document(internal=True)
             workflow_doctypes = [
@@ -56,7 +56,6 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
         all_documents = []
         collected_count = 0
         scanned_count = 0
-        total_count = 0  # Track total documents with transitions
 
         for doctype in workflow_doctypes:
             # Get only documents with workflow_state
@@ -75,29 +74,28 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
             )
 
             for doc in workflow_documents:
-                # Check if document has transitions
+                # Skip until reaching the start_index for valid ones
                 transitions = get_transitions(
                     frappe.get_doc(doc["doctype"], doc["name"])
                 )
                 if transitions:
-                    total_count += 1  # Count all documents with transitions
                     if scanned_count >= start_index and collected_count < page_length:
                         all_documents.append(doc)
                         collected_count += 1
                     scanned_count += 1
 
-                if collected_count >= page_length and not internal:
+                if collected_count >= page_length:
                     break
-
-            if collected_count >= page_length and not internal:
+            if collected_count >= page_length:
                 break
 
         if internal:
-            return cstr(total_count)  # Return total count, not just current page
+            return len(all_documents)
 
         return gen_response(
             200, "Workflow documents fetched successfully", all_documents
         )
+
     except frappe.PermissionError:
         return gen_response(500, "Not permitted to read document")
     except Exception as e:
