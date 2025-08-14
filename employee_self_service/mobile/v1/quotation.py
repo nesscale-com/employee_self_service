@@ -14,6 +14,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_actions,
     check_workflow_exists,
     get_employee_by_user,
+    get_date_range,
 )
 from erpnext.accounts.party import get_dashboard_info
 
@@ -25,8 +26,46 @@ from employee_self_service.mobile.v1.order import get_default_price_list
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_quotation_list(start=0, page_length=10, filters=None):
+def get_quotation_list(
+    start=0,
+    page_length=10,
+    filters=None,
+    date=None,
+    from_date=None,
+    to_date=None,
+    order_by="modified",
+    sort_order="desc",
+):
     try:
+
+        updated_filters = []
+
+        if filters:
+            for key, value in filters.items():
+                updated_filters.append(["Quotation", key, "=", value])
+
+        if from_date and to_date:
+            updated_filters.append(
+                [
+                    "Quotation",
+                    "transaction_date",
+                    "Between",
+                    [from_date, to_date],
+                ]
+            )
+        if date and not date == "Custom Date":
+            duration_details = get_date_range(date)
+            from_date = getdate(duration_details.get("from_date"))
+            to_date = getdate(duration_details.get("to_date"))
+            updated_filters.append(
+                [
+                    "Quotation",
+                    "transaction_date",
+                    "Between",
+                    [from_date, to_date],
+                ]
+            )
+
         global_defaults = get_global_defaults()
         quotation_list = frappe.get_list(
             "Quotation",
@@ -40,8 +79,8 @@ def get_quotation_list(start=0, page_length=10, filters=None):
             ],
             start=start,
             page_length=page_length,
-            order_by="modified desc",
-            filters=filters,
+            order_by=f"{order_by} {sort_order}",
+            filters=updated_filters
         )
         for quotation in quotation_list:
             quotation["grand_total"] = fmt_money(

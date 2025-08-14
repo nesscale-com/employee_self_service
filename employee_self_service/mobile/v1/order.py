@@ -88,19 +88,6 @@ def get_order_list(
                 ]
             )
 
-            # # Add date range filter only if both dates are available
-            # if from_date and to_date:
-            #     updated_filters.append(
-            #         ["Sales Order", "transaction_date", "Between", [from_date, to_date]]
-            #     )
-            # # Add date range filter only if both dates are available
-            # if from_date and to_date:
-            #     updated_filters.append(
-            #         ["Sales Order", "transaction_date", "Between", [from_date, to_date]]
-            #     )
-
-            # If no filters and no date range, use original filters format
-        frappe.log_error(f"{order_by} {sort_order}")
         order_list = frappe.get_list(
             "Sales Order",
             fields=[
