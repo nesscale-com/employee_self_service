@@ -1,7 +1,7 @@
 import json
 import frappe
 from frappe import _
-from frappe.utils import cstr, fmt_money
+from frappe.utils import cstr, fmt_money, cint
 
 from erpnext.accounts.utils import getdate
 from employee_self_service.mobile.v1.api_utils import (
@@ -15,45 +15,78 @@ from employee_self_service.mobile.v1.api_utils import (
     check_workflow_exists,
 )
 from erpnext.accounts.party import get_dashboard_info
+from frappe.model.workflow import get_transitions, apply_workflow
 
 """order list api for mobile app"""
 
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_order_list(start=0, page_length=10, filters=None):
+def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
     try:
+        start, page_length = cint(start), cint(page_length)
+        filters = filters or {}
+        if not isinstance(filters, dict):
+            filters = {}
         global_defaults = get_global_defaults()
-        status_field = check_workflow_exists("Sales Order")
-        if status_field == False:
-            status_field = "status"
-        if filters and filters.get("status"):
-            status_val = filters.get("status")
-            del filters["status"]
-            filters[status_field] = status_val
-        order_list = frappe.get_list(
-            "Sales Order",
-            fields=[
-                "name",
-                "customer",
-                "customer_name",
-                "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
-                "grand_total",
-                f"{status_field} as status",
-                "total_qty",
-            ],
-            start=start,
-            page_length=page_length,
-            order_by="modified desc",
-            filters=filters,
-        )
-        for order in order_list:
-            order["grand_total"] = fmt_money(
-                order["grand_total"], currency=global_defaults.get("default_currency")
+        currency = global_defaults.get("default_currency")
+        status_field = check_workflow_exists("Sales Order") or "status"
+
+        if filters.get("status"):
+            filters[status_field] = filters.pop("status")
+
+        # Common fields
+        base_fields = [
+            "name",
+            "customer",
+            "customer_name",
+            "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
+            "grand_total",
+            f"{status_field} as status",
+            "total_qty",
+        ]
+
+        if list_type == "pending":
+            filters["custom_is_waiting"] = 1
+            raw_orders = frappe.get_list(
+                "Sales Order",
+                fields=base_fields,
+                filters=filters,
+                order_by="modified desc",
+                limit_page_length=500,
             )
-        gen_response(200, "Order list get successfully", order_list)
+
+            order_list = []
+            for doc in raw_orders:
+                so_doc = frappe.get_doc("Sales Order", doc.name)
+                if get_transitions(so_doc):
+                    doc["is_action_button"] = 1
+                    order_list.append(doc)
+                if len(order_list) >= (start + page_length):
+                    break
+
+            order_list = order_list[start : start + page_length]
+
+        else:
+            order_list = frappe.get_list(
+                "Sales Order",
+                fields=base_fields,
+                filters=filters,
+                start=start,
+                page_length=page_length,
+                order_by="modified desc",
+            )
+            for doc in order_list:
+                doc["is_action_button"] = 0
+
+        # Format currency
+        for order in order_list:
+            order["grand_total"] = fmt_money(order["grand_total"], currency=currency)
+
+        return gen_response(200, "Order list fetched successfully", order_list)
+
     except frappe.PermissionError:
-        return gen_response(500, "Not permitted for sales order")
+        return gen_response(403, "Not permitted for Sales Order")
     except Exception as e:
         return exception_handler(e)
 
@@ -102,8 +135,19 @@ def get_order(*args, **kwargs):
             "company",
             "set_warehouse",
             "discount_amount",
+            "custom_is_waiting",
         ]:
             order_data[response_field] = order_doc.get(response_field)
+
+        user_roles = frappe.get_roles(frappe.session.user)
+        bypass_role = frappe.db.get_single_value(
+            "Pollenkisan Settings", "order_bypass_role"
+        )
+        if bypass_role and bypass_role in user_roles:
+            order_data["is_release_order"] = 1
+        else:
+            order_data["is_release_order"] = 0
+
         item_list = []
         for item in order_doc.get("items"):
             item["amount"] = fmt_money(
@@ -451,11 +495,7 @@ def create_order(*args, **kwargs):
             if not frappe.db.exists("Sales Order", data.get("order_id"), cache=True):
                 return gen_response(500, "Invalid order id.")
             sales_order_doc = frappe.get_doc("Sales Order", data.get("order_id"))
-            _create_update_order(
-                data=data,
-                sales_order_doc=sales_order_doc,
-                default_warehouse=data.get("set_warehouse"),
-            )
+            _create_update_order(data=data, sales_order_doc=sales_order_doc)
             if data.get("attachments") is not None:
                 for file in data.get("attachments"):
                     file_doc = frappe.get_doc(
@@ -475,11 +515,7 @@ def create_order(*args, **kwargs):
                     company=global_defaults.get("default_company"),
                 )
             )
-            _create_update_order(
-                data=data,
-                sales_order_doc=sales_order_doc,
-                default_warehouse=data.get("set_warehouse"),
-            )
+            _create_update_order(data=data, sales_order_doc=sales_order_doc)
             if data.get("attachments") is not None:
                 for file in data.get("attachments"):
                     file_doc = frappe.get_doc(
@@ -499,7 +535,10 @@ def create_order(*args, **kwargs):
         return exception_handler(e)
 
 
-def _create_update_order(data, sales_order_doc, default_warehouse):
+def _create_update_order(data, sales_order_doc):
+    default_warehouse = frappe.db.get_single_value(
+        "Employee Self Service Settings", "default_warehouse"
+    )
     delivery_date = data.get("delivery_date")
     for item in data.get("items"):
         item["delivery_date"] = delivery_date
@@ -541,3 +580,88 @@ def get_warehouse_list(filters=None):
         return gen_response(500, "Not permitted for item")
     except Exception as e:
         return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def pollen_action_role_list():
+    try:
+        roles = ["AO", "TO", "ZO", "ZM", "MM", "CEO", "OC", "CMD"]
+        return gen_response(
+            200, "Waiting Approval Role list fetched successfully", roles
+        )
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def pollen_action_role_assignment(order_id, role):
+    try:
+        apply_workflow_action(order_id, f"AT {role}")
+        return gen_response(200, "Role assigned successfully")
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def pollen_action_add_comment(order_id, comment, release_order=False):
+    try:
+        if release_order:
+            formatted_comment = generate_comment_html(
+                order_id,
+                comment,
+                title="📌 Sales Order Manually Released",
+                style="info",
+            )
+            apply_workflow_action(
+                order_id, "AT Dispatch", formatted_comment, manually_approved=True
+            )
+            return gen_response(200, "Order manually released successfully")
+
+        formatted_comment = generate_comment_html(
+            order_id, comment, title="📤 Sales Order Forwarded", style="success"
+        )
+        apply_workflow_action(order_id, "Waiting", formatted_comment)
+        return gen_response(200, "Comment added successfully")
+
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted")
+    except Exception as e:
+        return exception_handler(e)
+
+
+def apply_workflow_action(
+    order_no, action, formatted_comment=None, manually_approved=False
+):
+    frappe.flags.ignore_credit_workflow_transition = True
+    doc = frappe.get_doc("Sales Order", order_no)
+    apply_workflow(doc, action)
+
+    if formatted_comment:
+        doc.add_comment(comment_type="Comment", text=formatted_comment)
+
+    if manually_approved:
+        doc.db_set("custom_manually_approved", 1)
+        doc.db_set("custom_is_waiting", 0)
+
+
+def generate_comment_html(order_id, comment, title, style="info"):
+    # `style` can be "info" or "success" for left border color
+    style_color = {"info": "#17a2b8", "success": "#2b8a3e"}.get(  # blue  # green
+        style, "#6c757d"
+    )  # default gray
+
+    return f"""
+        <div style="padding:10px; border-left:4px solid {style_color}; background:#f8f9fa; border-radius:4px;">
+            <strong>{title}</strong><br/>
+            <b>Sales Order:</b> {order_id}<br/>
+            <b>Requested By:</b> {frappe.session.user_fullname} ({frappe.session.user})<br/>
+            <b>Comment:</b> {comment}
+        </div>
+    """
