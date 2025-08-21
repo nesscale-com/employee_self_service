@@ -59,9 +59,16 @@ def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
             order_list = []
             for doc in raw_orders:
                 so_doc = frappe.get_doc("Sales Order", doc.name)
-                if get_transitions(so_doc):
-                    doc["is_action_button"] = 1
-                    order_list.append(doc)
+                try:
+                    if get_transitions(so_doc):
+                        doc["is_action_button"] = 1
+                        order_list.append(doc)
+                except Exception as e:
+                    frappe.log_error(
+                        title=f"Permission Error {so_doc.name}-{frappe.session.user}",
+                        message=frappe.get_traceback(),
+                    )
+                    continue
                 if len(order_list) >= (start + page_length):
                     break
 
