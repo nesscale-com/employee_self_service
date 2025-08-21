@@ -538,6 +538,7 @@ def create_order(*args, **kwargs):
 
             gen_response(200, "Order created successfully.", sales_order_doc.name)
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted for create sales order")
     except Exception as e:
         return exception_handler(e)
@@ -570,6 +571,7 @@ def get_item_group_list(filters=None):
         )
         gen_response(200, "Item group list get successfully", item_group_list)
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted for item")
     except Exception as e:
         return exception_handler(e)
@@ -585,6 +587,7 @@ def get_warehouse_list(filters=None):
         item_group_list = frappe.get_list("Warehouse", fields=["name"], filters=filters)
         gen_response(200, "Warehouse list get successfully", item_group_list)
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted for item")
     except Exception as e:
         return exception_handler(e)
@@ -599,6 +602,7 @@ def pollen_action_role_list():
             200, "Waiting Approval Role list fetched successfully", roles
         )
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted")
     except Exception as e:
         return exception_handler(e)
@@ -611,6 +615,7 @@ def pollen_action_role_assignment(order_id, role):
         apply_workflow_action(order_id, f"AT {role}")
         return gen_response(200, "Role assigned successfully")
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted")
     except Exception as e:
         return exception_handler(e)
@@ -639,6 +644,7 @@ def pollen_action_add_comment(order_id, comment, release_order=False):
         return gen_response(200, "Comment added successfully")
 
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(500, "Not permitted")
     except Exception as e:
         return exception_handler(e)
