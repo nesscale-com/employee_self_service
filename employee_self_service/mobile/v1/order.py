@@ -86,6 +86,7 @@ def get_order_list(start=0, page_length=10, filters=None, list_type="all"):
         return gen_response(200, "Order list fetched successfully", order_list)
 
     except frappe.PermissionError:
+        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
         return gen_response(403, "Not permitted for Sales Order")
     except Exception as e:
         return exception_handler(e)
