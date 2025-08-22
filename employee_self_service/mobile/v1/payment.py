@@ -39,6 +39,7 @@ def get_payment_entry_data():
 
         gen_response(200, "Payment Entry meta data get successfully", meta_data)
     except frappe.PermissionError:
+        frappe.log_error(title="permission error payment entry ess",message=frappe.get_traceback())
         return gen_response(500, "Not permitted for Payment Entry")
     except Exception as e:
         return exception_handler(e)
