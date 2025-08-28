@@ -299,7 +299,7 @@ def get_payable_account(company):
     return default_payable_account
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_expense(*args, **kwargs):
     try:
