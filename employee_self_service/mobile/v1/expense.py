@@ -299,7 +299,7 @@ def get_payable_account(company):
     return default_payable_account
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 @ess_validate(methods=["GET"])
 def get_expense(*args, **kwargs):
     try:
@@ -353,9 +353,7 @@ def get_attachments(id):
 @ess_validate(methods=["GET"])
 def get_bull_agreetech_center_list():
     try:
-        records = frappe.get_all(
-            "Bull Agreetech Center", fields=["name", "warehouse", "bfh_warehouse"]
-        )
+        records = frappe.get_all("Bull Agreetech Center", fields=["name"])
         return gen_response(200, "Bull Agreetech Center records fetched", records)
     except Exception as e:
         return exception_handler(e)
@@ -367,15 +365,7 @@ def get_sales_outward_list():
     try:
         records = frappe.get_all(
             "Sales Outward",
-            fields=[
-                "name",
-                "customer",
-                "date",
-                "item",
-                "employee",
-                "driver",
-                "vehicle_no",
-            ],
+            fields=["name", "vehicle_no"],
         )
         return gen_response(200, "Sales Outward records fetched", records)
     except Exception as e:
@@ -386,9 +376,7 @@ def get_sales_outward_list():
 @ess_validate(methods=["GET"])
 def get_jams_outward_list():
     try:
-        records = frappe.get_all(
-            "JAMS Outward", fields=["name", "date", "employee", "doc_reference_number"]
-        )
+        records = frappe.get_all("JAMS Outward", fields=["name", "employee"])
         return gen_response(200, "JAMS Outward records fetched", records)
     except Exception as e:
         return exception_handler(e)
