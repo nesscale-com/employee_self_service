@@ -19,6 +19,8 @@ from frappe.utils import (
     fmt_money,
     add_days,
     format_time,
+    cint,
+    get_datetime,
 )
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
@@ -575,11 +577,20 @@ def get_dashboard():
     try:
         emp_data = get_employee_by_user(
             frappe.session.user,
-            fields=["name", "company", "image", "employee_name", "gender"],
+            fields=[
+                "name",
+                "company",
+                "image",
+                "employee_name",
+                "gender",
+                "custom_pollen_shift_policy",
+            ],
         )
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
-        log_details = get_last_log_details(emp_data.get("name"))
+        log_details = get_last_log_details(
+            emp_data.get("name"), emp_data.get("custom_pollen_shift_policy")
+        )
         settings = get_ess_settings()
         dashboard_data = {
             "notice_board": notice_board,
@@ -624,7 +635,11 @@ def get_dashboard():
         dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
-        get_last_log_type(dashboard_data, emp_data.get("name"))
+        get_last_log_type(
+            dashboard_data,
+            emp_data.get("name"),
+            emp_data.get("custom_pollen_shift_policy"),
+        )
         return gen_response(200, "Dashboard data get successfully", dashboard_data)
 
     except Exception as e:
@@ -659,7 +674,7 @@ def get_attendance_details_dashboard():
         return exception_handler(e)
 
 
-def get_last_log_details(employee):
+def get_last_log_details(employee, policy=None):
     log_details = frappe.db.sql(
         """SELECT log_type,
         time
@@ -966,7 +981,22 @@ def update_shift_last_sync(emp_data):
         )
 
 
-def get_last_log_type(dashboard_data, employee):
+def get_last_log_type(dashboard_data, employee, policy=None):
+    enable_pollen_attendance = frappe.db.get_value(
+        "Pollen HR Settings", "Pollen HR Settings", "enable_pollen_attendance"
+    )
+    if cint(enable_pollen_attendance) == 1:
+        now = now_datetime()
+        shift_attendance_log = frappe.db.sql(
+            """select * from `tabShift Attendance Log` where shift_policy=%s and start_dt <= %s ORDER BY start_dt DESC""",
+            (policy, now),
+            as_dict=1,
+        )
+        if shift_attendance_log:
+            log = shift_attendance_log[0]
+            if now >= get_datetime(log.get("processed_10h_at")):
+                dashboard_data["last_log_type"] = "OUT"
+                return
     logs = frappe.get_all(
         "Employee Checkin",
         filters={"employee": employee},
