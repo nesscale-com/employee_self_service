@@ -360,52 +360,27 @@ def get_payment_entry(id):
             return gen_response(500, "Payment entry does not exists")
         payment_entry = frappe.get_doc("Payment Entry", id).as_dict()
         global_defaults = get_global_defaults()
-        payment_entry_doc = prepare_json_data(
-            [
-                "name",
-                "payment_type",
-                "posting_date",
-                "mode_of_payment",
-                "company",
-                "party_type",
-                "party",
-                "party_name",
-                "paid_from",
-                "paid_to",
-                "paid_amount",
-                "reference_no",
-                "reference_date",
-                "workflow_state",
-                "cost_center",
-            ],
-            payment_entry,
-        )
         reference_list = []
-        for reference in payment_entry.get("references"):
+        for reference in payment_entry.get("references", []):
             reference_list.append(
-                prepare_json_data(
-                    [
-                        "outstanding_amount",
-                        "due_date",
-                        "reference_doctype",
-                        "reference_name",
-                        "total_amount",
-                        "allocated_amount",
-                    ],
-                    reference,
-                )
+                {
+                    "outstanding_amount": reference.get("outstanding_amount"),
+                    "due_date": reference.get("due_date"),
+                    "reference_doctype": reference.get("reference_doctype"),
+                    "reference_name": reference.get("reference_name"),
+                    "total_amount": reference.get("total_amount"),
+                    "allocated_amount": reference.get("allocated_amount"),
+                }
             )
-        payment_entry_doc["next_action"] = get_actions(payment_entry, payment_entry_doc)
-        payment_entry_doc["allow_edit"] = (
-            True if payment_entry.get("docstatus") == 0 else False
-        )
-        payment_entry_doc["references"] = reference_list
-        payment_entry_doc["attachments"] = get_payment_entry_attachments(id)
-        payment_entry_doc["paid_amount_in_currency"] = fmt_money(
+        payment_entry["references"] = reference_list
+        payment_entry["next_action"] = get_actions(payment_entry, payment_entry)
+        payment_entry["allow_edit"] = True if payment_entry.get("docstatus") == 0 else False
+        payment_entry["attachments"] = get_payment_entry_attachments(id)
+        payment_entry["paid_amount_in_currency"] = fmt_money(
             payment_entry.get("paid_amount"),
             currency=global_defaults.get("default_currency"),
         )
-        return gen_response(200, "Payment Entry get successfully", payment_entry_doc)
+        return gen_response(200, "Payment Entry get successfully", payment_entry)
     except Exception as e:
         return exception_handler(e)
 
