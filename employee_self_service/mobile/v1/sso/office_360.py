@@ -37,13 +37,7 @@ def azure_login(access_token):
         user = frappe.db.exists("User", email)
         if not user:
             # Create a new user if it doesn't exist
-            user = frappe.get_doc({
-                "doctype": "User",
-                "email": email,
-                "first_name": user_info.get("displayName", "Unknown User"),
-                "enabled": 1,
-                "user_type": "Website User"
-            }).insert(ignore_permissions=True)
+            frappe.throw("User does not exists")
 
         # Log in the user and return session
         frappe.local.login_manager.user = email
