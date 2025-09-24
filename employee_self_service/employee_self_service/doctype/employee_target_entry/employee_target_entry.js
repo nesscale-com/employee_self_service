@@ -8,7 +8,7 @@ frappe.ui.form.on("Employee Target Entry", {
                 method: "get_template_item_groups",
                 doc: frm.doc,
                 callback: function (r) {
-                    if (r.message) {
+                    if (r.message && r.message.length > 0) {
                         frm.clear_table("item_group_wise_target");
                         r.message.forEach(row => {
                             let child = frm.add_child("item_group_wise_target");
