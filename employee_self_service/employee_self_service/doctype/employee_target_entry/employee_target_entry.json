@@ -8,6 +8,9 @@
  "field_order": [
   "employee",
   "target_template",
+  "column_break_zelv",
+  "status",
+  "progress",
   "template_details_section",
   "target_module",
   "selector",
@@ -21,12 +24,12 @@
   "quarter",
   "section_break_kbro",
   "item_group_wise_target",
+  "section_break_uaot",
   "target",
-  "achieved",
   "total_target",
-  "total_achieved",
-  "progress_tab",
-  "progress"
+  "column_break_qxqx",
+  "achieved",
+  "total_achieved"
  ],
  "fields": [
   {
@@ -120,11 +123,6 @@
    "options": "Item Group Wise Target List"
   },
   {
-   "fieldname": "progress_tab",
-   "fieldtype": "Tab Break",
-   "label": "Progress"
-  },
-  {
    "fieldname": "progress",
    "fieldtype": "Percent",
    "label": "Progress",
@@ -174,11 +172,31 @@
    "non_negative": 1,
    "precision": "2",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zelv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nComplete",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_uaot",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_qxqx",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 13:30:54.781178",
+ "modified": "2025-09-25 18:38:54.832590",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",

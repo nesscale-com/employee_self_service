@@ -43,6 +43,9 @@ class EmployeeTargetEntry(Document):
                 else 0
             )
 
+        if self.progress >= 100:
+            self.status = "Complete"
+
     @frappe.whitelist()
     def get_template_item_groups(self):
         """Fetch child table rows from Employee Target Template doctype."""
