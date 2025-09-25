@@ -24,6 +24,6 @@ class SPTargetLog(Document):
                 if self.item_group == row.item_group:
                     row.achieved = max(row.achieved + delta, 0)
         else:
-            target_doc.achieved = max(target_doc.achieved + delta, 0)
+            target_doc.total_achieved = max(target_doc.total_achieved + delta, 0)
 
         target_doc.save(ignore_permissions=True)

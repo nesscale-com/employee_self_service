@@ -25,10 +25,8 @@
   "section_break_kbro",
   "item_group_wise_target",
   "section_break_uaot",
-  "target",
   "total_target",
   "column_break_qxqx",
-  "achieved",
   "total_achieved"
  ],
  "fields": [
@@ -138,34 +136,14 @@
    "options": "1\n2\n3\n4"
   },
   {
-   "depends_on": "eval:doc.selector == \"All\"",
-   "fieldname": "target",
-   "fieldtype": "Float",
-   "label": "Target",
-   "mandatory_depends_on": "eval:doc.selector == \"All\"",
-   "non_negative": 1,
-   "precision": "2"
-  },
-  {
-   "depends_on": "eval:doc.selector == \"All\"",
-   "fieldname": "achieved",
-   "fieldtype": "Float",
-   "label": "Achieved",
-   "non_negative": 1,
-   "precision": "2",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:doc.selector == \"Item Group\"",
    "fieldname": "total_target",
    "fieldtype": "Float",
    "label": "Total Target",
    "non_negative": 1,
    "precision": "2",
-   "read_only": 1
+   "read_only_depends_on": "eval:doc.selector == \"Item Group\""
   },
   {
-   "depends_on": "eval:doc.selector == \"Item Group\"",
    "fieldname": "total_achieved",
    "fieldtype": "Float",
    "label": "Total Achieved",
@@ -196,7 +174,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 18:38:54.832590",
+ "modified": "2025-09-25 23:56:56.605041",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",

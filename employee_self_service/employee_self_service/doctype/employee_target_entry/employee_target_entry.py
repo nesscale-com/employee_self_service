@@ -14,15 +14,19 @@ class EmployeeTargetEntry(Document):
         self.validate_date_range()
 
     def perform_calculations(self):
-        self.total_achieved = 0
-        self.total_target = 0
-
         if self.selector == "Item Group":
             total_considered_achieved = 0
+            self.total_achieved = 0
+            self.total_target = 0
             for row in self.get("item_group_wise_target"):
                 self.total_target += row.target
                 self.total_achieved += row.achieved
                 total_considered_achieved += min(row.achieved, row.target)
+                row.progress = (
+                    (min(row.achieved, row.target) / row.target * 100)
+                    if row.target
+                    else 0
+                )
 
             self.progress = (
                 (total_considered_achieved / self.total_target * 100)
@@ -30,21 +34,17 @@ class EmployeeTargetEntry(Document):
                 else 0
             )
 
-            for row in self.get("item_group_wise_target"):
-                row.progress = (
-                    (min(row.achieved, row.target) / row.target * 100)
-                    if row.target
-                    else 0
-                )
         else:
             self.progress = (
-                (min(self.achieved, self.target) / self.target * 100)
-                if self.target
+                (min(self.total_achieved, self.total_target) / self.total_target * 100)
+                if self.total_target
                 else 0
             )
 
         if self.progress >= 100:
             self.status = "Complete"
+        else:
+            self.status = "Pending"
 
     @frappe.whitelist()
     def get_template_item_groups(self):
