@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "TE.#####",
  "creation": "2025-09-23 20:12:24.466664",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -104,7 +105,7 @@
    "fieldtype": "Select",
    "label": "Month",
    "mandatory_depends_on": "eval:doc.frequency == \"Monthly\"",
-   "options": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12"
+   "options": "4\n5\n6\n7\n8\n9\n10\n11\n12\n1\n2\n3"
   },
   {
    "fieldname": "section_break_kbro",
@@ -125,8 +126,9 @@
   },
   {
    "fieldname": "progress",
-   "fieldtype": "Data",
+   "fieldtype": "Percent",
    "label": "Progress",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -176,10 +178,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-24 12:19:56.999721",
+ "modified": "2025-09-25 13:30:54.781178",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
