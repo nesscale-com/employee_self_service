@@ -5,6 +5,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_employee_by_user,
 )
+from frappe.utils import flt
 
 
 @frappe.whitelist()
@@ -50,6 +51,60 @@ def get_employee_target_details(target_id=None):
         target_doc = frappe.get_doc("Employee Target Entry", target_id).as_dict()
 
         return gen_response(200, "Employee Target Details get successfully", target_doc)
+    except frappe.PermissionError:
+        return gen_response(403, "Unauthorized to access this target")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_employee_target_order_details(target_id=None):
+    try:
+        if not target_id:
+            return gen_response(400, "Target ID is required")
+
+        target_log_list = frappe.get_all(
+            "SP Target Log",
+            filters={"employee_target_entry": target_id},
+            fields=["reference_doctype", "reference_docname", "metric"],
+        )
+        if not target_log_list:
+            return gen_response(
+                404, "No target order/invoice found for the given Target ID"
+            )
+
+        module_details = []
+        total_amount = 0
+        total_qty = 0
+        metric = target_log_list[0].metric if target_log_list else None
+
+        for log in target_log_list:
+            module_doc = frappe.get_doc(
+                log.reference_doctype, log.reference_docname
+            ).as_dict()
+            module_details.append(module_doc)
+
+            if log.metric == "Value":
+                total_amount += flt(
+                    module_doc.get("grand_total") or module_doc.get("amount") or 0
+                )
+            elif log.metric == "Quantity":
+                total_qty += flt(
+                    module_doc.get("total_qty") or module_doc.get("qty") or 0
+                )
+
+        return gen_response(
+            200,
+            "Employee Target Order Details get successfully",
+            {
+                "metric": metric,
+                "total_orders": len(module_details),
+                "total_amount": total_amount,
+                "total_qty": total_qty,
+                "orders": module_details,
+            },
+        )
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:

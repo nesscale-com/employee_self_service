@@ -1,125 +1,133 @@
 {
-    "actions": [],
-    "allow_rename": 1,
-    "autoname": "TL.#####",
-    "creation": "2025-09-24 12:28:08.114775",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "section_break_o6jo",
-        "amended_from",
-        "customer",
-        "employee",
-        "date",
-        "reference_doctype",
-        "reference_docname",
-        "employee_target_entry",
-        "column_break_xngk",
-        "item_group",
-        "amount",
-        "qty"
-    ],
-    "fields": [
-        {
-            "fieldname": "section_break_o6jo",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "amended_from",
-            "fieldtype": "Link",
-            "label": "Amended From",
-            "no_copy": 1,
-            "options": "SP Target Log",
-            "print_hide": 1,
-            "read_only": 1,
-            "search_index": 1
-        },
-        {
-            "fieldname": "customer",
-            "fieldtype": "Link",
-            "label": "Customer",
-            "options": "Customer"
-        },
-        {
-            "fieldname": "date",
-            "fieldtype": "Date",
-            "label": "Date"
-        },
-        {
-            "fieldname": "reference_doctype",
-            "fieldtype": "Link",
-            "label": "Reference Doctype",
-            "options": "DocType"
-        },
-        {
-            "fieldname": "reference_docname",
-            "fieldtype": "Dynamic Link",
-            "label": "Reference Docname",
-            "options": "reference_doctype"
-        },
-        {
-            "fieldname": "employee",
-            "fieldtype": "Link",
-            "label": "Employee",
-            "options": "Employee"
-        },
-        {
-            "fieldname": "column_break_xngk",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "item_group",
-            "fieldtype": "Link",
-            "label": "Item Group",
-            "options": "Item Group"
-        },
-        {
-            "fieldname": "amount",
-            "fieldtype": "Currency",
-            "label": "Amount",
-            "non_negative": 1,
-            "precision": "2"
-        },
-        {
-            "fieldname": "qty",
-            "fieldtype": "Float",
-            "label": "Qty",
-            "non_negative": 1,
-            "precision": "2"
-        },
-        {
-            "fieldname": "employee_target_entry",
-            "fieldtype": "Link",
-            "label": "Employee Target Entry",
-            "options": "Employee Target Entry",
-            "read_only": 1
-        }
-    ],
-    "index_web_pages_for_search": 1,
-    "is_submittable": 1,
-    "links": [],
-    "modified": "2025-09-24 19:45:27.747565",
-    "modified_by": "Administrator",
-    "module": "Employee Self Service",
-    "name": "SP Target Log",
-    "naming_rule": "Expression (old style)",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "submit": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "states": []
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TL.#####",
+ "creation": "2025-09-24 12:28:08.114775",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_o6jo",
+  "amended_from",
+  "customer",
+  "employee",
+  "date",
+  "reference_doctype",
+  "reference_docname",
+  "employee_target_entry",
+  "metric",
+  "column_break_xngk",
+  "item_group",
+  "amount",
+  "qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_o6jo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "SP Target Log",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_docname",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Docname",
+   "options": "reference_doctype"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_xngk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "label": "Item Group",
+   "options": "Item Group"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Qty",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "employee_target_entry",
+   "fieldtype": "Link",
+   "label": "Employee Target Entry",
+   "options": "Employee Target Entry",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_target_entry.metric",
+   "fieldname": "metric",
+   "fieldtype": "Data",
+   "label": "Metric",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-09-26 12:22:05.714986",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "SP Target Log",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
 }
