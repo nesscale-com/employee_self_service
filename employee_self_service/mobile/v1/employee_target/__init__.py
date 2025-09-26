@@ -79,10 +79,28 @@ def get_employee_target_order_details(target_id=None):
         total_qty = 0
         metric = target_log_list[0].metric if target_log_list else None
 
+        selected_fields = [
+            "name",
+            "customer",
+            "customer_name",
+            "transaction_date",
+            "total",
+            "grand_total",
+            "total_commission",
+            "status",
+        ]
+
         for log in target_log_list:
-            module_doc = frappe.get_doc(
-                log.reference_doctype, log.reference_docname
-            ).as_dict()
+            # Fetch only selected fields
+            module_doc = frappe.db.get_value(
+                log.reference_doctype,
+                log.reference_docname,
+                selected_fields,
+                as_dict=True,
+            )
+            if not module_doc:
+                continue
+
             module_details.append(module_doc)
 
             if log.metric == "Value":
@@ -105,6 +123,7 @@ def get_employee_target_order_details(target_id=None):
                 "orders": module_details,
             },
         )
+
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:
