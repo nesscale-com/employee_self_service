@@ -91,7 +91,7 @@ def get_employee_target_details(target_id=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_employee_target_order_details(target_id=None):
+def get_employee_target_order_details_old(target_id=None):
     try:
         if not target_id:
             return gen_response(400, "Target ID is required")
@@ -165,6 +165,101 @@ def get_employee_target_order_details(target_id=None):
                 "total_orders": len(module_details),
                 "total_amount": fmt_money(total_amount, currency=default_currency),
                 "total_qty": str(total_qty),
+                "orders": module_details,
+            },
+        )
+
+    except frappe.PermissionError:
+        return gen_response(403, "Unauthorized to access this target")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_employee_target_order_details(target_id=None):
+    try:
+        if not target_id:
+            return gen_response(400, "Target ID is required")
+
+        target_logs = frappe.get_all(
+            "SP Target Log",
+            filters={"employee_target_entry": target_id},
+            fields=["reference_doctype", "reference_docname", "metric"],
+        )
+        if not target_logs:
+            return gen_response(
+                404, "No target order/invoice found for the given Target ID"
+            )
+
+        metric = target_logs[0].metric
+        selected_fields = [
+            "name",
+            "customer_name",
+            "transaction_date",
+            "total",
+            "total_qty",
+            "status",
+        ]
+        default_currency = frappe.get_single("Global Defaults").default_currency
+
+        module_details, total_amount, total_qty = [], 0, 0
+
+        for log in target_logs:
+            module_doc = frappe.db.get_value(
+                log.reference_doctype,
+                {"name": log.reference_docname, "status": ["!=", "Cancelled"]},
+                selected_fields,
+                as_dict=True,
+            )
+            if not module_doc:
+                continue
+
+            date_field = module_doc.get("transaction_date")
+            date_field = date_field.strftime("%d-%m-%Y") if date_field else None
+
+            if metric == "Value":
+                order_value = flt(module_doc.get("total") or 0)
+                total_amount += order_value
+                order_value_display = fmt_money(order_value, currency=default_currency)
+            else:
+                order_value = flt(module_doc.get("total_qty") or 0)
+                total_qty += order_value
+                order_value_display = str(order_value)
+
+            module_details.append(
+                {
+                    "customer_name": module_doc.customer_name,
+                    "transaction_date": date_field,
+                    "total_amount": fmt_money(
+                        module_doc.total or 0, currency=default_currency
+                    ),
+                    "order_id": log.reference_docname,
+                    "order_details": [
+                        {"key": "Order ID", "value": log.reference_docname},
+                        {"key": "Order Value", "value": order_value_display},
+                        {"key": "Status", "value": module_doc.status},
+                    ],
+                }
+            )
+
+        card_details = [
+            {"key": "Total Orders", "value": len(module_details)},
+            {
+                "key": "Total Amount" if metric == "Value" else "total_qty",
+                "value": (
+                    fmt_money(total_amount, currency=default_currency)
+                    if metric == "Value"
+                    else str(total_qty)
+                ),
+            },
+        ]
+
+        return gen_response(
+            200,
+            "Employee Target Order Details fetched successfully",
+            {
+                "card_details": card_details,
                 "orders": module_details,
             },
         )
