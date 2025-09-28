@@ -5,21 +5,51 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     get_employee_by_user,
 )
-from frappe.utils import flt, fmt_money
+from frappe.utils import flt, fmt_money, getdate
 from datetime import datetime
+
+# Cache for default currency
+_default_currency_cache = None
+
+def _get_default_currency():
+    """Get default currency with caching."""
+    global _default_currency_cache
+    if _default_currency_cache is None:
+        _default_currency_cache = frappe.get_cached_value("Global Defaults", None, "default_currency")
+    return _default_currency_cache
+
+def _format_date(date_value, format_str="%d-%m-%Y"):
+    """Format date safely."""
+    if not date_value:
+        return None
+    try:
+        if isinstance(date_value, str):
+            date_value = getdate(date_value)
+        return date_value.strftime(format_str)
+    except (AttributeError, ValueError, TypeError):
+        return str(date_value) if date_value else None
+
+def _format_currency_amount(amount, currency=None):
+    """Format currency amount."""
+    if currency is None:
+        currency = _get_default_currency()
+    return fmt_money(flt(amount) or 0.0, currency=currency)
 
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_employee_target_list(filters=None):
+    """Fetch employee target entries."""
     try:
+        # Get employee
         employee = get_employee_by_user(frappe.session.user)
         if not employee:
             return gen_response(500, "Employee not found for this user")
 
-        filters = filters or []
+        # Build filters
+        filters = []
         filters.append(["employee", "=", employee.get("name")])
-
+        # Single database query
         target_list = frappe.get_all(
             "Employee Target Entry",
             filters=filters,
@@ -37,221 +67,188 @@ def get_employee_target_list(filters=None):
                 "total_target",
                 "total_achieved",
             ],
+            order_by="creation desc"
         )
-        default_currency = frappe.get_single("Global Defaults").default_currency
-        for row in target_list:
-            row["total_target"] = fmt_money(
-                row.get("total_target") or 0.0, currency=default_currency
-            )
-            row["total_achieved"] = fmt_money(
-                row.get("total_achieved") or 0.0, currency=default_currency
-            )
-            row["start_date"] = datetime.strftime(row.get("start_date"), "%d-%m-%Y")
-            row["end_date"] = datetime.strftime(row.get("end_date"), "%d-%m-%Y")
 
-        return gen_response(200, "Employee Targets get successfully", target_list)
+        if not target_list:
+            return gen_response(200, "Employee Targets retrieved successfully", [])
+
+        # Get currency once
+        default_currency = _get_default_currency()
+        
+        # Process all records
+        for target in target_list:
+            # Format currency amounts
+            target["total_target"] = _format_currency_amount(target.get("total_target"), default_currency)
+            target["total_achieved"] = _format_currency_amount(target.get("total_achieved"), default_currency)
+            
+            # Format dates
+            target["start_date"] = _format_date(target.get("start_date"))
+            target["end_date"] = _format_date(target.get("end_date"))
+
+        return gen_response(200, "Employee Targets retrieved successfully", target_list)
+    
+    except frappe.PermissionError:
+        return gen_response(403, "Unauthorized access to employee targets")
     except Exception as e:
+        frappe.log_error(title="Error in get_employee_targets_list", message=frappe.get_traceback())
         return exception_handler(e)
 
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_employee_target_details(target_id=None):
+    """Fetch detailed information for a specific employee target."""
     try:
         if not target_id:
             return gen_response(400, "Target ID is required")
 
-        target_doc = frappe.get_doc("Employee Target Entry", target_id).as_dict()
-        default_currency = frappe.get_single("Global Defaults").default_currency
+        # Get target document
+        try:
+            target_doc = frappe.get_doc("Employee Target Entry", target_id)
+        except frappe.DoesNotExistError:
+            return gen_response(404, "Employee Target Entry not found")
 
-        # Format dates safely
-        for field in ["start_date", "end_date"]:
-            if target_doc.get(field):
-                target_doc[field] = datetime.strftime(target_doc[field], "%d-%m-%Y")
+        # Convert to dict
+        target_data = target_doc.as_dict()
+        
+        # Get currency
+        default_currency = _get_default_currency()
 
-        # Format amounts
-        for field in ["total_target", "total_achieved"]:
-            target_doc[field] = fmt_money(
-                target_doc.get(field) or 0.0, currency=default_currency
-            )
+        # Format dates
+        date_fields = ["start_date", "end_date"]
+        for field in date_fields:
+            target_data[field] = _format_date(target_data.get(field))
+
+        # Format main amounts
+        amount_fields = ["total_target", "total_achieved"]
+        for field in amount_fields:
+            target_data[field] = _format_currency_amount(target_data.get(field), default_currency)
 
         # Format child table amounts
-        for item_group in target_doc.get("item_group_wise_target", []):
-            for field in ["target", "achieved"]:
-                item_group[field] = fmt_money(
-                    item_group.get(field) or 0.0, currency=default_currency
-                )
+        item_group_targets = target_data.get("item_group_wise_target", [])
+        if item_group_targets:
+            child_amount_fields = ["target", "achieved"]
+            for item_group in item_group_targets:
+                for field in child_amount_fields:
+                    item_group[field] = _format_currency_amount(item_group.get(field), default_currency)
 
-        return gen_response(200, "Employee Target Details get successfully", target_doc)
+        return gen_response(200, "Employee Target Details retrieved successfully", target_data)
+    
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:
+        frappe.log_error(title="Error in get_employee_target_details", message=frappe.get_traceback())
         return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_employee_target_order_details_old(target_id=None):
-    try:
-        if not target_id:
-            return gen_response(400, "Target ID is required")
-
-        target_log_list = frappe.get_all(
-            "SP Target Log",
-            filters={"employee_target_entry": target_id},
-            fields=["reference_doctype", "reference_docname", "metric"],
-        )
-        if not target_log_list:
-            return gen_response(
-                404, "No target order/invoice found for the given Target ID"
-            )
-
-        module_details = []
-        total_amount = 0
-        total_qty = 0
-        metric = target_log_list[0].metric if target_log_list else None
-
-        selected_fields = [
-            "name",
-            "customer",
-            "customer_name",
-            "transaction_date",
-            "total",
-            "grand_total",
-            "total_commission",
-            "status",
-        ]
-
-        # Get default currency for formatting
-        default_currency = frappe.get_single("Global Defaults").default_currency
-
-        for log in target_log_list:
-            module_doc = frappe.db.get_value(
-                log.reference_doctype,
-                log.reference_docname,
-                selected_fields,
-                as_dict=True,
-            )
-            if not module_doc:
-                continue
-
-            # Format numeric fields as currency
-            for field in ["grand_total", "total", "total_commission"]:
-                if module_doc.get(field) is not None:
-                    module_doc[field] = fmt_money(
-                        module_doc[field], currency=default_currency
-                    )
-
-            # Format date field
-            if module_doc.get("transaction_date"):
-                module_doc["transaction_date"] = datetime.strftime(
-                    module_doc["transaction_date"], "%d-%m-%Y"
-                )
-
-            module_details.append(module_doc)
-
-            if log.metric == "Value":
-                total_amount += flt(module_doc.get("grand_total") or 0)
-            elif log.metric == "Quantity":
-                total_qty += flt(
-                    module_doc.get("total_qty") or module_doc.get("qty") or 0
-                )
-
-        return gen_response(
-            200,
-            "Employee Target Order Details get successfully",
-            {
-                "metric": metric,
-                "total_orders": len(module_details),
-                "total_amount": fmt_money(total_amount, currency=default_currency),
-                "total_qty": str(total_qty),
-                "orders": module_details,
-            },
-        )
-
-    except frappe.PermissionError:
-        return gen_response(403, "Unauthorized to access this target")
-    except Exception as e:
-        return exception_handler(e)
-
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_employee_target_order_details(target_id=None):
+    """Fetch order details for a specific employee target."""
     try:
         if not target_id:
             return gen_response(400, "Target ID is required")
 
+        # Get target logs
         target_logs = frappe.get_all(
             "SP Target Log",
             filters={"employee_target_entry": target_id},
-            fields=["reference_doctype", "reference_docname", "metric"],
+            fields=["reference_doctype", "reference_docname", "metric"]
         )
+
         if not target_logs:
-            return gen_response(
-                404, "No target order/invoice found for the given Target ID"
-            )
+            return gen_response(404, "No target order/invoice found for the given Target ID")
 
+        # Extract unique reference data
         metric = target_logs[0].metric
-        selected_fields = [
-            "name",
-            "customer_name",
-            "transaction_date",
-            "total",
-            "total_qty",
-            "status",
-        ]
-        default_currency = frappe.get_single("Global Defaults").default_currency
-
-        module_details, total_amount, total_qty = [], 0, 0
-
+        doctype_refs = {}
+        
+        # Group references by doctype
         for log in target_logs:
-            module_doc = frappe.db.get_value(
-                log.reference_doctype,
-                {"name": log.reference_docname, "status": ["!=", "Cancelled"]},
-                selected_fields,
-                as_dict=True,
-            )
-            if not module_doc:
+            doctype = log.reference_doctype
+            if doctype not in doctype_refs:
+                doctype_refs[doctype] = []
+            doctype_refs[doctype].append(log.reference_docname)
+
+        # Get currency
+        default_currency = _get_default_currency()
+        
+        # Fields to fetch
+        selected_fields = [
+            "name", "customer_name", "transaction_date", 
+            "total", "total_qty", "status"
+        ]
+
+        # Process documents by doctype
+        all_documents = {}
+        for doctype, doc_names in doctype_refs.items():
+            try:
+                docs = frappe.get_all(
+                    doctype,
+                    filters={
+                        "name": ["in", doc_names],
+                        "status": ["!=", "Cancelled"]
+                    },
+                    fields=selected_fields
+                )
+                # Index by name
+                for doc in docs:
+                    all_documents[doc.name] = doc
+            except Exception as e:
+                frappe.log_error(
+                    title=f"Error fetching {doctype} documents", 
+                    message=frappe.get_traceback()
+                )
                 continue
 
-            date_field = module_doc.get("transaction_date")
-            date_field = date_field.strftime("%d-%m-%Y") if date_field else None
+        # Build response data
+        module_details = []
+        total_amount = total_qty = 0
 
+        for log in target_logs:
+            doc_data = all_documents.get(log.reference_docname)
+            if not doc_data:
+                continue
+
+            # Format date
+            formatted_date = _format_date(doc_data.get("transaction_date"))
+            
+            # Calculate order value
             if metric == "Value":
-                order_value = flt(module_doc.get("total") or 0)
+                order_value = flt(doc_data.get("total", 0))
                 total_amount += order_value
-                order_value_display = fmt_money(order_value, currency=default_currency)
+                order_value_display = _format_currency_amount(order_value, default_currency)
             else:
-                order_value = flt(module_doc.get("total_qty") or 0)
+                order_value = flt(doc_data.get("total_qty", 0))
                 total_qty += order_value
-                order_value_display = str(order_value)
+                order_value_display = str(int(order_value)) if order_value.is_integer() else str(order_value)
 
-            module_details.append(
-                {
-                    "customer_name": module_doc.customer_name,
-                    "transaction_date": date_field,
-                    "total_amount": fmt_money(
-                        module_doc.total or 0, currency=default_currency
-                    ),
-                    "order_id": log.reference_docname,
-                    "order_details": [
-                        {"key": "Order ID", "value": log.reference_docname},
-                        {"key": "Order Value", "value": order_value_display},
-                        {"key": "Status", "value": module_doc.status},
-                    ],
-                }
-            )
+            # Build order details
+            module_details.append({
+                "customer_name": doc_data.customer_name,
+                "transaction_date": formatted_date,
+                "total_amount": _format_currency_amount(doc_data.total or 0, default_currency),
+                "order_id": log.reference_docname,
+                "order_details": [
+                    {"key": "Order ID", "value": log.reference_docname},
+                    {"key": "Order Value", "value": order_value_display},
+                    {"key": "Status", "value": doc_data.status},
+                ],
+            })
+
+        # Build card details
+        total_orders = len(module_details)
+        total_value_display = (
+            _format_currency_amount(total_amount, default_currency) 
+            if metric == "Value" 
+            else str(int(total_qty)) if total_qty and total_qty.is_integer() else str(total_qty)
+        )
 
         card_details = [
-            {"key": "Total Orders", "value": len(module_details)},
+            {"key": "Total Orders", "value": total_orders},
             {
                 "key": "Total Amount" if metric == "Value" else "total_qty",
-                "value": (
-                    fmt_money(total_amount, currency=default_currency)
-                    if metric == "Value"
-                    else str(total_qty)
-                ),
+                "value": total_value_display,
             },
         ]
 
@@ -267,4 +264,5 @@ def get_employee_target_order_details(target_id=None):
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:
+        frappe.log_error(title="Error in get_employee_target_order_details", message=frappe.get_traceback())
         return exception_handler(e)

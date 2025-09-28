@@ -156,12 +156,11 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Pending",
+   "default": "In Progress",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nComplete",
-   "read_only": 1
+   "options": "In Progress\nComplete"
   },
   {
    "fieldname": "section_break_uaot",
@@ -174,8 +173,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 23:56:56.605041",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 08:05:28.706238",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",
  "naming_rule": "Expression (old style)",
@@ -194,6 +193,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
