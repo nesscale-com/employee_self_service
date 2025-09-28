@@ -153,7 +153,7 @@ def get_employee_target_order_details(target_id=None):
         # Get target logs - using SP Target Log data directly
         target_logs = frappe.get_all(
             "SP Target Log",
-            filters={"employee_target_entry": target_id},
+            filters={"employee_target_entry": target_id,"docstatus": 1},
             fields=[
                 "reference_doctype", 
                 "reference_docname", 
@@ -162,7 +162,6 @@ def get_employee_target_order_details(target_id=None):
                 "transaction_date",
                 "amount",
                 "qty",
-                "status",
                 "item_group"
             ]
         )
@@ -181,9 +180,6 @@ def get_employee_target_order_details(target_id=None):
         total_amount = total_qty = 0
 
         for log in target_logs:
-            # Skip cancelled entries if status indicates so
-            if log.get("status") == "Cancelled":
-                continue
 
             # Format date
             formatted_date = _format_date(log.get("transaction_date"))
