@@ -161,7 +161,7 @@ def get_employee_target_order_details(target_id=None):
                 "customer_name",
                 "transaction_date",
                 "amount",
-                "total_qty",
+                "qty",
                 "status",
                 "item_group"
             ]
@@ -194,7 +194,7 @@ def get_employee_target_order_details(target_id=None):
                 total_amount += order_value
                 order_value_display = _format_currency_amount(order_value, default_currency)
             else:
-                order_value = flt(log.get("total_qty", 0))
+                order_value = flt(log.get("qty", 0))
                 total_qty += order_value
                 order_value_display = str(int(order_value)) if order_value.is_integer() else str(order_value)
 
