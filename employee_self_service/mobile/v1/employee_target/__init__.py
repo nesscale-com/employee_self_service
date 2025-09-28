@@ -178,6 +178,7 @@ def get_employee_target_order_details(target_id=None):
         # Build response data directly from SP Target Log
         module_details = []
         total_amount = total_qty = 0
+        unique_orders = set()  # Track unique order IDs
 
         for log in target_logs:
 
@@ -194,6 +195,9 @@ def get_employee_target_order_details(target_id=None):
                 total_qty += order_value
                 order_value_display = str(int(order_value)) if order_value.is_integer() else str(order_value)
 
+            # Add to unique orders set
+            unique_orders.add(log.get("reference_docname"))
+
             # Build order details using SP Target Log data
             module_details.append({
                 "customer_name": log.get("customer_name"),
@@ -208,7 +212,7 @@ def get_employee_target_order_details(target_id=None):
             })
 
         # Build card details
-        total_orders = len(module_details)
+        total_orders = len(unique_orders)  # Count unique orders
         total_value_display = (
             _format_currency_amount(total_amount, default_currency) 
             if metric == "Value" 
