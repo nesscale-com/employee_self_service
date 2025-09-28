@@ -173,8 +173,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-28 08:05:28.706238",
- "modified_by": "bhavesh@nesscale.com",
+ "modified": "2025-09-28 11:11:53.539935",
+ "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",
  "naming_rule": "Expression (old style)",
@@ -193,7 +193,6 @@
    "write": 1
   }
  ],
- "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
