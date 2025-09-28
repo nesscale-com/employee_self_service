@@ -8,7 +8,8 @@
  "field_order": [
   "document_type",
   "section_break_uqbc",
-  "ess_custom_field_details"
+  "ess_custom_field_details",
+  "testing"
  ],
  "fields": [
   {
@@ -27,11 +28,16 @@
    "fieldtype": "Table",
    "label": "ESS Custom Field Details",
    "options": "ESS Custom Field Details"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-18 16:28:11.688522",
+ "modified": "2025-09-09 12:53:05.824806",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Custom Field",

@@ -7,7 +7,8 @@
  "field_order": [
   "enabled",
   "section_break_svqt",
-  "company_policy_details"
+  "company_policy_details",
+  "testing"
  ],
  "fields": [
   {
@@ -25,12 +26,17 @@
    "fieldtype": "Table",
    "label": "Company Policy Details",
    "options": "Company Policy Details"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-01 10:29:47.988489",
+ "modified": "2025-09-09 12:54:33.856915",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Company Policy",

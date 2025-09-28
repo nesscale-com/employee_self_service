@@ -17,6 +17,7 @@
   "section_break_xjas",
   "enable_ess_notification",
   "check_in_with_image",
+  "enable_modular_menu",
   "column_break_vbkm",
   "quick_task",
   "enable_project_and_task_in_expense_claim",
@@ -39,7 +40,8 @@
   "version",
   "update_version_forcefully",
   "section_break_8pigx",
-  "ess_language"
+  "ess_language",
+  "testing"
  ],
  "fields": [
   {
@@ -239,12 +241,23 @@
    "fieldname": "enable_todo",
    "fieldtype": "Check",
    "label": "Enable ToDo"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_modular_menu",
+   "fieldtype": "Check",
+   "label": "Enable Modular Menu"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-11 18:52:15.869643",
+ "modified": "2025-09-09 12:51:35.742869",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
