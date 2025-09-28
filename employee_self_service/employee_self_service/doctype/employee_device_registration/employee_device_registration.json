@@ -8,7 +8,8 @@
   "employee",
   "unique_id",
   "column_break_gpyl",
-  "employee_name"
+  "employee_name",
+  "testing"
  ],
  "fields": [
   {
@@ -36,12 +37,17 @@
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-28 19:20:32.154054",
+ "modified": "2025-09-09 12:53:44.536589",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Device Registration",

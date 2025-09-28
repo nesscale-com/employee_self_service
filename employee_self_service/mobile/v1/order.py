@@ -194,6 +194,10 @@ def get_order(*args, **kwargs):
             "company",
             "set_warehouse",
             "discount_amount",
+            "po_no",
+            "project",
+            "order_type",
+            "commission_rate",
         ]:
             order_data[response_field] = order_doc.get(response_field)
         item_list = []
@@ -264,7 +268,7 @@ def get_attachments(id):
     return frappe.get_all(
         "File",
         filters={"attached_to_doctype": "Sales Order", "attached_to_name": id},
-        fields=["file_url", "file_name"],
+        fields=["name", "file_url", "file_name"],
     )
 
 
