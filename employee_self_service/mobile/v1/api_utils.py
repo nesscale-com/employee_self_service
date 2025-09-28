@@ -312,3 +312,12 @@ def get_mobile_app_route(reference_type: str = None, reference_name: str = None)
                 return route["app_route"].replace("{id}", encoded_reference_name)
             return route["app_route"]
     return None
+
+
+def get_sales_person_by_customer(party):
+    sales_persons = frappe.get_all(
+        "Sales Team",
+        filters={"parenttype": "Customer", "parent": party},
+        fields=["sales_person", "allocated_percentage", "commission_rate"],
+    )
+    return sales_persons

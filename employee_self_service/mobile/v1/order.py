@@ -14,6 +14,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_actions,
     check_workflow_exists,
     get_date_range,
+    get_sales_person_by_customer,
 )
 from erpnext.accounts.party import get_dashboard_info
 from datetime import datetime
@@ -592,6 +593,14 @@ def create_order(*args, **kwargs):
 
 
 def _create_update_order(data, sales_order_doc, default_warehouse):
+    enable_target_management = frappe.db.get_single_value(
+        "ESS Target Settings", "enable_target_management"
+    )
+    if enable_target_management:
+        sales_persons = get_sales_person_by_customer(data.get("customer"))
+        if sales_persons:
+            sales_order_doc.set("sales_team", sales_persons)
+
     delivery_date = data.get("delivery_date")
     for item in data.get("items"):
         item["delivery_date"] = delivery_date

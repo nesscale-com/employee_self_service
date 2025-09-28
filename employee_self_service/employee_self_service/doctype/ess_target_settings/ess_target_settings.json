@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-26 18:21:33.657962",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_target_management"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enable_target_management",
+   "fieldtype": "Check",
+   "label": "Enable Target Management"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-09-26 18:21:55.891143",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Target Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
