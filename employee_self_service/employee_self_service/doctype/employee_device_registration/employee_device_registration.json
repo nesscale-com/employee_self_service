@@ -8,8 +8,7 @@
   "employee",
   "unique_id",
   "column_break_gpyl",
-  "employee_name",
-  "testing"
+  "employee_name"
  ],
  "fields": [
   {
@@ -37,18 +36,13 @@
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name"
-  },
-  {
-   "fieldname": "testing",
-   "fieldtype": "Data",
-   "label": "Testing"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-09 12:53:44.536589",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 09:35:54.500881",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Employee Device Registration",
  "naming_rule": "Expression (old style)",
@@ -92,6 +86,7 @@
   }
  ],
  "read_only": 1,
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

@@ -40,8 +40,7 @@
   "version",
   "update_version_forcefully",
   "section_break_8pigx",
-  "ess_language",
-  "testing"
+  "ess_language"
  ],
  "fields": [
   {
@@ -247,18 +246,13 @@
    "fieldname": "enable_modular_menu",
    "fieldtype": "Check",
    "label": "Enable Modular Menu"
-  },
-  {
-   "fieldname": "testing",
-   "fieldtype": "Data",
-   "label": "Testing"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-09 12:51:35.742869",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 09:35:26.089359",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
  "owner": "Administrator",
@@ -274,6 +268,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
