@@ -160,7 +160,7 @@ def get_employee_target_order_details(target_id=None):
                 "metric",
                 "customer_name",
                 "transaction_date",
-                "total_amount",
+                "amount",
                 "total_qty",
                 "status",
                 "item_group"
@@ -190,7 +190,7 @@ def get_employee_target_order_details(target_id=None):
             
             # Calculate order value based on metric
             if metric == "Value":
-                order_value = flt(log.get("total_amount", 0))
+                order_value = flt(log.get("amount", 0))
                 total_amount += order_value
                 order_value_display = _format_currency_amount(order_value, default_currency)
             else:
@@ -202,7 +202,7 @@ def get_employee_target_order_details(target_id=None):
             module_details.append({
                 "customer_name": log.get("customer_name"),
                 "transaction_date": formatted_date,
-                "total_amount": _format_currency_amount(log.get("total_amount", 0), default_currency),
+                "total_amount": _format_currency_amount(log.get("amount", 0), default_currency),
                 "order_id": log.get("reference_docname"),
                 "order_details": [
                     {"key": "Order ID", "value": log.get("reference_docname")},
