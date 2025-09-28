@@ -81,7 +81,8 @@ def get_employee_target_list(filters=None):
             # Format currency amounts
             target["total_target"] = _format_currency_amount(target.get("total_target"), default_currency)
             target["total_achieved"] = _format_currency_amount(target.get("total_achieved"), default_currency)
-            
+            # Format progress to 2 decimal places
+            target["progress"] = round(flt(target.get("progress", 0)), 2)
             # Format dates
             target["start_date"] = _format_date(target.get("start_date"))
             target["end_date"] = _format_date(target.get("end_date"))
@@ -149,90 +150,64 @@ def get_employee_target_order_details(target_id=None):
         if not target_id:
             return gen_response(400, "Target ID is required")
 
-        # Get target logs
+        # Get target logs - using SP Target Log data directly
         target_logs = frappe.get_all(
             "SP Target Log",
             filters={"employee_target_entry": target_id},
-            fields=["reference_doctype", "reference_docname", "metric"]
+            fields=[
+                "reference_doctype", 
+                "reference_docname", 
+                "metric",
+                "customer_name",
+                "transaction_date",
+                "total_amount",
+                "total_qty",
+                "status",
+                "item_group"
+            ]
         )
 
         if not target_logs:
             return gen_response(404, "No target order/invoice found for the given Target ID")
 
-        # Extract unique reference data
+        # Get metric from first log
         metric = target_logs[0].metric
-        doctype_refs = {}
-        
-        # Group references by doctype
-        for log in target_logs:
-            doctype = log.reference_doctype
-            if doctype not in doctype_refs:
-                doctype_refs[doctype] = []
-            doctype_refs[doctype].append(log.reference_docname)
 
         # Get currency
         default_currency = _get_default_currency()
         
-        # Fields to fetch
-        selected_fields = [
-            "name", "customer_name", "transaction_date", 
-            "total", "total_qty", "status"
-        ]
-
-        # Process documents by doctype
-        all_documents = {}
-        for doctype, doc_names in doctype_refs.items():
-            try:
-                docs = frappe.get_all(
-                    doctype,
-                    filters={
-                        "name": ["in", doc_names],
-                        "status": ["!=", "Cancelled"]
-                    },
-                    fields=selected_fields
-                )
-                # Index by name
-                for doc in docs:
-                    all_documents[doc.name] = doc
-            except Exception as e:
-                frappe.log_error(
-                    title=f"Error fetching {doctype} documents", 
-                    message=frappe.get_traceback()
-                )
-                continue
-
-        # Build response data
+        # Build response data directly from SP Target Log
         module_details = []
         total_amount = total_qty = 0
 
         for log in target_logs:
-            doc_data = all_documents.get(log.reference_docname)
-            if not doc_data:
+            # Skip cancelled entries if status indicates so
+            if log.get("status") == "Cancelled":
                 continue
 
             # Format date
-            formatted_date = _format_date(doc_data.get("transaction_date"))
+            formatted_date = _format_date(log.get("transaction_date"))
             
-            # Calculate order value
+            # Calculate order value based on metric
             if metric == "Value":
-                order_value = flt(doc_data.get("total", 0))
+                order_value = flt(log.get("total_amount", 0))
                 total_amount += order_value
                 order_value_display = _format_currency_amount(order_value, default_currency)
             else:
-                order_value = flt(doc_data.get("total_qty", 0))
+                order_value = flt(log.get("total_qty", 0))
                 total_qty += order_value
                 order_value_display = str(int(order_value)) if order_value.is_integer() else str(order_value)
 
-            # Build order details
+            # Build order details using SP Target Log data
             module_details.append({
-                "customer_name": doc_data.customer_name,
+                "customer_name": log.get("customer_name"),
                 "transaction_date": formatted_date,
-                "total_amount": _format_currency_amount(doc_data.total or 0, default_currency),
-                "order_id": log.reference_docname,
+                "total_amount": _format_currency_amount(log.get("total_amount", 0), default_currency),
+                "order_id": log.get("reference_docname"),
                 "order_details": [
-                    {"key": "Order ID", "value": log.reference_docname},
+                    {"key": "Order ID", "value": log.get("reference_docname")},
                     {"key": "Order Value", "value": order_value_display},
-                    {"key": "Status", "value": doc_data.status},
+                    {"key": "Item Group", "value": log.get("item_group", "")},
                 ],
             })
 
@@ -247,7 +222,7 @@ def get_employee_target_order_details(target_id=None):
         card_details = [
             {"key": "Total Orders", "value": total_orders},
             {
-                "key": "Total Amount" if metric == "Value" else "total_qty",
+                "key": "Total Amount" if metric == "Value" else "Total Qty",
                 "value": total_value_display,
             },
         ]
