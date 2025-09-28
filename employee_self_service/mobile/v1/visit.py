@@ -40,6 +40,8 @@ def create_visit(**kwargs):
             visit_doc.visit_type = data.get("visit_type")
             visit_doc.description = data.get("description")
             visit_doc.location = data.get("location")
+            visit_doc.latitude = data.get("latitude")
+            visit_doc.longitude = data.get("longitude")
             visit_doc.employee = emp_data.get("name")
             visit_doc.save(ignore_permissions=True)
             return gen_response(200, "Visit updated Successfully")
@@ -54,11 +56,13 @@ def create_visit(**kwargs):
             visit_doc.visit_type = data.get("visit_type")
             visit_doc.description = data.get("description")
             visit_doc.location = data.get("location")
+            visit_doc.latitude = data.get("latitude")
+            visit_doc.longitude = data.get("longitude")
             visit_doc.employee = emp_data.get("name")
             visit_doc.insert()
             return gen_response(200, "Visit created Successfully")
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted create visit")
+        return gen_response(500, "Not permitted create visit")
     except Exception as e:
         return exception_handler(e)
 
@@ -75,12 +79,12 @@ def get_visit_list():
                 "DATE_FORMAT(date, '%d-%m-%Y') as date",
                 "time_format(time, '%h:%i:%s') as time",
                 "visit_type",
-                "description"
+                "description",
             ],
         )
         return gen_response(200, "Visit list get successfully", visit_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read visit")
+        return gen_response(500, "Not permitted read visit")
     except Exception as e:
         return exception_handler(e)
 
@@ -113,7 +117,7 @@ def get_visit(**kwargs):
         )
         return gen_response(200, "Visit detail get Succesfully", visit_data)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read visit")
+        return gen_response(500, "Not permitted read visit")
     except Exception as e:
         return exception_handler(e)
 

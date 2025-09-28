@@ -31,6 +31,7 @@
   "column_break_jfldd",
   "capture_location_for_quotation",
   "capture_location_for_sales_order",
+  "capture_location_for_visit",
   "column_break_7khj5",
   "out_of_location_checkout",
   "allow_odometer_reading_input",
@@ -239,12 +240,19 @@
    "fieldname": "enable_todo",
    "fieldtype": "Check",
    "label": "Enable ToDo"
+  },
+  {
+   "default": "0",
+   "description": "Enable this to Capture Location at the time of Visit Creation",
+   "fieldname": "capture_location_for_visit",
+   "fieldtype": "Check",
+   "label": "Capture Location for Visit"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-11 18:52:15.869643",
+ "modified": "2025-09-28 12:01:42.036145",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
@@ -261,6 +269,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

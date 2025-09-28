@@ -586,6 +586,7 @@ def get_dashboard():
             "capture_location_for_sales_order": settings.get(
                 "capture_location_for_sales_order"
             ),
+            "capture_location_for_visit": settings.get("capture_location_for_visit"),
             "out_of_location_checkout": settings.get("out_of_location_checkout"),
             "enable_project_and_task_in_expense_claim": settings.get(
                 "enable_project_and_task_in_expense_claim"
