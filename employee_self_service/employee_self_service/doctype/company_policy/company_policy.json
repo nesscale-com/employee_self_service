@@ -30,8 +30,8 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-01 10:29:47.988489",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 09:35:10.639247",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Company Policy",
  "owner": "Administrator",
@@ -47,6 +47,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
