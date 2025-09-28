@@ -125,7 +125,7 @@ def get_employee_target_details(target_id=None):
         amount_fields = ["total_target", "total_achieved"]
         for field in amount_fields:
             target_data[field] = _format_currency_amount(target_data.get(field), default_currency)
-
+        target_data["progress"] = round(flt(target_data.get("progress", 0)), 2)
         # Format child table amounts
         item_group_targets = target_data.get("item_group_wise_target", [])
         if item_group_targets:
