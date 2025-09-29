@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:target_name",
+ "creation": "2025-09-23 18:51:55.189102",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "target_name",
+  "target_module",
+  "selector",
+  "column_break_fhno",
+  "frequency",
+  "metric",
+  "section_break_oama",
+  "item_group_list"
+ ],
+ "fields": [
+  {
+   "fieldname": "target_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Target Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "target_module",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Target Module",
+   "options": "\nSales Order\nSales Invoice",
+   "reqd": 1
+  },
+  {
+   "fieldname": "selector",
+   "fieldtype": "Select",
+   "label": "Selector",
+   "options": "\nAll\nItem Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Frequency",
+   "options": "\nMonthly\nQuarterly\nYearly",
+   "reqd": 1
+  },
+  {
+   "fieldname": "metric",
+   "fieldtype": "Select",
+   "label": "Metric",
+   "options": "\nValue\nQuantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fhno",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_oama",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: doc.selector == \"Item Group\"",
+   "fieldname": "item_group_list",
+   "fieldtype": "Table",
+   "label": "Item Group List",
+   "mandatory_depends_on": "eval: doc.selector == \"Item Group\"",
+   "options": "Target Item Group List"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-25 10:40:45.632887",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Employee Target Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

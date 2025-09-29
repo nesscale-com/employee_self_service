@@ -17,6 +17,7 @@
   "section_break_xjas",
   "enable_ess_notification",
   "check_in_with_image",
+  "enable_modular_menu",
   "column_break_vbkm",
   "quick_task",
   "enable_project_and_task_in_expense_claim",
@@ -239,13 +240,19 @@
    "fieldname": "enable_todo",
    "fieldtype": "Check",
    "label": "Enable ToDo"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_modular_menu",
+   "fieldtype": "Check",
+   "label": "Enable Modular Menu"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-11 18:52:15.869643",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 09:35:26.089359",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
  "owner": "Administrator",
@@ -261,6 +268,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

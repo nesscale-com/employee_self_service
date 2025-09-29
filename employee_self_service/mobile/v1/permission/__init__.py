@@ -74,6 +74,7 @@ ESS_MENU_DOCTYPE_MAPPING = {
     "Shift Req": {"name": "Shift Request", "is_report": 0},
     "Lead": {"name": "Lead", "is_report": 0},
     "Task": {"name": "Task", "is_report": 0},
+    "Target": {"name": "Employee Target Entry", "is_report": 0},
 }
 
 
