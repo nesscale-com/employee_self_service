@@ -131,6 +131,14 @@ doc_events = {
     "Employee Checkin": {
         "after_insert": "employee_self_service.events.set_location_address"
     },
+    "Sales Order": {
+        "on_submit": "employee_self_service.events.employee_target.create_sales_person_target_log",
+        "on_cancel": "employee_self_service.events.employee_target.reverse_sales_person_target_log",
+    },
+    "Sales Invoice": {
+        "on_submit": "employee_self_service.events.employee_target.create_sales_person_target_log",
+        "on_cancel": "employee_self_service.events.employee_target.reverse_sales_person_target_log",
+    },
 }
 
 # Scheduled Tasks
