@@ -309,6 +309,8 @@ def get_mobile_app_route(reference_type: str = None, reference_name: str = None)
     """Return mobile app route based on reference type & name.
     If no match found, return /main
     """
+    from urllib.parse import quote
+
     if not reference_type:
         return "/main"
     detail_view = 1 if reference_name else 0
@@ -319,6 +321,17 @@ def get_mobile_app_route(reference_type: str = None, reference_name: str = None)
             and route["in_detail_view"] == detail_view
         ):
             if detail_view and "{id}" in route["app_route"]:
-                return route["app_route"].replace("{id}", reference_name)
+                # URL encode the reference_name to handle special characters
+                encoded_reference_name = quote(reference_name, safe="")
+                return route["app_route"].replace("{id}", encoded_reference_name)
             return route["app_route"]
     return None
+
+
+def get_sales_person_by_customer(party):
+    sales_persons = frappe.get_all(
+        "Sales Team",
+        filters={"parenttype": "Customer", "parent": party},
+        fields=["sales_person", "allocated_percentage", "commission_rate"],
+    )
+    return sales_persons
