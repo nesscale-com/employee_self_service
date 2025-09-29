@@ -3,6 +3,8 @@ import requests
 from frappe.utils import cint
 from employee_self_service.utils import notification_log
 from frappe import _
+from employee_self_service.mobile.v1.ess import get_last_log_type
+
 
 def after_insert_comment(doc, method=None):
     try:
@@ -11,8 +13,13 @@ def after_insert_comment(doc, method=None):
 
         template_name = None
         action_type = None
-        notification_settings = frappe.get_doc("ESS Notification Settings","ESS Notification Settings")
-        if not cint(notification_settings.get("enable_like_and_comment_notification")) == 1:
+        notification_settings = frappe.get_doc(
+            "ESS Notification Settings", "ESS Notification Settings"
+        )
+        if (
+            not cint(notification_settings.get("enable_like_and_comment_notification"))
+            == 1
+        ):
             return
         if doc.comment_type == "Like":
             template_name = "Notification Like"
@@ -47,22 +54,69 @@ def after_insert_comment(doc, method=None):
         user_token = frappe.db.get_value("Employee Device Info", user, "token")
         if user_token:
             # Send notification
-            notification_log(action_type, doc.reference_doctype, subject, message, user, user_token)
+            notification_log(
+                action_type, doc.reference_doctype, subject, message, user, user_token
+            )
     except Exception as e:
-        frappe.log_error(title="After Insert Comment ESS Notification Error",message=frappe.get_traceback())
+        frappe.log_error(
+            title="After Insert Comment ESS Notification Error",
+            message=frappe.get_traceback(),
+        )
 
-def set_location_address(doc,methods):
+
+def set_location_address(doc, methods):
     try:
         if doc.location:
             doc.log_location = get_address_from_location(doc.location)
             doc.save()
     except Exception as e:
-        frappe.log_error(title="Failed to fetch location address",message=frappe.get_traceback())
+        frappe.log_error(
+            title="Failed to fetch location address", message=frappe.get_traceback()
+        )
+
+
+def validate_consecutive_log_type(doc, method=None):
+    """
+    Validate that consecutive Employee Checkins don't have the same log_type for the same employee.
+    This prevents employees from checking in twice in a row or checking out twice in a row.
+    """
+    if not doc.employee or not doc.log_type:
+        return
+
+    shift_policy = frappe.db.get_value(
+        "Employee", doc.employee, "custom_pollen_shift_policy"
+    )
+    last_log_details = get_last_log_type(doc.employee, shift_policy)
+
+    if last_log_details:
+        last_log_type = last_log_details.get("log_type")
+
+        # If the last check-in has the same log_type as the current one, throw an error
+        if last_log_type == doc.log_type:
+            if doc.log_type == "IN":
+                frappe.throw(
+                    _(
+                        "Employee {0} already has a Check-In entry as their last record. Please Check-Out first before making another Check-In."
+                    ).format(doc.employee)
+                )
+            elif doc.log_type == "OUT":
+                frappe.throw(
+                    _(
+                        "Employee {0} already has a Check-Out entry as their last record. Please Check-In first before making another Check-Out."
+                    ).format(doc.employee)
+                )
+            else:
+                frappe.throw(
+                    _(
+                        "Employee {0} already has a {1} entry as their last record. Cannot make consecutive entries of the same type."
+                    ).format(doc.employee, doc.log_type)
+                )
+
 
 def get_address_from_location(location):
     """
     Fetch the address from latitude and longitude using OpenStreetMap's Nominatim API.
-    
+
     :param location: A string in "latitude,longitude" format
     :return: Address as a string or an error message
     """
@@ -86,4 +140,3 @@ def get_address_from_location(location):
         return address
     else:
         frappe.throw(_("Error Fetching Address"))
-

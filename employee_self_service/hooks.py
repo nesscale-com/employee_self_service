@@ -116,19 +116,18 @@ doctype_js = {"Employee Checkin": "public/js/employee_checkin.js"}
 
 doc_events = {
     "*": {
-        "after_insert":"employee_self_service.send_notification.notification",
-        "on_update":"employee_self_service.send_notification.notification",
-        "on_submit":"employee_self_service.send_notification.notification",
-        "before_cancel":"employee_self_service.send_notification.notification",
-        "after_cancel":"employee_self_service.send_notification.notification",
-        "on_change":"employee_self_service.send_notification.notification"
+        "after_insert": "employee_self_service.send_notification.notification",
+        "on_update": "employee_self_service.send_notification.notification",
+        "on_submit": "employee_self_service.send_notification.notification",
+        "before_cancel": "employee_self_service.send_notification.notification",
+        "after_cancel": "employee_self_service.send_notification.notification",
+        "on_change": "employee_self_service.send_notification.notification",
     },
-    "Comment": {
-        "after_insert":"employee_self_service.events.after_insert_comment"
-    },
+    "Comment": {"after_insert": "employee_self_service.events.after_insert_comment"},
     "Employee Checkin": {
-        "after_insert":"employee_self_service.events.set_location_address"
-    }
+        "before_insert": "employee_self_service.events.validate_consecutive_log_type",
+        "after_insert": "employee_self_service.events.set_location_address",
+    },
 }
 
 # Scheduled Tasks
@@ -139,9 +138,9 @@ scheduler_events = {
     "cron": {
         "0 9 * * *": ["employee_self_service.background_jobs.process_daily_ess_jobs"],
         "0/5 * * * *": [
-			"employee_self_service.background_jobs.reminder_for_checkin",
+            "employee_self_service.background_jobs.reminder_for_checkin",
             "employee_self_service.background_jobs.reminder_for_checkout",
-		],
+        ],
     },
 }
 
@@ -200,18 +199,12 @@ scheduler_events = {
 # 	"employee_self_service.auth.validate"
 # ]
 
-jinja = {
-    "methods": ["employee_self_service.utils.strip_and_clean_html"]
-}
+jinja = {"methods": ["employee_self_service.utils.strip_and_clean_html"]}
 
 fixtures = [
     # {
     #     "dt": "Ess Translation",
     # },
-    {
-        "dt":"ESS Notification"
-    },
-    {
-        "dt":"ESS Notification Template"
-    }
+    {"dt": "ESS Notification"},
+    {"dt": "ESS Notification Template"},
 ]

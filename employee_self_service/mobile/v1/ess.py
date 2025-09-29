@@ -614,7 +614,7 @@ def get_dashboard():
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
             ),
-            "approval_requests": get_workflow_documents(internal=True),
+            "approval_requests": 1,
             "gender": emp_data.get("gender"),
             "capture_location_for_quotation": settings.get(
                 "capture_location_for_quotation"
@@ -635,11 +635,13 @@ def get_dashboard():
         dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
+        frappe.log_error(title="Dashboard Data", message=dashboard_data)
         get_last_log_type(
             dashboard_data,
             emp_data.get("name"),
             emp_data.get("custom_pollen_shift_policy"),
         )
+        frappe.log_error(title="Dashboard Data1", message=dashboard_data)
         return gen_response(200, "Dashboard data get successfully", dashboard_data)
 
     except Exception as e:
@@ -931,7 +933,6 @@ def create_employee_log(
             log_doc.attendance_image = file.get("file_url")
             log_doc.save(ignore_permissions=True)
 
-        update_shift_last_sync(emp_data)
         return gen_response(200, "Employee log added")
     except Exception as e:
         return exception_handler(e)
@@ -994,9 +995,29 @@ def get_last_log_type(dashboard_data, employee, policy=None):
         )
         if shift_attendance_log:
             log = shift_attendance_log[0]
-            if now >= get_datetime(log.get("processed_10h_at")):
+            if get_datetime(now) >= get_datetime(log.get("processed_10h_at")):
                 dashboard_data["last_log_type"] = "OUT"
+                dashboard_data["last_log_time"] = None
                 return
+            else:
+                log_details = frappe.db.get_value(
+                    "Shift Attendance Row",
+                    {"parent_log": log.get("name")},
+                    ["last_state", "last_in", "last_out"],
+                    as_dict=1,
+                )
+                dashboard_data["last_log_type"] = (
+                    "OUT"
+                    if log_details.get("last_state") == "None"
+                    else log_details.get("last_state")
+                )
+                dashboard_data["last_log_time"] = (
+                    log_details.get("last_in")
+                    if log_details.get("last_state") == "IN"
+                    else log_details.get("last_out")
+                )
+                return
+
     logs = frappe.get_all(
         "Employee Checkin",
         filters={"employee": employee},
