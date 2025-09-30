@@ -21,18 +21,18 @@ from frappe.utils import (
 	format_time,
 )
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    generate_key,
-    ess_validate,
-    get_employee_by_user,
-    validate_employee_data,
-    get_ess_settings,
-    get_global_defaults,
-    exception_handler,
-    convert_timezone,
-    get_system_timezone,
-    get_till_date_holiday_month_wise,
-    get_mobile_app_route,
+	gen_response,
+	generate_key,
+	ess_validate,
+	get_employee_by_user,
+	validate_employee_data,
+	get_ess_settings,
+	get_global_defaults,
+	exception_handler,
+	convert_timezone,
+	get_system_timezone,
+	get_till_date_holiday_month_wise,
+	get_mobile_app_route,
 )
 from frappe.handler import upload_file
 from erpnext.accounts.utils import get_fiscal_year
@@ -599,10 +599,15 @@ def get_dashboard():
 				"ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
 			),
 			"role_based_menu_visibility": settings.get(
-                "enable_role_based_menu_visibility"
-            ),
-			"enable_todo": settings.get("enable_todo")
+				"enable_role_based_menu_visibility"
+			),
+			"enable_todo": settings.get("enable_todo"),            
+			"enable_todo": settings.get("enable_todo"),
+			"enable_modular_menu": settings.get("enable_modular_menu"),
 		}
+
+
+		
 		# "approval_requests": get_workflow_documents(internal=True)
 		dashboard_data["employee_image"] = emp_data.get("image")
 		dashboard_data["employee_name"] = emp_data.get("employee_name")
@@ -1735,54 +1740,54 @@ def notification_list_old():
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def notification_list(start=0, page_length=20):
-    try:
-        filters = [
-            ["ESS Notification Log", "recipient", "=", frappe.session.user],
-        ]
-        # ["ESS Notification Log", "read", "=", 0],
-        notifications = frappe.get_all(
-            "ESS Notification Log",
-            filters=filters,
-            fields=[
-                "name",
-                "subject as 'title'",
-                "message",
-                "creation",
-                "reference_document",
-                "reference_name",
-                "other_info",
-                "read",
-            ],
-            start=start,
-            page_length=page_length,
-        )
-        user_image = frappe.get_value("User", frappe.session.user, "user_image")
-        for notification in notifications:
-            notification["name"] = cstr(notification.get("name"))
-            notification["navigate_route"] = get_mobile_app_route(
-                notification.get("reference_document"),
-                notification.get("reference_name"),
-            )
-            notification["creation"] = pretty_date(notification.get("creation"))
-            notification["user_image"] = user_image
-        return gen_response(200, "Notification list get successfully", notifications)
-    except Exception as e:
-        return exception_handler(e)
+	try:
+		filters = [
+			["ESS Notification Log", "recipient", "=", frappe.session.user],
+		]
+		# ["ESS Notification Log", "read", "=", 0],
+		notifications = frappe.get_all(
+			"ESS Notification Log",
+			filters=filters,
+			fields=[
+				"name",
+				"subject as 'title'",
+				"message",
+				"creation",
+				"reference_document",
+				"reference_name",
+				"other_info",
+				"read",
+			],
+			start=start,
+			page_length=page_length,
+		)
+		user_image = frappe.get_value("User", frappe.session.user, "user_image")
+		for notification in notifications:
+			notification["name"] = cstr(notification.get("name"))
+			notification["navigate_route"] = get_mobile_app_route(
+				notification.get("reference_document"),
+				notification.get("reference_name"),
+			)
+			notification["creation"] = pretty_date(notification.get("creation"))
+			notification["user_image"] = user_image
+		return gen_response(200, "Notification list get successfully", notifications)
+	except Exception as e:
+		return exception_handler(e)
 
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def mark_read_notification(name=None):
-    try:
-        if not name:
-            frappe.db.set_value(
-                "ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
-            )
-        else:
-            frappe.db.set_value("ESS Notification Log", {"name": name}, "read", 1)
-        return gen_response(200, "Notification mark read successfully")
-    except Exception as e:
-        return exception_handler(e)
+	try:
+		if not name:
+			frappe.db.set_value(
+				"ESS Notification Log", {"recipient": frappe.session.user}, "read", 1
+			)
+		else:
+			frappe.db.set_value("ESS Notification Log", {"name": name}, "read", 1)
+		return gen_response(200, "Notification mark read successfully")
+	except Exception as e:
+		return exception_handler(e)
 
 
 def send_notification_on_event():
@@ -1998,7 +2003,7 @@ def update_profile_picture():
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_transactions_old(
-    from_date=None, to_date=None, party_type=None, party=None, download="false"
+	from_date=None, to_date=None, party_type=None, party=None, download="false"
 ):
 	try:
 		from_date = getdate(from_date)
@@ -2170,20 +2175,20 @@ def get_employee_list():
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_supplier_list(start=0, page_length=10, filters=None):
-    try:
-        supplier_list = frappe.get_list(
-            "Supplier",
-            ["name", "supplier_name", "mobile_no as phone"],
-            start=start,
-            filters=filters,
-            page_length=page_length,
-            order_by="modified desc",
-        )
-        return gen_response(200, "Supplier list get successfully", supplier_list)
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted read supplier")
-    except Exception as e:
-        return exception_handler(e)
+	try:
+		supplier_list = frappe.get_list(
+			"Supplier",
+			["name", "supplier_name", "mobile_no as phone"],
+			start=start,
+			filters=filters,
+			page_length=page_length,
+			order_by="modified desc",
+		)
+		return gen_response(200, "Supplier list get successfully", supplier_list)
+	except frappe.PermissionError:
+		return gen_response(500, "Not permitted read supplier")
+	except Exception as e:
+		return exception_handler(e)
 
 
 def send_notification_for_task_assign(doc, event):
@@ -2456,11 +2461,11 @@ def get_attendance_list_by_date(date=None):
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_backend_ess_version():
-    try:
-        from employee_self_service import __version__
+	try:
+		from employee_self_service import __version__
 
-        return gen_response(
-            200, "Backend version get successfully", {"version": __version__}
-        )
-    except Exception as e:
-        return exception_handler(e)
+		return gen_response(
+			200, "Backend version get successfully", {"version": __version__}
+		)
+	except Exception as e:
+		return exception_handler(e)

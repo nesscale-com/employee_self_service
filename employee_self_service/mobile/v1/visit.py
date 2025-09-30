@@ -26,21 +26,20 @@ def create_visit(**kwargs):
             visit_doc = frappe.get_doc("Visit", data.get("name"))
             if not frappe.db.exists("Customer", data.get("customer")):
                 visit_doc.set("customer_name", data.get("customer"))
-            else:
-                visit_doc.customer = data.get("customer")
-                visit_doc.customer_name = (
-                    frappe.db.get_value(
-                        "Customer", data.get("customer"), "customer_name"
-                    )
-                    or ""
-                )
+                # visit_doc.customer_name = (
+                #     frappe.db.get_value(
+                #         "Customer", data.get("customer"), "customer_name"
+                #     )
+                #     or ""
+                # )
 
-            visit_doc.date = data.get("date")
-            visit_doc.time = data.get("time")
-            visit_doc.visit_type = data.get("visit_type")
-            visit_doc.description = data.get("description")
-            visit_doc.location = data.get("location")
+            # visit_doc.date = data.get("date")
+            # visit_doc.time = data.get("time")
+            # visit_doc.visit_type = data.get("visit_type")
+            # visit_doc.description = data.get("description")
+            # visit_doc.location = data.get("location")
             visit_doc.employee = emp_data.get("name")
+            visit_doc.update(data)
             visit_doc.save(ignore_permissions=True)
             return gen_response(200, "Visit updated Successfully")
         else:
@@ -49,16 +48,17 @@ def create_visit(**kwargs):
                 visit_doc.set("customer_name", data.get("customer"))
             else:
                 visit_doc.customer = data.get("customer")
-            visit_doc.date = data.get("date")
-            visit_doc.time = data.get("time")
-            visit_doc.visit_type = data.get("visit_type")
-            visit_doc.description = data.get("description")
-            visit_doc.location = data.get("location")
+            # visit_doc.date = data.get("date")
+            # visit_doc.time = data.get("time")
+            # visit_doc.visit_type = data.get("visit_type")
+            # visit_doc.description = data.get("description")
+            # visit_doc.location = data.get("location")
             visit_doc.employee = emp_data.get("name")
+            visit_doc.update(data)
             visit_doc.insert()
             return gen_response(200, "Visit created Successfully")
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted create visit")
+        return gen_response(500, "Not permitted create visit")
     except Exception as e:
         return exception_handler(e)
 
@@ -75,12 +75,12 @@ def get_visit_list():
                 "DATE_FORMAT(date, '%d-%m-%Y') as date",
                 "time_format(time, '%h:%i:%s') as time",
                 "visit_type",
-                "description"
+                "description",
             ],
         )
         return gen_response(200, "Visit list get successfully", visit_list)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read visit")
+        return gen_response(500, "Not permitted read visit")
     except Exception as e:
         return exception_handler(e)
 
@@ -96,24 +96,24 @@ def get_visit(**kwargs):
         visit_doc["time"] = datetime.strptime(visit_doc["time"], "%H:%M:%S").strftime(
             "%I:%M:%S"
         )
-        visit_data = prepare_json_data(
-            [
-                "name",
-                "customer",
-                "customer_name",
-                "date",
-                "time",
-                "visit_type",
-                "description",
-                "location",
-                "employee",
-                "user",
-            ],
-            visit_doc,
-        )
-        return gen_response(200, "Visit detail get Succesfully", visit_data)
+        # visit_data = prepare_json_data(
+        #     [
+        #         "name",
+        #         "customer",
+        #         "customer_name",
+        #         "date",
+        #         "time",
+        #         "visit_type",
+        #         "description",
+        #         "location",
+        #         "employee",
+        #         "user",
+        #     ],
+        #     visit_doc,
+        # )
+        return gen_response(200, "Visit detail get Succesfully", visit_doc)
     except frappe.PermissionError:
-        return gen_response(500,"Not permitted read visit")
+        return gen_response(500, "Not permitted read visit")
     except Exception as e:
         return exception_handler(e)
 

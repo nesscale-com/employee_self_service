@@ -1,39 +1,27 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-01-12 23:07:34.466487",
+ "creation": "2025-09-26 18:21:33.657962",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "enabled",
-  "section_break_svqt",
-  "company_policy_details"
+  "enable_target_management"
  ],
  "fields": [
   {
    "default": "0",
-   "fieldname": "enabled",
+   "fieldname": "enable_target_management",
    "fieldtype": "Check",
-   "label": "Enabled"
-  },
-  {
-   "fieldname": "section_break_svqt",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "company_policy_details",
-   "fieldtype": "Table",
-   "label": "Company Policy Details",
-   "options": "Company Policy Details"
+   "label": "Enable Target Management"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-09-28 09:35:10.639247",
- "modified_by": "bhavesh@nesscale.com",
+ "modified": "2025-09-26 18:21:55.891143",
+ "modified_by": "Administrator",
  "module": "Employee Self Service",
- "name": "Company Policy",
+ "name": "ESS Target Settings",
  "owner": "Administrator",
  "permissions": [
   {
@@ -47,7 +35,6 @@
    "write": 1
   }
  ],
- "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

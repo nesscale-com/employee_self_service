@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-07-16 15:20:24.161738",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "geofencing_based_on",
+  "column_break_evlk",
+  "check_in_with_image",
+  "turn_off_location_validation",
+  "check_in_with_location",
+  "section_break_yzmj",
+  "allow_out_of_location_checkout",
+  "testing",
+  "column_break_vfzv",
+  "allow_number_of_out_of_location_checkout",
+  "quick_task"
+ ],
+ "fields": [
+  {
+   "fieldname": "geofencing_based_on",
+   "fieldtype": "Select",
+   "label": "Geofencing Based on",
+   "options": "Branch\nShift\nESS Location"
+  },
+  {
+   "fieldname": "column_break_evlk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Capture Image with check-in and check-out (Premium)",
+   "fieldname": "check_in_with_image",
+   "fieldtype": "Check",
+   "label": "Check In with Image"
+  },
+  {
+   "default": "0",
+   "description": "Check this to turn off Location-based attendance validation",
+   "fieldname": "turn_off_location_validation",
+   "fieldtype": "Check",
+   "label": "Turn Off Location Validation"
+  },
+  {
+   "default": "0",
+   "description": "Enable to Save Location with Attendance",
+   "fieldname": "check_in_with_location",
+   "fieldtype": "Check",
+   "label": "Check in with location"
+  },
+  {
+   "fieldname": "section_break_yzmj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_out_of_location_checkout",
+   "fieldtype": "Check",
+   "label": "Allow Out of Location Checkout"
+  },
+  {
+   "fieldname": "column_break_vfzv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "maximum number of allowed for an employee within a given month",
+   "fieldname": "allow_number_of_out_of_location_checkout",
+   "fieldtype": "Int",
+   "label": "Allow Number of Out of Location Checkout"
+  },
+  {
+   "default": "0",
+   "description": "Allow Quick Task creation with check in",
+   "fieldname": "quick_task",
+   "fieldtype": "Check",
+   "label": "Quick Task"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-09-09 12:54:11.690215",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Attendance Log Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
