@@ -16,6 +16,7 @@
   "token",
   "section_break_yksq",
   "reference_document",
+  "testing",
   "column_break_dcnx",
   "reference_name",
   "column_break_yqns",
@@ -99,11 +100,16 @@
    "fieldname": "other_info",
    "fieldtype": "Read Only",
    "label": "Other Info"
+  },
+  {
+   "fieldname": "testing",
+   "fieldtype": "Data",
+   "label": "Testing"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-10 18:35:52.075380",
+ "modified": "2025-09-09 12:55:15.795832",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Notification Log",
