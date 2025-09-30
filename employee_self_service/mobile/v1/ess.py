@@ -588,7 +588,7 @@ def get_dashboard():
         )
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
-        log_details = get_last_log_details(
+        log_details = get_last_log_type(
             emp_data.get("name"), emp_data.get("custom_pollen_shift_policy")
         )
         settings = get_ess_settings()
@@ -635,13 +635,7 @@ def get_dashboard():
         dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
-        frappe.log_error(title="Dashboard Data", message=dashboard_data)
-        get_last_log_type(
-            dashboard_data,
-            emp_data.get("name"),
-            emp_data.get("custom_pollen_shift_policy"),
-        )
-        frappe.log_error(title="Dashboard Data1", message=dashboard_data)
+
         return gen_response(200, "Dashboard data get successfully", dashboard_data)
 
     except Exception as e:
@@ -982,7 +976,7 @@ def update_shift_last_sync(emp_data):
         )
 
 
-def get_last_log_type(dashboard_data, employee, policy=None):
+def get_last_log_type(employee, policy=None):
     enable_pollen_attendance = frappe.db.get_value(
         "Pollen HR Settings", "Pollen HR Settings", "enable_pollen_attendance"
     )
@@ -996,27 +990,25 @@ def get_last_log_type(dashboard_data, employee, policy=None):
         if shift_attendance_log:
             log = shift_attendance_log[0]
             if get_datetime(now) >= get_datetime(log.get("processed_10h_at")):
-                dashboard_data["last_log_type"] = "OUT"
-                dashboard_data["last_log_time"] = None
-                return
+                return {"log_type": "OUT", "time": None}
             else:
                 log_details = frappe.db.get_value(
                     "Shift Attendance Row",
-                    {"parent_log": log.get("name")},
+                    {"parent_log": log.get("name"), "employee": employee},
                     ["last_state", "last_in", "last_out"],
                     as_dict=1,
                 )
-                dashboard_data["last_log_type"] = (
+                last_log_type = (
                     "OUT"
                     if log_details.get("last_state") == "None"
                     else log_details.get("last_state")
                 )
-                dashboard_data["last_log_time"] = (
+                last_log_time = (
                     log_details.get("last_in")
                     if log_details.get("last_state") == "IN"
                     else log_details.get("last_out")
                 )
-                return
+                return {"log_type": last_log_type, "time": last_log_time}
 
     logs = frappe.get_all(
         "Employee Checkin",
@@ -1026,7 +1018,7 @@ def get_last_log_type(dashboard_data, employee, policy=None):
     )
 
     if len(logs) >= 1:
-        dashboard_data["last_log_type"] = logs[0].log_type
+        return logs[0]
 
 
 def daily_notice_board_event():
