@@ -578,7 +578,6 @@ def get_dashboard():
             "allow_odometer_reading_input": settings.get(
                 "allow_odometer_reading_input"
             ),
-            "approval_requests": cstr(get_workflow_documents(internal=True)) + "+",
             "gender": emp_data.get("gender"),
             "capture_location_for_quotation": settings.get(
                 "capture_location_for_quotation"
