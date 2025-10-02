@@ -28,6 +28,7 @@ class SPTargetLog(Document):
         achieved = self.amount if target_doc.metric == "Value" else self.qty
         delta = achieved if increment else -achieved
 
+        # target update item group wise
         if self.item_group:
             for row in target_doc.get("item_group_wise_target"):
                 parent = frappe.db.get_value(
@@ -37,6 +38,18 @@ class SPTargetLog(Document):
                     if parent == row.item_group:
                         row.achieved = max(row.achieved + delta, 0)
                     elif self.item_group == row.item_group:
+                        row.achieved = max(row.achieved + delta, 0)
+
+        # target update customer group wise
+        elif self.customer_group:
+            for row in target_doc.get("customer_group_wise_target"):
+                parent = frappe.db.get_value(
+                    "Customer Group", self.customer_group, "parent_customer_group"
+                )
+                if parent:
+                    if parent == row.customer_group:
+                        row.achieved = max(row.achieved + delta, 0)
+                    elif self.customer_group == row.customer_group:
                         row.achieved = max(row.achieved + delta, 0)
         else:
             target_doc.total_achieved = max(target_doc.total_achieved + delta, 0)

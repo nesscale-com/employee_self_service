@@ -28,55 +28,19 @@ def create_sales_person_target_log(doc, method=None):
                 continue
 
         metric = target_doc.get("metric")
-        if target_doc.get("selector") == "Item Group":
-            all_item_groups = frappe.get_all(
-                "Item Group", fields=["name", "parent_item_group", "is_group"]
-            )
-            final_item_group = []
-            for target_item in target_doc.get("item_group_wise_target"):
-                item_group = target_item.item_group
-                final_item_group.append(item_group)
-                for ig in all_item_groups:
-                    if ig.name == item_group and ig.is_group:
-                        for child in all_item_groups:
-                            if child.parent_item_group == item_group:
-                                final_item_group.append(child.name)
-                        break
-            for item in doc.get("items"):
-                if item.item_group in final_item_group:
-                    target_log = frappe.get_doc(
-                        {
-                            "doctype": "SP Target Log",
-                            "employee": employee,
-                            "customer": doc.get("customer"),
-                            "date": frappe.utils.nowdate(),
-                            "employee_target_entry": target_doc.name,
-                            "reference_doctype": doc.doctype,
-                            "reference_docname": doc.name,
-                            "item_group": item.item_group,
-                            "amount": item.amount if metric == "Value" else 0,
-                            "qty": item.qty if metric == "Quantity" else 0,
-                        }
-                    )
-                    target_log.insert(ignore_permissions=True)
-                    target_log.submit()
+        selector = target_doc.get("selector")
 
+        if selector in ["Item Group", "Customer Group"]:
+            handle_groupwise_target(doc, target_doc, employee, metric, selector)
         else:
-            target_log = frappe.get_doc(
-                {
-                    "doctype": "SP Target Log",
-                    "employee": employee,
-                    "customer": doc.get("customer"),
-                    "date": frappe.utils.nowdate(),
-                    "employee_target_entry": target_doc.name,
-                    "reference_doctype": doc.doctype,
-                    "reference_docname": doc.name,
-                    "amount": doc.total if metric == "Value" else 0,
-                    "qty": doc.total_qty if metric == "Quantity" else 0,
-                }
+            create_target_log(
+                employee=employee,
+                doc=doc,
+                target_doc=target_doc,
+                metric=metric,
+                amount=doc.total,
+                qty=doc.total_qty,
             )
-            target_log.insert(ignore_permissions=True)
-            target_log.submit()
 
 
 def reverse_sales_person_target_log(doc, method=None):

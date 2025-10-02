@@ -10,13 +10,15 @@ class EmployeeTargetTemplate(Document):
 
 
 @frappe.whitelist()
-def get_filtered_item_groups(doctype, txt, searchfield, start, page_len, filters):
-    selected_groups = filters.get("selected_groups", [])
+def get_filtered_groups(doctype, txt, searchfield, start, page_len, filters):
+    selected_groups = filters.get("selected_groups", []) or []
+    doctype_name = filters.get("doctype_name")
 
-    if not selected_groups:
-        selected_groups = []
+    all_groups = frappe.get_all(
+        doctype_name, fields=["name", "parent_" + frappe.scrub(doctype_name)]
+    )
+    parent_field = "parent_" + frappe.scrub(doctype_name)
 
-    all_item_groups = frappe.get_all("Item Group", fields=["name", "parent_item_group"])
     exclude_set = set()
 
     for group in selected_groups:
@@ -24,18 +26,19 @@ def get_filtered_item_groups(doctype, txt, searchfield, start, page_len, filters
             continue
 
         exclude_set.add(group)
-        for item in all_item_groups:
+        for item in all_groups:
             # add parent
-            if item.name == group and item.parent_item_group:
-                exclude_set.add(item.parent_item_group)
+            if item.name == group and item.get(parent_field):
+                exclude_set.add(item.get(parent_field))
 
             # add children
-            if item.parent_item_group == group:
+            if item.get(parent_field) == group:
                 exclude_set.add(item.name)
 
     results = []
-    for item in all_item_groups:
+    for item in all_groups:
         if item.name in exclude_set:
             continue
-        results.append([item.name, item.parent_item_group])
+        results.append([item.name, item.get(parent_field)])
+
     return results
