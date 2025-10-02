@@ -29,11 +29,22 @@ def create_sales_person_target_log(doc, method=None):
 
         metric = target_doc.get("metric")
         if target_doc.get("selector") == "Item Group":
-            item_groups = [
-                d.item_group for d in target_doc.get("item_group_wise_target")
-            ]
+            all_item_groups = frappe.get_all(
+                "Item Group", fields=["name", "parent_item_group", "is_group"]
+            )
+            final_item_group = []
+            for target_item in target_doc.get("item_group_wise_target"):
+                item_group = target_item.item_group
+                final_item_group.append(item_group)
+                for ig in all_item_groups:
+                    if ig.name == item_group and ig.is_group:
+                        for child in all_item_groups:
+                            if child.parent_item_group == item_group:
+                                final_item_group.append(child.name)
+                        break
+
             for item in doc.get("items"):
-                if item.item_group in item_groups:
+                if item.item_group in final_item_group:
                     target_log = frappe.get_doc(
                         {
                             "doctype": "SP Target Log",
