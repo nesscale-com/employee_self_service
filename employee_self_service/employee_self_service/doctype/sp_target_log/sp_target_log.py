@@ -30,8 +30,14 @@ class SPTargetLog(Document):
 
         if self.item_group:
             for row in target_doc.get("item_group_wise_target"):
-                if self.item_group == row.item_group:
-                    row.achieved = max(row.achieved + delta, 0)
+                parent = frappe.db.get_value(
+                    "Item Group", self.item_group, "parent_item_group"
+                )
+                if parent:
+                    if parent == row.item_group:
+                        row.achieved = max(row.achieved + delta, 0)
+                    elif self.item_group == row.item_group:
+                        row.achieved = max(row.achieved + delta, 0)
         else:
             target_doc.total_achieved = max(target_doc.total_achieved + delta, 0)
 
