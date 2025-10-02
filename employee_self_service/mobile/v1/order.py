@@ -4,6 +4,7 @@ from frappe import _
 from frappe.utils import cstr, fmt_money
 
 from erpnext.accounts.utils import getdate
+from erpnext.stock.utils import get_stock_balance
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
     ess_validate,
@@ -313,6 +314,7 @@ def get_item_list(
     customer=None,
     for_filters=None,
     or_filters=None,
+    warehouse=None,
 ):
     try:
         if not filters:
@@ -329,7 +331,7 @@ def get_item_list(
         if for_filters:
             items = item_list
         else:
-            items = get_items_rate(item_list, customer=customer)
+            items = get_items_rate(item_list, customer=customer, warehouse=warehouse)
         gen_response(200, "Item list get successfully", items)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for item")
@@ -337,8 +339,9 @@ def get_item_list(
         exception_handler(e)
 
 
-def get_items_rate(items, customer=None):
+def get_items_rate(items, customer=None, warehouse=None):
     global_defaults = get_global_defaults()
+    ess_settings = get_ess_settings()
     price_list = get_default_price_list(customer=customer)
     if not price_list:
         frappe.throw(
@@ -346,6 +349,10 @@ def get_items_rate(items, customer=None):
                 "Please set a price list for the customer or define a default in the Selling Settings."
             )
         )
+
+    # Check if stock balance should be included
+    show_stock_balance = ess_settings.get("show_stock_balance_in_item_list", 0)
+
     for item in items:
         item_price = frappe.get_all(
             "Item Price",
@@ -370,6 +377,20 @@ def get_items_rate(items, customer=None):
         item["rate"] = item_price if item_price else 0.0
         item["price_list_rate"] = item_price if item_price else 0.0
         item["price_list_rate_currency"] = item_price_currency
+
+        # Add stock balance if enabled and warehouse is provided
+        if show_stock_balance and warehouse:
+            stock_balance = get_stock_balance(item.name, warehouse)
+            item["stock_balance"] = stock_balance
+        elif show_stock_balance:
+            # If no warehouse specified, show 0 or get from default warehouse
+            default_warehouse = ess_settings.get("default_warehouse")
+            if default_warehouse:
+                stock_balance = get_stock_balance(item.name, default_warehouse)
+                item["stock_balance"] = stock_balance
+            else:
+                item["stock_balance"] = 0.0
+
     return items
 
 
