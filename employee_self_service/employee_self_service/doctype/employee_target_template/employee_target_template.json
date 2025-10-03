@@ -45,7 +45,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Frequency",
-   "options": "\nMonthly\nQuarterly\nYearly",
+   "options": "\nDaily\nWeekly\nMonthly\nQuarterly\nYearly",
    "reqd": 1
   },
   {
@@ -82,7 +82,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-03 00:04:26.826467",
+ "modified": "2025-10-03 23:52:14.687760",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Template",

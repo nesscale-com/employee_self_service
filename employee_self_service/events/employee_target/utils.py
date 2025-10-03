@@ -104,3 +104,7 @@ def create_target_log(
     target_log = frappe.get_doc(log_data)
     target_log.insert(ignore_permissions=True)
     target_log.submit()
+
+
+def target_setting():
+    return frappe.db.get_single_value("ESS Target Settings", "enable_target_management")

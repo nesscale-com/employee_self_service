@@ -5,6 +5,10 @@ from frappe.utils import getdate
 
 
 def create_sales_person_target_log(doc, method=None):
+    enable_target = target_setting()
+    if not enable_target:
+        return
+
     employees = get_employee_from_sales_team(doc.doctype, doc.name)
     if not employees:
         return
@@ -44,6 +48,10 @@ def create_sales_person_target_log(doc, method=None):
 
 
 def reverse_sales_person_target_log(doc, method=None):
+    enable_target = target_setting()
+    if not enable_target:
+        return
+
     logs = frappe.get_all(
         "SP Target Log",
         filters={"reference_doctype": doc.doctype, "reference_docname": doc.name},
