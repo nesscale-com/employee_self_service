@@ -36,6 +36,7 @@ from employee_self_service.employee_self_service.doctype.push_notification.push_
 )
 from employee_self_service.utils import get_employees_having_an_event_today
 
+
 @frappe.whitelist(allow_guest=True)
 def login(usr, pwd):
     try:
@@ -49,8 +50,9 @@ def login(usr, pwd):
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
         gen_response(200, frappe.response["message"])
-    except frappe.AuthenticationError:
-        gen_response(500, frappe.response["message"])
+    except frappe.AuthenticationError as e:
+        error_message = str(e) if str(e).strip() else "Invalid username or password"
+        gen_response(401, error_message)
     except Exception as e:
         return exception_handel(e)
 
@@ -390,9 +392,11 @@ def get_dashboard():
             "version": settings.get("version") or "1.0",
             "update_version_forcefully": settings.get("update_version_forcefully") or 1,
             "company": emp_data.get("company") or "Employee Dashboard",
-            "last_log_time": log_details.get("time").strftime("%I:%M%p")
-            if log_details.get("time")
-            else "",
+            "last_log_time": (
+                log_details.get("time").strftime("%I:%M%p")
+                if log_details.get("time")
+                else ""
+            ),
         }
         dashboard_data["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"
@@ -1803,9 +1807,11 @@ def send_notification_for_task_assign(doc, event):
         )
         create_push_notification(
             title=f"New Task Assigned - {task.get('subject')}",
-            message=strip_html(str(task.get("description")))
-            if task.get("description")
-            else "",
+            message=(
+                strip_html(str(task.get("description")))
+                if task.get("description")
+                else ""
+            ),
             send_for="Single User",
             user=doc.allocated_to,
             notification_type="task_assignment",

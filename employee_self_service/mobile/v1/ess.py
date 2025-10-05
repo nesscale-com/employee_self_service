@@ -85,7 +85,12 @@ def login(usr, pwd, unique_id=None, login_type="standard"):
 
         gen_response(200, frappe.response["message"])
 
+    except frappe.AuthenticationError as e:
+        # Handle authentication errors specifically
+        error_message = str(e) if str(e).strip() else "Invalid username or password"
+        return gen_response(401, error_message)
     except Exception as e:
+        frappe.log_error(title="ess login error", message=frappe.get_traceback())
         return exception_handler(e)
 
 
@@ -1395,8 +1400,8 @@ def get_attendance_list(year=None, month=None):
                 "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
                 "status",
                 "working_hours",
-                "in_time",
-                "out_time",
+                "custom_pollen_in_time as in_time",
+                "custom_pollen_out_time as out_time",
                 "late_entry",
             ],
         )
@@ -2671,8 +2676,8 @@ def get_attendance_list_by_date(date=None):
                 "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
                 "status",
                 "working_hours",
-                "in_time",
-                "out_time",
+                "custom_pollen_in_time as in_time",
+                "custom_pollen_out_time as out_time",
                 "late_entry",
             ],
         )
@@ -2716,13 +2721,18 @@ def get_attendance_list_by_date(date=None):
                     if attendance["out_time"]
                     else attendance["out_time"]
                 )
+
                 employee_checkin_details = frappe.get_all(
                     "Employee Checkin",
-                    filters={"attendance": attendance.get("name")},
+                    filters={
+                        "employee": emp_data.get("name"),
+                        "time": ["between", [f"{date} 00:00:00", f"{date} 23:59:59"]],
+                    },
                     fields=[
                         "log_type",
                         "time_format(time, '%h:%i%p') as time",
                         "location",
+                        "log_location",
                     ],
                 )
 

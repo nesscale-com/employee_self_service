@@ -17,10 +17,28 @@ def gen_response(status, message, data=[]):
 
 def exception_handler(e):
     frappe.log_error(title="ESS Mobile App Error", message=frappe.get_traceback())
+
+    # Extract error message
+    error_message = ""
     if hasattr(e, "http_status_code"):
-        return gen_response(e.http_status_code, BeautifulSoup(str(e)).get_text())
+        error_message = BeautifulSoup(str(e)).get_text()
+        status_code = e.http_status_code
     else:
-        return gen_response(500, BeautifulSoup(str(e)).get_text())
+        error_message = BeautifulSoup(str(e)).get_text()
+        status_code = 500
+
+    # Provide fallback message if error_message is empty
+    if not error_message.strip():
+        if isinstance(e, frappe.AuthenticationError):
+            error_message = "Authentication failed"
+        elif isinstance(e, frappe.PermissionError):
+            error_message = "Permission denied"
+        elif isinstance(e, frappe.ValidationError):
+            error_message = "Validation error occurred"
+        else:
+            error_message = "An error occurred. Please try again."
+
+    return gen_response(status_code, error_message)
 
 
 def generate_key(user):

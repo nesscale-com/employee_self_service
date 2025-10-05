@@ -38,8 +38,8 @@ def get_attendance_list_by_date(date=None):
                 "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
                 "status",
                 "working_hours",
-                "in_time",
-                "out_time",
+                "custom_pollen_in_time as in_time",
+                "custom_pollen_out_time as out_time",
                 "late_entry",
             ],
         )
@@ -101,7 +101,7 @@ def get_attendance_list_by_date(date=None):
                     if attendance["out_time"]
                     else None
                 )
-
+            attendance["working_hours"] = 0
             attendance["employee_checkin_detail"] = checkin_map.get(
                 attendance["name"], []
             )
