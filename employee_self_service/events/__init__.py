@@ -1,9 +1,10 @@
 import frappe
 import requests
-from frappe.utils import cint
+from frappe.utils import cint, get_datetime, today
 from employee_self_service.utils import notification_log
 from frappe import _
 from employee_self_service.mobile.v1.ess import get_last_log_type
+from datetime import timedelta
 
 
 def after_insert_comment(doc, method=None):
@@ -86,6 +87,10 @@ def validate_consecutive_log_type(doc, method=None):
     shift_policy = frappe.db.get_value(
         "Employee", doc.employee, "custom_pollen_shift_policy"
     )
+    # Validate check-in window time first
+    if doc.log_type == "IN":
+        validate_checkin_window_time(doc, shift_policy)
+
     last_log_details = get_last_log_type(doc.employee, shift_policy)
 
     if last_log_details:
@@ -111,6 +116,62 @@ def validate_consecutive_log_type(doc, method=None):
                         "Employee {0} already has a {1} entry as their last record. Cannot make consecutive entries of the same type."
                     ).format(doc.employee, doc.log_type)
                 )
+
+
+def validate_checkin_window_time(doc, shift_policy_name=None):
+    """
+    Validate that the employee is checking in within the allowed window time.
+    Users should only be able to check in within the early check-in window
+    (e.g., 30 minutes before shift start) as defined in their shift policy.
+    """
+    if not doc.employee:
+        return
+
+    if not shift_policy_name:
+        # If no shift policy is assigned, skip this validation
+        return
+
+    # Get shift policy details
+    try:
+        shift_policy = frappe.get_doc("Pollen Shift Policy", shift_policy_name)
+    except frappe.DoesNotExistError:
+        # If shift policy doesn't exist, skip validation
+        return
+
+    # Get the current date and shift start time
+    current_date = today()
+    shift_start_time = shift_policy.start_time
+    early_checkin_window_minutes = float(
+        shift_policy.early_checkin_window_minutes or 120
+    )
+
+    # Construct shift start datetime for today
+    shift_start_datetime = get_datetime(f"{current_date} {shift_start_time}")
+
+    # Calculate the earliest allowed check-in time
+    earliest_checkin_time = shift_start_datetime - timedelta(
+        minutes=early_checkin_window_minutes
+    )
+
+    # Get the current check-in time (or use current time if not specified)
+    checkin_time = get_datetime(doc.time) if doc.time else get_datetime()
+
+    # Validate that check-in is not too early
+    if checkin_time < earliest_checkin_time:
+        # Calculate how many minutes early the user is trying to check in
+        minutes_too_early = (earliest_checkin_time - checkin_time).total_seconds() / 60
+
+        frappe.throw(
+            _(
+                "You cannot check in before {0}. You are trying to check in {1} minutes too early. "
+                "The earliest allowed check-in time is {2} minutes before shift start time ({3})."
+            ).format(
+                earliest_checkin_time.strftime("%I:%M %p"),
+                int(minutes_too_early),
+                int(early_checkin_window_minutes),
+                shift_start_datetime.strftime("%I:%M %p"),
+            )
+        )
 
 
 def get_address_from_location(location):
