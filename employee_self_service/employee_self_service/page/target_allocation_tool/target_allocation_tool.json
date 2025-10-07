@@ -1,0 +1,23 @@
+{
+    "content": null,
+    "creation": "2025-10-07 12:00:00.000000",
+    "docstatus": 0,
+    "doctype": "Page",
+    "idx": 0,
+    "modified": "2025-10-07 12:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Employee Self Service",
+    "name": "target-allocation-tool",
+    "owner": "Administrator",
+    "page_name": "target-allocation-tool",
+    "roles": [
+        {
+            "role": "System Manager"
+        }
+    ],
+    "script": null,
+    "standard": "Yes",
+    "style": null,
+    "system_page": 0,
+    "title": "Target Allocation Tool"
+}
