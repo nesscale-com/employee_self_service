@@ -11,12 +11,16 @@ from datetime import datetime
 # Cache for default currency
 _default_currency_cache = None
 
+
 def _get_default_currency():
     """Get default currency with caching."""
     global _default_currency_cache
     if _default_currency_cache is None:
-        _default_currency_cache = frappe.get_cached_value("Global Defaults", None, "default_currency")
+        _default_currency_cache = frappe.get_cached_value(
+            "Global Defaults", None, "default_currency"
+        )
     return _default_currency_cache
+
 
 def _format_date(date_value, format_str="%d-%m-%Y"):
     """Format date safely."""
@@ -28,6 +32,7 @@ def _format_date(date_value, format_str="%d-%m-%Y"):
         return date_value.strftime(format_str)
     except (AttributeError, ValueError, TypeError):
         return str(date_value) if date_value else None
+
 
 def _format_currency_amount(amount, currency=None):
     """Format currency amount."""
@@ -67,7 +72,7 @@ def get_employee_target_list(filters=None):
                 "total_target",
                 "total_achieved",
             ],
-            order_by="creation desc"
+            order_by="creation desc",
         )
 
         if not target_list:
@@ -75,12 +80,16 @@ def get_employee_target_list(filters=None):
 
         # Get currency once
         default_currency = _get_default_currency()
-        
+
         # Process all records
         for target in target_list:
             # Format currency amounts
-            target["total_target"] = _format_currency_amount(target.get("total_target"), default_currency)
-            target["total_achieved"] = _format_currency_amount(target.get("total_achieved"), default_currency)
+            target["total_target"] = _format_currency_amount(
+                target.get("total_target"), default_currency
+            )
+            target["total_achieved"] = _format_currency_amount(
+                target.get("total_achieved"), default_currency
+            )
             # Format progress to 2 decimal places
             target["progress"] = round(flt(target.get("progress", 0)), 2)
             # Format dates
@@ -88,11 +97,13 @@ def get_employee_target_list(filters=None):
             target["end_date"] = _format_date(target.get("end_date"))
 
         return gen_response(200, "Employee Targets retrieved successfully", target_list)
-    
+
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized access to employee targets")
     except Exception as e:
-        frappe.log_error(title="Error in get_employee_targets_list", message=frappe.get_traceback())
+        frappe.log_error(
+            title="Error in get_employee_targets_list", message=frappe.get_traceback()
+        )
         return exception_handler(e)
 
 
@@ -112,7 +123,7 @@ def get_employee_target_details(target_id=None):
 
         # Convert to dict
         target_data = target_doc.as_dict()
-        
+
         # Get currency
         default_currency = _get_default_currency()
 
@@ -124,23 +135,43 @@ def get_employee_target_details(target_id=None):
         # Format main amounts
         amount_fields = ["total_target", "total_achieved"]
         for field in amount_fields:
-            target_data[field] = _format_currency_amount(target_data.get(field), default_currency)
+            target_data[field] = _format_currency_amount(
+                target_data.get(field), default_currency
+            )
         target_data["progress"] = round(flt(target_data.get("progress", 0)), 2)
         # Format child table amounts
-        item_group_targets = target_data.get("item_group_wise_target", [])
-        if item_group_targets:
-            child_amount_fields = ["target", "achieved"]
-            for item_group in item_group_targets:
-                for field in child_amount_fields:
-                    item_group[field] = _format_currency_amount(item_group.get(field), default_currency)
+        if target_data.selector == "Item Group":
+            item_group_targets = target_data.get("item_group_wise_target", [])
+            if item_group_targets:
+                child_amount_fields = ["target", "achieved"]
+                for item_group in item_group_targets:
+                    for field in child_amount_fields:
+                        item_group[field] = _format_currency_amount(
+                            item_group.get(field), default_currency
+                        )
 
-        return gen_response(200, "Employee Target Details retrieved successfully", target_data)
-    
+        elif target_data.selector == "Customer Group":
+            customer_group_targets = target_data.get("customer_group_wise_target", [])
+            if customer_group_targets:
+                child_amount_fields = ["target", "achieved"]
+                for customer_group in customer_group_targets:
+                    for field in child_amount_fields:
+                        customer_group[field] = _format_currency_amount(
+                            customer_group.get(field), default_currency
+                        )
+
+        return gen_response(
+            200, "Employee Target Details retrieved successfully", target_data
+        )
+
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:
-        frappe.log_error(title="Error in get_employee_target_details", message=frappe.get_traceback())
+        frappe.log_error(
+            title="Error in get_employee_target_details", message=frappe.get_traceback()
+        )
         return exception_handler(e)
+
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -153,28 +184,30 @@ def get_employee_target_order_details(target_id=None):
         # Get target logs - using SP Target Log data directly
         target_logs = frappe.get_all(
             "SP Target Log",
-            filters={"employee_target_entry": target_id,"docstatus": 1},
+            filters={"employee_target_entry": target_id, "docstatus": 1},
             fields=[
-                "reference_doctype", 
-                "reference_docname", 
+                "reference_doctype",
+                "reference_docname",
                 "metric",
                 "customer_name",
                 "transaction_date",
                 "amount",
                 "qty",
-                "item_group"
-            ]
+                "item_group",
+            ],
         )
 
         if not target_logs:
-            return gen_response(404, "No target order/invoice found for the given Target ID")
+            return gen_response(
+                200, "No target order/invoice found for the given Target ID"
+            )
 
         # Get metric from first log
         metric = target_logs[0].metric
 
         # Get currency
         default_currency = _get_default_currency()
-        
+
         # Build response data directly from SP Target Log
         module_details = []
         total_amount = total_qty = 0
@@ -184,39 +217,53 @@ def get_employee_target_order_details(target_id=None):
 
             # Format date
             formatted_date = _format_date(log.get("transaction_date"))
-            
+
             # Calculate order value based on metric
             if metric == "Value":
                 order_value = flt(log.get("amount", 0))
                 total_amount += order_value
-                order_value_display = _format_currency_amount(order_value, default_currency)
+                order_value_display = _format_currency_amount(
+                    order_value, default_currency
+                )
             else:
                 order_value = flt(log.get("qty", 0))
                 total_qty += order_value
-                order_value_display = str(int(order_value)) if order_value.is_integer() else str(order_value)
+                order_value_display = (
+                    str(int(order_value))
+                    if order_value.is_integer()
+                    else str(order_value)
+                )
 
             # Add to unique orders set
             unique_orders.add(log.get("reference_docname"))
 
             # Build order details using SP Target Log data
-            module_details.append({
-                "customer_name": log.get("customer_name"),
-                "transaction_date": formatted_date,
-                "total_amount": _format_currency_amount(log.get("amount", 0), default_currency),
-                "order_id": log.get("reference_docname"),
-                "order_details": [
-                    {"key": "Order ID", "value": log.get("reference_docname")},
-                    {"key": "Order Value", "value": order_value_display},
-                    {"key": "Item Group", "value": log.get("item_group", "")},
-                ],
-            })
+            module_details.append(
+                {
+                    "customer_name": log.get("customer_name"),
+                    "transaction_date": formatted_date,
+                    "total_amount": _format_currency_amount(
+                        log.get("amount", 0), default_currency
+                    ),
+                    "order_id": log.get("reference_docname"),
+                    "order_details": [
+                        {"key": "Order ID", "value": log.get("reference_docname")},
+                        {"key": "Order Value", "value": order_value_display},
+                        {"key": "Item Group", "value": log.get("item_group", "")},
+                    ],
+                }
+            )
 
         # Build card details
         total_orders = len(unique_orders)  # Count unique orders
         total_value_display = (
-            _format_currency_amount(total_amount, default_currency) 
-            if metric == "Value" 
-            else str(int(total_qty)) if total_qty and total_qty.is_integer() else str(total_qty)
+            _format_currency_amount(total_amount, default_currency)
+            if metric == "Value"
+            else (
+                str(int(total_qty))
+                if total_qty and total_qty.is_integer()
+                else str(total_qty)
+            )
         )
 
         card_details = [
@@ -239,5 +286,8 @@ def get_employee_target_order_details(target_id=None):
     except frappe.PermissionError:
         return gen_response(403, "Unauthorized to access this target")
     except Exception as e:
-        frappe.log_error(title="Error in get_employee_target_order_details", message=frappe.get_traceback())
+        frappe.log_error(
+            title="Error in get_employee_target_order_details",
+            message=frappe.get_traceback(),
+        )
         return exception_handler(e)

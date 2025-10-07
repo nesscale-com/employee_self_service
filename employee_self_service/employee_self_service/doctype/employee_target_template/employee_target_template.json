@@ -13,7 +13,8 @@
   "frequency",
   "metric",
   "section_break_oama",
-  "item_group_list"
+  "item_group_list",
+  "customer_group_list"
  ],
  "fields": [
   {
@@ -36,7 +37,7 @@
    "fieldname": "selector",
    "fieldtype": "Select",
    "label": "Selector",
-   "options": "\nAll\nItem Group",
+   "options": "\nAll\nItem Group\nCustomer Group",
    "reqd": 1
   },
   {
@@ -44,7 +45,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Frequency",
-   "options": "\nMonthly\nQuarterly\nYearly",
+   "options": "\nDaily\nWeekly\nMonthly\nQuarterly\nYearly",
    "reqd": 1
   },
   {
@@ -69,11 +70,19 @@
    "label": "Item Group List",
    "mandatory_depends_on": "eval: doc.selector == \"Item Group\"",
    "options": "Target Item Group List"
+  },
+  {
+   "depends_on": "eval: doc.selector == \"Customer Group\"",
+   "fieldname": "customer_group_list",
+   "fieldtype": "Table",
+   "label": "Customer Group List",
+   "mandatory_depends_on": "eval: doc.selector == \"Customer Group\"",
+   "options": "Target Customer Group List"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 10:40:45.632887",
+ "modified": "2025-10-03 23:52:14.687760",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Template",
