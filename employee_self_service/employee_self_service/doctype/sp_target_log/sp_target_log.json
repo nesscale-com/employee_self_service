@@ -16,7 +16,6 @@
   "reference_doctype",
   "reference_docname",
   "item_group",
-  "customer_group",
   "amount",
   "amended_from",
   "section_break_bdot",
@@ -83,12 +82,14 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "label": "Amount",
+   "non_negative": 1,
    "precision": "2"
   },
   {
    "fieldname": "qty",
    "fieldtype": "Float",
    "label": "Qty",
+   "non_negative": 1,
    "precision": "2"
   },
   {
@@ -124,19 +125,13 @@
    "fieldtype": "Date",
    "label": "Transaction Date",
    "read_only": 1
-  },
-  {
-   "fieldname": "customer_group",
-   "fieldtype": "Link",
-   "label": "Customer Group",
-   "options": "Customer Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-03 23:51:28.401598",
- "modified_by": "Administrator",
+ "modified": "2025-09-28 12:48:01.042908",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "SP Target Log",
  "naming_rule": "Expression (old style)",
@@ -156,6 +151,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
