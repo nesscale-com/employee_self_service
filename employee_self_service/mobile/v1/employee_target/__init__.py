@@ -43,7 +43,7 @@ def _format_currency_amount(amount, currency=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_employee_target_list(filters=None):
+def get_employee_target_list(filters=None, history=False):
     """Fetch employee target entries."""
     try:
         # Get employee
@@ -52,8 +52,13 @@ def get_employee_target_list(filters=None):
             return gen_response(500, "Employee not found for this user")
 
         # Build filters
+
         filters = []
         filters.append(["employee", "=", employee.get("name")])
+        if history:
+            filters.append(["end_date", "<", datetime.now().date()])
+        else:
+            filters.append(["end_date", ">=", datetime.now().date()])
         # Single database query
         target_list = frappe.get_all(
             "Employee Target Entry",
@@ -139,7 +144,11 @@ def get_employee_target_details(target_id=None):
                 target_data.get(field), default_currency
             )
         target_data["progress"] = round(flt(target_data.get("progress", 0)), 2)
-        # Format child table amounts
+
+        # Initialize sections array for dynamic labels
+        target_sections = []
+
+        # Format child table amounts and add sections with proper labels
         if target_data.selector == "Item Group":
             item_group_targets = target_data.get("item_group_wise_target", [])
             if item_group_targets:
@@ -149,6 +158,17 @@ def get_employee_target_details(target_id=None):
                         item_group[field] = _format_currency_amount(
                             item_group.get(field), default_currency
                         )
+                    item_group["progress"] = round(
+                        flt(item_group.get("progress", 0)), 2
+                    )
+
+                # Add section with label
+                target_sections.append(
+                    {
+                        "section_label": "Item Group Wise Targets",
+                        "data": item_group_targets,
+                    }
+                )
 
         elif target_data.selector == "Customer Group":
             customer_group_targets = target_data.get("customer_group_wise_target", [])
@@ -159,6 +179,21 @@ def get_employee_target_details(target_id=None):
                         customer_group[field] = _format_currency_amount(
                             customer_group.get(field), default_currency
                         )
+                    customer_group["progress"] = round(
+                        flt(customer_group.get("progress", 0)), 2
+                    )
+
+                # Add section with label
+                target_sections.append(
+                    {
+                        "section_label": "Customer Group Wise Targets",
+                        "data": customer_group_targets,
+                    }
+                )
+
+        # Add sections to response if any exist
+        if target_sections:
+            target_data["target_sections"] = target_sections
 
         return gen_response(
             200, "Employee Target Details retrieved successfully", target_data
