@@ -1,208 +1,199 @@
 {
-    "actions": [],
-    "allow_rename": 1,
-    "autoname": "TE.#####",
-    "creation": "2025-09-23 20:12:24.466664",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "employee",
-        "target_template",
-        "column_break_zelv",
-        "status",
-        "progress",
-        "template_details_section",
-        "target_module",
-        "selector",
-        "frequency",
-        "metric",
-        "start_date",
-        "end_date",
-        "column_break_stnk",
-        "fiscal_year",
-        "month",
-        "quarter",
-        "section_break_kbro",
-        "item_group_wise_target",
-        "customer_group_wise_target",
-        "section_break_uaot",
-        "total_target",
-        "column_break_qxqx",
-        "total_achieved"
-    ],
-    "fields": [
-        {
-            "fieldname": "target_template",
-            "fieldtype": "Link",
-            "in_list_view": 1,
-            "label": "Target Template",
-            "options": "Employee Target Template",
-            "reqd": 1
-        },
-        {
-            "fieldname": "employee",
-            "fieldtype": "Link",
-            "in_list_view": 1,
-            "label": "Employee",
-            "options": "Employee",
-            "reqd": 1
-        },
-        {
-            "fieldname": "template_details_section",
-            "fieldtype": "Section Break",
-            "label": "Template Details"
-        },
-        {
-            "fetch_from": "target_template.target_module",
-            "fieldname": "target_module",
-            "fieldtype": "Data",
-            "label": "Target Module",
-            "read_only": 1
-        },
-        {
-            "fetch_from": "target_template.selector",
-            "fieldname": "selector",
-            "fieldtype": "Data",
-            "label": "Selector",
-            "read_only": 1
-        },
-        {
-            "fetch_from": "target_template.frequency",
-            "fieldname": "frequency",
-            "fieldtype": "Data",
-            "label": "Frequency",
-            "read_only": 1
-        },
-        {
-            "fetch_from": "target_template.metric",
-            "fieldname": "metric",
-            "fieldtype": "Data",
-            "label": "Metric",
-            "read_only": 1
-        },
-        {
-            "fieldname": "column_break_stnk",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "start_date",
-            "fieldtype": "Date",
-            "label": "Start Date"
-        },
-        {
-            "fieldname": "end_date",
-            "fieldtype": "Date",
-            "label": "End Date"
-        },
-        {
-            "fieldname": "fiscal_year",
-            "fieldtype": "Link",
-            "label": "Fiscal Year",
-            "options": "Fiscal Year",
-            "reqd": 1
-        },
-        {
-            "depends_on": "eval:doc.frequency == \"Monthly\"",
-            "fieldname": "month",
-            "fieldtype": "Select",
-            "label": "Month",
-            "mandatory_depends_on": "eval:doc.frequency == \"Monthly\"",
-            "options": "4\n5\n6\n7\n8\n9\n10\n11\n12\n1\n2\n3"
-        },
-        {
-            "fieldname": "section_break_kbro",
-            "fieldtype": "Section Break"
-        },
-        {
-            "depends_on": "eval:doc.selector == \"Item Group\"",
-            "fieldname": "item_group_wise_target",
-            "fieldtype": "Table",
-            "label": "Item Group Wise Target",
-            "mandatory_depends_on": "eval:doc.selector == \"Item Group\"",
-            "options": "Item Group Wise Target List"
-        },
-        {
-            "fieldname": "progress",
-            "fieldtype": "Percent",
-            "label": "Progress",
-            "precision": "2",
-            "read_only": 1
-        },
-        {
-            "depends_on": "eval:doc.frequency == \"Quarterly\"",
-            "fieldname": "quarter",
-            "fieldtype": "Select",
-            "label": "Quarter",
-            "mandatory_depends_on": "eval:doc.frequency == \"Quarterly\"",
-            "options": "1\n2\n3\n4"
-        },
-        {
-            "fieldname": "total_target",
-            "fieldtype": "Float",
-            "label": "Total Target",
-            "non_negative": 1,
-            "precision": "2",
-            "read_only_depends_on": "eval:doc.selector == \"Item Group\""
-        },
-        {
-            "fieldname": "total_achieved",
-            "fieldtype": "Float",
-            "label": "Total Achieved",
-            "non_negative": 1,
-            "precision": "2",
-            "read_only": 1
-        },
-        {
-            "fieldname": "column_break_zelv",
-            "fieldtype": "Column Break"
-        },
-        {
-            "default": "In Progress",
-            "fieldname": "status",
-            "fieldtype": "Select",
-            "label": "Status",
-            "options": "In Progress\nComplete"
-        },
-        {
-            "fieldname": "section_break_uaot",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "column_break_qxqx",
-            "fieldtype": "Column Break"
-        },
-        {
-            "depends_on": "eval:doc.selector == \"Customer Group\"",
-            "fieldname": "customer_group_wise_target",
-            "fieldtype": "Table",
-            "label": "Customer Group Wise Target",
-            "mandatory_depends_on": "eval:doc.selector == \"Customer Group\"",
-            "options": "Customer Group Wise Target List"
-        }
-    ],
-    "index_web_pages_for_search": 1,
-    "links": [],
-    "modified": "2025-09-28 11:11:53.539935",
-    "modified_by": "Administrator",
-    "module": "Employee Self Service",
-    "name": "Employee Target Entry",
-    "naming_rule": "Expression (old style)",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "states": []
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TE.#####",
+ "creation": "2025-09-23 20:12:24.466664",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "target_template",
+  "column_break_zelv",
+  "status",
+  "progress",
+  "template_details_section",
+  "target_module",
+  "selector",
+  "frequency",
+  "metric",
+  "start_date",
+  "end_date",
+  "column_break_stnk",
+  "fiscal_year",
+  "month",
+  "quarter",
+  "section_break_kbro",
+  "item_group_wise_target",
+  "section_break_uaot",
+  "total_target",
+  "column_break_qxqx",
+  "total_achieved"
+ ],
+ "fields": [
+  {
+   "fieldname": "target_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Template",
+   "options": "Employee Target Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "template_details_section",
+   "fieldtype": "Section Break",
+   "label": "Template Details"
+  },
+  {
+   "fetch_from": "target_template.target_module",
+   "fieldname": "target_module",
+   "fieldtype": "Data",
+   "label": "Target Module",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "target_template.selector",
+   "fieldname": "selector",
+   "fieldtype": "Data",
+   "label": "Selector",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "target_template.frequency",
+   "fieldname": "frequency",
+   "fieldtype": "Data",
+   "label": "Frequency",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "target_template.metric",
+   "fieldname": "metric",
+   "fieldtype": "Data",
+   "label": "Metric",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_stnk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "fiscal_year",
+   "fieldtype": "Link",
+   "label": "Fiscal Year",
+   "options": "Fiscal Year",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.frequency == \"Monthly\"",
+   "fieldname": "month",
+   "fieldtype": "Select",
+   "label": "Month",
+   "mandatory_depends_on": "eval:doc.frequency == \"Monthly\"",
+   "options": "4\n5\n6\n7\n8\n9\n10\n11\n12\n1\n2\n3"
+  },
+  {
+   "fieldname": "section_break_kbro",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.selector == \"Item Group\"",
+   "fieldname": "item_group_wise_target",
+   "fieldtype": "Table",
+   "label": "Item Group Wise Target",
+   "mandatory_depends_on": "eval:doc.selector == \"Item Group\"",
+   "options": "Item Group Wise Target List"
+  },
+  {
+   "fieldname": "progress",
+   "fieldtype": "Percent",
+   "label": "Progress",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.frequency == \"Quarterly\"",
+   "fieldname": "quarter",
+   "fieldtype": "Select",
+   "label": "Quarter",
+   "mandatory_depends_on": "eval:doc.frequency == \"Quarterly\"",
+   "options": "1\n2\n3\n4"
+  },
+  {
+   "fieldname": "total_target",
+   "fieldtype": "Float",
+   "label": "Total Target",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only_depends_on": "eval:doc.selector == \"Item Group\""
+  },
+  {
+   "fieldname": "total_achieved",
+   "fieldtype": "Float",
+   "label": "Total Achieved",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zelv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "In Progress",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "In Progress\nComplete"
+  },
+  {
+   "fieldname": "section_break_uaot",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_qxqx",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-28 11:11:53.539935",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Employee Target Entry",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
 }
