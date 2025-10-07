@@ -121,9 +121,58 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Target",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Target Template",
+   "link_count": 0,
+   "link_to": "Employee Target Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Target Entry",
+   "link_count": 0,
+   "link_to": "Employee Target Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SP Target Log",
+   "link_count": 0,
+   "link_to": "SP Target Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Target Management Tool",
+   "link_count": 0,
+   "link_to": "target-allocation-tool",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-03-06 19:54:57.403356",
+ "modified": "2025-10-07 18:50:15.470319",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Mobile",
