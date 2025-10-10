@@ -12,8 +12,8 @@ FREQUENCY_MONTHLY = "Monthly"
 FREQUENCY_QUARTERLY = "Quarterly"
 FREQUENCY_YEARLY = "Yearly"
 
-STATUS_IN_PROGRESS = "In Progress"
-STATUS_COMPLETE = "Complete"
+STATUS_ACTIVE = "Active"
+STATUS_COMPLETE = "Completed"
 
 MONTHS_PER_QUARTER = 3
 QUARTERS_PER_YEAR = 4
@@ -27,9 +27,55 @@ class EmployeeTargetEntry(Document):
     def validate(self):
         self._validate_required_fields()
         self._validate_business_rules()
-        self.perform_calculations()
-        self.validate_date_range()
-    
+        self._perform_calculations()
+        self._validate_team_target_limits()
+        self._validate_date_range()
+        
+    def before_submit(self):
+        self.status = "Active"
+        
+    def on_submit(self):
+        if self.is_group == 1:
+            self._create_team_target()
+        
+    def _create_team_target(self):
+        """Create Employee Target Entries based on team or item group targets."""
+        
+        def calculate_target(row_value, row_type, base_value):
+            """Calculate target based on type."""
+            if row_type == "Manual":
+                return row_value or 0
+            elif row_type == "Weightage":
+                return (base_value or 0) * (row_value or 0) / 100
+            return 0
+
+        # Determine which rows to process
+        target_rows = self.item_group_wise_team_targets if self.selector == "Item Group" else self.team_targets
+
+        for row in target_rows:
+            target_entry = frappe.new_doc("Employee Target Entry")
+            # Common fields
+            target_entry.parent_target_entry = self.name
+            target_entry.employee = row.employee
+            target_entry.target_template = self.target_template
+            target_entry.fiscal_year = self.fiscal_year
+            target_entry.month = self.month
+            target_entry.quarter = self.quarter
+            target_entry.start_date = self.start_date
+            target_entry.end_date = self.end_date
+
+            if self.selector == "Item Group":
+                # Assign item group-wise targets
+                for item in target_entry.item_group_wise_target:
+                    item.item_group = row.item_group
+                    item.target = calculate_target(row.value, row.type, self.team_target)
+            else:
+                # Assign total target for non-item group
+                target_entry.total_target = calculate_target(row.value, row.type, self.team_target)
+
+            target_entry.save(ignore_permissions=True)
+            target_entry.submit()
+            
     def _validate_required_fields(self):
         """Validate all required fields are properly set."""
         required_fields = {
@@ -49,13 +95,6 @@ class EmployeeTargetEntry(Document):
             frappe.throw(_("Month is required when frequency is Monthly"))
         elif self.frequency == FREQUENCY_QUARTERLY and not self.quarter:
             frappe.throw(_("Quarter is required when frequency is Quarterly"))
-        
-        # Validate numeric fields
-        if hasattr(self, 'total_target') and self.total_target is not None and self.total_target < 0:
-            frappe.throw(_("Total Target cannot be negative"))
-        
-        if hasattr(self, 'total_achieved') and self.total_achieved is not None and self.total_achieved < 0:
-            frappe.throw(_("Total Achieved cannot be negative"))
 
     def _get_cached_fiscal_year(self):
         """Get cached fiscal year document to avoid repeated DB calls."""
@@ -75,48 +114,108 @@ class EmployeeTargetEntry(Document):
                 frappe.throw(_("Target Template '{0}' does not exist").format(self.target_template))
         return self._cached_template
 
-    def perform_calculations(self):
+    def _perform_calculations(self):
         """Optimize calculation performance with better algorithms."""
         if self.selector == "Item Group":
             self._calculate_item_group_progress()
         else:
             self._calculate_simple_progress()
+            
+        self._calculate_overall_progress()
         
         # Set status based on progress
-        self.status = STATUS_COMPLETE if self.progress >= 100 else STATUS_IN_PROGRESS
+        self.status = STATUS_COMPLETE if self.overall_progress >= 100 else STATUS_ACTIVE
     
     def _calculate_item_group_progress(self):
         """Calculate progress for item group based targets."""
         item_group_targets = self.get("item_group_wise_target")
         if not item_group_targets:
             self.total_target = self.total_achieved = self.progress = 0
+            self.team_target = self.team_archieved = self.team_progress = 0
+            self.overall_progress = 0
             return
         
         # Process all data in a single pass for better performance
         self.total_target = 0
         self.total_achieved = 0
+        self.team_target = 0
+        self.team_archieved = 0
         total_considered_achieved = 0
+        total_considered_team_achieved = 0
         
         for row in item_group_targets:
-            target = row.target or 0
-            achieved = row.achieved or 0
-            considered = min(achieved, target)
-            
-            self.total_target += target
-            self.total_achieved += achieved
+            personal_target = row.target or 0
+            personal_achieved = row.achieved or 0
+            considered = min(personal_achieved, personal_target)
+            self.total_target += personal_target
+            self.total_achieved += personal_achieved
             total_considered_achieved += considered
-            row.progress = (considered / target * 100) if target > 0 else 0
-        
+            row.progress = (considered / personal_target * 100) if personal_target > 0 else 0
+            
+            team_target = row.team_target or 0
+            team_achieved = row.team_achieved or 0
+            team_considered = min(team_target, team_achieved)
+            self.team_target += team_target
+            self.team_achieved += team_achieved
+            total_considered_team_achieved += team_considered
+            row.team_progress = (team_considered / team_target * 100) if team_target > 0 else 0
+            
         self.progress = (total_considered_achieved / self.total_target * 100) if self.total_target > 0 else 0
+        self.team_progress = (total_considered_team_achieved / self.team_target * 100) if self.team_target > 0 else 0
     
     def _calculate_simple_progress(self):
         """Calculate progress for simple target entries."""
-        if not self.total_target or self.total_target <= 0:
-            self.progress = 0
+        self.progress = 0
+        if self.total_target and self.total_target > 0:
+            considered_achieved = min(self.total_achieved or 0, self.total_target)
+            self.progress = (considered_achieved / self.total_target) * 100
+
+        self.team_progress = 0
+        if self.team_target and self.team_target > 0:
+            considered_team_achieved = min(self.team_achieved or 0, self.team_target)
+            self.team_progress = (considered_team_achieved / self.team_target) * 100
+            
+    def _calculate_overall_progress(self):
+        total_weight = (self.total_target or 0) + (self.team_target or 0)
+        if total_weight > 0:
+            self.overall_progress = (
+                (self.progress * (self.total_target or 0) + self.team_progress * (self.team_target or 0))
+                / total_weight
+            )
+        else:
+            self.overall_progress = 0
+            
+    def _validate_team_target_limits(self):
+        if not self.is_group == 1:
             return
         
-        considered_achieved = min(self.total_achieved or 0, self.total_target)
-        self.progress = (considered_achieved / self.total_target * 100)
+        if self.selector == "Item Group":
+            total_item_group_target = 0
+            for row in self.item_group_wise_team_targets:
+                if row.type == "Manual":
+                    total_item_group_target += row.value or 0
+                elif row.type == "Weightage":
+                    total_item_group_target += (self.team_target * (row.value or 0)) / 100
+
+            if total_item_group_target > (self.team_target or 0):
+                frappe.throw(
+                    f"Total of Item Group wise team targets ({total_item_group_target}) "
+                    f"cannot exceed Team Target ({self.team_target})."
+                )
+
+        else:
+            total_team_target = 0
+            for row in self.team_targets:
+                if row.type == "Manual":
+                    total_team_target += row.value or 0
+                elif row.type == "Weightage":
+                    total_team_target += (self.team_target * (row.value or 0)) / 100
+
+            if total_team_target > (self.team_target or 0):
+                frappe.throw(
+                    f"Total of Team Targets ({total_team_target}) "
+                    f"cannot exceed Total Target ({self.team_target})."
+                )
 
     @frappe.whitelist()
     def get_template_item_groups(self):
@@ -198,7 +297,7 @@ class EmployeeTargetEntry(Document):
         
         return start_date, end_date
 
-    def validate_date_range(self):
+    def _validate_date_range(self):
         """Validate that start_date and end_date match fiscal year & frequency rules."""
         if not self._are_dates_provided():
             frappe.throw(_("Start Date and End Date are required"))
@@ -257,3 +356,69 @@ class EmployeeTargetEntry(Document):
             return _("Q{0} {1}").format(self.quarter, self.fiscal_year)
         else:
             return _("Fiscal Year {0}").format(self.fiscal_year)
+        
+    @frappe.whitelist()
+    def set_sales_person(self):
+        if not self.employee:
+            return
+        
+        sales_person = get_sales_person_details(self.employee)
+        if sales_person:
+            self.sales_person = sales_person.name
+            self.is_group = sales_person.is_group
+            
+def get_sales_person_details(employee, find_child=False):
+    """Fetch Sales Person details linked to an employee."""
+    sales_person = frappe.db.get_value(
+        "Sales Person",
+        {"employee": employee, "enabled": 1},
+        ["name", "employee", "is_group", "parent_sales_person"],
+        as_dict=True,
+    )
+
+    if not sales_person:
+        return None
+
+    if not find_child:
+        return sales_person
+
+    if cint(sales_person.is_group):
+        child_sales_person = frappe.get_all(
+            "Sales Person",
+            {"enabled": 1, "parent_sales_person": sales_person.name},
+            ["name", "employee", "is_group", "parent_sales_person"]
+        )
+        return child_sales_person
+
+    return sales_person
+
+@frappe.whitelist()
+def get_team_employee(doctype, txt, searchfield, start, page_len, filters):
+    filters = frappe._dict(filters or {})
+    employee = filters.get("employee")
+    exclude_employees = filters.get("exclude_employees") or []
+
+    if not employee:
+        return []
+
+    child_sales_persons = get_sales_person_details(employee, find_child=True)
+    if not child_sales_persons:
+        return []
+
+    child_employees = [sp.employee for sp in child_sales_persons if sp.get("employee")]
+    if not child_employees:
+        return []
+    
+    if exclude_employees:
+        child_employees = [e for e in child_employees if e not in exclude_employees]
+        if not child_employees:
+            return []
+    
+    employees = frappe.get_all(
+        "Employee",
+        filters={"name": ["in", child_employees]},
+        fields=["name", "employee_name"],
+        order_by="employee_name asc"
+    )
+    return [[emp.name, emp.employee_name] for emp in employees]
+    
