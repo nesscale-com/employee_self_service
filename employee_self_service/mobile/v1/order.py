@@ -466,6 +466,13 @@ def prepare_order_totals(*args, **kwargs):
                 sales_order_doc, global_defaults.get("default_currency")
             ),
         )
+    except frappe.PermissionError as e:
+        error_message = str(e) or "Not permitted for create sales order"
+        frappe.log_error(
+            title="Permission Error",
+            message=f"{error_message}\n{frappe.get_traceback()}",
+        )
+        return gen_response(500, f"Permission Error: {error_message}")
     except Exception as e:
         return exception_handler(e)
 
@@ -537,9 +544,13 @@ def create_order(*args, **kwargs):
                     file_doc.insert(ignore_permissions=True)
 
             gen_response(200, "Order created successfully.", sales_order_doc.name)
-    except frappe.PermissionError:
-        frappe.log_error(title="Permission Error", message=frappe.get_traceback())
-        return gen_response(500, "Not permitted for create sales order")
+    except frappe.PermissionError as e:
+        error_message = str(e) or "Not permitted for create sales order"
+        frappe.log_error(
+            title="Permission Error",
+            message=f"{error_message}\n{frappe.get_traceback()}",
+        )
+        return gen_response(500, f"Permission Error: {error_message}")
     except Exception as e:
         return exception_handler(e)
 
