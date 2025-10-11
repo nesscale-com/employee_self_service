@@ -1,9 +1,7 @@
 import frappe
-from bs4 import BeautifulSoup
-from frappe import _
-from frappe.utils import cstr
-
 import wrapt
+from bs4 import BeautifulSoup
+from frappe.utils import cstr
 
 
 def gen_response(status, message, data=[]):
@@ -42,7 +40,7 @@ def generate_key(user):
 def ess_validate(methods):
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
-        if not frappe.local.request.method in methods:
+        if frappe.local.request.method not in methods:
             return gen_response(500, "Invalid Request Method")
         return wrapped(*args, **kwargs)
 

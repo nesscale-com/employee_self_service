@@ -1,11 +1,9 @@
 import frappe
-import re
 from bs4 import BeautifulSoup
-from frappe.utils import today, cint, getdate
+from frappe import _
 from frappe.core.doctype.file.file import extract_images_from_html
 from frappe.desk.form.document_follow import follow_document
-import html
-from frappe import _
+from frappe.utils import cint, getdate, today
 
 
 def get_holiday_list_for_employee(employee, raise_exception=True):
@@ -94,7 +92,7 @@ def get_employees_having_an_event_today(event_type, date=None):
 			WHERE
 				DATE_PART('day', {condition_column}) = date_part('day', %(today)s)
 			AND
-				DATE_PART('month', {condition_column}) = date_part('month', %(today)s)    
+				DATE_PART('month', {condition_column}) = date_part('month', %(today)s)
 			AND
 				"status" = 'Active'
 		""",
@@ -131,9 +129,9 @@ def notification_log(
     notification_log.insert(ignore_permissions=True)
 
 
-def strip_and_clean_html(html):
+def strip_and_clean_html(html_content):
     # Use BeautifulSoup for better handling of HTML
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html_content, "html.parser")
 
     # Remove unnecessary tags and attributes
     for tag in soup.find_all():

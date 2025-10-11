@@ -8,7 +8,7 @@ from frappe.tests.utils import FrappeTestCase
 class TestNoticeBoard(FrappeTestCase):
     def test_make_notice_board(self):
         frappe.set_user("Administrator")
-        doc = frappe.get_doc(
+        frappe.get_doc(
             dict(
                 doctype="Notice Board",
                 notice_title="Birthday",

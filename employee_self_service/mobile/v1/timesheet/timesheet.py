@@ -1,11 +1,10 @@
 import frappe
-import json
-from frappe import _
+
 # from frappe.utils import pretty_date, getdate, fmt_money
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
 )
 
@@ -15,28 +14,33 @@ from employee_self_service.mobile.v1.api_utils import (
 def create_timesheet(**data):
     try:
         emp_data = get_employee_by_user(
-        frappe.session.user, fields=["name", "image", "department","company"]
+            frappe.session.user, fields=["name", "image", "department", "company"]
         )
         if not len(emp_data) >= 1:
             return gen_response(500, "Employee does not exists")
         if data.get("name"):
-            timesheet_doc = frappe.get_doc("Timesheet",data.get("name"))
+            timesheet_doc = frappe.get_doc("Timesheet", data.get("name"))
         else:
             timesheet_doc = frappe.new_doc("Timesheet")
         timesheet_doc.update(data)
         timesheet_doc.employee = emp_data.name
         timesheet_doc.company = emp_data.company
-        timesheet_submit = frappe.db.get_value("Employee Self Service Settings","Employee Self Service Settings","submit_timesheet")
+        timesheet_submit = frappe.db.get_value(
+            "Employee Self Service Settings",
+            "Employee Self Service Settings",
+            "submit_timesheet",
+        )
         if timesheet_submit == 1:
             timesheet_doc.submit()
         else:
             timesheet_doc.save()
         return gen_response(200, "Timesheet has been updated successfully")
     except frappe.PermissionError:
-            return gen_response(500, "Not permitted to perform this action")
+        return gen_response(500, "Not permitted to perform this action")
     except Exception as e:
-            return exception_handler(e)
-        
+        return exception_handler(e)
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_timesheet_list(start=0, page_length=10, filters=None):
@@ -56,18 +60,20 @@ def get_timesheet_list(start=0, page_length=10, filters=None):
         return gen_response(500, "Not permitted read Timesheet")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_timesheet_details(**data):
     try:
-        timesheet_doc= frappe.get_doc("Timesheet",data.get("name"))
+        timesheet_doc = frappe.get_doc("Timesheet", data.get("name"))
         return gen_response(200, "Timesheet get successfully", timesheet_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for read Timesheet")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_activity_type_list():
@@ -78,7 +84,8 @@ def get_activity_type_list():
         return gen_response(500, "Not permitted for activity type")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def delete_timesheet(timesheet_id=None):
@@ -88,28 +95,35 @@ def delete_timesheet(timesheet_id=None):
         frappe.delete_doc("Timesheet", timesheet_id, force=1)
         return gen_response(200, "Timesheet deleted successfully.")
     except frappe.PermissionError:
-        return gen_response(500, str(e))
+        return gen_response(500, "Not permitted to delete timesheet")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_task_list(filters=None):
     try:
-        task_list = frappe.get_list("Task",filters=filters,fields=["name","subject"])
-        return gen_response(200,"Task list get successfully",task_list)
+        task_list = frappe.get_list("Task", filters=filters, fields=["name", "subject"])
+        return gen_response(200, "Task list get successfully", task_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for read task")
     except Exception as e:
         return exception_handler(e)
 
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_project_list(start=0, page_length=10, filters=None):
     try:
-        project_list = frappe.get_list("Project",filters=filters,fields=["name","project_name"],start=start,
-            page_length=page_length,)
-        return gen_response(200,"Project list get successfully",project_list)
+        project_list = frappe.get_list(
+            "Project",
+            filters=filters,
+            fields=["name", "project_name"],
+            start=start,
+            page_length=page_length,
+        )
+        return gen_response(200, "Project list get successfully", project_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for read project")
     except Exception as e:

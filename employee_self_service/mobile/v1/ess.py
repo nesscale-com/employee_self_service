@@ -1,49 +1,47 @@
-import json
-import os
 import calendar
+import os
+
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.auth import LoginManager
+from frappe.handler import upload_file
 from frappe.utils import (
+    add_days,
     cstr,
-    get_date_str,
-    today,
-    nowdate,
-    getdate,
-    now_datetime,
-    get_first_day,
-    get_last_day,
     date_diff,
     flt,
-    pretty_date,
     fmt_money,
-    add_days,
-    format_time,
+    get_date_str,
+    get_first_day,
+    get_last_day,
+    getdate,
+    now_datetime,
+    nowdate,
+    pretty_date,
+    today,
 )
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    generate_key,
-    ess_validate,
-    get_employee_by_user,
-    validate_employee_data,
-    get_ess_settings,
-    get_global_defaults,
-    exception_handler,
-    convert_timezone,
-    get_system_timezone,
-    get_till_date_holiday_month_wise,
-    get_mobile_app_route,
-)
-from frappe.handler import upload_file
-from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
     create_push_notification,
 )
-from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
-from employee_self_service.utils import add_ess_comment
+from employee_self_service.mobile.v1.api_utils import (
+    convert_timezone,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    generate_key,
+    get_employee_by_user,
+    get_ess_settings,
+    get_global_defaults,
+    get_mobile_app_route,
+    get_system_timezone,
+    get_till_date_holiday_month_wise,
+    validate_employee_data,
+)
 from employee_self_service.mobile.v1.task import *
 from employee_self_service.mobile.v1.transactions import *
+from employee_self_service.utils import add_ess_comment
 
 
 @frappe.whitelist(allow_guest=True)
@@ -59,7 +57,6 @@ def login(usr, pwd, unique_id=None):
                 return
         login_manager.post_login()
         if frappe.response["message"] == "Logged In":
-
             frappe.response["user"] = login_manager.user
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
@@ -124,7 +121,7 @@ def make_leave_application(*args, **kwargs):
             )
         )
         leave_application_doc.update(kwargs)
-        res = leave_application_doc.insert()
+        leave_application_doc.insert()
         gen_response(200, "Leave application successfully added!")
     except Exception as e:
         return exception_handler(e)
@@ -383,7 +380,7 @@ def book_expense(*args, **kwargs):
             )
         ).insert()
         # expense_doc.submit()
-        if not data.get("attachments") == None:
+        if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.db.set_value(
                     "File", file.get("name"), "attached_to_name", expense_doc.name
@@ -453,7 +450,7 @@ def get_expense_list():
             )
 
             month_year = get_month_year_details(expense)
-            if not month_year in list(expense_data.keys())[::-1]:
+            if month_year not in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -525,7 +522,7 @@ def download_salary_slip(ss_id):
             )
         language = frappe.get_system_settings("language")
         # return  frappe.utils.get_url()
-        url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+        f"{frappe.utils.get_url()}/{res.doctype}/{res.name}?format={default_print_format or 'Standard'}&_lang={language}&key={res.get_signature()}"
         # return url
         download_pdf(res.doctype, res.name, default_print_format, res)
     except Exception as e:
@@ -534,7 +531,7 @@ def download_salary_slip(ss_id):
 
 @frappe.whitelist()
 def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
-    from frappe.utils.pdf import get_pdf, cleanup
+    from frappe.utils.pdf import get_pdf
 
     html = frappe.get_print(doctype, name, format, doc=doc, no_letterhead=no_letterhead)
     frappe.local.response.filename = "{name}.pdf".format(
@@ -972,7 +969,7 @@ def create_employee_birthday_board(event_type):
     if title and message:
         emp_today_birthdays = get_employees_having_an_event_today(event_type)
         for emp in emp_today_birthdays:
-            doc = frappe.get_doc(
+            frappe.get_doc(
                 dict(
                     doctype="Notice Board",
                     notice_title=title,
@@ -1011,7 +1008,7 @@ def get_employees_having_an_event_today(event_type, date=None):
             WHERE
                 DATE_PART('day', {condition_column}) = date_part('day', %(today)s)
             AND
-                DATE_PART('month', {condition_column}) = date_part('month', %(today)s)    
+                DATE_PART('month', {condition_column}) = date_part('month', %(today)s)
             AND
                 "status" = 'Active'
         """,
@@ -1177,7 +1174,6 @@ def get_attendance_list(year=None, month=None):
 @ess_validate(methods=["POST"])
 def add_comment(reference_doctype=None, reference_name=None, content=None):
     try:
-
         comment_by = frappe.db.get_value(
             "User", frappe.session.user, "full_name", as_dict=1
         )

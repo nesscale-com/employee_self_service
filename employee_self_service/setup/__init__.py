@@ -2,12 +2,14 @@ import frappe
 from frappe.custom.doctype.custom_field.custom_field import (
     create_custom_fields as _create_custom_fields,
 )
+
 from employee_self_service.constants.custom_fields import CUSTOM_FIELDS
 
 
 def after_install():
     create_custom_fields()
     add_default_language_in_ess_settings()
+
 
 def create_custom_fields():
     print("Creating custom fields")
@@ -28,7 +30,7 @@ def get_all_custom_fields():
 
 
 def add_default_language_in_ess_settings():
-    if frappe.db.exists("DocType","Employee Self Service Settings"):
+    if frappe.db.exists("DocType", "Employee Self Service Settings"):
         ess_settings = frappe.get_doc(
             "Employee Self Service Settings", "Employee Self Service Settings"
         )

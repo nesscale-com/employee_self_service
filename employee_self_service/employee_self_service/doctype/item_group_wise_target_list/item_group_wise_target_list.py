@@ -6,4 +6,4 @@ from frappe.model.document import Document
 
 
 class ItemGroupWiseTargetList(Document):
-	pass
+    pass

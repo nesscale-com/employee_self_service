@@ -2,7 +2,6 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe import _
 from frappe.model.document import Document
 
 
@@ -10,9 +9,13 @@ class SPTargetLog(Document):
     def validate(self):
         if not self.transaction_date:
             if self.reference_doctype == "Sales Order":
-                self.transaction_date = frappe.db.get_value("Sales Order", self.reference_docname, "transaction_date")
+                self.transaction_date = frappe.db.get_value(
+                    "Sales Order", self.reference_docname, "transaction_date"
+                )
             elif self.reference_doctype == "Sales Invoice":
-                self.transaction_date = frappe.db.get_value("Sales Invoice", self.reference_docname, "posting_date")
+                self.transaction_date = frappe.db.get_value(
+                    "Sales Invoice", self.reference_docname, "posting_date"
+                )
             else:
                 self.transaction_date = frappe.utils.nowdate()
 

@@ -1,15 +1,11 @@
 import frappe
-import erpnext
-from frappe import _
-from frappe.utils import today, flt
 from erpnext.accounts.utils import getdate
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
-    remove_default_fields,
+    gen_response,
 )
-import json
 
 
 @frappe.whitelist()
@@ -170,7 +166,7 @@ def get_attendance_request(request_id=None):
             )
         gen_response(200, "Attendance Request details get successfully.", request_doc)
     except frappe.PermissionError:
-        return gen_response(500, str(e))
+        return gen_response(500, "Not permitted to access attendance request")
     except Exception as e:
         return exception_handler(e)
 

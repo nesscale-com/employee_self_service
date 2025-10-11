@@ -1,24 +1,25 @@
 import json
-import frappe
-from frappe import _
-from frappe.utils import cstr, fmt_money
+from datetime import datetime
 
+import frappe
+from erpnext.accounts.party import get_dashboard_info
 from erpnext.accounts.utils import getdate
 from erpnext.stock.utils import get_stock_balance
+from frappe import _
+from frappe.utils import fmt_money
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    get_ess_settings,
-    prepare_json_data,
-    get_global_defaults,
-    exception_handler,
-    get_actions,
     check_workflow_exists,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_actions,
     get_date_range,
+    get_ess_settings,
+    get_global_defaults,
     get_sales_person_by_customer,
+    prepare_json_data,
 )
-from erpnext.accounts.party import get_dashboard_info
-from datetime import datetime
 
 """order list api for mobile app"""
 
@@ -421,7 +422,7 @@ def get_uoms(customer, item):
             if uom_row.get("uom") == item_doc.get("stock_uom"):
                 uom_hint = f"{uom_row.get('uom')} is default uom"
             else:
-                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
+                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor')} {item_doc.get('stock_uom')}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),

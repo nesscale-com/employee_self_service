@@ -1,16 +1,11 @@
 import frappe
-import json
-from frappe import _
 from frappe.utils import today
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
-    get_employee_by_user,
-    remove_default_fields,
-    get_global_defaults,
+    gen_response,
 )
-from employee_self_service.mobile.v1.manager.manager_utils import get_action
 
 
 def _employee_sets_today(emp_list):

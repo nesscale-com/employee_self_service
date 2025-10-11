@@ -1,16 +1,15 @@
 import frappe
-from frappe import _
-from frappe.utils import today, flt, fmt_money
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    prepare_json_data,
-    exception_handler,
-    get_actions,
-    check_workflow_exists,
-    get_global_defaults,
-)
+from frappe.utils import flt, fmt_money, today
 
+from employee_self_service.mobile.v1.api_utils import (
+    check_workflow_exists,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_actions,
+    get_global_defaults,
+    prepare_json_data,
+)
 
 """payment entry meta data"""
 
@@ -252,7 +251,7 @@ def make_payment(*args, **kwargs):
                 is_submit = data.get("submit")
                 del data["submit"]
                 payment_doc.update(data)
-                if is_submit == True:
+                if is_submit:
                     payment_doc.submit()
                 else:
                     payment_doc.save()
@@ -280,7 +279,7 @@ def make_payment(*args, **kwargs):
                 )
             )
             if not check_workflow_exists("Payment Entry"):
-                if data.get("submit") == True:
+                if data.get("submit"):
                     payment_doc.submit()
                 else:
                     payment_doc.insert()
@@ -289,7 +288,7 @@ def make_payment(*args, **kwargs):
 
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
-                file_doc = frappe.get_doc(
+                frappe.get_doc(
                     dict(
                         doctype="File",
                         file_url=file.get("file_url"),

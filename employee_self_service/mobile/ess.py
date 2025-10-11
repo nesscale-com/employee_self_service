@@ -1,40 +1,41 @@
+import calendar
 import json
 import os
-import calendar
+
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.auth import LoginManager
 from frappe.utils import (
     cstr,
-    get_date_str,
-    today,
-    nowdate,
-    getdate,
-    now_datetime,
-    get_first_day,
-    get_last_day,
     date_diff,
     flt,
-    pretty_date,
     fmt_money,
+    get_date_str,
+    get_first_day,
+    get_last_day,
+    getdate,
+    now_datetime,
+    nowdate,
+    pretty_date,
+    today,
 )
-from employee_self_service.mobile.api_utils import (
-    gen_response,
-    generate_key,
-    ess_validate,
-    get_employee_by_user,
-    validate_employee_data,
-    get_ess_settings,
-    get_global_defaults,
-    exception_handel,
-)
-
-from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
     create_push_notification,
 )
+from employee_self_service.mobile.api_utils import (
+    ess_validate,
+    exception_handel,
+    gen_response,
+    generate_key,
+    get_employee_by_user,
+    get_ess_settings,
+    get_global_defaults,
+    validate_employee_data,
+)
 from employee_self_service.utils import get_employees_having_an_event_today
+
 
 @frappe.whitelist(allow_guest=True)
 def login(usr, pwd):
@@ -82,7 +83,7 @@ def make_leave_application(*args, **kwargs):
             )
         )
         leave_application_doc.update(kwargs)
-        res = leave_application_doc.insert()
+        leave_application_doc.insert()
         gen_response(200, "Leave Application Successfully Added")
     except Exception as e:
         return exception_handel(e)
@@ -161,7 +162,7 @@ def get_leave_application_list():
 def get_leave_balance_report(employee, company, fiscal_year):
     fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
     year_start_date = get_date_str(fiscal_year.get("year_start_date"))
-    year_end_date = get_date_str(fiscal_year.get("year_end_date"))
+    get_date_str(fiscal_year.get("year_end_date"))
     filters_leave_balance = {
         "from_date": year_start_date,
         "to_date": today(),
@@ -215,7 +216,7 @@ def book_expense(*args, **kwargs):
             )
         ).insert()
         # expense_doc.submit()
-        if not data.get("attachments") == None:
+        if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.db.set_value(
                     "File", file.get("name"), "attached_to_name", expense_doc.name
@@ -279,7 +280,7 @@ def get_expense_list():
             )
 
             month_year = get_month_year_details(expense)
-            if not month_year in list(expense_data.keys())[::-1]:
+            if month_year not in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -351,7 +352,7 @@ def download_salary_slip(ss_id):
             )
         language = frappe.get_system_settings("language")
         # return  frappe.utils.get_url()
-        url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+        f"{frappe.utils.get_url()}/{res.doctype}/{res.name}?format={default_print_format or 'Standard'}&_lang={language}&key={res.get_signature()}"
         # return url
         download_pdf(res.doctype, res.name, default_print_format, res)
     except Exception as e:
@@ -360,7 +361,7 @@ def download_salary_slip(ss_id):
 
 @frappe.whitelist()
 def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
-    from frappe.utils.pdf import get_pdf, cleanup
+    from frappe.utils.pdf import get_pdf
 
     html = frappe.get_print(doctype, name, format, doc=doc, no_letterhead=no_letterhead)
     frappe.local.response.filename = "{name}.pdf".format(
@@ -604,7 +605,7 @@ def create_employee_log(log_type, location=None):
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift"]
         )
-        log_doc = frappe.get_doc(
+        frappe.get_doc(
             dict(
                 doctype="Employee Checkin",
                 employee=emp_data.get("name"),
@@ -656,7 +657,7 @@ def create_employee_birthday_board(event_type):
     if title and message:
         emp_today_birthdays = get_employees_having_an_event_today(event_type)
         for emp in emp_today_birthdays:
-            doc = frappe.get_doc(
+            frappe.get_doc(
                 dict(
                     doctype="Notice Board",
                     notice_title=title,
@@ -768,7 +769,7 @@ def update_task_status():
             as_dict=True,
         )
 
-        if assigned_to.get("_assign") == None:
+        if assigned_to.get("_assign") is None:
             return gen_response(500, "Task Not assigned for any user")
 
         elif frappe.session.user not in assigned_to.get("_assign"):

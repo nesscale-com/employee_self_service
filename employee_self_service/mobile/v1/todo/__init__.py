@@ -1,10 +1,10 @@
-import json
 import frappe
 from frappe.utils import today
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_mobile_app_route,
 )
 from employee_self_service.mobile.v1.task import fetch_user
@@ -90,7 +90,6 @@ def get_todo_list(view_type="all", start=0, page_length=10, filters=None):
         return gen_response(200, "ToDo list fetched", todos)
     except Exception as e:
         return exception_handler(e)
-
 
 
 @frappe.whitelist()

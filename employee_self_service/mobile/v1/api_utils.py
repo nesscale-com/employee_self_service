@@ -1,9 +1,8 @@
 import frappe
-from bs4 import BeautifulSoup
-from frappe import _
-from frappe.utils import cstr
-from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
 import wrapt
+from bs4 import BeautifulSoup
+from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+
 from employee_self_service.mobile.v1.constants import MOBILE_APP_ROUTES
 
 
@@ -43,7 +42,7 @@ def generate_key(user):
 def ess_validate(methods):
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
-        if not frappe.local.request.method in methods:
+        if frappe.local.request.method not in methods:
             return gen_response(500, "Invalid Request Method")
         return wrapped(*args, **kwargs)
 
@@ -121,7 +120,7 @@ def get_actions(doc, doc_data=None):
         return []
     try:
         transitions = get_transitions(doc)
-    except Exception as e:
+    except Exception:
         return []
     actions = []
     for row in transitions:
@@ -158,7 +157,7 @@ def update_workflow_state(reference_doctype, reference_name, action):
 
 
 def convert_timezone(timestamp, from_tz, to_tz):
-    from pytz import UnknownTimeZoneError, timezone
+    from pytz import timezone
 
     from_zone = timezone(from_tz)
     to_zone = timezone(to_tz)
@@ -241,9 +240,9 @@ def ping():
 #     - "Last Financial Year"
 @frappe.whitelist()
 def get_date_range(duration_type):
-    from frappe.utils import add_days
-    from frappe.utils.data import get_first_day, today, add_months
     from erpnext.accounts.utils import get_fiscal_year
+    from frappe.utils import add_days
+    from frappe.utils.data import add_months, get_first_day, today
 
     if duration_type == "Current Month":
         return {"from_date": get_first_day(today()), "to_date": today()}
