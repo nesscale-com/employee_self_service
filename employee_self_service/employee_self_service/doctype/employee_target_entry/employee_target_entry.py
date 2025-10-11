@@ -158,7 +158,7 @@ class EmployeeTargetEntry(Document):
         item_group_targets = self.get("item_group_wise_target")
         if not item_group_targets:
             self.total_target = self.total_achieved = self.progress = 0
-            self.team_target = self.team_archieved = self.team_progress = 0
+            self.team_target = self.team_achieved = self.team_progress = 0
             self.overall_progress = 0
             return
         

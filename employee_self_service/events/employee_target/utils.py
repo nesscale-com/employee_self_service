@@ -351,7 +351,7 @@ def create_target_log(
             "date": frappe.utils.nowdate(),
             "transaction_date": transaction_date,
             "employee_target_entry": target_doc.name,
-            "parent_target_entry":target_doc.parent_target_entry,
+            "parent_target_entry": target_doc.parent_target_entry,
             "reference_doctype": doc.doctype,
             "reference_docname": doc.name,
             "amount": amount if metric == "Value" else 0,
@@ -371,7 +371,7 @@ def create_target_log(
             "reference_doctype": doc.doctype,
             "reference_docname": doc.name,
             "employee_target_entry": target_doc.name,
-            "parent_target_entry":target_doc.parent_target_entry
+            "parent_target_entry": target_doc.parent_target_entry
         }
 
         if group_field:
