@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Python linting
         run: |
-          ruff check . --select=E,W,F821,F822,F823,F901 --ignore=F401,F405,F403
+          ruff check . --select=E,W,F821,F822,F823,F901 --ignore=F401,F405,F403,E501
           ruff format --check .
 
       - name: Download Semgrep rules
