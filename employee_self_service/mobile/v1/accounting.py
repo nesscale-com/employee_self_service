@@ -104,12 +104,10 @@ def make_petty_expense_entry(*args, **data):
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Petty Expense",
-                        attached_to_name=petty_expense_entry_doc.name,
-                    )
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Petty Expense",
+                    attached_to_name=petty_expense_entry_doc.name,
                 ).insert(ignore_permissions=True)
         return gen_response(200, "Petty expense entry saved")
     except frappe.PermissionError:

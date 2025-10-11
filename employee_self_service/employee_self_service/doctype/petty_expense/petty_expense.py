@@ -18,10 +18,8 @@ class PettyExpense(Document):
         )
         if not default_mode_of_payment_account:
             frappe.throw(
-                _(
-                    "Default account not set for mode of payment {0}".format(
-                        self.mode_of_payment
-                    )
+                _("Default account not set for mode of payment {0}").format(
+                    self.mode_of_payment
                 )
             )
         self.payment_account = default_mode_of_payment_account
@@ -36,10 +34,8 @@ class PettyExpense(Document):
                 == 1
             ):
                 frappe.throw(
-                    _(
-                        "{0} is linked with journal entry {1}".format(
-                            self.name, self.journal_entry
-                        )
+                    _("{0} is linked with journal entry {1}").format(
+                        self.name, self.journal_entry
                     )
                 )
 
@@ -66,5 +62,4 @@ class PettyExpense(Document):
             ),
         )
         jv_doc = jv_doc.submit()
-        self.journal_entry = jv_doc.name
         frappe.db.set_value(self.doctype, self.name, "journal_entry", jv_doc.name)

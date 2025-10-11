@@ -1,8 +1,6 @@
 # Copyright (c) 2025, Nesscale Solutions Private Limited and contributors
 # For license information, please see license.txt
 
-from calendar import month_name
-
 import frappe
 from frappe import _
 from frappe.model.document import Document
@@ -289,8 +287,30 @@ class EmployeeTargetEntry(Document):
         if self.frequency == FREQUENCY_MONTHLY and self.month:
             try:
                 month_num = cint(self.month)
-                if 1 <= month_num <= 12:
-                    return _("{0} {1}").format(month_name[month_num], self.fiscal_year)
+                if month_num == 1:
+                    return _("January {0}").format(self.fiscal_year)
+                elif month_num == 2:
+                    return _("February {0}").format(self.fiscal_year)
+                elif month_num == 3:
+                    return _("March {0}").format(self.fiscal_year)
+                elif month_num == 4:
+                    return _("April {0}").format(self.fiscal_year)
+                elif month_num == 5:
+                    return _("May {0}").format(self.fiscal_year)
+                elif month_num == 6:
+                    return _("June {0}").format(self.fiscal_year)
+                elif month_num == 7:
+                    return _("July {0}").format(self.fiscal_year)
+                elif month_num == 8:
+                    return _("August {0}").format(self.fiscal_year)
+                elif month_num == 9:
+                    return _("September {0}").format(self.fiscal_year)
+                elif month_num == 10:
+                    return _("October {0}").format(self.fiscal_year)
+                elif month_num == 11:
+                    return _("November {0}").format(self.fiscal_year)
+                elif month_num == 12:
+                    return _("December {0}").format(self.fiscal_year)
             except (ValueError, IndexError):
                 pass
             return _("Selected Month {0}").format(self.fiscal_year)

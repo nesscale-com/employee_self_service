@@ -155,7 +155,7 @@ def trigger_notifications(doc, method=None):
 
             for doc in alert.get_documents_for_today():
                 evaluate_alert(doc, alert, alert.event)
-                frappe.db.commit()
+                frappe.db.commit()  # nosemgrep: frappe-manual-commit - Required for notification processing
 
 
 def evaluate_alert(doc: Document, alert, event):

@@ -36,7 +36,8 @@ class ESSNotificationLog(Document):
             )
             # Check the response
             if response.status_code == 200:
-                print("Notification sent successfully!")
+                # Notification sent successfully
+                pass
             else:
                 frappe.log_error(
                     title="ESS Push Notification Error",

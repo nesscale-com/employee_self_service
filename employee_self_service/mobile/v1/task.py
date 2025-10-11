@@ -1,6 +1,7 @@
 import json
 
 import frappe
+from frappe import _
 from frappe.utils import pretty_date, today
 
 from employee_self_service.mobile.v1.api_utils import (
@@ -168,7 +169,7 @@ def fetch_comments(task_id):
 def get_task_list(start=0, page_length=10, filters=None, today_task=False):
     try:
         if not frappe.has_permission("Task", "read"):
-            frappe.throw("Not permitted to read Task", frappe.PermissionError)
+            frappe.throw(_("Not permitted to read Task"), frappe.PermissionError)
 
         filters = update_task_filters(filters, today_task)
         tasks = frappe.get_list(
@@ -343,7 +344,7 @@ def create_task(**kwargs):
         from frappe.desk.form import assign_to
 
         data = kwargs
-        task_doc = frappe.get_doc(dict(doctype="Task"))
+        task_doc = frappe.get_doc(doctype="Task")
         task_doc.update(data)
         task_doc.insert()
         if data.get("assign_to"):

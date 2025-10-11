@@ -25,8 +25,7 @@ def create_timesheet(**data):
         timesheet_doc.update(data)
         timesheet_doc.employee = emp_data.name
         timesheet_doc.company = emp_data.company
-        timesheet_submit = frappe.db.get_value(
-            "Employee Self Service Settings",
+        timesheet_submit = frappe.db.get_single_value(
             "Employee Self Service Settings",
             "submit_timesheet",
         )

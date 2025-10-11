@@ -48,7 +48,7 @@ def user_location(*args, **kwargs):
             cache=True,
         ):
             location_doc = frappe.get_doc(
-                dict(doctype="Employee Location", employee=current_employee.get("name"))
+                doctype="Employee Location", employee=current_employee.get("name")
             )
             location_doc.update(data)
             location_doc.insert(ignore_permissions=True)

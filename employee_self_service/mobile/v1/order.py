@@ -480,9 +480,7 @@ def get_default_price_list(customer=None):
         )
         if price_list:
             return price_list
-    return frappe.db.get_value(
-        "Selling Settings", "Selling Settings", "selling_price_list"
-    )
+    return frappe.db.get_single_value("Selling Settings", "selling_price_list")
 
 
 @frappe.whitelist()
@@ -518,7 +516,7 @@ def prepare_order_totals(*args, **kwargs):
             item["warehouse"] = ess_settings.get("default_warehouse")
         global_defaults = get_global_defaults()
         sales_order_doc = frappe.get_doc(
-            dict(doctype="Sales Order", company=global_defaults.get("default_company"))
+            doctype="Sales Order", company=global_defaults.get("default_company")
         )
         sales_order_doc.update(data)
         sales_order_doc.apply_discount_on = "Grand Total"
@@ -589,10 +587,8 @@ def create_order(*args, **kwargs):
             gen_response(200, "Order updated successfully.", sales_order_doc.name)
         else:
             sales_order_doc = frappe.get_doc(
-                dict(
-                    doctype="Sales Order",
-                    company=global_defaults.get("default_company"),
-                )
+                doctype="Sales Order",
+                company=global_defaults.get("default_company"),
             )
             _create_update_order(
                 data=data,

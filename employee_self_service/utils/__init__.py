@@ -150,14 +150,12 @@ def add_ess_comment(
 ):
     """allow any logged user to post a comment"""
     doc = frappe.get_doc(
-        dict(
-            doctype="Comment",
-            reference_doctype=reference_doctype,
-            reference_name=reference_name,
-            comment_email=comment_email,
-            comment_type="Comment",
-            comment_by=comment_by,
-        )
+        doctype="Comment",
+        reference_doctype=reference_doctype,
+        reference_name=reference_name,
+        comment_email=comment_email,
+        comment_type="Comment",
+        comment_by=comment_by,
     )
     reference_doc = frappe.get_doc(reference_doctype, reference_name)
     doc.content = extract_images_from_html(reference_doc, content, is_private=True)
@@ -179,8 +177,8 @@ def clear_linked_device(employee):
 @frappe.whitelist()
 def is_device_button_enable(employee):
     if not cint(
-        frappe.db.get_value(
-            "Employee Self Service Settings", None, "enable_device_restrictions"
+        frappe.db.get_single_value(
+            "Employee Self Service Settings", "enable_device_restrictions"
         )
     ):
         return False

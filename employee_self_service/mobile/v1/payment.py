@@ -259,24 +259,22 @@ def make_payment(*args, **kwargs):
                 payment_doc.save()
         else:
             payment_doc = frappe.get_doc(
-                dict(
-                    doctype="Payment Entry",
-                    naming_series=data.get("naming_series"),
-                    payment_type=data.get("payment_type"),
-                    posting_date=data.get("posting_date"),
-                    mode_of_payment=data.get("mode_of_payment"),
-                    company=data.get("company"),
-                    party_type=data.get("party_type"),
-                    party=data.get("party"),
-                    paid_from=data.get("paid_from"),
-                    paid_to=data.get("paid_to"),
-                    paid_amount=data.get("paid_amount"),
-                    reference_no=data.get("reference_no"),
-                    reference_date=data.get("reference_date"),
-                    received_amount=data.get("paid_amount"),
-                    references=data.get("references"),
-                    cost_center=data.get("cost_center"),
-                )
+                doctype="Payment Entry",
+                naming_series=data.get("naming_series"),
+                payment_type=data.get("payment_type"),
+                posting_date=data.get("posting_date"),
+                mode_of_payment=data.get("mode_of_payment"),
+                company=data.get("company"),
+                party_type=data.get("party_type"),
+                party=data.get("party"),
+                paid_from=data.get("paid_from"),
+                paid_to=data.get("paid_to"),
+                paid_amount=data.get("paid_amount"),
+                reference_no=data.get("reference_no"),
+                reference_date=data.get("reference_date"),
+                received_amount=data.get("paid_amount"),
+                references=data.get("references"),
+                cost_center=data.get("cost_center"),
             )
             if not check_workflow_exists("Payment Entry"):
                 if data.get("submit"):
@@ -289,12 +287,10 @@ def make_payment(*args, **kwargs):
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Payment Entry",
-                        attached_to_name=payment_doc.name,
-                    )
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Payment Entry",
+                    attached_to_name=payment_doc.name,
                 ).insert(ignore_permissions=True)
         return gen_response(200, "Payment updated successfully")
     except Exception as e:

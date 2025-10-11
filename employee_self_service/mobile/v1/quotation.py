@@ -299,7 +299,7 @@ def prepare_quotation_totals(*args, **kwargs):
 
         global_defaults = get_global_defaults()
         sales_order_doc = frappe.get_doc(
-            dict(doctype="Quotation", company=global_defaults.get("default_company"))
+            doctype="Quotation", company=global_defaults.get("default_company")
         )
         sales_order_doc.update(data)
         # sales_order_doc.discount_amount = total_discount
@@ -368,10 +368,8 @@ def create_quotation(*args, **kwargs):
             gen_response(200, "Updated successfully.", doc.name)
         else:
             doc = frappe.get_doc(
-                dict(
-                    doctype="Quotation",
-                    company=global_defaults.get("default_company"),
-                )
+                doctype="Quotation",
+                company=global_defaults.get("default_company"),
             )
             _create_update_quotation(
                 data=data,

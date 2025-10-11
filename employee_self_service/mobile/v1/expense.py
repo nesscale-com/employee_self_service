@@ -202,15 +202,13 @@ def apply_expense(**data):
 
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-                items=frappe.form_dict.items,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
+            items=frappe.form_dict.items,
         )
         expense_doc.update(data)
         expense_doc.insert()
@@ -255,12 +253,10 @@ def update_expense(**data):
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Expense Claim",
-                        attached_to_name=expense_doc.name,
-                    )
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Expense Claim",
+                    attached_to_name=expense_doc.name,
                 ).insert(ignore_permissions=True)
 
         return gen_response(200, "Expense updated Successfully", expense_doc)

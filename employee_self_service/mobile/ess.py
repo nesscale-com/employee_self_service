@@ -75,12 +75,10 @@ def make_leave_application(*args, **kwargs):
             return gen_response(500, "Employee does not exists")
         validate_employee_data(emp_data)
         leave_application_doc = frappe.get_doc(
-            dict(
-                doctype="Leave Application",
-                employee=emp_data.get("name"),
-                company=emp_data.company,
-                leave_approver=get_leave_approver(emp_data.name),
-            )
+            doctype="Leave Application",
+            employee=emp_data.get("name"),
+            company=emp_data.company,
+            leave_approver=get_leave_approver(emp_data.name),
         )
         leave_application_doc.update(kwargs)
         leave_application_doc.insert()
@@ -198,22 +196,20 @@ def book_expense(*args, **kwargs):
         data = kwargs
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                expenses=[
-                    {
-                        "expense_date": data.get("expense_date"),
-                        "expense_type": data.get("expense_type"),
-                        "description": data.get("description"),
-                        "amount": data.get("amount"),
-                    }
-                ],
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            expenses=[
+                {
+                    "expense_date": data.get("expense_date"),
+                    "expense_type": data.get("expense_type"),
+                    "description": data.get("description"),
+                    "amount": data.get("amount"),
+                }
+            ],
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
         ).insert()
         # expense_doc.submit()
         if data.get("attachments") is not None:
@@ -336,8 +332,7 @@ def download_salary_slip(ss_id):
             return gen_response(
                 500, "Does not have persmission to read this salary slip"
             )
-        default_print_format = frappe.db.get_value(
-            "Employee Self Service Settings",
+        default_print_format = frappe.db.get_single_value(
             "Employee Self Service Settings",
             "default_print_format",
         )
@@ -606,13 +601,11 @@ def create_employee_log(log_type, location=None):
             frappe.session.user, fields=["name", "default_shift"]
         )
         frappe.get_doc(
-            dict(
-                doctype="Employee Checkin",
-                employee=emp_data.get("name"),
-                log_type=log_type,
-                time=now_datetime().__str__()[:-7],
-                location=location,
-            )
+            doctype="Employee Checkin",
+            employee=emp_data.get("name"),
+            log_type=log_type,
+            time=now_datetime().__str__()[:-7],
+            location=location,
         ).insert(ignore_permissions=True)
         update_shift_last_sync(emp_data)
         return gen_response(200, "Employee Log Added")
@@ -658,15 +651,13 @@ def create_employee_birthday_board(event_type):
         emp_today_birthdays = get_employees_having_an_event_today(event_type)
         for emp in emp_today_birthdays:
             frappe.get_doc(
-                dict(
-                    doctype="Notice Board",
-                    notice_title=title,
-                    message=message,
-                    from_date=today(),
-                    to_date=today(),
-                    apply_for="Specific Employees",
-                    employees=[dict(employee=emp.get("emp_id"))],
-                )
+                doctype="Notice Board",
+                notice_title=title,
+                message=message,
+                from_date=today(),
+                to_date=today(),
+                apply_for="Specific Employees",
+                employees=[dict(employee=emp.get("emp_id"))],
             ).insert(ignore_permissions=True)
 
 
@@ -1338,15 +1329,13 @@ def employee_device_info(**kwargs):
             token.save(ignore_permissions=True)
         else:
             token = frappe.get_doc(
-                dict(
-                    doctype="Employee Device Info",
-                    platform=data.get("platform"),
-                    os_version=data.get("os_version"),
-                    device_name=data.get("device_name"),
-                    app_version=data.get("app_version"),
-                    token=data.get("token"),
-                    user=frappe.session.user,
-                )
+                doctype="Employee Device Info",
+                platform=data.get("platform"),
+                os_version=data.get("os_version"),
+                device_name=data.get("device_name"),
+                app_version=data.get("app_version"),
+                token=data.get("token"),
+                user=frappe.session.user,
             ).insert(ignore_permissions=True)
 
         return gen_response(200, "Firebase Token Generated successfully")
@@ -1576,22 +1565,20 @@ def apply_expense():
 
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                expenses=[
-                    {
-                        "expense_date": frappe.form_dict.expense_date,
-                        "expense_type": frappe.form_dict.expense_type,
-                        "description": frappe.form_dict.description,
-                        "amount": frappe.form_dict.amount,
-                    }
-                ],
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            expenses=[
+                {
+                    "expense_date": frappe.form_dict.expense_date,
+                    "expense_type": frappe.form_dict.expense_type,
+                    "description": frappe.form_dict.description,
+                    "amount": frappe.form_dict.amount,
+                }
+            ],
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
         ).insert()
 
         from frappe.handler import upload_file
@@ -1838,7 +1825,7 @@ def create_task(**kwargs):
         from frappe.desk.form import assign_to
 
         data = kwargs
-        task_doc = frappe.get_doc(dict(doctype="Task"))
+        task_doc = frappe.get_doc(doctype="Task")
         task_doc.update(data)
         task_doc.insert()
         if data.get("assign_to"):

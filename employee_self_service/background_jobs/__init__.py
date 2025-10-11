@@ -39,10 +39,8 @@ def close_ess_poll():
 
 def on_holiday_event():
     try:
-        enable_holiday_notification = frappe.db.get_value(
-            "ESS Notification Settings",
-            "ESS Notification Settings",
-            "enable_holiday_notification",
+        enable_holiday_notification = frappe.db.get_single_value(
+            "ESS Notification Settings", "enable_holiday_notification"
         )
         if not cint(enable_holiday_notification) == 1:
             return
@@ -82,10 +80,8 @@ def on_holiday_event():
 
 def send_notification_on_event():
     try:
-        enable_birthday_anniversary_notification = frappe.db.get_value(
-            "ESS Notification Settings",
-            "ESS Notification Settings",
-            "enable_birthday_anniversary_notification",
+        enable_birthday_anniversary_notification = frappe.db.get_single_value(
+            "ESS Notification Settings", "enable_birthday_anniversary_notification"
         )
         if not cint(enable_birthday_anniversary_notification) == 1:
             return
@@ -340,13 +336,11 @@ def is_on_holiday_or_leave(employee):
 
 def create_ess_reminder_log(log_type, status, shift):
     frappe.get_doc(
-        dict(
-            doctype="ESS Reminder Log",
-            date=today(),
-            log_type=log_type,
-            status=status,
-            shift=shift,
-        )
+        doctype="ESS Reminder Log",
+        date=today(),
+        log_type=log_type,
+        status=status,
+        shift=shift,
     ).insert(ignore_permissions=True)
 
 

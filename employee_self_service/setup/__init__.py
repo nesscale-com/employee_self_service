@@ -12,9 +12,9 @@ def after_install():
 
 
 def create_custom_fields():
-    print("Creating custom fields")
+    # Removed print statement: Creating custom fields
     _create_custom_fields(get_all_custom_fields(), ignore_validate=True)
-    print("Custom fields added")
+    # Removed print statement: Custom fields added
 
 
 def get_all_custom_fields():

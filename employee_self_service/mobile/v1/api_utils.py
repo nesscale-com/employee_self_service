@@ -2,6 +2,7 @@ import frappe
 import wrapt
 from bs4 import BeautifulSoup
 from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
+from frappe import _
 
 from employee_self_service.mobile.v1.constants import MOBILE_APP_ROUTES
 
@@ -269,7 +270,7 @@ def get_date_range(duration_type):
     if duration_type == "Current Financial Year":
         fiscal_year = get_fiscal_year(today(), as_dict=1)
         if not fiscal_year:
-            frappe.throw("No Any Financial Year Active")
+            frappe.throw(_("No Any Financial Year Active"))
         return {
             "from_date": fiscal_year.get("year_start_date"),
             "to_date": fiscal_year.get("year_end_date"),
@@ -277,12 +278,12 @@ def get_date_range(duration_type):
     if duration_type == "Last Financial Year":
         current_fiscal_year = get_fiscal_year(today(), as_dict=1)
         if not current_fiscal_year:
-            frappe.throw("No Any Financial Year Active")
+            frappe.throw(_("No Any Financial Year Active"))
         last_fiscal_year = get_fiscal_year(
             add_days(current_fiscal_year.get("year_start_date"), -1), as_dict=1
         )
         if not last_fiscal_year:
-            frappe.throw("No Any Data In Last Financial Year")
+            frappe.throw(_("No Any Data In Last Financial Year"))
         return {
             "from_date": last_fiscal_year.get("year_start_date"),
             "to_date": last_fiscal_year.get("year_end_date"),

@@ -200,7 +200,7 @@ def prepare_order_totals(*args, **kwargs):
             item["warehouse"] = default_warehouse
         global_defaults = get_global_defaults()
         company = global_defaults.get("default_company")
-        sales_order_doc = frappe.get_doc(dict(doctype="Sales Order", company=company))
+        sales_order_doc = frappe.get_doc(doctype="Sales Order", company=company)
         sales_order_doc.update(data)
         sales_order_doc.run_method("set_missing_values")
         sales_order_doc.run_method("calculate_taxes_and_totals")
@@ -254,9 +254,7 @@ def create_order(*args, **kwargs):
             sales_order_doc.save()
             gen_response(200, "Order updated successfully.", sales_order_doc.name)
         else:
-            sales_order_doc = frappe.get_doc(
-                dict(doctype="Sales Order", company=company)
-            )
+            sales_order_doc = frappe.get_doc(doctype="Sales Order", company=company)
             delivery_date = data.get("delivery_date")
             for item in data.get("items"):
                 item["delivery_date"] = delivery_date
