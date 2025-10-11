@@ -445,17 +445,15 @@ def get_team_employee(doctype, txt, searchfield, start, page_len, filters):
         return []
 
     child_sales_persons = get_sales_person_details(employee, find_child=True)
-    if not child_sales_persons:
-        return []
-
-    child_employees = [sp.employee for sp in child_sales_persons if sp.get("employee")]
-    if not child_employees:
-        return []
+    child_employees = [sp.employee for sp in (child_sales_persons or []) if sp.get("employee")]
+    
+    child_employees.append(employee)
     
     if exclude_employees:
         child_employees = [e for e in child_employees if e not in exclude_employees]
-        if not child_employees:
-            return []
+        
+    if not child_employees:
+        return []
     
     employees = frappe.get_all(
         "Employee",

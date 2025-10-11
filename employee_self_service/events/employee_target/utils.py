@@ -15,6 +15,8 @@ def get_employee_from_sales_team(doctype, docname):
         emp = frappe.db.get_value("Sales Person", sp.sales_person, "employee")
         if emp:
             employees.append(emp)
+        
+        team_employees = frappe.get_all("Sales Person",{"parent_sales_person":sp.sales_person},"employee")
     return employees
 
 
