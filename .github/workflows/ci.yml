@@ -99,6 +99,7 @@ jobs:
           bench --site test_site install-app erpnext
           bench --site test_site install-app hrms
           bench --site test_site install-app employee_self_service
+          bench --site test_site migrate
           bench build
         env:
           CI: 'Yes'
