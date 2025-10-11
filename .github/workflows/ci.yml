@@ -92,8 +92,10 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench get-app employee_self_service $GITHUB_WORKSPACE
+          bench get-app --branch version-15 hrms
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
+          bench --site test_site install-app hrms
           bench --site test_site install-app employee_self_service
           bench build
         env:
