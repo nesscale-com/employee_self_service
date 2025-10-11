@@ -30,6 +30,7 @@ class EmployeeTargetEntry(Document):
         self._perform_calculations()
         self._validate_team_target_limits()
         self._validate_date_range()
+        self._validate_duplicate_employee_item_group()
         
     def before_submit(self):
         self.status = "Active"
@@ -190,18 +191,36 @@ class EmployeeTargetEntry(Document):
             return
         
         if self.selector == "Item Group":
-            total_item_group_target = 0
-            for row in self.item_group_wise_team_targets:
-                if row.type == "Manual":
-                    total_item_group_target += row.value or 0
-                elif row.type == "Weightage":
-                    total_item_group_target += (self.team_target * (row.value or 0)) / 100
+            item_group_totals = {
+                d.item_group: (d.team_target or 0) for d in (self.item_group_wise_target or [])
+            }
+            item_group_allocations = frappe._dict()
 
-            if total_item_group_target > (self.team_target or 0):
-                frappe.throw(
-                    f"Total of Item Group wise team targets ({total_item_group_target}) "
-                    f"cannot exceed Team Target ({self.team_target})."
+            for row in self.item_group_wise_team_targets or []:
+                if not row.item_group:
+                    continue
+
+                if row.type == "Manual":
+                    value = row.value or 0
+                elif row.type == "Weightage":
+                    # Find item_group total target
+                    total_target = item_group_totals.get(row.item_group, 0)
+                    value = (total_target * (row.value or 0)) / 100
+                else:
+                    value = 0
+
+                item_group_allocations[row.item_group] = (
+                    item_group_allocations.get(row.item_group, 0) + value
                 )
+
+            # Validate per item_group
+            for ig, allocated in item_group_allocations.items():
+                total_allowed = item_group_totals.get(ig, 0)
+                if allocated > total_allowed:
+                    frappe.throw(
+                        f"Total assigned team targets for Item Group <b>{ig}</b> "
+                        f"({allocated}) cannot exceed its allowed target ({total_allowed})."
+                    )
 
         else:
             total_team_target = 0
@@ -356,6 +375,30 @@ class EmployeeTargetEntry(Document):
             return _("Q{0} {1}").format(self.quarter, self.fiscal_year)
         else:
             return _("Fiscal Year {0}").format(self.fiscal_year)
+        
+    def _validate_duplicate_employee_item_group(self):
+        """Prevent duplicate (employee + item_group) combinations when selector is 'Item Group'."""
+        if self.selector != "Item Group":
+            return
+
+        seen = {}
+        row_index = 1
+
+        for row in self.item_group_wise_team_targets:
+            if not row.employee or not row.item_group:
+                row_index += 1
+                continue
+
+            key = (row.employee, row.item_group)
+            if key in seen:
+                frappe.throw(
+                    f"Duplicate combination found for Employee <b>{row.employee}</b> "
+                    f"and Item Group <b>{row.item_group}</b>.<br>"
+                    f"Already exists in Row {seen[key]} and repeated at Row {row_index}."
+                )
+
+            seen[key] = row_index
+            row_index += 1
         
     @frappe.whitelist()
     def set_sales_person(self):

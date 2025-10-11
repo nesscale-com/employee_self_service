@@ -5,6 +5,9 @@ frappe.ui.form.on("Employee Target Entry", {
     refresh: function(frm){
         frm.trigger("set_team_employee");
         frm.trigger("set_team_item_group");
+
+        frm.set_df_property("item_group_wise_target", "cannot_add_rows", true);
+        frm.set_df_property("item_group_wise_target", "cannot_delete_rows", true);
     },
     employee: function(frm) {
         frm.trigger("set_sales_person");
