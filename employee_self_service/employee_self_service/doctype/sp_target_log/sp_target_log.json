@@ -19,9 +19,10 @@
   "amount",
   "amended_from",
   "section_break_bdot",
-  "employee",
-  "column_break_ezle",
+  "parent_target_entry",
   "employee_target_entry",
+  "column_break_ezle",
+  "employee",
   "metric"
  ],
  "fields": [
@@ -125,13 +126,20 @@
    "fieldtype": "Date",
    "label": "Transaction Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "parent_target_entry",
+   "fieldtype": "Link",
+   "label": "Parent Target Entry",
+   "options": "Employee Target Entry",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-28 12:48:01.042908",
- "modified_by": "bhavesh@nesscale.com",
+ "modified": "2025-10-11 16:33:43.924442",
+ "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "SP Target Log",
  "naming_rule": "Expression (old style)",

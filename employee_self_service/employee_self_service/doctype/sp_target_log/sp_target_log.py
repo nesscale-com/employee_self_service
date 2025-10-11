@@ -24,15 +24,37 @@ class SPTargetLog(Document):
 
     def update_employee_target(self, increment=True):
         target_doc = frappe.get_doc("Employee Target Entry", self.employee_target_entry)
+        parent_target_doc = frappe.get_doc("Employee Target Entry", self.parent_target_entry) if self.parent_target_entry else None
 
         achieved = self.amount if target_doc.metric == "Value" else self.qty
         delta = achieved if increment else -achieved
 
         if self.item_group:
+            updated = False
             for row in target_doc.get("item_group_wise_target"):
-                if self.item_group == row.item_group:
+                if row.item_group == self.item_group:
                     row.achieved = max(row.achieved + delta, 0)
+                    updated = True
+            if updated:
+                target_doc._perform_calculations()
+                target_doc.save(ignore_permissions=True)
+
+            if parent_target_doc:
+                updated_team = False
+                for row in parent_target_doc.get("item_group_wise_target"):
+                    if row.item_group == self.item_group:
+                        row.team_achieved = max(row.team_achieved + delta, 0)
+                        updated_team = True
+                if updated_team:
+                    parent_target_doc._perform_calculations()
+                    parent_target_doc.save(ignore_permissions=True)
+
         else:
             target_doc.total_achieved = max(target_doc.total_achieved + delta, 0)
+            target_doc._perform_calculations()
+            target_doc.save(ignore_permissions=True)
 
-        target_doc.save(ignore_permissions=True)
+            if parent_target_doc:
+                parent_target_doc.team_achieved = max(parent_target_doc.team_achieved + delta, 0)
+                parent_target_doc._perform_calculations()
+                parent_target_doc.save(ignore_permissions=True)

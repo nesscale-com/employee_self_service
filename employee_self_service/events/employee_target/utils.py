@@ -5,19 +5,30 @@ from frappe.utils.nestedset import get_descendants_of
 
 
 def get_employee_from_sales_team(doctype, docname):
+    employees = set()
     sales_persons = frappe.get_all(
         "Sales Team",
         filters={"parenttype": doctype, "parent": docname},
         fields=["sales_person"],
     )
-    employees = []
+
     for sp in sales_persons:
-        emp = frappe.db.get_value("Sales Person", sp.sales_person, "employee")
-        if emp:
-            employees.append(emp)
+        sales_person = sp.sales_person
         
-        team_employees = frappe.get_all("Sales Person",{"parent_sales_person":sp.sales_person},"employee")
-    return employees
+        emp = frappe.db.get_value("Sales Person", sales_person, "employee")
+        if emp:
+            employees.add(emp)
+
+        child_sales_persons = frappe.get_all(
+            "Sales Person",
+            filters={"parent_sales_person": sales_person},
+            fields=["employee"]
+        )
+        for child in child_sales_persons:
+            if child.employee:
+                employees.add(child.employee)
+
+    return list(employees)
 
 
 def get_active_target_entries(employee, target_module, transaction_date):
@@ -42,7 +53,7 @@ def get_active_target_entries(employee, target_module, transaction_date):
             "target_module": target_module,
             "start_date": ["<=", transaction_date],
             "end_date": [">=", transaction_date],
-            "status": "In Progress",
+            "docstatus": 1
         },
         fields=["name"],
     )
@@ -340,6 +351,7 @@ def create_target_log(
             "date": frappe.utils.nowdate(),
             "transaction_date": transaction_date,
             "employee_target_entry": target_doc.name,
+            "parent_target_entry":target_doc.parent_target_entry,
             "reference_doctype": doc.doctype,
             "reference_docname": doc.name,
             "amount": amount if metric == "Value" else 0,
@@ -359,6 +371,7 @@ def create_target_log(
             "reference_doctype": doc.doctype,
             "reference_docname": doc.name,
             "employee_target_entry": target_doc.name,
+            "parent_target_entry":target_doc.parent_target_entry
         }
 
         if group_field:

@@ -134,6 +134,7 @@
    "options": "Item Group Wise Target List"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "progress",
    "fieldtype": "Percent",
    "label": "Personal Progress",
@@ -153,9 +154,11 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "Draft\nActive\nCompleted",
    "read_only": 1
@@ -177,6 +180,7 @@
    "read_only_depends_on": "eval:doc.selector == \"Item Group\""
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_achieved",
    "fieldtype": "Float",
    "label": "Personal Achieved",
@@ -203,6 +207,7 @@
   {
    "fieldname": "parent_target_entry",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Parent Target Entry",
    "options": "Employee Target Entry",
    "read_only": 1
@@ -244,6 +249,7 @@
    "search_index": 1
   },
   {
+   "allow_on_submit": 1,
    "depends_on": "eval:doc.is_group == 1",
    "fieldname": "overall_progress",
    "fieldtype": "Percent",
@@ -252,6 +258,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "depends_on": "eval:doc.is_group == 1",
    "fieldname": "team_progress",
    "fieldtype": "Percent",
@@ -267,6 +274,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "depends_on": "eval:doc.is_group == 1",
    "fieldname": "team_achieved",
    "fieldtype": "Float",
@@ -279,7 +287,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-11 03:01:11.855663",
+ "modified": "2025-10-11 16:34:42.767904",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Target Entry",

@@ -25,6 +25,9 @@ class EmployeeTargetEntry(Document):
         self._cached_template = None
 
     def validate(self):
+        self._run_all_validations()
+        
+    def _run_all_validations(self):
         self._validate_required_fields()
         self._validate_business_rules()
         self._perform_calculations()
@@ -41,7 +44,7 @@ class EmployeeTargetEntry(Document):
         
     def _create_team_target(self):
         """Create Employee Target Entries based on team or item group targets."""
-        
+
         def calculate_target(row_value, row_type, base_value):
             """Calculate target based on type."""
             if row_type == "Manual":
@@ -50,32 +53,55 @@ class EmployeeTargetEntry(Document):
                 return (base_value or 0) * (row_value or 0) / 100
             return 0
 
-        # Determine which rows to process
-        target_rows = self.item_group_wise_team_targets if self.selector == "Item Group" else self.team_targets
+        if self.selector == "Item Group":
+            # Group rows by employee
+            grouped_targets = {}
+            for row in self.item_group_wise_team_targets:
+                if not row.employee:
+                    continue
+                grouped_targets.setdefault(row.employee, []).append(row)
 
-        for row in target_rows:
-            target_entry = frappe.new_doc("Employee Target Entry")
-            # Common fields
-            target_entry.parent_target_entry = self.name
-            target_entry.employee = row.employee
-            target_entry.target_template = self.target_template
-            target_entry.fiscal_year = self.fiscal_year
-            target_entry.month = self.month
-            target_entry.quarter = self.quarter
-            target_entry.start_date = self.start_date
-            target_entry.end_date = self.end_date
+            # Create a single Employee Target Entry per employee
+            for employee, rows in grouped_targets.items():
+                target_entry = frappe.new_doc("Employee Target Entry")
+                target_entry.parent_target_entry = self.name
+                target_entry.employee = employee
+                target_entry.target_template = self.target_template
+                target_entry.fiscal_year = self.fiscal_year
+                target_entry.month = self.month
+                target_entry.quarter = self.quarter
+                target_entry.start_date = self.start_date
+                target_entry.end_date = self.end_date
 
-            if self.selector == "Item Group":
-                # Assign item group-wise targets
-                for item in target_entry.item_group_wise_target:
-                    item.item_group = row.item_group
-                    item.target = calculate_target(row.value, row.type, self.team_target)
-            else:
-                # Assign total target for non-item group
+                # Add multiple item groups under one entry
+                for row in rows:
+                    target_entry.append("item_group_wise_target", {
+                        "item_group": row.item_group,
+                        "target": calculate_target(row.value, row.type, self.team_target)
+                    })
+
+                target_entry.save(ignore_permissions=True)
+                target_entry.submit()
+
+        else:
+            # Non-Item Group case (simple)
+            for row in self.team_targets:
+                if not row.employee:
+                    continue
+
+                target_entry = frappe.new_doc("Employee Target Entry")
+                target_entry.parent_target_entry = self.name
+                target_entry.employee = row.employee
+                target_entry.target_template = self.target_template
+                target_entry.fiscal_year = self.fiscal_year
+                target_entry.month = self.month
+                target_entry.quarter = self.quarter
+                target_entry.start_date = self.start_date
+                target_entry.end_date = self.end_date
                 target_entry.total_target = calculate_target(row.value, row.type, self.team_target)
 
-            target_entry.save(ignore_permissions=True)
-            target_entry.submit()
+                target_entry.save(ignore_permissions=True)
+                target_entry.submit()
             
     def _validate_required_fields(self):
         """Validate all required fields are properly set."""
@@ -140,7 +166,7 @@ class EmployeeTargetEntry(Document):
         self.total_target = 0
         self.total_achieved = 0
         self.team_target = 0
-        self.team_archieved = 0
+        self.team_achieved = 0
         total_considered_achieved = 0
         total_considered_team_achieved = 0
         

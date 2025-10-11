@@ -34,6 +34,7 @@
    "precision": "2"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "achieved",
    "fieldtype": "Float",
    "label": "Personal Achieved",
@@ -42,6 +43,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "progress",
    "fieldtype": "Percent",
    "label": "Personal Progress",
@@ -65,23 +67,27 @@
    "precision": "2"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "team_achieved",
    "fieldtype": "Float",
    "label": "Team Achieved",
    "non_negative": 1,
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "team_progress",
    "fieldtype": "Percent",
    "label": "Team Progress",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-10-10 00:16:15.748915",
+ "modified": "2025-10-11 14:11:32.633555",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Item Group Wise Target List",
