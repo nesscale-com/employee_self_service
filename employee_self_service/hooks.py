@@ -159,7 +159,7 @@ scheduler_events = {
 # Testing
 # -------
 
-# before_tests = "employee_self_service.install.before_tests"
+before_tests = "employee_self_service.tests.test_utils.before_tests"
 
 # Overriding Methods
 # ------------------------------

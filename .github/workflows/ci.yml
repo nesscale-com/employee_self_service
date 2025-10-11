@@ -108,6 +108,6 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app employee_self_service
+          bench --site test_site run-parallel-tests --app employee_self_service
         env:
           TYPE: server
