@@ -1,12 +1,14 @@
+from datetime import datetime
+
 import frappe
+from frappe.utils import flt, fmt_money, getdate
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
 )
-from frappe.utils import flt, fmt_money, getdate
-from datetime import datetime
 
 # Cache for default currency
 _default_currency_cache = None
@@ -249,7 +251,6 @@ def get_employee_target_order_details(target_id=None):
         unique_orders = set()  # Track unique order IDs
 
         for log in target_logs:
-
             # Format date
             formatted_date = _format_date(log.get("transaction_date"))
 

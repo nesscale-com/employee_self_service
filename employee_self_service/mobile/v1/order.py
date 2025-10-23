@@ -1,24 +1,25 @@
 import json
-import frappe
-from frappe import _
-from frappe.utils import cstr, fmt_money
+from datetime import datetime
 
+import frappe
+from erpnext.accounts.party import get_dashboard_info
 from erpnext.accounts.utils import getdate
 from erpnext.stock.utils import get_stock_balance
+from frappe import _
+from frappe.utils import fmt_money
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    get_ess_settings,
-    prepare_json_data,
-    get_global_defaults,
-    exception_handler,
-    get_actions,
     check_workflow_exists,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_actions,
     get_date_range,
+    get_ess_settings,
+    get_global_defaults,
     get_sales_person_by_customer,
+    prepare_json_data,
 )
-from erpnext.accounts.party import get_dashboard_info
-from datetime import datetime
 
 """order list api for mobile app"""
 
@@ -421,7 +422,7 @@ def get_uoms(customer, item):
             if uom_row.get("uom") == item_doc.get("stock_uom"):
                 uom_hint = f"{uom_row.get('uom')} is default uom"
             else:
-                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor') } {item_doc.get('stock_uom')}"
+                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor')} {item_doc.get('stock_uom')}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),
@@ -479,9 +480,7 @@ def get_default_price_list(customer=None):
         )
         if price_list:
             return price_list
-    return frappe.db.get_value(
-        "Selling Settings", "Selling Settings", "selling_price_list"
-    )
+    return frappe.db.get_single_value("Selling Settings", "selling_price_list")
 
 
 @frappe.whitelist()
@@ -517,7 +516,7 @@ def prepare_order_totals(*args, **kwargs):
             item["warehouse"] = ess_settings.get("default_warehouse")
         global_defaults = get_global_defaults()
         sales_order_doc = frappe.get_doc(
-            dict(doctype="Sales Order", company=global_defaults.get("default_company"))
+            doctype="Sales Order", company=global_defaults.get("default_company")
         )
         sales_order_doc.update(data)
         sales_order_doc.apply_discount_on = "Grand Total"
@@ -588,10 +587,8 @@ def create_order(*args, **kwargs):
             gen_response(200, "Order updated successfully.", sales_order_doc.name)
         else:
             sales_order_doc = frappe.get_doc(
-                dict(
-                    doctype="Sales Order",
-                    company=global_defaults.get("default_company"),
-                )
+                doctype="Sales Order",
+                company=global_defaults.get("default_company"),
             )
             _create_update_order(
                 data=data,

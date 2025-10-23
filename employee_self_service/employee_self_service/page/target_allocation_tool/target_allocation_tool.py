@@ -1,5 +1,4 @@
 import frappe
-from frappe.utils import getdate, flt
 from frappe import _
 
 
@@ -102,7 +101,7 @@ def _get_sales_orders(sales_person, from_date, to_date):
     """Get sales orders for the sales person."""
     sales_orders = frappe.db.sql(
         """
-        SELECT DISTINCT 
+        SELECT DISTINCT
             so.name,
             so.customer,
             so.customer_name,
@@ -128,7 +127,7 @@ def _get_sales_invoices(sales_person, from_date, to_date):
     """Get sales invoices for the sales person."""
     sales_invoices = frappe.db.sql(
         """
-        SELECT DISTINCT 
+        SELECT DISTINCT
             si.name,
             si.customer,
             si.customer_name,
@@ -199,9 +198,7 @@ def allocate_transaction_to_target(employee, target_entry, doc_type, doc_name):
             frappe.db.sql(
                 """
             SELECT SUM(qty) FROM `tab{} Item` WHERE parent = %s
-        """.format(
-                    doc_type
-                ),
+        """.format(doc_type),
                 (doc_name,),
             )[0][0]
             or 0
@@ -216,9 +213,7 @@ def allocate_transaction_to_target(employee, target_entry, doc_type, doc_name):
             INNER JOIN `tabItem` i ON i.name = di.item_code
             WHERE di.parent = %s
             LIMIT 1
-        """.format(
-                doc_type
-            ),
+        """.format(doc_type),
             (doc_name,),
         )
         if item_group:
