@@ -1,8 +1,10 @@
 import frappe
 import requests
-from frappe.utils import cint
-from employee_self_service.utils import notification_log
 from frappe import _
+from frappe.utils import cint
+
+from employee_self_service.utils import notification_log
+
 
 def after_insert_comment(doc, method=None):
     try:
@@ -11,8 +13,13 @@ def after_insert_comment(doc, method=None):
 
         template_name = None
         action_type = None
-        notification_settings = frappe.get_doc("ESS Notification Settings","ESS Notification Settings")
-        if not cint(notification_settings.get("enable_like_and_comment_notification")) == 1:
+        notification_settings = frappe.get_doc(
+            "ESS Notification Settings", "ESS Notification Settings"
+        )
+        if (
+            not cint(notification_settings.get("enable_like_and_comment_notification"))
+            == 1
+        ):
             return
         if doc.comment_type == "Like":
             template_name = "Notification Like"
@@ -47,22 +54,31 @@ def after_insert_comment(doc, method=None):
         user_token = frappe.db.get_value("Employee Device Info", user, "token")
         if user_token:
             # Send notification
-            notification_log(action_type, doc.reference_doctype, subject, message, user, user_token)
-    except Exception as e:
-        frappe.log_error(title="After Insert Comment ESS Notification Error",message=frappe.get_traceback())
+            notification_log(
+                action_type, doc.reference_doctype, subject, message, user, user_token
+            )
+    except Exception:
+        frappe.log_error(
+            title="After Insert Comment ESS Notification Error",
+            message=frappe.get_traceback(),
+        )
 
-def set_location_address(doc,methods):
+
+def set_location_address(doc, methods):
     try:
         if doc.location:
             doc.log_location = get_address_from_location(doc.location)
             doc.save()
-    except Exception as e:
-        frappe.log_error(title="Failed to fetch location address",message=frappe.get_traceback())
+    except Exception:
+        frappe.log_error(
+            title="Failed to fetch location address", message=frappe.get_traceback()
+        )
+
 
 def get_address_from_location(location):
     """
     Fetch the address from latitude and longitude using OpenStreetMap's Nominatim API.
-    
+
     :param location: A string in "latitude,longitude" format
     :return: Address as a string or an error message
     """
@@ -86,4 +102,3 @@ def get_address_from_location(location):
         return address
     else:
         frappe.throw(_("Error Fetching Address"))
-

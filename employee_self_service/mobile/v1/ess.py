@@ -1,49 +1,47 @@
-import json
-import os
 import calendar
+import os
+
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.auth import LoginManager
+from frappe.handler import upload_file
 from frappe.utils import (
+    add_days,
     cstr,
-    get_date_str,
-    today,
-    nowdate,
-    getdate,
-    now_datetime,
-    get_first_day,
-    get_last_day,
     date_diff,
     flt,
-    pretty_date,
     fmt_money,
-    add_days,
-    format_time,
+    get_date_str,
+    get_first_day,
+    get_last_day,
+    getdate,
+    now_datetime,
+    nowdate,
+    pretty_date,
+    today,
 )
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    generate_key,
-    ess_validate,
-    get_employee_by_user,
-    validate_employee_data,
-    get_ess_settings,
-    get_global_defaults,
-    exception_handler,
-    convert_timezone,
-    get_system_timezone,
-    get_till_date_holiday_month_wise,
-    get_mobile_app_route,
-)
-from frappe.handler import upload_file
-from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
     create_push_notification,
 )
-from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
-from employee_self_service.utils import add_ess_comment
+from employee_self_service.mobile.v1.api_utils import (
+    convert_timezone,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    generate_key,
+    get_employee_by_user,
+    get_ess_settings,
+    get_global_defaults,
+    get_mobile_app_route,
+    get_system_timezone,
+    get_till_date_holiday_month_wise,
+    validate_employee_data,
+)
 from employee_self_service.mobile.v1.task import *
 from employee_self_service.mobile.v1.transactions import *
+from employee_self_service.utils import add_ess_comment
 
 
 @frappe.whitelist(allow_guest=True)
@@ -59,7 +57,6 @@ def login(usr, pwd, unique_id=None):
                 return
         login_manager.post_login()
         if frappe.response["message"] == "Logged In":
-
             frappe.response["user"] = login_manager.user
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
@@ -98,7 +95,7 @@ def register_device(employee, unique_id):
             }
         ).insert(ignore_permissions=True)
     elif registered_device_id != unique_id:
-        frappe.throw("Device not recognized. Please contact admin.")
+        frappe.throw(_("Device not recognized. Please contact admin."))
 
     return True
 
@@ -116,15 +113,13 @@ def make_leave_application(*args, **kwargs):
             return gen_response(500, "Employee does not exists!")
         validate_employee_data(emp_data)
         leave_application_doc = frappe.get_doc(
-            dict(
-                doctype="Leave Application",
-                employee=emp_data.get("name"),
-                company=emp_data.company,
-                leave_approver=get_leave_approver(emp_data.name),
-            )
+            doctype="Leave Application",
+            employee=emp_data.get("name"),
+            company=emp_data.company,
+            leave_approver=get_leave_approver(emp_data.name),
         )
         leave_application_doc.update(kwargs)
-        res = leave_application_doc.insert()
+        leave_application_doc.insert()
         gen_response(200, "Leave application successfully added!")
     except Exception as e:
         return exception_handler(e)
@@ -365,25 +360,23 @@ def book_expense(*args, **kwargs):
         data = kwargs
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                expenses=[
-                    {
-                        "expense_date": data.get("expense_date"),
-                        "expense_type": data.get("expense_type"),
-                        "description": data.get("description"),
-                        "amount": data.get("amount"),
-                    }
-                ],
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            expenses=[
+                {
+                    "expense_date": data.get("expense_date"),
+                    "expense_type": data.get("expense_type"),
+                    "description": data.get("description"),
+                    "amount": data.get("amount"),
+                }
+            ],
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
         ).insert()
         # expense_doc.submit()
-        if not data.get("attachments") == None:
+        if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.db.set_value(
                     "File", file.get("name"), "attached_to_name", expense_doc.name
@@ -453,7 +446,7 @@ def get_expense_list():
             )
 
             month_year = get_month_year_details(expense)
-            if not month_year in list(expense_data.keys())[::-1]:
+            if month_year not in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -509,8 +502,7 @@ def download_salary_slip(ss_id):
             return gen_response(
                 500, "Does not have persmission to read this salary slip"
             )
-        default_print_format = frappe.db.get_value(
-            "Employee Self Service Settings",
+        default_print_format = frappe.db.get_single_value(
             "Employee Self Service Settings",
             "default_print_format",
         )
@@ -525,7 +517,7 @@ def download_salary_slip(ss_id):
             )
         language = frappe.get_system_settings("language")
         # return  frappe.utils.get_url()
-        url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+        f"{frappe.utils.get_url()}/{res.doctype}/{res.name}?format={default_print_format or 'Standard'}&_lang={language}&key={res.get_signature()}"
         # return url
         download_pdf(res.doctype, res.name, default_print_format, res)
     except Exception as e:
@@ -534,7 +526,7 @@ def download_salary_slip(ss_id):
 
 @frappe.whitelist()
 def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
-    from frappe.utils.pdf import get_pdf, cleanup
+    from frappe.utils.pdf import get_pdf
 
     html = frappe.get_print(doctype, name, format, doc=doc, no_letterhead=no_letterhead)
     frappe.local.response.filename = "{name}.pdf".format(
@@ -876,14 +868,12 @@ def create_employee_log(
         )
 
         log_doc = frappe.get_doc(
-            dict(
-                doctype="Employee Checkin",
-                employee=emp_data.get("name"),
-                log_type=log_type,
-                time=now_datetime().__str__()[:-7],
-                location=location,
-                odometer_reading=odometer_reading,
-            )
+            doctype="Employee Checkin",
+            employee=emp_data.get("name"),
+            log_type=log_type,
+            time=now_datetime().__str__()[:-7],
+            location=location,
+            odometer_reading=odometer_reading,
         ).insert(ignore_permissions=True)
 
         if "file" in frappe.request.files:
@@ -909,15 +899,13 @@ def create_out_location_checkout(out_time, reason, location=None):
         )
 
         log_doc = frappe.get_doc(
-            dict(
-                doctype="Employee Checkin",
-                employee=emp_data.get("name"),
-                log_type="OUT",
-                time=out_time,
-                location=location,
-                out_of_location_checkout=1,
-                out_of_location_checkout_reason=reason,
-            )
+            doctype="Employee Checkin",
+            employee=emp_data.get("name"),
+            log_type="OUT",
+            time=out_time,
+            location=location,
+            out_of_location_checkout=1,
+            out_of_location_checkout_reason=reason,
         ).insert(ignore_permissions=True)
 
         if "file" in frappe.request.files:
@@ -972,16 +960,14 @@ def create_employee_birthday_board(event_type):
     if title and message:
         emp_today_birthdays = get_employees_having_an_event_today(event_type)
         for emp in emp_today_birthdays:
-            doc = frappe.get_doc(
-                dict(
-                    doctype="Notice Board",
-                    notice_title=title,
-                    message=message,
-                    from_date=today(),
-                    to_date=today(),
-                    apply_for="Specific Employees",
-                    employees=[dict(employee=emp.get("emp_id"))],
-                )
+            frappe.get_doc(
+                doctype="Notice Board",
+                notice_title=title,
+                message=message,
+                from_date=today(),
+                to_date=today(),
+                apply_for="Specific Employees",
+                employees=[dict(employee=emp.get("emp_id"))],
             ).insert(ignore_permissions=True)
 
 
@@ -1011,7 +997,7 @@ def get_employees_having_an_event_today(event_type, date=None):
             WHERE
                 DATE_PART('day', {condition_column}) = date_part('day', %(today)s)
             AND
-                DATE_PART('month', {condition_column}) = date_part('month', %(today)s)    
+                DATE_PART('month', {condition_column}) = date_part('month', %(today)s)
             AND
                 "status" = 'Active'
         """,
@@ -1177,7 +1163,6 @@ def get_attendance_list(year=None, month=None):
 @ess_validate(methods=["POST"])
 def add_comment(reference_doctype=None, reference_name=None, content=None):
     try:
-
         comment_by = frappe.db.get_value(
             "User", frappe.session.user, "full_name", as_dict=1
         )
@@ -1510,15 +1495,13 @@ def employee_device_info(**kwargs):
             token.save(ignore_permissions=True)
         else:
             token = frappe.get_doc(
-                dict(
-                    doctype="Employee Device Info",
-                    platform=data.get("platform"),
-                    os_version=data.get("os_version"),
-                    device_name=data.get("device_name"),
-                    app_version=data.get("app_version"),
-                    token=data.get("token"),
-                    user=frappe.session.user,
-                )
+                doctype="Employee Device Info",
+                platform=data.get("platform"),
+                os_version=data.get("os_version"),
+                device_name=data.get("device_name"),
+                app_version=data.get("app_version"),
+                token=data.get("token"),
+                user=frappe.session.user,
             ).insert(ignore_permissions=True)
 
         emp_data = get_employee_by_user(frappe.session.user)
@@ -1786,22 +1769,20 @@ def apply_expense():
 
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                expenses=[
-                    {
-                        "expense_date": frappe.form_dict.expense_date,
-                        "expense_type": frappe.form_dict.expense_type,
-                        "description": frappe.form_dict.description,
-                        "amount": frappe.form_dict.amount,
-                    }
-                ],
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            expenses=[
+                {
+                    "expense_date": frappe.form_dict.expense_date,
+                    "expense_type": frappe.form_dict.expense_type,
+                    "description": frappe.form_dict.description,
+                    "amount": frappe.form_dict.amount,
+                }
+            ],
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
         ).insert()
 
         if "file" in frappe.request.files:
@@ -2085,7 +2066,7 @@ def create_quick_task(**kwargs):
         from frappe.desk.form import assign_to
 
         data = kwargs
-        task_doc = frappe.get_doc(dict(doctype="Task"))
+        task_doc = frappe.get_doc(doctype="Task")
         task_doc.update(data)
         task_doc.exp_end_date = today()
         task_doc.insert()

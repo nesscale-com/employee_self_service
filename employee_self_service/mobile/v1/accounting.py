@@ -1,11 +1,11 @@
-import frappe
 import erpnext
-from frappe import _
-from frappe.utils import today, flt, fmt_money
+import frappe
+from frappe.utils import fmt_money
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_global_defaults,
 )
 from employee_self_service.mobile.v1.file import get_attchment
@@ -19,7 +19,7 @@ def get_petty_expense_data():
         meta_data["mode_of_payment"] = frappe.get_list("Mode of Payment", pluck="name")
         meta_data["company"] = frappe.get_list("Company", pluck="name")
         gen_response(200, "Petty Expense meta data get successfully", meta_data)
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -35,7 +35,7 @@ def get_expense_account(company):
             fields=["name"],
         )
         return gen_response(200, "Account list get successfully", accounts)
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -49,7 +49,7 @@ def get_cost_center(company):
             "Cost Center", filters={"company": company, "is_group": 0}, fields=["name"]
         )
         return gen_response(200, "Cost Center list get successfully", cost_centers)
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -64,7 +64,7 @@ def get_default_company_cost_center(company):
             "default cost center get successfully",
             erpnext.get_default_cost_center(company),
         )
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -80,7 +80,7 @@ def get_company_list():
             "Company List get successfully",
             company_list,
         )
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -97,22 +97,20 @@ def make_petty_expense_entry(*args, **data):
         is_submit = data.get("submit")
         del data["submit"]
         petty_expense_entry_doc.update(data)
-        if is_submit == True:
+        if is_submit:
             petty_expense_entry_doc.submit()
         else:
             petty_expense_entry_doc.save()
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
                 frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Petty Expense",
-                        attached_to_name=petty_expense_entry_doc.name,
-                    )
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Petty Expense",
+                    attached_to_name=petty_expense_entry_doc.name,
                 ).insert(ignore_permissions=True)
         return gen_response(200, "Petty expense entry saved")
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -143,7 +141,7 @@ def get_petty_expense_list(start=0, page_length=10, filters=None):
             "petty expense entry details get successfully",
             petty_expense_entry_list,
         )
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)
@@ -168,7 +166,7 @@ def get_petty_expense_entry(id):
         return gen_response(
             200, "Petty Expense Entry get successfully", petty_expense_entry
         )
-    except frappe.PermissionError as e:
+    except frappe.PermissionError:
         return gen_response(500, frappe.flags.error_message)
     except Exception as e:
         return exception_handler(e)

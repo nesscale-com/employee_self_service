@@ -1,13 +1,10 @@
 import frappe
-import json
-from frappe import _
 
 # from frappe.utils import pretty_date, getdate, fmt_money
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
-    get_employee_by_user,
+    gen_response,
 )
 
 

@@ -1,9 +1,8 @@
 # Copyright (c) 2023, Nesscale Solutions Private Limited and contributors
 # For license information, please see license.txt
 
-import frappe
-
 import json
+
 from frappe.model.document import Document
 
 
