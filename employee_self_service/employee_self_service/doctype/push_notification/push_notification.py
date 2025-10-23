@@ -1,12 +1,11 @@
 # Copyright (c) 2022, Nesscale Solutions Private Limited and contributors
 # For license information, please see license.txt
 
+import json
+
 import frappe
-import pyfcm
 from frappe.model.document import Document
 from pyfcm import FCMNotification
-import json
-import datetime
 
 
 class PushNotification(Document):

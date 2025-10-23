@@ -1,11 +1,10 @@
 import frappe
-import json
-from frappe import _
+
 # from frappe.utils import pretty_date, getdate, fmt_money
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
 )
 
@@ -15,12 +14,12 @@ from employee_self_service.mobile.v1.api_utils import (
 def create(**data):
     try:
         emp_data = get_employee_by_user(
-        frappe.session.user, fields=["name", "image", "department","company"]
+            frappe.session.user, fields=["name", "image", "department", "company"]
         )
         if not len(emp_data) >= 1:
             return gen_response(500, "Employee does not exists")
         if data.get("name"):
-            issue_doc = frappe.get_doc("Issue",data.get("name"))
+            issue_doc = frappe.get_doc("Issue", data.get("name"))
         else:
             issue_doc = frappe.new_doc("Issue")
         issue_doc.update(data)
@@ -28,10 +27,11 @@ def create(**data):
         issue_doc.save()
         return gen_response(200, "Issue has been created successfully")
     except frappe.PermissionError:
-            return gen_response(500, "Not permitted to perform this action")
+        return gen_response(500, "Not permitted to perform this action")
     except Exception as e:
-            return exception_handler(e)
-        
+        return exception_handler(e)
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_issue_list(start=0, page_length=10, filters=None):
@@ -51,18 +51,20 @@ def get_issue_list(start=0, page_length=10, filters=None):
         return gen_response(500, "Not permitted read Issue")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_issue_details(**data):
     try:
-        issue_doc= frappe.get_doc("Issue",data.get("name"))
+        issue_doc = frappe.get_doc("Issue", data.get("name"))
         return gen_response(200, "Issue get successfully", issue_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for read Issue")
     except Exception as e:
         return exception_handler(e)
-    
+
+
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_issue_type_list():
@@ -73,7 +75,7 @@ def get_issue_type_list():
         return gen_response(500, "Not permitted for activity type")
     except Exception as e:
         return exception_handler(e)
-    
+
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])

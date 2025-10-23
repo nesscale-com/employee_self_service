@@ -1,13 +1,19 @@
 import json
-import frappe
-from frappe import _
 from datetime import datetime
-from employee_self_service.mobile.v1.api_utils import *
+
+import frappe
 import frappe.utils
+from frappe import _
+
+from employee_self_service.mobile.v1.api_utils import (
+    ess_validate,
+    exception_handler,
+    gen_response,
+)
 
 try:
     from erpnext.crm.utils import get_open_activities
-except Exception as e:
+except Exception:
     pass
 
 

@@ -1,35 +1,21 @@
 import json
-import os
-import calendar
+
 import frappe
-from frappe import _
-from frappe.auth import LoginManager
 from frappe.utils import (
-    cstr,
-    get_date_str,
-    today,
-    nowdate,
-    getdate,
-    now_datetime,
-    get_first_day,
-    get_last_day,
-    date_diff,
-    flt,
-    pretty_date,
     fmt_money,
-    add_days,
-    format_time,
+    getdate,
+    today,
 )
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
+    exception_handler,
+    gen_response,
     get_employee_by_user,
-    validate_employee_data,
     get_ess_settings,
     get_global_defaults,
-    exception_handler,
+    validate_employee_data,
 )
-from frappe.handler import upload_file
 
 
 # Expense Claims List
@@ -74,7 +60,7 @@ def get_expense_claims():
 
             month_year = get_month_year_details(expense)
             expense["posting_date"] = expense.get("posting_date").strftime("%d-%m-%Y")
-            if not month_year in list(expense_data.keys())[::-1]:
+            if month_year not in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -216,15 +202,13 @@ def apply_expense(**data):
 
         payable_account = get_payable_account(emp_data.get("company"))
         expense_doc = frappe.get_doc(
-            dict(
-                doctype="Expense Claim",
-                employee=emp_data.name,
-                expense_approver=emp_data.expense_approver,
-                posting_date=today(),
-                company=emp_data.get("company"),
-                payable_account=payable_account,
-                items=frappe.form_dict.items,
-            )
+            doctype="Expense Claim",
+            employee=emp_data.name,
+            expense_approver=emp_data.expense_approver,
+            posting_date=today(),
+            company=emp_data.get("company"),
+            payable_account=payable_account,
+            items=frappe.form_dict.items,
         )
         
         attachments = data.get("attachments")
@@ -271,13 +255,11 @@ def update_expense(**data):
 
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
-                file_doc = frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Expense Claim",
-                        attached_to_name=expense_doc.name,
-                    )
+                frappe.get_doc(
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Expense Claim",
+                    attached_to_name=expense_doc.name,
                 ).insert(ignore_permissions=True)
 
         return gen_response(200, "Expense updated Successfully", expense_doc)

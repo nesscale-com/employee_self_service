@@ -1,11 +1,12 @@
 import frappe
-from frappe.desk.search import search_widget, build_for_autosuggest
+from frappe.desk.form.utils import remove_attach
+from frappe.desk.search import build_for_autosuggest, search_widget
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
 )
-from frappe.desk.form.utils import remove_attach
 
 
 @frappe.whitelist()
@@ -64,7 +65,7 @@ def get_field_options(doctype_name, field_name):
                     options_list.append(option.strip())
 
         return gen_response(
-            200, f"Select field options retrieved successfully", options_list
+            200, "Select field options retrieved successfully", options_list
         )
 
     except Exception as e:

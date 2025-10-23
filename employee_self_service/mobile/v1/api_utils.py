@@ -45,7 +45,7 @@ def generate_key(user):
 def ess_validate(methods):
     @wrapt.decorator
     def wrapper(wrapped, instance, args, kwargs):
-        if not frappe.local.request.method in methods:
+        if frappe.local.request.method not in methods:
             return gen_response(500, "Invalid Request Method")
         try:
             ignore_path = False
@@ -132,7 +132,7 @@ def get_actions(doc, doc_data=None):
         return []
     try:
         transitions = get_transitions(doc)
-    except Exception as e:
+    except Exception:
         return []
     actions = []
     for row in transitions:
@@ -169,7 +169,7 @@ def update_workflow_state(reference_doctype, reference_name, action):
 
 
 def convert_timezone(timestamp, from_tz, to_tz):
-    from pytz import UnknownTimeZoneError, timezone
+    from pytz import timezone
 
     from_zone = timezone(from_tz)
     to_zone = timezone(to_tz)
@@ -255,9 +255,9 @@ def ping():
 #     - "Last Financial Year"
 @frappe.whitelist()
 def get_date_range(duration_type):
-    from frappe.utils import add_days
-    from frappe.utils.data import get_first_day, today, add_months
     from erpnext.accounts.utils import get_fiscal_year
+    from frappe.utils import add_days
+    from frappe.utils.data import add_months, get_first_day, today
 
     if duration_type == "Current Month":
         return {"from_date": get_first_day(today()), "to_date": today()}
@@ -284,7 +284,7 @@ def get_date_range(duration_type):
     if duration_type == "Current Financial Year":
         fiscal_year = get_fiscal_year(today(), as_dict=1)
         if not fiscal_year:
-            frappe.throw("No Any Financial Year Active")
+            frappe.throw(_("No Any Financial Year Active"))
         return {
             "from_date": fiscal_year.get("year_start_date"),
             "to_date": fiscal_year.get("year_end_date"),
@@ -292,12 +292,12 @@ def get_date_range(duration_type):
     if duration_type == "Last Financial Year":
         current_fiscal_year = get_fiscal_year(today(), as_dict=1)
         if not current_fiscal_year:
-            frappe.throw("No Any Financial Year Active")
+            frappe.throw(_("No Any Financial Year Active"))
         last_fiscal_year = get_fiscal_year(
             add_days(current_fiscal_year.get("year_start_date"), -1), as_dict=1
         )
         if not last_fiscal_year:
-            frappe.throw("No Any Data In Last Financial Year")
+            frappe.throw(_("No Any Data In Last Financial Year"))
         return {
             "from_date": last_fiscal_year.get("year_start_date"),
             "to_date": last_fiscal_year.get("year_end_date"),

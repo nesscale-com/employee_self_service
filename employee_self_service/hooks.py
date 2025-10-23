@@ -1,11 +1,12 @@
-from . import __version__ as app_version
-
 app_name = "employee_self_service"
 app_title = "Employee Self Service"
 app_publisher = "Nesscale Solutions Private Limited"
 app_description = "Employee Self Service"
 app_email = "info@nesscale.com"
 app_license = "MIT"
+
+# Required applications
+required_apps = ["hrms"]
 
 # Includes in <head>
 # ------------------
@@ -158,7 +159,7 @@ scheduler_events = {
 # Testing
 # -------
 
-# before_tests = "employee_self_service.install.before_tests"
+before_tests = "employee_self_service.tests.test_utils.before_tests"
 
 # Overriding Methods
 # ------------------------------
