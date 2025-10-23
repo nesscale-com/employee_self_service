@@ -5,7 +5,7 @@ frappe.ui.form.on("ESS Custom Field", {
 	refresh(frm) {
 		// Make all fields readonly since feature is under development
 		frm.disable_form();
-		
+
 		// Show development notice banner
 		frm.dashboard.add_comment(`
 			<div style="background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 10px 0;">
@@ -13,18 +13,18 @@ frappe.ui.form.on("ESS Custom Field", {
 					<span style="font-size: 20px; margin-right: 10px;">🚧</span>
 					<div>
 						<strong>Development Mode Active</strong><br>
-						<small>This feature is under development. All fields are read-only. 
+						<small>This feature is under development. All fields are read-only.
 						<a href="https://ess.nesscale.app" target="_blank" style="color: #007bff;">Contact us</a> for updates.</small>
 					</div>
 				</div>
 			</div>
 		`, "yellow");
-		
+
 		// Also make specific child table readonly if it exists
-		frm.fields_dict.custom_fields && frm.fields_dict.custom_fields.grid && 
+		frm.fields_dict.custom_fields && frm.fields_dict.custom_fields.grid &&
 		frm.fields_dict.custom_fields.grid.toggle_enable(false);
 	},
-	
+
 	onload(frm) {
 		// Additional readonly enforcement on load
 		if (frm.doc.__islocal) {

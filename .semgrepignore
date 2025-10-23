@@ -1,0 +1,12 @@
+# Semgrep ignore configuration for employee_self_service
+# Only ignore patterns that are acceptable by design
+
+# Ignore test files - debugging prints and test patterns are acceptable
+**/test_*.py
+
+# Ignore the semgrep rules directory itself to avoid recursive scanning
+frappe-semgrep-rules/
+
+# Ignore setup and migration files that may have legacy patterns
+**/patches/**
+**/fixtures/**

@@ -148,16 +148,16 @@ frappe.pages['target-allocation-tool'].on_page_load = function (wrapper) {
 
             if (row.is_allocated) {
                 statusBadge = '<span class="badge badge-success">Allocated</span>';
-                actionButton = `<button class="btn btn-sm btn-warning unallocate-btn" 
-                                       data-doctype="${row.doctype}" 
+                actionButton = `<button class="btn btn-sm btn-warning unallocate-btn"
+                                       data-doctype="${row.doctype}"
                                        data-docname="${row.name}"
                                        data-target-log="${row.allocated_target || ''}">
                                    Unallocate
                                </button>`;
             } else {
                 statusBadge = '<span class="badge badge-warning">Not Allocated</span>';
-                actionButton = `<button class="btn btn-sm btn-primary allocate-btn" 
-                                       data-doctype="${row.doctype}" 
+                actionButton = `<button class="btn btn-sm btn-primary allocate-btn"
+                                       data-doctype="${row.doctype}"
                                        data-docname="${row.name}">
                                    Allocate
                                </button>`;

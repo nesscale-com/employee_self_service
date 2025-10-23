@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 
 
 @frappe.whitelist()
@@ -7,5 +8,5 @@ def get_employee_location(employee, date):
         "Employee Location", {"employee": employee, "date": date}
     )
     if not location_doc:
-        frappe.throw("Location details not found for employee")
+        frappe.throw(_("Location details not found for employee"))
     return location_doc.location
