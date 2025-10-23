@@ -1,13 +1,11 @@
 import frappe
-import json
-from frappe import _
-from frappe.utils import pretty_date, getdate, fmt_money
+from frappe.utils import fmt_money
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
-    remove_default_fields,
     get_global_defaults,
 )
 from employee_self_service.mobile.v1.manager.manager_utils import get_action
@@ -25,7 +23,6 @@ def my_team_expense_claim():
             return gen_response(500, "Employee does not exists")
         filters = [["employee", "!=", emp_data.get("name")]]
         expense_list = frappe.get_list("Expense Claim", filters=filters, fields=["*"])
-        expense_data = {}
         for expense in expense_list:
             (
                 expense["expense_type"],

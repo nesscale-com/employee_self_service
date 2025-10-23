@@ -1,11 +1,9 @@
 import frappe
-import re
 from bs4 import BeautifulSoup
-from frappe.utils import today, cint, getdate
+from frappe import _
 from frappe.core.doctype.file.file import extract_images_from_html
 from frappe.desk.form.document_follow import follow_document
-import html
-from frappe import _
+from frappe.utils import cint, getdate, today
 
 
 def get_holiday_list_for_employee(employee, raise_exception=True):
@@ -94,7 +92,7 @@ def get_employees_having_an_event_today(event_type, date=None):
 			WHERE
 				DATE_PART('day', {condition_column}) = date_part('day', %(today)s)
 			AND
-				DATE_PART('month', {condition_column}) = date_part('month', %(today)s)    
+				DATE_PART('month', {condition_column}) = date_part('month', %(today)s)
 			AND
 				"status" = 'Active'
 		""",
@@ -131,9 +129,9 @@ def notification_log(
     notification_log.insert(ignore_permissions=True)
 
 
-def strip_and_clean_html(html):
+def strip_and_clean_html(html_content):
     # Use BeautifulSoup for better handling of HTML
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html_content, "html.parser")
 
     # Remove unnecessary tags and attributes
     for tag in soup.find_all():
@@ -152,14 +150,12 @@ def add_ess_comment(
 ):
     """allow any logged user to post a comment"""
     doc = frappe.get_doc(
-        dict(
-            doctype="Comment",
-            reference_doctype=reference_doctype,
-            reference_name=reference_name,
-            comment_email=comment_email,
-            comment_type="Comment",
-            comment_by=comment_by,
-        )
+        doctype="Comment",
+        reference_doctype=reference_doctype,
+        reference_name=reference_name,
+        comment_email=comment_email,
+        comment_type="Comment",
+        comment_by=comment_by,
     )
     reference_doc = frappe.get_doc(reference_doctype, reference_name)
     doc.content = extract_images_from_html(reference_doc, content, is_private=True)
@@ -181,8 +177,8 @@ def clear_linked_device(employee):
 @frappe.whitelist()
 def is_device_button_enable(employee):
     if not cint(
-        frappe.db.get_value(
-            "Employee Self Service Settings", None, "enable_device_restrictions"
+        frappe.db.get_single_value(
+            "Employee Self Service Settings", "enable_device_restrictions"
         )
     ):
         return False

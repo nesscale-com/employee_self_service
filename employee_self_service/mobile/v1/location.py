@@ -1,13 +1,12 @@
 import frappe
-from frappe import _
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    get_employee_by_user,
-    exception_handler,
-)
-
 from frappe.utils import today
+
+from employee_self_service.mobile.v1.api_utils import (
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_employee_by_user,
+)
 
 """save user location"""
 
@@ -49,7 +48,7 @@ def user_location(*args, **kwargs):
             cache=True,
         ):
             location_doc = frappe.get_doc(
-                dict(doctype="Employee Location", employee=current_employee.get("name"))
+                doctype="Employee Location", employee=current_employee.get("name")
             )
             location_doc.update(data)
             location_doc.insert(ignore_permissions=True)
@@ -67,27 +66,6 @@ def user_location(*args, **kwargs):
             # )
 
             # Convert the Python object back to a compact JSON string
-            compact_json = """{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [72.855663, 19.080709],
-          [72.871113, 19.09531],
-          [72.873344, 19.078438],
-          [72.86459, 19.067731],
-          [72.848454, 19.073084],
-          [72.854633, 19.081521]
-        ]
-      }
-    }
-  ]
-}
-"""
             # frappe.log_error(title="ESS Mobile App debug", message=compact_json)
             # location_doc.location_map = compact_json
             location_doc.save(ignore_permissions=True)

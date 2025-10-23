@@ -1,15 +1,16 @@
 import frappe
 from frappe import _
+from frappe.utils import getdate
+
 from .utils import (
-    get_employee_from_sales_team,
-    get_active_target_entries,
-    handle_item_group_target,
-    handle_customer_group_target,
-    handle_combined_target,
     create_target_log,
+    get_active_target_entries,
+    get_employee_from_sales_team,
+    handle_combined_target,
+    handle_customer_group_target,
+    handle_item_group_target,
     target_setting,
 )
-from frappe.utils import getdate
 
 
 def create_sales_person_target_log(doc, method=None):
@@ -83,7 +84,7 @@ def create_sales_person_target_log(doc, method=None):
                         transaction_date=transaction_date,
                     )
 
-        except Exception as e:
+        except Exception:
             frappe.log_error(
                 title="Target Log Processing Failed", message=frappe.get_traceback()
             )

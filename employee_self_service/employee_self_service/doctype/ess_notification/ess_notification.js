@@ -7,20 +7,20 @@ frappe.notification = {
       if (!frm.doc.document_type) {
         return;
       }
-  
+
       frappe.model.with_doctype(frm.doc.document_type, function () {
         let get_select_options = function (df, parent_field) {
           // Append parent_field name along with fieldname for child table fields
           let select_value = parent_field
             ? df.fieldname + "," + parent_field
             : df.fieldname;
-  
+
           return {
             value: select_value,
             label: df.fieldname + " (" + __(df.label, null, df.parent) + ")",
           };
         };
-  
+
         let get_date_change_options = function () {
           let date_options = $.map(fields, function (d) {
             return d.fieldtype == "Date" || d.fieldtype == "Datetime"
@@ -36,14 +36,14 @@ frappe.notification = {
             },
           ]);
         };
-  
+
         let fields = frappe.get_doc("DocType", frm.doc.document_type).fields;
         let options = $.map(fields, function (d) {
           return frappe.model.no_value_type.includes(d.fieldtype)
             ? null
             : get_select_options(d);
         });
-  
+
         // set value changed options
         frm.set_df_property("value_changed", "options", [""].concat(options));
         frm.set_df_property(
@@ -51,10 +51,10 @@ frappe.notification = {
           "options",
           [""].concat(options)
         );
-  
+
         // set date changed options
         frm.set_df_property("date_changed", "options", get_date_change_options());
-  
+
         let receiver_fields = [];
         let employee_receiver_fields = [];
         receiver_fields = $.map(fields, function (d) {
@@ -105,18 +105,18 @@ frappe.notification = {
     setup_example_message: function (frm) {
       let template = "";
       template = `<h5>Message Example</h5>
-  
+
   <pre>*Order Overdue*
-  
+
   Transaction {{ doc.name }} has exceeded Due Date. Please take necessary action.
-  
+
   <!-- show last comment -->
   {% if comments %}
   Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}
   {% endif %}
-  
+
   *Details*
-  
+
   • Customer: {{ doc.customer }}
   • Amount: {{ doc.grand_total }}
   </pre>`;
@@ -125,7 +125,7 @@ frappe.notification = {
       }
     },
   };
-  
+
   frappe.ui.form.on("ESS Notification", {
     onload: function (frm) {
       frm.set_query("document_type", function () {
@@ -139,7 +139,7 @@ frappe.notification = {
     refresh: function (frm) {
       frappe.notification.setup_fieldname_select(frm);
       frappe.notification.setup_example_message(frm);
-  
+
       frm.add_fetch("email_id");
       // frm.get_field("is_standard").toggle(frappe.boot.developer_mode);
       frm.trigger("event");

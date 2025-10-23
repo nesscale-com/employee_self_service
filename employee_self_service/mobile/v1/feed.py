@@ -1,16 +1,16 @@
-import frappe
 import json
-from frappe import _
-from frappe.utils import pretty_date, getdate
+
+import frappe
+from frappe.utils import getdate, pretty_date
 from frappe.utils.data import now_datetime
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
     remove_default_fields,
 )
-from employee_self_service.utils import strip_and_clean_html, add_ess_comment
 
 
 @frappe.whitelist()
@@ -196,7 +196,7 @@ def post_like_toggle(post_id, like=False):
         else:
             toggle_like(doctype="ESS Post", name=post_id, add="No")
 
-        count = len(json.loads(frappe.db.get_value("ESS Post", post_id, "_liked_by")))
+        len(json.loads(frappe.db.get_value("ESS Post", post_id, "_liked_by")))
         post_data = get_ess_post(post_name=post_id)
         return gen_response(200, "Like updated", post_data)
     except Exception as e:

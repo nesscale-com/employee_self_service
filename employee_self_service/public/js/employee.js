@@ -9,7 +9,7 @@ frappe.ui.form.on('Employee', {
                 },
                 callback: function (r) {
                     if (r.message) {
-                        frm.add_custom_button("Clear Linked Device", function () {
+                        frm.add_custom_button(__("Clear Linked Device"), function () {
                             frappe.call({
                                 method: "employee_self_service.utils.clear_linked_device",
                                 args: { "employee": frm.doc.name },

@@ -1,25 +1,20 @@
 import json
+
 import frappe
-from frappe import _
-from frappe.utils import cstr, fmt_money
-
-from erpnext.accounts.utils import getdate
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    get_ess_settings,
-    prepare_json_data,
-    get_global_defaults,
-    exception_handler,
-    get_actions,
-    check_workflow_exists,
-    get_employee_by_user,
-    get_date_range,
-)
 from erpnext.accounts.party import get_dashboard_info
+from erpnext.accounts.utils import getdate
+from frappe.utils import fmt_money
 
+from employee_self_service.mobile.v1.api_utils import (
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_date_range,
+    get_ess_settings,
+    get_global_defaults,
+    prepare_json_data,
+)
 from employee_self_service.mobile.v1.ess import download_pdf
-from employee_self_service.mobile.v1.order import get_default_price_list
 
 """order list api for mobile app"""
 
@@ -37,7 +32,6 @@ def get_quotation_list(
     sort_order="desc",
 ):
     try:
-
         updated_filters = []
 
         if filters:
@@ -80,7 +74,7 @@ def get_quotation_list(
             start=start,
             page_length=page_length,
             order_by=f"{order_by} {sort_order}",
-            filters=updated_filters
+            filters=updated_filters,
         )
         for quotation in quotation_list:
             quotation["grand_total"] = fmt_money(
@@ -268,6 +262,7 @@ def get_item_list(filters=None):
 def scan_item(barcode):
     try:
         from erpnext.stock.utils import scan_barcode
+
         from employee_self_service.mobile.v1.order import get_items_rate
 
         item_details = scan_barcode(barcode)
@@ -304,7 +299,7 @@ def prepare_quotation_totals(*args, **kwargs):
 
         global_defaults = get_global_defaults()
         sales_order_doc = frappe.get_doc(
-            dict(doctype="Quotation", company=global_defaults.get("default_company"))
+            doctype="Quotation", company=global_defaults.get("default_company")
         )
         sales_order_doc.update(data)
         # sales_order_doc.discount_amount = total_discount
@@ -373,10 +368,8 @@ def create_quotation(*args, **kwargs):
             gen_response(200, "Updated successfully.", doc.name)
         else:
             doc = frappe.get_doc(
-                dict(
-                    doctype="Quotation",
-                    company=global_defaults.get("default_company"),
-                )
+                doctype="Quotation",
+                company=global_defaults.get("default_company"),
             )
             _create_update_quotation(
                 data=data,
