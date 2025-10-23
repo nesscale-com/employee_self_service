@@ -1,16 +1,15 @@
 import frappe
-from frappe import _
-from frappe.utils import today, flt, fmt_money
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    ess_validate,
-    prepare_json_data,
-    exception_handler,
-    get_actions,
-    check_workflow_exists,
-    get_global_defaults,
-)
+from frappe.utils import flt, fmt_money, today
 
+from employee_self_service.mobile.v1.api_utils import (
+    check_workflow_exists,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    get_actions,
+    get_global_defaults,
+    prepare_json_data,
+)
 
 """payment entry meta data"""
 
@@ -252,7 +251,7 @@ def make_payment(*args, **kwargs):
                 is_submit = data.get("submit")
                 del data["submit"]
                 payment_doc.update(data)
-                if is_submit == True:
+                if is_submit:
                     payment_doc.submit()
                 else:
                     payment_doc.save()
@@ -260,27 +259,25 @@ def make_payment(*args, **kwargs):
                 payment_doc.save()
         else:
             payment_doc = frappe.get_doc(
-                dict(
-                    doctype="Payment Entry",
-                    naming_series=data.get("naming_series"),
-                    payment_type=data.get("payment_type"),
-                    posting_date=data.get("posting_date"),
-                    mode_of_payment=data.get("mode_of_payment"),
-                    company=data.get("company"),
-                    party_type=data.get("party_type"),
-                    party=data.get("party"),
-                    paid_from=data.get("paid_from"),
-                    paid_to=data.get("paid_to"),
-                    paid_amount=data.get("paid_amount"),
-                    reference_no=data.get("reference_no"),
-                    reference_date=data.get("reference_date"),
-                    received_amount=data.get("paid_amount"),
-                    references=data.get("references"),
-                    cost_center=data.get("cost_center"),
-                )
+                doctype="Payment Entry",
+                naming_series=data.get("naming_series"),
+                payment_type=data.get("payment_type"),
+                posting_date=data.get("posting_date"),
+                mode_of_payment=data.get("mode_of_payment"),
+                company=data.get("company"),
+                party_type=data.get("party_type"),
+                party=data.get("party"),
+                paid_from=data.get("paid_from"),
+                paid_to=data.get("paid_to"),
+                paid_amount=data.get("paid_amount"),
+                reference_no=data.get("reference_no"),
+                reference_date=data.get("reference_date"),
+                received_amount=data.get("paid_amount"),
+                references=data.get("references"),
+                cost_center=data.get("cost_center"),
             )
             if not check_workflow_exists("Payment Entry"):
-                if data.get("submit") == True:
+                if data.get("submit"):
                     payment_doc.submit()
                 else:
                     payment_doc.insert()
@@ -289,13 +286,11 @@ def make_payment(*args, **kwargs):
 
         if data.get("attachments") is not None:
             for file in data.get("attachments"):
-                file_doc = frappe.get_doc(
-                    dict(
-                        doctype="File",
-                        file_url=file.get("file_url"),
-                        attached_to_doctype="Payment Entry",
-                        attached_to_name=payment_doc.name,
-                    )
+                frappe.get_doc(
+                    doctype="File",
+                    file_url=file.get("file_url"),
+                    attached_to_doctype="Payment Entry",
+                    attached_to_name=payment_doc.name,
                 ).insert(ignore_permissions=True)
         return gen_response(200, "Payment updated successfully")
     except Exception as e:

@@ -1,8 +1,8 @@
-import frappe
-import requests
 import json
-from frappe import enqueue
-from frappe.utils import parse_val, cint
+
+import frappe
+from frappe.utils import cint, parse_val
+
 from employee_self_service.utils import notification_log
 
 event_mapping = {
@@ -21,7 +21,7 @@ def notification(doc, event):
     try:
         if frappe.db.exists("DocType", "ESS Notification"):
             notification_processing(doc, event)
-    except Exception as e:
+    except Exception:
         frappe.log_error(
             title="ESS Notification Trigger Error", message=frappe.get_traceback()
         )

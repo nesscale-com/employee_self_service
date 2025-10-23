@@ -1,17 +1,11 @@
 import frappe
-import json
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
+    gen_response,
     get_employee_by_user,
-    check_workflow_exists,
-    get_global_defaults,
-    get_attachments,
 )
-
-from frappe.model.workflow import get_transitions
-from frappe.model.workflow import get_workflow_name
 
 
 @frappe.whitelist()

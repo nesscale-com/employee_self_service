@@ -1,6 +1,4 @@
 import frappe
-from frappe import _
-from frappe.utils import getdate
 from frappe.utils.nestedset import get_descendants_of
 
 
@@ -377,7 +375,7 @@ def create_target_log(
         target_log.flags.ignore_permissions = ignore_permissions
         target_log.submit()
 
-    except Exception as e:
+    except Exception:
         frappe.log_error(
             title="Target Log Creation Failed", message=frappe.get_traceback()
         )

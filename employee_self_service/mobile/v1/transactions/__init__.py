@@ -1,17 +1,18 @@
 import frappe
 from frappe import _
 from frappe.utils import (
-    getdate,
     flt,
     fmt_money,
+    getdate,
 )
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
+    exception_handler,
+    gen_response,
+    get_date_range,
     get_employee_by_user,
     get_global_defaults,
-    exception_handler,
-    get_date_range,
 )
 
 
@@ -26,7 +27,6 @@ def get_transactions(
     download="false",
 ):
     try:
-
         if date:
             duration_details = get_date_range(date)
             from_date = getdate(duration_details.get("from_date"))

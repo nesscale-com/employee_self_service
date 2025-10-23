@@ -1,13 +1,12 @@
 import frappe
+from frappe.model.workflow import get_transitions
+from frappe.utils import cint, get_url_to_form
+
 from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
     ess_validate,
     exception_handler,
-    get_employee_by_user,
+    gen_response,
 )
-from frappe.utils import cint, get_url_to_form, cstr
-from operator import itemgetter
-from frappe.model.workflow import get_transitions
 
 
 @frappe.whitelist()
@@ -38,7 +37,7 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
         start = cint(start)
         page_length = cint(page_length)
         start_index = start
-        end_index = start + page_length
+        start + page_length
 
         if document_type == "":
             document_type = "All"
@@ -127,7 +126,7 @@ def get_actions(document_type, document_no):
             actions.append(row.get("action"))
         return gen_response(200, "Document action list get successfully", actions)
     except frappe.PermissionError:
-        return gen_response(500, f"Not permitted for action")
+        return gen_response(500, "Not permitted for action")
     except Exception as e:
         return exception_handler(e)
 
