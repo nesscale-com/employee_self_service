@@ -65,6 +65,7 @@ ESS_MENU_DOCTYPE_MAPPING = {
     "Attendance": {"name": "Attendance", "is_report": 0},
     "Transactions": {"name": "General Ledger", "is_report": 1},
     "Order": {"name": "Sales Order", "is_report": 0},
+    "Purchase Order": {"name": "Purchase Order", "is_report": 0},
     "Visit": {"name": "Visit", "is_report": 0},
     "Payment": {"name": "Payment Entry", "is_report": 0},
     "Petty Expense": {"name": "Petty Expense", "is_report": 0},
