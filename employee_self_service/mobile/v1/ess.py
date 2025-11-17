@@ -21,6 +21,7 @@ from frappe.utils import (
     format_time,
     cint,
     get_datetime,
+    add_to_date,
 )
 from employee_self_service.mobile.v1.api_utils import (
     gen_response,
@@ -634,6 +635,8 @@ def get_dashboard():
             "notification_count": frappe.db.count(
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
             ),
+            "next_alarm": add_to_date(now_datetime(), minutes=2),
+            
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
