@@ -2,7 +2,7 @@ import json
 
 import frappe
 from frappe.utils import today
-
+from frappe.utils.file_manager import save_file
 from employee_self_service.mobile.v1.api_utils import exception_handler, gen_response
 
 
@@ -10,14 +10,13 @@ from employee_self_service.mobile.v1.api_utils import exception_handler, gen_res
 def create_issue(**data):
     try:
         # Validate required fields
-        if not data.get("subject") or not data.get("description"):
-            return gen_response(500, "Subject and Description are required")
+        if not data.get("description"):
+            return gen_response(500, "Description are required")
 
         if not data.get("issue_type"):
             return gen_response(500, "Issue Type is required")
 
         issue_doc = frappe.new_doc("Pollen Issue")
-        issue_doc.subject = data.get("subject")
         issue_doc.description = data.get("description")
         issue_doc.customer = data.get("customer")
         issue_doc.issue_type = data.get("issue_type")
@@ -117,9 +116,11 @@ def get_issue_list(start=0, page_length=10, filters=None, list_type="all"):
         # Base fields to fetch
         fields = [
             "name",
-            "subject",
             "customer",
+            "state",
+            "district",
             "issue_type",
+            "department",
             "status",
             "current_assignee",
             "date",
@@ -163,7 +164,7 @@ def get_issue_list(start=0, page_length=10, filters=None, list_type="all"):
 @frappe.whitelist()
 def get_issue_type_list():
     try:
-        issue_types = frappe.get_all("Pollen Issue Type", fields=["name", "issue_type"])
+        issue_types = frappe.get_all("Pollen Issue Type", fields=["name", "issue_type","department"])
         return gen_response(
             200, "Pollen Issue Type list fetched successfully", issue_types
         )
@@ -488,3 +489,35 @@ def get_button_visibility(issue_doc):
     }
     
     return button_visibility
+
+@frappe.whitelist(allow_guest=True)
+def upload_documents(issue_id):
+    try:
+        if not issue_id or not frappe.db.exists("Pollen Issue", issue_id):
+            return gen_response(500, "Invalid or missing Issue ID")
+
+        if "file" not in frappe.request.files:
+            return gen_response(500, "Please upload at least one file")
+
+        uploaded_files = []
+        files = frappe.request.files.getlist("file")
+        for f in files:
+            file_doc = save_file(
+                fname=f.filename,
+                content=f.read(),
+                dt="Pollen Issue",
+                dn=issue_id,
+                is_private=1
+            )
+            uploaded_files.append({
+                "file_name": file_doc.file_name,
+                "file_url": file_doc.file_url
+            })
+        return gen_response(
+            200,
+            "Files uploaded successfully",
+            data=uploaded_files
+        )
+    except Exception as e:
+        frappe.db.rollback()
+        return exception_handler(e)
