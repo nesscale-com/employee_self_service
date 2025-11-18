@@ -2,7 +2,7 @@ import json
 
 import frappe
 from frappe.utils import today
-
+from frappe.utils.file_manager import save_file
 from employee_self_service.mobile.v1.api_utils import exception_handler, gen_response
 
 
@@ -10,14 +10,13 @@ from employee_self_service.mobile.v1.api_utils import exception_handler, gen_res
 def create_issue(**data):
     try:
         # Validate required fields
-        if not data.get("subject") or not data.get("description"):
-            return gen_response(500, "Subject and Description are required")
+        if not data.get("description"):
+            return gen_response(500, "Description are required")
 
         if not data.get("issue_type"):
             return gen_response(500, "Issue Type is required")
 
         issue_doc = frappe.new_doc("Pollen Issue")
-        issue_doc.subject = data.get("subject")
         issue_doc.description = data.get("description")
         issue_doc.customer = data.get("customer")
         issue_doc.issue_type = data.get("issue_type")
@@ -25,6 +24,16 @@ def create_issue(**data):
         issue_doc.date = today()
         # issue_doc.status = "Open"
         issue_doc.insert(ignore_permissions=True)
+        attachments = data.get("attachments")
+        if attachments:
+            for file_id in attachments:
+                if not frappe.db.exists("File", file_id):
+                    continue 
+
+                file_doc = frappe.get_doc("File", file_id)
+                file_doc.attached_to_doctype = "Pollen Issue"
+                file_doc.attached_to_name = issue_doc.name
+                file_doc.save(ignore_permissions=True)
         return gen_response(
             200,
             "Pollen Issue created and assigned successfully",
@@ -76,6 +85,16 @@ def update_issue(**data):
             issue_doc.status = data.get("status")
 
         issue_doc.save(ignore_permissions=True)
+        attachments = data.get("attachments")
+        if attachments:
+            for file_id in attachments:
+                if not frappe.db.exists("File", file_id):
+                    continue 
+
+                file_doc = frappe.get_doc("File", file_id)
+                file_doc.attached_to_doctype = "Pollen Issue"
+                file_doc.attached_to_name = issue_doc.name
+                file_doc.save(ignore_permissions=True)
         frappe.db.commit()
 
         return gen_response(
@@ -117,9 +136,11 @@ def get_issue_list(start=0, page_length=10, filters=None, list_type="all"):
         # Base fields to fetch
         fields = [
             "name",
-            "subject",
             "customer",
+            "state",
+            "district",
             "issue_type",
+            "department",
             "status",
             "current_assignee",
             "date",
@@ -163,7 +184,7 @@ def get_issue_list(start=0, page_length=10, filters=None, list_type="all"):
 @frappe.whitelist()
 def get_issue_type_list():
     try:
-        issue_types = frappe.get_all("Pollen Issue Type", fields=["name", "issue_type"])
+        issue_types = frappe.get_all("Pollen Issue Type", fields=["name", "issue_type","department"])
         return gen_response(
             200, "Pollen Issue Type list fetched successfully", issue_types
         )
