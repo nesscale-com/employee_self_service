@@ -24,6 +24,16 @@ def create_issue(**data):
         issue_doc.date = today()
         # issue_doc.status = "Open"
         issue_doc.insert(ignore_permissions=True)
+        attachments = data.get("attachments")
+        if attachments:
+            for file_id in attachments:
+                if not frappe.db.exists("File", file_id):
+                    continue 
+
+                file_doc = frappe.get_doc("File", file_id)
+                file_doc.attached_to_doctype = "Pollen Issue"
+                file_doc.attached_to_name = issue_doc.name
+                file_doc.save(ignore_permissions=True)
         return gen_response(
             200,
             "Pollen Issue created and assigned successfully",
@@ -75,6 +85,16 @@ def update_issue(**data):
             issue_doc.status = data.get("status")
 
         issue_doc.save(ignore_permissions=True)
+        attachments = data.get("attachments")
+        if attachments:
+            for file_id in attachments:
+                if not frappe.db.exists("File", file_id):
+                    continue 
+
+                file_doc = frappe.get_doc("File", file_id)
+                file_doc.attached_to_doctype = "Pollen Issue"
+                file_doc.attached_to_name = issue_doc.name
+                file_doc.save(ignore_permissions=True)
         frappe.db.commit()
 
         return gen_response(
@@ -489,35 +509,3 @@ def get_button_visibility(issue_doc):
     }
     
     return button_visibility
-
-@frappe.whitelist(allow_guest=True)
-def upload_documents(issue_id):
-    try:
-        if not issue_id or not frappe.db.exists("Pollen Issue", issue_id):
-            return gen_response(500, "Invalid or missing Issue ID")
-
-        if "file" not in frappe.request.files:
-            return gen_response(500, "Please upload at least one file")
-
-        uploaded_files = []
-        files = frappe.request.files.getlist("file")
-        for f in files:
-            file_doc = save_file(
-                fname=f.filename,
-                content=f.read(),
-                dt="Pollen Issue",
-                dn=issue_id,
-                is_private=1
-            )
-            uploaded_files.append({
-                "file_name": file_doc.file_name,
-                "file_url": file_doc.file_url
-            })
-        return gen_response(
-            200,
-            "Files uploaded successfully",
-            data=uploaded_files
-        )
-    except Exception as e:
-        frappe.db.rollback()
-        return exception_handler(e)
