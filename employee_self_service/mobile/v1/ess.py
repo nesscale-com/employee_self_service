@@ -1,50 +1,48 @@
+import calendar
 import json
 import os
-import calendar
+
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.auth import LoginManager
+from frappe.handler import upload_file
 from frappe.utils import (
+    add_days,
+    add_to_date,
+    cint,
     cstr,
-    get_date_str,
-    today,
-    nowdate,
-    getdate,
-    now_datetime,
-    get_first_day,
-    get_last_day,
     date_diff,
     flt,
-    pretty_date,
     fmt_money,
-    add_days,
-    format_time,
-    cint,
+    get_date_str,
     get_datetime,
-    add_to_date,
+    get_first_day,
+    get_last_day,
+    getdate,
+    now_datetime,
+    nowdate,
+    pretty_date,
+    today,
 )
-from employee_self_service.mobile.v1.api_utils import (
-    gen_response,
-    generate_key,
-    ess_validate,
-    get_employee_by_user,
-    validate_employee_data,
-    get_ess_settings,
-    get_global_defaults,
-    exception_handler,
-    convert_timezone,
-    get_system_timezone,
-    get_till_date_holiday_month_wise,
-)
-from frappe.handler import upload_file
-from erpnext.accounts.utils import get_fiscal_year
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
     create_push_notification,
 )
-from employee_self_service.mobile.v1.approval.workflow import get_workflow_documents
+from employee_self_service.mobile.v1.api_utils import (
+    convert_timezone,
+    ess_validate,
+    exception_handler,
+    gen_response,
+    generate_key,
+    get_employee_by_user,
+    get_ess_settings,
+    get_global_defaults,
+    get_system_timezone,
+    get_till_date_holiday_month_wise,
+    validate_employee_data,
+)
 from employee_self_service.utils import add_ess_comment
-from frappe.integrations.doctype.ldap_settings.ldap_settings import LDAPSettings
 
 
 @frappe.whitelist(allow_guest=True)
@@ -131,7 +129,7 @@ def register_device(employee, unique_id):
                 gen_response(500, "Device not recognized. Please contact admin.")
                 return False
         return True
-    except Exception as e:
+    except Exception:
         frappe.log_error(frappe.get_traceback(), "register_device_error")
         frappe.throw("An error occurred during device registration.")
 
@@ -486,7 +484,7 @@ def get_expense_list():
             )
 
             month_year = get_month_year_details(expense)
-            if not month_year in list(expense_data.keys())[::-1]:
+            if month_year not in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -558,7 +556,7 @@ def download_salary_slip(ss_id):
             )
         language = frappe.get_system_settings("language")
         # return  frappe.utils.get_url()
-        url = f"{ frappe.utils.get_url() }/{ res.doctype }/{ res.name }?format={ default_print_format or 'Standard' }&_lang={ language }&key={ res.get_signature() }"
+        url = f"{frappe.utils.get_url()}/{res.doctype}/{res.name}?format={default_print_format or 'Standard'}&_lang={language}&key={res.get_signature()}"
         # return url
         download_pdf(res.doctype, res.name, default_print_format, res)
     except Exception as e:
@@ -567,7 +565,7 @@ def download_salary_slip(ss_id):
 
 @frappe.whitelist()
 def download_pdf(doctype, name, format=None, doc=None, no_letterhead=0):
-    from frappe.utils.pdf import get_pdf, cleanup
+    from frappe.utils.pdf import get_pdf
 
     html = frappe.get_print(doctype, name, format, doc=doc, no_letterhead=no_letterhead)
     frappe.local.response.filename = "{name}.pdf".format(
@@ -636,7 +634,6 @@ def get_dashboard():
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
             ),
             "next_alarm": add_to_date(now_datetime(), minutes=2),
-            
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -793,6 +790,7 @@ def get_attendance_details(emp_data, year=None, month=None):
 @frappe.whitelist()
 def run_attendance_report(employee, company):
     filters = {
+        "filter_based_on": "Month",
         "month": cstr(frappe.utils.getdate().month),
         "year": cstr(frappe.utils.getdate().year),
         "company": company,
@@ -1481,7 +1479,6 @@ def get_attendance_list(year=None, month=None):
 @ess_validate(methods=["POST"])
 def add_comment(reference_doctype=None, reference_name=None, content=None):
     try:
-
         comment_by = frappe.db.get_value(
             "User", frappe.session.user, "full_name", as_dict=1
         )
