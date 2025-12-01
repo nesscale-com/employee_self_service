@@ -63,12 +63,13 @@ def get_active_workflow_document(module=None, internal=False):
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_workflow_documents(
-    start=1, page_length=10, document_type=None, module=None, internal=False
+    start=0, page_length=10, document_type=None, module=None, internal=False
 ):
     try:
         start = cint(start)
         page_length = cint(page_length)
-        start_index = start + 1
+        start_index = start
+        # start_index = start + 1
         end_index = start + page_length
 
         if document_type == "":
