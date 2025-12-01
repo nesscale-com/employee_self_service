@@ -51,10 +51,11 @@ def login(usr, pwd):
         validate_employee(login_manager.user)
         login_manager.post_login()
         if frappe.response["message"] == "Logged In":
-            emp_data = get_employee_by_user(login_manager.user)
+            emp_data = get_employee_by_user(login_manager.user, fields=["name", "gender"])
             frappe.response["user"] = login_manager.user
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
+            frappe.response["gender"] = emp_data.get("gender")
         gen_response(200, frappe.response["message"])
     except frappe.AuthenticationError:
         gen_response(500, frappe.response["message"])
@@ -91,7 +92,7 @@ def make_leave_application(*args, **kwargs):
             )
         )
         leave_application_doc.update(kwargs)
-        res = leave_application_doc.insert()
+        leave_application_doc.insert()
 
         if not kwargs.get("custom_leave_document") == None:
             frappe.db.set_value(
@@ -209,8 +210,8 @@ def get_leave_balance_report(employee, company, fiscal_year, annual_leave=False)
     """
     Returns a map of leave type and balance details like:
     {
-                                    'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
-                                    'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
+        'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
+        'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
     }
     """
     from hrms.hr.doctype.leave_application.leave_application import get_leave_details
@@ -227,6 +228,7 @@ def get_leave_balance_report(employee, company, fiscal_year, annual_leave=False)
                 leave_balance.append(
                     {
                         "leave_type": leave_type,
+                        "total_leaves": details.get("total_leaves"),
                         "leaves_allocated": details.get("remaining_leaves"),
                         "leaves_taken": details.get("leaves_taken"),
                         "employee": employee,
@@ -237,6 +239,7 @@ def get_leave_balance_report(employee, company, fiscal_year, annual_leave=False)
             leave_balance.append(
                 {
                     "leave_type": leave_type,
+                    "total_leaves": details.get("total_leaves"),
                     "leaves_allocated": details.get("remaining_leaves"),
                     "leaves_taken": details.get("leaves_taken"),
                     "employee": employee,
@@ -457,7 +460,7 @@ def get_dashboard():
     try:
         emp_data = get_employee_by_user(
             frappe.session.user,
-            fields=["name", "company", "image", "employee_name", "designation"],
+            fields=["name", "company", "image", "employee_name", "designation", "gender"],
         )
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
@@ -483,6 +486,7 @@ def get_dashboard():
             "check_in_with_image": settings.get("check_in_with_image"),
             "check_in_with_location": settings.get("check_in_with_location"),
             "approval_requests": cstr(approval_requests),
+            "gender": emp_data.get("gender"),
             "designation": emp_data.get("designation"),
             "allow_share_updates": 0,
             "allow_approvals": 1 if cint(approval_requests) > 0 else 0,
@@ -499,7 +503,7 @@ def get_dashboard():
         dashboard_data["employee_name"] = emp_data.get("employee_name")
         get_latest_expense(dashboard_data, emp_data.get("name"))
         get_latest_ss(dashboard_data, emp_data.get("name"))
-        get_last_log_type(dashboard_data, emp_data.get("name"))
+        # get_last_log_type(dashboard_data, emp_data.get("name"))
         return gen_response(200, "Dashboard data get successfully", dashboard_data)
 
     except Exception as e:
@@ -750,6 +754,7 @@ def create_employee_log(
                 checkin_type=check_in_type,
                 description=check_in_reference,
                 project=project,
+                source="Mobile"
             )
         )
         # if check_in_type=="Work from Home":
@@ -1215,7 +1220,7 @@ def get_attendance_detail(year=None, month=None):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_attendance_list(year=None, month=None, start=0, page_length=10):
+def get_attendance_list(year=None, month=None, start=0, page_length=31):
     try:
         if not year or not month:
             return gen_response(500, "year and month is required", [])
@@ -1223,11 +1228,13 @@ def get_attendance_list(year=None, month=None, start=0, page_length=10):
         present_count = 0
         absent_count = 0
         late_count = 0
-
-        employee_attendance_list = frappe.get_all(
+        # get raw attendance records for the month (no pagination yet)
+        # we'll paginate after merging holidays so that holiday rows are included
+        raw_attendance = frappe.get_all(
             "Attendance",
             filters={
                 "employee": emp_data.get("name"),
+                "docstatus": 1,
                 "attendance_date": [
                     "between",
                     [
@@ -1246,33 +1253,90 @@ def get_attendance_list(year=None, month=None, start=0, page_length=10):
                 "DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
                 "late_entry",
             ],
-            start=start,
-            page_length=page_length,
+            order_by="attendance_date desc",
         )
 
-        if not employee_attendance_list:
-            return gen_response(500, "No attendance found for this month.", [])
+        # counts are based only on actual attendance records (not holidays)
+        for attendance in raw_attendance:
+            if attendance["status"] == "Present":
+                present_count += 1
+                if attendance.get("late_entry") == 1:
+                    late_count += 1
+            elif attendance["status"] == "Absent":
+                absent_count += 1
 
-        for attendance in employee_attendance_list:
+        # build employee_checkin_detail for each attendance record
+        for attendance in raw_attendance:
             employee_checkin_details = frappe.get_all(
                 "Employee Checkin",
                 filters={"attendance": attendance.get("name")},
                 fields=["log_type", "time_format(time, '%h:%i %p') as time"],
             )
-
             attendance["employee_checkin_detail"] = employee_checkin_details
-
-            if attendance["status"] == "Present":
-                present_count += 1
-
-                if attendance["late_entry"] == 1:
-                    late_count += 1
-
-            elif attendance["status"] == "Absent":
-                absent_count += 1
-
+            # remove internal fields to match previous response shape
             del attendance["name"]
-            del attendance["late_entry"]
+            if "late_entry" in attendance:
+                del attendance["late_entry"]
+
+        # fetch holidays for the employee's holiday list for the month
+        from erpnext.setup.doctype.employee.employee import (
+            get_holiday_list_for_employee,
+        )
+
+        holiday_list_id = get_holiday_list_for_employee(
+            emp_data.name, raise_exception=False
+        )
+
+        holidays = []
+        if holiday_list_id:
+            holidays = frappe.get_all(
+                "Holiday",
+                filters={
+                    "parent": holiday_list_id,
+                    "holiday_date": [
+                        "between",
+                        [
+                            f"{int(year)}-{int(month)}-01",
+                            f"{int(year)}-{int(month)}-{calendar.monthrange(int(year), int(month))[1]}",
+                        ],
+                    ],
+                },
+                fields=["holiday_date", "description"],
+            )
+
+        # convert holidays into attendance-like rows
+        holiday_rows = []
+        for h in holidays:
+            h_date = getdate(h.get("holiday_date"))
+            holiday_rows.append(
+                {
+                    # keep name empty so lookups for Employee Checkin return none
+                    "name": "",
+                    # mimic SQL DATE_FORMAT(attendance_date, '%d %W')
+                    "attendance_date": h_date.strftime("%d %A"),
+                    "date": h_date,
+                    "status": "Holiday",
+                    "working_hours": 0,
+                    "in_time": None,
+                    "out_time": None,
+                    "employee_checkin_detail": [],
+                }
+            )
+
+        # combine and sort by date desc
+        combined = raw_attendance + holiday_rows
+        combined_sorted = sorted(
+            combined, key=lambda r: getdate(r.get("date")), reverse=True
+        )
+
+        # apply pagination
+        start = cint(start)
+        page_length = cint(page_length)
+        paged = combined_sorted[start : start + page_length]
+
+        # if there are no attendance records and no holidays, return same error
+        if not combined_sorted:
+            return gen_response(500, "No attendance found for this month.", [])
 
         attendance_details = {
             "days_in_month": calendar.monthrange(int(year), int(month))[1],
@@ -1280,13 +1344,13 @@ def get_attendance_list(year=None, month=None, start=0, page_length=10):
             "absent": absent_count,
             "late": late_count,
         }
+
         attendance_data = {
             "attendance_details": attendance_details,
-            "attendance_list": employee_attendance_list,
+            "attendance_list": paged,
         }
-        return gen_response(
-            200, "Attendance data getting successfully", attendance_data
-        )
+
+        return gen_response(200, "Attendance data getting successfully", attendance_data)
 
     except Exception as e:
         return exception_handler(e)
@@ -1312,6 +1376,8 @@ def add_comment(reference_doctype=None, reference_name=None, content=None):
         )
         return gen_response(200, "Comment added successfully")
 
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted for comment on this post.")
     except Exception as e:
         return exception_handler(e)
 
@@ -1459,10 +1525,13 @@ def document_list():
                 "document_name",
                 "document_type",
                 "document_sr_no",
+                "owner"
             ],
         )
 
         if documents:
+            for doc in documents:
+                doc["is_creator"] = 1 if doc.get("owner") == frappe.session.user else 0
             return gen_response(200, "Documents get successfully", documents)
         else:
             return gen_response(500, "No documents found for employee", [])
@@ -1698,6 +1767,7 @@ def notification_list(start=0, page_length=20):
                 "creation",
                 "read",
             ],
+            order_by="creation desc",
             start=start,
             page_length=page_length,
         )
@@ -2493,6 +2563,8 @@ def create_missing_log(**data):
                 **data,
                 "employee": employee,
                 "edit_checkin_time": 1,
+                "source": "Mobile",
+                "checkin_type": "Missed Attendance"
             }
         )
         doc.insert()
