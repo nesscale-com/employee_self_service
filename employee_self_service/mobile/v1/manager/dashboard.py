@@ -248,7 +248,7 @@ def format_number_for_card(card_doc, number):
 		main = str(number)
 		symbol = ""
 	else:
-		short = shorten_number(flt(number), country=country)
+		short = shorten_number(flt(number), country=country,precision=2, currency=card_doc.get("currency"))
 		parts = short.split(" ")
 		main = parts[0]
 		symbol = parts[1] if len(parts) > 1 else ""
@@ -260,7 +260,7 @@ def format_number_for_card(card_doc, number):
 	return f"{main} {symbol}".strip()
 
 
-def shorten_number(number, country=None, precision=2):
+def shorten_number(number, country=None, precision=2, currency=False):
 	"""
 	Returns a shortened version of a number based on the country formatting style.
 	- For India: "Lac", "Cr"
@@ -286,23 +286,39 @@ def shorten_number(number, country=None, precision=2):
 
 	for divisor, suffix in divisors:
 		if abs(number) >= divisor:
-			value = round(number / divisor, precision)
+			if currency:
+				value = round(number / divisor, precision)
+			else:
+				value = round(number / divisor)
 			return f"{value} {suffix}"
 
-	return str(round(number, precision))
+	if currency:
+		return str(round(number, precision))
+	else:
+		return str(round(number))
 
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_crm_dashboard():
-	number_card_names = [
-		"Deals Closed (FY - 25)",
-		"Deals Closed # (Current FY)-1",
-		"Amount in Pipeline 25",
-		"Deals in Pipeline-1",
-		"Lost Opportunity",
-		"Deals Stopped"
-	]
+def get_crm_dashboard(company='securetech'):
+	if company == 'nx_digital':
+		number_card_names = [
+			"Deals Closed (NX- FY - 24)-1",
+			"Deals Closed NX # (Current FY)-1",
+			"Amount in Pipeline NX 25",
+			"Deals in Pipeline NX-1",
+			"Lost Opportunity NX",
+			"Deals Stopped NX"
+		]
+	else:
+		number_card_names = [
+			"Deals Closed (FY - 25)",
+			"Deals Closed # (Current FY)-1",
+			"Amount in Pipeline 25",
+			"Deals in Pipeline-1",
+			"Lost Opportunity",
+			"Deals Stopped"
+		]
 
 	dashboard = []
 
@@ -310,7 +326,7 @@ def get_crm_dashboard():
 		doc = frappe.get_doc("Number Card", name)
 		filters = get_all_filters(doc)
 		result = get_result(doc=doc, filters=filters)
-		percentage = shorten_number(get_percentage_difference(doc, filters, result))
+		percentage = shorten_number(get_percentage_difference(doc, filters, result), currency = doc.get('currency'))
 		stats_qualifier = stats_qualifier_map.get(doc.get("stats_time_interval"), "")
 		percentage_text = f"{percentage} % {stats_qualifier}".strip()
 
