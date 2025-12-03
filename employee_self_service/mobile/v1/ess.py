@@ -466,7 +466,7 @@ def get_dashboard():
         # attendance_details = get_attendance_details(emp_data)
         log_details = get_last_log_details(emp_data.get("name"))
         settings = get_ess_settings()
-        approval_requests = get_workflow_documents(internal=True)
+        # approval_requests = get_workflow_documents(internal=True)
         dashboard_data = {
             "notice_board": notice_board,
             "leave_balance": [],
@@ -485,12 +485,12 @@ def get_dashboard():
             ),
             "check_in_with_image": settings.get("check_in_with_image"),
             "check_in_with_location": settings.get("check_in_with_location"),
-            "approval_requests": cstr(approval_requests),
+            # "approval_requests": "0",
             "gender": emp_data.get("gender"),
             "designation": emp_data.get("designation"),
             "allow_share_updates": 0,
-            "allow_approvals": 1 if cint(approval_requests) > 0 else 0,
-            "allow_manager_view": 1 if cint(approval_requests) > 0 else 0,
+            "allow_approvals": 0,
+            "allow_manager_view": 0,
             "show_leave_balance_in_list_view": settings.get(
                 "show_leave_balance_in_list_view"
             ),
@@ -498,6 +498,9 @@ def get_dashboard():
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
             ),
         }
+        # "approval_requests": cstr(approval_requests),
+        # "allow_approvals": 1 if cint(approval_requests) > 0 else 0,
+        # "allow_manager_view": 1 if cint(approval_requests) > 0 else 0,
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
         dashboard_data["employee_name"] = emp_data.get("employee_name")
