@@ -497,6 +497,7 @@ def get_dashboard():
             "notification_count": frappe.db.count(
                 "ESS Notification Log", {"recipient": frappe.session.user, "read": 0}
             ),
+            "log_details": log_details
         }
         # "approval_requests": cstr(approval_requests),
         # "allow_approvals": 1 if cint(approval_requests) > 0 else 0,
@@ -543,7 +544,7 @@ def get_attendance_details_dashboard():
 
 def get_last_log_details(employee):
     log_details = frappe.db.sql(
-        """SELECT log_type,
+        """SELECT log_type, source, checkin_type, workflow_state, 
 		time
 		FROM `tabWeb Check in`
 		WHERE employee=%s
@@ -1444,6 +1445,8 @@ def get_profile():
                 "emergency_phone_number",
                 "custom_linkedin_profile",
                 "custom_front",
+                "contract_end_date",
+                "reports_to"
             ],
             as_dict=True,
         )
@@ -1456,6 +1459,10 @@ def get_profile():
 
         employee_details["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"
+        )
+        
+        employee_details["reports_to"] = frappe.get_cached_value(
+            "Employee", employee_details["reports_to"], "employee_name"
         )
 
         return gen_response(200, "Profile get successfully", employee_details)
@@ -2573,5 +2580,28 @@ def create_missing_log(**data):
         doc.insert()
 
         return gen_response(200, "Missing Log created successfully")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_web_check_in_list(filters=None, start=0, page_length=10):
+    try:
+        employee = frappe.db.get_value(
+            "Employee", {"user_id": frappe.session.user}, "name"
+        )
+        if not employee:
+            return gen_response(404, "Employee not found for current user")
+        
+        web_check_in_list = frappe.get_list(
+            "Web Check in",
+            filters=filters,
+            fields=["name","employee", "employee_name", "checkin_type", "description", "log_type", "source", "workflow_state", "time"],
+            order_by="time desc",
+            start=start,
+            page_length=page_length
+        )
+        return gen_response(200, "web check in list get successfully.", web_check_in_list)
     except Exception as e:
         return exception_handler(e)
