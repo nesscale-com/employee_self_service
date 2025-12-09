@@ -754,7 +754,7 @@ def create_employee_log(
                 time=now_datetime().__str__()[:-7],
                 latitude=latitude,
                 longitude=longitude,
-                checkin_type=check_in_type,
+                checkin_type=check_in_type or "Default Location",
                 description=check_in_reference,
                 project=project,
                 source="Mobile"
