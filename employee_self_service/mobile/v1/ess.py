@@ -51,7 +51,9 @@ def login(usr, pwd):
         validate_employee(login_manager.user)
         login_manager.post_login()
         if frappe.response["message"] == "Logged In":
-            emp_data = get_employee_by_user(login_manager.user, fields=["name", "gender"])
+            emp_data = get_employee_by_user(
+                login_manager.user, fields=["name", "gender"]
+            )
             frappe.response["user"] = login_manager.user
             frappe.response["key_details"] = generate_key(login_manager.user)
             frappe.response["employee_id"] = emp_data.get("name")
@@ -77,18 +79,27 @@ def make_leave_application(*args, **kwargs):
     try:
         from hrms.hr.doctype.leave_application.leave_application import (
             get_leave_approver,
+            get_leave_balance_on,
         )
 
         emp_data = get_employee_by_user(frappe.session.user)
         if not len(emp_data) >= 1:
             return gen_response(500, "Employee does not exists!")
         validate_employee_data(emp_data)
+        leave_balance = get_leave_balance_on(
+            employee=emp_data.get("name"),
+            date=kwargs.get("from_date"),
+            to_date=kwargs.get("to_date"),
+            leave_type=kwargs.get("leave_type"),
+            consider_all_leaves_in_the_allocation_period=1,
+        )
         leave_application_doc = frappe.get_doc(
             dict(
                 doctype="Leave Application",
                 employee=emp_data.get("name"),
                 company=emp_data.company,
                 leave_approver=get_leave_approver(emp_data.name),
+                leave_balance=leave_balance or 0,
             )
         )
         leave_application_doc.update(kwargs)
@@ -460,7 +471,14 @@ def get_dashboard():
     try:
         emp_data = get_employee_by_user(
             frappe.session.user,
-            fields=["name", "company", "image", "employee_name", "designation", "gender"],
+            fields=[
+                "name",
+                "company",
+                "image",
+                "employee_name",
+                "designation",
+                "gender",
+            ],
         )
         notice_board = get_notice_board(emp_data.get("name"))
         # attendance_details = get_attendance_details(emp_data)
@@ -554,6 +572,16 @@ def get_last_log_details(employee):
         as_dict=1,
     )
 
+    one_last_log_details = frappe.db.sql(
+        """SELECT log_type, source, checkin_type, workflow_state, 
+        time
+        FROM `tabWeb Check in`
+        WHERE employee=%s
+        ORDER BY time DESC Limit 1""",
+        (employee),
+        as_dict=1,
+    )
+
     if log_details:
         user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
         system_timezone = get_system_timezone()
@@ -566,8 +594,38 @@ def get_last_log_details(employee):
             first_check_in = in_logs[-1]
             return first_check_in
         return log_details[0]
+    elif one_last_log_details:
+        return one_last_log_details[0]
     else:
         return {"log_type": "OUT", "time": None}
+
+
+# def get_last_log_details(employee):
+#     log_details = frappe.db.sql(
+#         """SELECT log_type, source, checkin_type, workflow_state,
+# 		time
+# 		FROM `tabWeb Check in`
+# 		WHERE employee=%s
+# 		AND DATE(time)=%s
+# 		ORDER BY time DESC""",
+#         (employee, today()),
+#         as_dict=1,
+#     )
+
+#     if log_details:
+#         user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
+#         system_timezone = get_system_timezone()
+#         if user_time_zone:
+#             log_details[0].time = convert_timezone(
+#                 log_details[0].time, system_timezone, user_time_zone
+#             )
+#         if log_details[0].log_type == "IN":
+#             in_logs = [log for log in log_details if log["log_type"] == "IN"]
+#             first_check_in = in_logs[-1]
+#             return first_check_in
+#         return log_details[0]
+#     else:
+#         return {"log_type": "OUT", "time": None}
 
 
 def get_notice_board(employee=None):
@@ -758,7 +816,7 @@ def create_employee_log(
                 checkin_type=check_in_type or "Default Location",
                 description=check_in_reference,
                 project=project,
-                source="Mobile"
+                source="Mobile",
             )
         )
         # if check_in_type=="Work from Home":
@@ -1181,7 +1239,7 @@ def get_attendance_detail(year=None, month=None):
                 "DATE_FORMAT(in_time, '%h:%i %p') AS in_time",
                 "DATE_FORMAT(out_time, '%h:%i %p') AS out_time",
                 "late_entry",
-            ]
+            ],
         )
 
         if not employee_attendance_list:
@@ -1354,11 +1412,12 @@ def get_attendance_list(year=None, month=None, start=0, page_length=31):
             "attendance_list": paged,
         }
 
-        return gen_response(200, "Attendance data getting successfully", attendance_data)
+        return gen_response(
+            200, "Attendance data getting successfully", attendance_data
+        )
 
     except Exception as e:
         return exception_handler(e)
-
 
 
 @frappe.whitelist()
@@ -1446,7 +1505,7 @@ def get_profile():
                 "custom_linkedin_profile",
                 "custom_front",
                 "contract_end_date",
-                "reports_to"
+                "reports_to",
             ],
             as_dict=True,
         )
@@ -1460,7 +1519,7 @@ def get_profile():
         employee_details["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"
         )
-        
+
         employee_details["reports_to"] = frappe.get_cached_value(
             "Employee", employee_details["reports_to"], "employee_name"
         )
@@ -1535,7 +1594,7 @@ def document_list():
                 "document_name",
                 "document_type",
                 "document_sr_no",
-                "owner"
+                "owner",
             ],
         )
 
@@ -2574,7 +2633,7 @@ def create_missing_log(**data):
                 "employee": employee,
                 "edit_checkin_time": 1,
                 "source": "Mobile",
-                "checkin_type": "Missed Attendance"
+                "checkin_type": "Missed Attendance",
             }
         )
         doc.insert()
@@ -2593,15 +2652,27 @@ def get_web_check_in_list(filters=None, start=0, page_length=10):
         )
         if not employee:
             return gen_response(404, "Employee not found for current user")
-        
+
         web_check_in_list = frappe.get_list(
             "Web Check in",
             filters=filters,
-            fields=["name","employee", "employee_name", "checkin_type", "description", "log_type", "source", "workflow_state", "time"],
+            fields=[
+                "name",
+                "employee",
+                "employee_name",
+                "checkin_type",
+                "description",
+                "log_type",
+                "source",
+                "workflow_state",
+                "time",
+            ],
             order_by="time desc",
             start=start,
-            page_length=page_length
+            page_length=page_length,
         )
-        return gen_response(200, "web check in list get successfully.", web_check_in_list)
+        return gen_response(
+            200, "web check in list get successfully.", web_check_in_list
+        )
     except Exception as e:
         return exception_handler(e)
