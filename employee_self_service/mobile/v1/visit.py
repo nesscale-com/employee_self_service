@@ -70,12 +70,18 @@ def get_visit_list():
             fields=[
                 "name",
                 "customer_name",
-                "DATE_FORMAT(date, '%d-%m-%Y') as date",
-                "time_format(time, '%h:%i:%s') as time",
+                "date",
+                "time",
                 "visit_type",
                 "description",
             ],
         )
+        # Format dates and times
+        for visit in visit_list:
+            if visit.get("date"):
+                visit["date"] = visit["date"].strftime("%d-%m-%Y")
+            if visit.get("time"):
+                visit["time"] = visit["time"].strftime("%I:%M:%S")
         return gen_response(200, "Visit list get successfully", visit_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read visit")

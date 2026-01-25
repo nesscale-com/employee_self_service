@@ -20,6 +20,7 @@ from frappe.utils import (
     nowdate,
     pretty_date,
     today,
+    cint,
 )
 
 from employee_self_service.employee_self_service.doctype.push_notification.push_notification import (
@@ -189,7 +190,7 @@ def get_leave_type(from_date=None, to_date=None):
             from_date = today()
         emp_data = get_employee_by_user(frappe.session.user)
         leave_types = frappe.get_all(
-            "Leave Type", filters={}, fields=["name", "'0' as balance"]
+            "Leave Type", filters={}, fields=["name"]
         )
         for leave_type in leave_types:
             leave_type["balance"] = get_leave_balance_on(
@@ -215,26 +216,48 @@ def get_leave_application_list():
         leave_application_fields = [
             "name",
             "leave_type",
-            "DATE_FORMAT(from_date, '%d-%m-%Y') as from_date",
-            "DATE_FORMAT(to_date, '%d-%m-%Y') as to_date",
+            "from_date",
+            "to_date",
             "total_leave_days",
             "description",
             "status",
-            "DATE_FORMAT(posting_date, '%d-%m-%Y') as posting_date",
+            "posting_date",
             "half_day",
-            "DATE_FORMAT(half_day_date, '%d-%m-%Y') as half_day_date",
+            "half_day_date",
         ]
         upcoming_leaves = frappe.get_all(
             "Leave Application",
             filters={"from_date": [">", today()], "employee": emp_data.get("name")},
             fields=leave_application_fields,
         )
+        
+        # Format dates
+        for leave in upcoming_leaves:
+            if leave.get("from_date"):
+                leave["from_date"] = leave["from_date"].strftime("%d-%m-%Y")
+            if leave.get("to_date"):
+                leave["to_date"] = leave["to_date"].strftime("%d-%m-%Y")
+            if leave.get("posting_date"):
+                leave["posting_date"] = leave["posting_date"].strftime("%d-%m-%Y")
+            if leave.get("half_day_date"):
+                leave["half_day_date"] = leave["half_day_date"].strftime("%d-%m-%Y")
 
         taken_leaves = frappe.get_all(
             "Leave Application",
             fields=leave_application_fields,
             filters={"from_date": ["<=", today()], "employee": emp_data.get("name")},
         )
+        
+        # Format dates
+        for leave in taken_leaves:
+            if leave.get("from_date"):
+                leave["from_date"] = leave["from_date"].strftime("%d-%m-%Y")
+            if leave.get("to_date"):
+                leave["to_date"] = leave["to_date"].strftime("%d-%m-%Y")
+            if leave.get("posting_date"):
+                leave["posting_date"] = leave["posting_date"].strftime("%d-%m-%Y")
+            if leave.get("half_day_date"):
+                leave["half_day_date"] = leave["half_day_date"].strftime("%d-%m-%Y")
         fiscal_year = get_fiscal_year(nowdate())[0]
         if not fiscal_year:
             return gen_response(500, "Fiscal year not set")
@@ -765,8 +788,8 @@ def get_latest_leave(dashboard_data, employee):
         filters={"employee": employee},
         fields=[
             "status",
-            "DATE_FORMAT(from_date, '%d-%m-%Y') AS from_date",
-            "DATE_FORMAT(to_date, '%d-%m-%Y') AS to_date",
+            "from_date",
+            "to_date",
             "name",
             "leave_type",
             "description",
@@ -774,7 +797,13 @@ def get_latest_leave(dashboard_data, employee):
         order_by="modified desc",
     )
     if len(leave_applications) >= 1:
-        dashboard_data["latest_leave"] = leave_applications[0]
+        latest = leave_applications[0]
+        # Format dates
+        if latest.get("from_date"):
+            latest["from_date"] = latest["from_date"].strftime("%d-%m-%Y")
+        if latest.get("to_date"):
+            latest["to_date"] = latest["to_date"].strftime("%d-%m-%Y")
+        dashboard_data["latest_leave"] = latest
 
 
 # def get_latest_expense(dashboard_data, employee):
@@ -1083,7 +1112,7 @@ def get_attendance_list(year=None, month=None):
             },
             fields=[
                 "name",
-                "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
+                "attendance_date",
                 "status",
                 "working_hours",
                 "in_time",
@@ -1101,6 +1130,9 @@ def get_attendance_list(year=None, month=None):
         if user_time_zone != system_timezone:
             to_convert_timezone = True
         for attendance in employee_attendance_list:
+            # Format attendance date
+            if attendance.get("attendance_date"):
+                attendance["attendance_date"] = attendance["attendance_date"].strftime("%d %A")
             employee_checkin_details = []
             if to_convert_timezone:
                 if attendance["in_time"]:
@@ -1124,8 +1156,12 @@ def get_attendance_list(year=None, month=None):
                 employee_checkin_details = frappe.get_all(
                     "Employee Checkin",
                     filters={"attendance": attendance.get("name")},
-                    fields=["log_type", "time_format(time, '%h:%i%p') as time"],
+                    fields=["log_type", "time"],
                 )
+                # Format time
+                for checkin in employee_checkin_details:
+                    if checkin.get("time"):
+                        checkin["time"] = checkin["time"].strftime("%I:%M%p")
 
             attendance["employee_checkin_detail"] = employee_checkin_details
 
@@ -1973,14 +2009,17 @@ def get_transactions_old(
 @ess_validate(methods=["GET"])
 def get_customer_list(start=0, page_length=10, filters=None):
     try:
+        if isinstance(filters, str):
+            filters = json.loads(filters)
         customer_list = frappe.get_list(
             "Customer",
             ["name", "customer_name", "mobile_no as phone"],
-            start=start,
+            start=cint(start),
             filters=filters,
-            page_length=page_length,
+            page_length=cint(page_length),
             order_by="modified desc",
         )
+        frappe.log_error(title="Customer List",message=str(customer_list))
         return gen_response(200, "Customer list get successfully", customer_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read customer")
@@ -2205,7 +2244,7 @@ def get_attendance_list_by_date(date=None):
             },
             fields=[
                 "name",
-                "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
+                "attendance_date",
                 "status",
                 "working_hours",
                 "in_time",
@@ -2216,6 +2255,16 @@ def get_attendance_list_by_date(date=None):
 
         if not employee_attendance_list:
             return gen_response(500, "no attendance found for this year and month", [])
+
+        user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
+        system_timezone = get_system_timezone()
+        to_convert_timezone = False
+        if user_time_zone != system_timezone:
+            to_convert_timezone = True
+        for attendance in employee_attendance_list:
+            # Format attendance date
+            if attendance.get("attendance_date"):
+                attendance["attendance_date"] = attendance["attendance_date"].strftime("%d %A")
 
         user_time_zone = frappe.db.get_value("User", frappe.session.user, "time_zone")
         system_timezone = get_system_timezone()
@@ -2258,10 +2307,14 @@ def get_attendance_list_by_date(date=None):
                     filters={"attendance": attendance.get("name")},
                     fields=[
                         "log_type",
-                        "time_format(time, '%h:%i%p') as time",
+                        "time",
                         "location",
                     ],
                 )
+                # Format time
+                for checkin in employee_checkin_details:
+                    if checkin.get("time"):
+                        checkin["time"] = checkin["time"].strftime("%I:%M%p")
 
             attendance["employee_checkin_detail"] = employee_checkin_details
 

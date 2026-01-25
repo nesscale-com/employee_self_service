@@ -66,7 +66,7 @@ def get_quotation_list(
             fields=[
                 "name",
                 "customer_name",
-                "DATE_FORMAT(transaction_date, '%d-%m-%Y') as transaction_date",
+                "transaction_date",
                 "grand_total",
                 "status",
                 "total_qty",
@@ -77,6 +77,9 @@ def get_quotation_list(
             filters=updated_filters,
         )
         for quotation in quotation_list:
+            # Format date
+            if quotation.get("transaction_date"):
+                quotation["transaction_date"] = quotation["transaction_date"].strftime("%d-%m-%Y")
             quotation["grand_total"] = fmt_money(
                 quotation["grand_total"],
                 currency=global_defaults.get("default_currency"),
