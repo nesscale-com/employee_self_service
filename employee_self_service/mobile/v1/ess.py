@@ -861,18 +861,18 @@ def get_latest_ss(dashboard_data, employee):
 
 @frappe.whitelist()
 def create_employee_log(
-    log_type, location=None, odometer_reading=None, attendance_image=None
+    log_type, log_time=None, location=None, odometer_reading=None, attendance_image=None
 ):
     try:
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift", "branch"]
         )
-
+        frappe.log_error(title="log_time", message=log_time)
         log_doc = frappe.get_doc(
             doctype="Employee Checkin",
             employee=emp_data.get("name"),
             log_type=log_type,
-            time=now_datetime().__str__()[:-7],
+            time=log_time if log_time else now_datetime().__str__()[:-7],
             location=location,
             odometer_reading=odometer_reading,
         ).insert(ignore_permissions=True)
