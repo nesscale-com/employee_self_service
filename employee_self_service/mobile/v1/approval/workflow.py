@@ -7,7 +7,7 @@ from employee_self_service.mobile.v1.api_utils import (
     exception_handler,
     gen_response,
 )
-
+from employee_self_service.utils import add_ess_comment
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -133,12 +133,23 @@ def get_actions(document_type, document_no):
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_workflow_state(document_type, document_no, action):
+def update_workflow_state(document_type, document_no, action, comment=None):
     try:
         from frappe.model.workflow import apply_workflow
 
         doc = frappe.get_doc(document_type, document_no)
         apply_workflow(doc, action)
+        if comment:
+            comment_by = frappe.db.get_value(
+                "User", frappe.session.user, "full_name", as_dict=1
+            )
+            add_ess_comment(
+                reference_doctype=document_type,
+                reference_name=document_no,
+                content=comment,
+                comment_email=frappe.session.user,
+                comment_by=comment_by.get("full_name"),
+            )
         return gen_response(200, "Workflow State Updated Successfully")
     except frappe.PermissionError:
         return gen_response(500, f"Not permitted for update {document_type}")

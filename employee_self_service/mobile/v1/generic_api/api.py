@@ -29,6 +29,7 @@ from employee_self_service.mobile.v1.api_utils import (
     gen_response,
     get_employee_by_user,
 )
+import json
 
 
 def get_list_fields_from_meta(doctype):
@@ -65,6 +66,8 @@ def get_list(
     page_length=20,
     order_by=None,
     aggregate=None,
+    mobile_form=None,
+    view=None,
     **kwargs,
 ):
     """
@@ -119,6 +122,10 @@ def get_list(
         # Build filters
         if not filters:
             filters = []
+        if mobile_form and view:
+            additional_filters = get_additional_filters(mobile_form, view, doctype)
+            if additional_filters:
+                filters.extend(additional_filters)
 
         # Get documents
         documents = frappe.get_list(
@@ -134,8 +141,6 @@ def get_list(
         # Aggregation allows counting child table items or summing fields
         if aggregate and documents:
             try:
-                import json
-
                 # Parse aggregate parameter
                 # Supports both JSON string (from GET) and list (from POST body)
                 # Format: [{"table_name":"Purchase Order Item","function":"count","field_name":""},
@@ -197,6 +202,20 @@ def get_list(
         return gen_response(200, "List Details Get Successfully", documents)
     except Exception as e:
         return exception_handler(e)
+
+
+def get_additional_filters(mobile_form, view, document_type=None):
+    """Get additional filters based on mobile form and view"""
+    additional_filters = []
+    data = frappe.db.get_value(
+        "ESS API Filters Details",
+        {"parent": mobile_form, "view": view, "document_type": document_type},
+        "filters",
+        as_dict=True,
+    )
+    if data:
+        additional_filters = json.loads(data.get("filters", "[]"))
+    return additional_filters
 
 
 @frappe.whitelist()

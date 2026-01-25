@@ -1,0 +1,5483 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.016856",
+  "name": "hi-Delivery Date",
+  "source_text": "Delivery Date",
+  "translated_text": "डिलीवरी की तारीख"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.078357",
+  "name": "hi-Item",
+  "source_text": "Item",
+  "translated_text": "वस्तु"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.119091",
+  "name": "hi-Select Duration Type",
+  "source_text": "Select Duration Type",
+  "translated_text": "अवधि प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.158937",
+  "name": "hi-ToDo Details",
+  "source_text": "ToDo Details",
+  "translated_text": "टू-डू विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.196418",
+  "name": "hi-Update ToDo",
+  "source_text": "Update ToDo",
+  "translated_text": "टूडू अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.234217",
+  "name": "hi-Select Priority",
+  "source_text": "Select Priority",
+  "translated_text": "प्राथमिकता चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.276027",
+  "name": "hi-ToDo",
+  "source_text": "ToDo",
+  "translated_text": "करने के लिए"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.316682",
+  "name": "hi-Filter ToDos",
+  "source_text": "Filter ToDos",
+  "translated_text": "टूडू फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.360525",
+  "name": "hi-All ToDos",
+  "source_text": "All ToDos",
+  "translated_text": "सभी कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.396358",
+  "name": "hi-Today's ToDos",
+  "source_text": "Today's ToDos",
+  "translated_text": "आज के कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.432078",
+  "name": "hi-Create ToDo",
+  "source_text": "Create ToDo",
+  "translated_text": "टू-डू बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.469841",
+  "name": "hi-Pending ToDos",
+  "source_text": "Pending ToDos",
+  "translated_text": "लंबित कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.508485",
+  "name": "hi-Select Supplier",
+  "source_text": "Select Supplier",
+  "translated_text": "आपूर्तिकर्ता का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.549490",
+  "name": "hi-No Lead Found !",
+  "source_text": "No Lead Found !",
+  "translated_text": "कोई सुराग नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.605065",
+  "name": "hi-Create Lead",
+  "source_text": "Create Lead",
+  "translated_text": "लीड बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.650582",
+  "name": "hi-Update Lead",
+  "source_text": "Update Lead",
+  "translated_text": "लीड अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.691934",
+  "name": "hi-Website",
+  "source_text": "Website",
+  "translated_text": "वेबसाइट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.731876",
+  "name": "hi-Create Event",
+  "source_text": "Create Event",
+  "translated_text": "ईवेंट बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.775275",
+  "name": "hi-Event Type",
+  "source_text": "Event Type",
+  "translated_text": "घटना का प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.814438",
+  "name": "hi-Event Category",
+  "source_text": "Event Category",
+  "translated_text": "इवेंट श्रेणी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.853946",
+  "name": "hi-Select Event Type",
+  "source_text": "Select Event Type",
+  "translated_text": "ईवेंट प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.891443",
+  "name": "hi-Select Event Category",
+  "source_text": "Select Event Category",
+  "translated_text": "इवेंट श्रेणी चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.928881",
+  "name": "hi-Lead Details",
+  "source_text": "Lead Details",
+  "translated_text": "लीड विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:29.967103",
+  "name": "hi-Lead",
+  "source_text": "Lead",
+  "translated_text": "नेतृत्व करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.011747",
+  "name": "hi-Lead Type",
+  "source_text": "Lead Type",
+  "translated_text": "लीड प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.051797",
+  "name": "hi-Last Name",
+  "source_text": "Last Name",
+  "translated_text": "उपनाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.095799",
+  "name": "hi-First Name",
+  "source_text": "First Name",
+  "translated_text": "पहला नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.146698",
+  "name": "hi-Source",
+  "source_text": "Source",
+  "translated_text": "स्रोत"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.205512",
+  "name": "hi-Request Type",
+  "source_text": "Request Type",
+  "translated_text": "अनुरोध प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.260532",
+  "name": "hi-WhatsApp Number",
+  "source_text": "WhatsApp Number",
+  "translated_text": "व्हाट्सएप नंबर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.304283",
+  "name": "hi-Total Amount",
+  "source_text": "Total Amount",
+  "translated_text": "कुल राशि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.343072",
+  "name": "hi-Organization Name",
+  "source_text": "Organization Name",
+  "translated_text": "संगठन का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.394331",
+  "name": "hi-Industry",
+  "source_text": "Industry",
+  "translated_text": "उद्योग"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.440957",
+  "name": "hi-Number of Employees",
+  "source_text": "Number of Employees",
+  "translated_text": "कर्मचारियों की संख्या"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.486067",
+  "name": "hi-Annual Revenue",
+  "source_text": "Annual Revenue",
+  "translated_text": "वार्षिक राजस्व"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.531264",
+  "name": "hi-Job Title",
+  "source_text": "Job Title",
+  "translated_text": "पद का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.571342",
+  "name": "hi-City",
+  "source_text": "City",
+  "translated_text": "शहर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.632109",
+  "name": "hi-State",
+  "source_text": "State",
+  "translated_text": "राज्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.698315",
+  "name": "hi-Select Request Type",
+  "source_text": "Select Request Type",
+  "translated_text": "अनुरोध प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.740369",
+  "name": "hi-Select Source",
+  "source_text": "Select Source",
+  "translated_text": "स्रोत चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.778598",
+  "name": "hi-Select Industry",
+  "source_text": "Select Industry",
+  "translated_text": "उद्योग का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.812775",
+  "name": "hi-Select Number of Employees",
+  "source_text": "Select Number of Employees",
+  "translated_text": "कर्मचारियों की संख्या चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.847770",
+  "name": "hi-Select Country",
+  "source_text": "Select Country",
+  "translated_text": "देश चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.883528",
+  "name": "hi-Confirm",
+  "source_text": "Confirm",
+  "translated_text": "पुष्टि करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.917878",
+  "name": "hi-Are you sure you want to cancel",
+  "source_text": "Are you sure you want to cancel",
+  "translated_text": "आप आप रद्द करना चाहते हैं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:30.960095",
+  "name": "hi-Are you sure you want to submit",
+  "source_text": "Are you sure you want to submit",
+  "translated_text": "क्या आप वाकई सबमिट करने के इच्छुक हैं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.004661",
+  "name": "hi-Are you sure you want to delete",
+  "source_text": "Are you sure you want to delete",
+  "translated_text": "क्या आप आश्वस्त है कि आपको डिलीट करना है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.040537",
+  "name": "hi-Confirmation",
+  "source_text": "Confirmation",
+  "translated_text": "पुष्टीकरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.078688",
+  "name": "hi-Sanctioned Amount",
+  "source_text": "Sanctioned Amount",
+  "translated_text": "स्वीकृत राशि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.117180",
+  "name": "hi-Total Expenses",
+  "source_text": "Total Expenses",
+  "translated_text": "कुल व्यय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.154936",
+  "name": "hi-Paid From",
+  "source_text": "Paid From",
+  "translated_text": "भुगतान से"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.194013",
+  "name": "hi-Paid To",
+  "source_text": "Paid To",
+  "translated_text": "को भुगतान किया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.231282",
+  "name": "hi-Company Name",
+  "source_text": "Company Name",
+  "translated_text": "कंपनी का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.269891",
+  "name": "hi-Invalid checkout time. The selected time cannot be later than the current time.",
+  "source_text": "Invalid checkout time. The selected time cannot be later than the current time.",
+  "translated_text": "चेकआउट समय अमान्य है। चुना गया समय वर्तमान समय से बाद का नहीं हो सकता।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.305984",
+  "name": "hi-Enter Checkout Time and Reason",
+  "source_text": "Enter Checkout Time and Reason",
+  "translated_text": "चेकआउट समय और कारण दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.343941",
+  "name": "hi-Are you sure you want to check out from an out-of-location area?",
+  "source_text": "Are you sure you want to check out from an out-of-location area?",
+  "translated_text": "क्या आप वाकई किसी बाहरी क्षेत्र से चेक-आउट करना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.381137",
+  "name": "hi-Select Time",
+  "source_text": "Select Time",
+  "translated_text": "समय चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.418438",
+  "name": "hi-Are you sure you want to cancel leave?",
+  "source_text": "Are you sure you want to cancel leave?",
+  "translated_text": "क्या आप वाकई छुट्टी रद्द करना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.456745",
+  "name": "hi-No Shift Request Found",
+  "source_text": "No Shift Request Found",
+  "translated_text": "कोई शिफ्ट अनुरोध नहीं मिला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.496552",
+  "name": "hi-You have checked out at",
+  "source_text": "You have checked out at",
+  "translated_text": "आपने चेक आउट किया है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.553951",
+  "name": "hi-Shift Req",
+  "source_text": "Shift Req",
+  "translated_text": "शिफ्ट आवश्यकता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.599174",
+  "name": "hi-Shift Details",
+  "source_text": "Shift Details",
+  "translated_text": "शिफ्ट विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.642923",
+  "name": "hi-Shift Type",
+  "source_text": "Shift Type",
+  "translated_text": "शिफ्ट प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.681822",
+  "name": "hi-Apply Shift Request",
+  "source_text": "Apply Shift Request",
+  "translated_text": "शिफ्ट अनुरोध लागू करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.719433",
+  "name": "hi-Update Shift Request",
+  "source_text": "Update Shift Request",
+  "translated_text": "शिफ्ट अनुरोध अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.755802",
+  "name": "hi-Shift Request",
+  "source_text": "Shift Request",
+  "translated_text": "शिफ्ट अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.792043",
+  "name": "hi-Party Name",
+  "source_text": "Party Name",
+  "translated_text": "दल का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.830526",
+  "name": "hi-No Attendance Request Found",
+  "source_text": "No Attendance Request Found",
+  "translated_text": "कोई उपस्थिति अनुरोध नहीं मिला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.867993",
+  "name": "hi-Total Expense",
+  "source_text": "Total Expense",
+  "translated_text": "कुल व्यय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.905319",
+  "name": "hi-Expense Details",
+  "source_text": "Expense Details",
+  "translated_text": "व्यय विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.943693",
+  "name": "hi-Approve",
+  "source_text": "Approve",
+  "translated_text": "मंज़ूरी देना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:31.979937",
+  "name": "hi-Reject",
+  "source_text": "Reject",
+  "translated_text": "अस्वीकार करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.018446",
+  "name": "hi-ID",
+  "source_text": "ID",
+  "translated_text": "पहचान"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.054841",
+  "name": "hi-Team Expenses",
+  "source_text": "Team Expenses",
+  "translated_text": "टीम का खर्च"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.104893",
+  "name": "hi-Team Leaves",
+  "source_text": "Team Leaves",
+  "translated_text": "टीम रवाना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.157959",
+  "name": "hi-Approval",
+  "source_text": "Approval",
+  "translated_text": "अनुमोदन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.196566",
+  "name": "hi-Attend Req",
+  "source_text": "Attend Req",
+  "translated_text": "उपस्थिति की आवश्यकता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.234477",
+  "name": "hi-Worked Hours",
+  "source_text": "Worked Hours",
+  "translated_text": "कार्य घंटे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.274422",
+  "name": "hi-Filter Leaves",
+  "source_text": "Filter Leaves",
+  "translated_text": "फ़िल्टर पत्तियां"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.312498",
+  "name": "hi-Filter Expenses",
+  "source_text": "Filter Expenses",
+  "translated_text": "व्यय फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.356590",
+  "name": "hi-Filter Attendance Request",
+  "source_text": "Filter Attendance Request",
+  "translated_text": "उपस्थिति अनुरोध फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.400815",
+  "name": "hi-Reason",
+  "source_text": "Reason",
+  "translated_text": "कारण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.437598",
+  "name": "hi-Cancel Leave",
+  "source_text": "Cancel Leave",
+  "translated_text": "छुट्टी रद्द करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.476115",
+  "name": "hi-Applied on",
+  "source_text": "Applied on",
+  "translated_text": "पर लागू"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.513033",
+  "name": "hi-Leave Type",
+  "source_text": "Leave Type",
+  "translated_text": "छुट्टी का प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.548626",
+  "name": "hi-Update Leave Request",
+  "source_text": "Update Leave Request",
+  "translated_text": "छुट्टी का अनुरोध अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.586529",
+  "name": "hi-From",
+  "source_text": "From",
+  "translated_text": "से"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.624036",
+  "name": "hi-To",
+  "source_text": "To",
+  "translated_text": "को"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.664439",
+  "name": "hi-Leave Duration",
+  "source_text": "Leave Duration",
+  "translated_text": "छुट्टी की अवधि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.701172",
+  "name": "hi-Leave Details",
+  "source_text": "Leave Details",
+  "translated_text": "छुट्टी का विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.738349",
+  "name": "hi-years",
+  "source_text": "years",
+  "translated_text": "साल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.773225",
+  "name": "hi-about a year",
+  "source_text": "about a year",
+  "translated_text": "लगभग एक वर्ष"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.811919",
+  "name": "hi-months",
+  "source_text": "months",
+  "translated_text": "महीने"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.848485",
+  "name": "hi-about a month",
+  "source_text": "about a month",
+  "translated_text": "एक महीने मे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.886379",
+  "name": "hi-a day",
+  "source_text": "a day",
+  "translated_text": "एक दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.926338",
+  "name": "hi-Hours",
+  "source_text": "Hours",
+  "translated_text": "घंटे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:32.965220",
+  "name": "hi-about an hour",
+  "source_text": "about an hour",
+  "translated_text": "लगभग एक घंटा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.016490",
+  "name": "hi-a minute",
+  "source_text": "a minute",
+  "translated_text": "एक मिनट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.062394",
+  "name": "hi-a moment",
+  "source_text": "a moment",
+  "translated_text": "एक पल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.109561",
+  "name": "hi-ago",
+  "source_text": "ago",
+  "translated_text": "पहले"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.155116",
+  "name": "hi-from now",
+  "source_text": "from now",
+  "translated_text": "अभी से"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.196062",
+  "name": "hi-Please select customer",
+  "source_text": "Please select customer",
+  "translated_text": "कृपया ग्राहक का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.234159",
+  "name": "hi-Items selected",
+  "source_text": "Items selected",
+  "translated_text": "चयनित आइटम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.274641",
+  "name": "hi-Second Half",
+  "source_text": "Second Half",
+  "translated_text": "दूसरी छमाही"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.313637",
+  "name": "hi-First Half",
+  "source_text": "First Half",
+  "translated_text": "पहली छमाही"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.355202",
+  "name": "hi-Select",
+  "source_text": "Select",
+  "translated_text": "चुनना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.390077",
+  "name": "hi-Select Items",
+  "source_text": "Select Items",
+  "translated_text": "वस्तुएं चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.426070",
+  "name": "hi-Internal Error occurred, please try again later !",
+  "source_text": "Internal Error occurred, please try again later !",
+  "translated_text": "आंतरिक त्रुटि हुई, कृपया बाद में पुनः प्रयास करें!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.463317",
+  "name": "hi-Something went wrong, please try again !",
+  "source_text": "Something went wrong, please try again !",
+  "translated_text": "कुछ गड़बड़ हुई है। कृपया दोबारा प्रयास करें !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.499632",
+  "name": "hi-Go to settings and enable the location permission !!! Tap to open settings.",
+  "source_text": "Go to settings and enable the location permission !!! Tap to open settings.",
+  "translated_text": "सेटिंग्स में जाएं और स्थान अनुमति सक्षम करें !!! सेटिंग्स खोलने के लिए टैप करें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.536051",
+  "name": "hi-Go to settings and grant \"always use\" location permission !!! Tap to open settings.",
+  "source_text": "Go to settings and grant \"always use\" location permission !!! Tap to open settings.",
+  "translated_text": "सेटिंग्स में जाएं और \"हमेशा उपयोग करें\" स्थान की अनुमति दें !!! सेटिंग्स खोलने के लिए टैप करें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.572344",
+  "name": "hi-We are sorry for the inconvenience, please login again !",
+  "source_text": "We are sorry for the inconvenience, please login again !",
+  "translated_text": "असुविधा के लिए हमें खेद है, कृपया पुनः लॉगिन करें!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.608824",
+  "name": "hi-Unable to proceed: You are outside the authorised location for this action.",
+  "source_text": "Unable to proceed: You are outside the authorised location for this action.",
+  "translated_text": "आगे बढ़ने में असमर्थ: आप इस कार्रवाई के लिए अधिकृत स्थान से बाहर हैं।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.646747",
+  "name": "hi-Your session has expired, please login again !",
+  "source_text": "Your session has expired, please login again !",
+  "translated_text": "आपका सत्र समाप्त हो गया है, कृपया पुनः लॉगिन करें!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.684919",
+  "name": "hi-Notifications",
+  "source_text": "Notifications",
+  "translated_text": "सूचनाएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.731336",
+  "name": "hi-Month",
+  "source_text": "Month",
+  "translated_text": "महीना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.769963",
+  "name": "hi-No Data Available",
+  "source_text": "No Data Available",
+  "translated_text": "कोई डेटा मौजूद नहीं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.806486",
+  "name": "hi-View all",
+  "source_text": "View all",
+  "translated_text": "सभी को देखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.842503",
+  "name": "hi-Back",
+  "source_text": "Back",
+  "translated_text": "पीछे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.878432",
+  "name": "hi-Quantity",
+  "source_text": "Quantity",
+  "translated_text": "मात्रा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.915198",
+  "name": "hi-Attachments",
+  "source_text": "Attachments",
+  "translated_text": "संलग्नक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.951504",
+  "name": "hi-Select Delivery Day",
+  "source_text": "Select Delivery Day",
+  "translated_text": "डिलीवरी का दिन चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:33.990476",
+  "name": "hi-Select Item",
+  "source_text": "Select Item",
+  "translated_text": "आइटम का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.033503",
+  "name": "hi-Select Customer",
+  "source_text": "Select Customer",
+  "translated_text": "ग्राहक चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.071203",
+  "name": "hi-Create Order",
+  "source_text": "Create Order",
+  "translated_text": "ऑर्डर बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.110114",
+  "name": "hi-Delivered",
+  "source_text": "Delivered",
+  "translated_text": "पहुंचा दिया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.162424",
+  "name": "hi-Draft",
+  "source_text": "Draft",
+  "translated_text": "मसौदा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.201894",
+  "name": "hi-Rejected",
+  "source_text": "Rejected",
+  "translated_text": "अस्वीकार कर दिया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.240015",
+  "name": "hi-Approved",
+  "source_text": "Approved",
+  "translated_text": "अनुमत"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.279323",
+  "name": "hi-Total :",
+  "source_text": "Total :",
+  "translated_text": "कुल :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.319611",
+  "name": "hi-Discount :",
+  "source_text": "Discount :",
+  "translated_text": "छूट :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.364534",
+  "name": "hi-Sub Total :",
+  "source_text": "Sub Total :",
+  "translated_text": "उप-योग :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.415017",
+  "name": "hi-Total Tax :",
+  "source_text": "Total Tax :",
+  "translated_text": "कुल कर :"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.455378",
+  "name": "hi-Tax Discount",
+  "source_text": "Tax Discount",
+  "translated_text": "कर छूट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.496297",
+  "name": "hi-Total Unpaid",
+  "source_text": "Total Unpaid",
+  "translated_text": "कुल अवैतनिक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.532832",
+  "name": "hi-Annual Billing",
+  "source_text": "Annual Billing",
+  "translated_text": "वार्षिक बिलिंग"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.572430",
+  "name": "hi-Address",
+  "source_text": "Address",
+  "translated_text": "पता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.621573",
+  "name": "hi-Qty",
+  "source_text": "Qty",
+  "translated_text": "मात्रा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.664108",
+  "name": "hi-Item Code",
+  "source_text": "Item Code",
+  "translated_text": "आइटम कोड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.708596",
+  "name": "hi-Created By",
+  "source_text": "Created By",
+  "translated_text": "के द्वारा बनाई गई"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.748485",
+  "name": "hi-Expected Delivery",
+  "source_text": "Expected Delivery",
+  "translated_text": "अपेक्षित सुपुर्दगी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.789601",
+  "name": "hi-Comments Here...",
+  "source_text": "Comments Here...",
+  "translated_text": "टिप्पणियाँ यहाँ..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.831621",
+  "name": "hi-Comments",
+  "source_text": "Comments",
+  "translated_text": "टिप्पणियाँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.874565",
+  "name": "hi-Update Order",
+  "source_text": "Update Order",
+  "translated_text": "आर्डर का अद्यतन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.921342",
+  "name": "hi-Order Details",
+  "source_text": "Order Details",
+  "translated_text": "ऑर्डर का विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.960343",
+  "name": "hi-Amount",
+  "source_text": "Amount",
+  "translated_text": "मात्रा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:34.999706",
+  "name": "hi-Items",
+  "source_text": "Items",
+  "translated_text": "सामान"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.041695",
+  "name": "hi-Customer Name",
+  "source_text": "Customer Name",
+  "translated_text": "ग्राहक का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.083276",
+  "name": "hi-Search by Order ID or Customer Name",
+  "source_text": "Search by Order ID or Customer Name",
+  "translated_text": "ऑर्डर आईडी या ग्राहक नाम से खोजें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.121606",
+  "name": "hi-Select Visit Type",
+  "source_text": "Select Visit Type",
+  "translated_text": "विज़िट प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.158977",
+  "name": "hi-Update Visit",
+  "source_text": "Update Visit",
+  "translated_text": "अपडेट विज़िट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.203480",
+  "name": "hi-Employee",
+  "source_text": "Employee",
+  "translated_text": "कर्मचारी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.244049",
+  "name": "hi-Visit Details",
+  "source_text": "Visit Details",
+  "translated_text": "यात्रा विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.285223",
+  "name": "hi-Visits",
+  "source_text": "Visits",
+  "translated_text": "दौरा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.328268",
+  "name": "hi-Balance",
+  "source_text": "Balance",
+  "translated_text": "संतुलन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.371017",
+  "name": "hi-Credit",
+  "source_text": "Credit",
+  "translated_text": "श्रेय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.415204",
+  "name": "hi-Debit",
+  "source_text": "Debit",
+  "translated_text": "खर्चे में लिखना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.462874",
+  "name": "hi-To Date",
+  "source_text": "To Date",
+  "translated_text": "तारीख तक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.512578",
+  "name": "hi-From Date",
+  "source_text": "From Date",
+  "translated_text": "की तिथि से"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.562135",
+  "name": "hi-Select Party Type",
+  "source_text": "Select Party Type",
+  "translated_text": "पार्टी का प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.631345",
+  "name": "hi-Select Party Name",
+  "source_text": "Select Party Name",
+  "translated_text": "पार्टी का नाम चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.674427",
+  "name": "hi-No Transaction",
+  "source_text": "No Transaction",
+  "translated_text": "कोई लेनदेन नहीं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.752253",
+  "name": "hi-Filter Transaction",
+  "source_text": "Filter Transaction",
+  "translated_text": "फ़िल्टर लेनदेन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.797679",
+  "name": "hi-LOP",
+  "source_text": "LOP",
+  "translated_text": "कलम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.843678",
+  "name": "hi-Total Work Days",
+  "source_text": "Total Work Days",
+  "translated_text": "कुल कार्य दिवस"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.895140",
+  "name": "hi-Effective Work Days",
+  "source_text": "Effective Work Days",
+  "translated_text": "प्रभावी कार्य दिवस"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.936180",
+  "name": "hi-Deductions",
+  "source_text": "Deductions",
+  "translated_text": "कटौती"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:35.984273",
+  "name": "hi-Gross Pay",
+  "source_text": "Gross Pay",
+  "translated_text": "सकल भुगतान"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.044584",
+  "name": "hi-Deduction",
+  "source_text": "Deduction",
+  "translated_text": "कटौती"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.104280",
+  "name": "hi-Earnings",
+  "source_text": "Earnings",
+  "translated_text": "आय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.164529",
+  "name": "hi-Basic",
+  "source_text": "Basic",
+  "translated_text": "बुनियादी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.209831",
+  "name": "hi-Day Selection",
+  "source_text": "Day Selection",
+  "translated_text": "दिन का चयन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.270973",
+  "name": "hi-Period",
+  "source_text": "Period",
+  "translated_text": "अवधि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.315375",
+  "name": "hi-Half Day",
+  "source_text": "Half Day",
+  "translated_text": "आधा दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.357870",
+  "name": "hi-End Day",
+  "source_text": "End Day",
+  "translated_text": "अंतिम दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.417692",
+  "name": "hi-Start Day",
+  "source_text": "Start Day",
+  "translated_text": "प्रारंभ दिवस"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.464163",
+  "name": "hi-Add Half Day",
+  "source_text": "Add Half Day",
+  "translated_text": "आधा दिन जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.520138",
+  "name": "hi-Select leave type",
+  "source_text": "Select leave type",
+  "translated_text": "छुट्टी का प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.569496",
+  "name": "hi-New Leave Request",
+  "source_text": "New Leave Request",
+  "translated_text": "नया अवकाश अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.616887",
+  "name": "hi-Leave Requests",
+  "source_text": "Leave Requests",
+  "translated_text": "छुट्टी के अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.661860",
+  "name": "hi-Open Requests",
+  "source_text": "Open Requests",
+  "translated_text": "खुले अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.720957",
+  "name": "hi-My Leaves",
+  "source_text": "My Leaves",
+  "translated_text": "मेरे पत्ते"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.780951",
+  "name": "hi-Select Year",
+  "source_text": "Select Year",
+  "translated_text": "वर्ष चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.838870",
+  "name": "hi-Holiday List",
+  "source_text": "Holiday List",
+  "translated_text": "छुट्टियों की सूची"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.880556",
+  "name": "hi-Upload Expense Bill",
+  "source_text": "Upload Expense Bill",
+  "translated_text": "व्यय बिल अपलोड करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.920265",
+  "name": "hi-Type Amount",
+  "source_text": "Type Amount",
+  "translated_text": "प्रकार राशि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.956321",
+  "name": "hi-Type Reason Here...",
+  "source_text": "Type Reason Here...",
+  "translated_text": "यहां कारण लिखें..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:36.991363",
+  "name": "hi-Select Expense Type",
+  "source_text": "Select Expense Type",
+  "translated_text": "व्यय प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.032284",
+  "name": "hi-Select Day",
+  "source_text": "Select Day",
+  "translated_text": "दिन चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.077835",
+  "name": "hi-Apply",
+  "source_text": "Apply",
+  "translated_text": "आवेदन करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.142095",
+  "name": "hi-Expense History",
+  "source_text": "Expense History",
+  "translated_text": "व्यय इतिहास"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.185036",
+  "name": "hi-My Expenses",
+  "source_text": "My Expenses",
+  "translated_text": "मेरे खर्चे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.231109",
+  "name": "hi-File Already Downloaded",
+  "source_text": "File Already Downloaded",
+  "translated_text": "फ़ाइल पहले से डाउनलोड है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.274475",
+  "name": "hi-Download Completed, Click to Open",
+  "source_text": "Download Completed, Click to Open",
+  "translated_text": "डाउनलोड पूर्ण, खोलने के लिए क्लिक करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.314978",
+  "name": "hi-Delete",
+  "source_text": "Delete",
+  "translated_text": "मिटाना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.371406",
+  "name": "hi-Download",
+  "source_text": "Download",
+  "translated_text": "डाउनलोड करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.422406",
+  "name": "hi-Upload Document",
+  "source_text": "Upload Document",
+  "translated_text": "दस्तावेज़ अपलोड करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.462828",
+  "name": "hi-Documents",
+  "source_text": "Documents",
+  "translated_text": "दस्तावेज़"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.523186",
+  "name": "hi-Late",
+  "source_text": "Late",
+  "translated_text": "देर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.563662",
+  "name": "hi-On Time",
+  "source_text": "On Time",
+  "translated_text": "समय पर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.604624",
+  "name": "hi-Total Days",
+  "source_text": "Total Days",
+  "translated_text": "कुल दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.645876",
+  "name": "hi-Work Duration",
+  "source_text": "Work Duration",
+  "translated_text": "कार्य अवधि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.686554",
+  "name": "hi-Check Out",
+  "source_text": "Check Out",
+  "translated_text": "चेक आउट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.727688",
+  "name": "hi-Check In",
+  "source_text": "Check In",
+  "translated_text": "चेक इन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.769379",
+  "name": "hi-Create",
+  "source_text": "Create",
+  "translated_text": "बनाएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.813481",
+  "name": "hi-Cancel",
+  "source_text": "Cancel",
+  "translated_text": "रद्द करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.851376",
+  "name": "hi-Status",
+  "source_text": "Status",
+  "translated_text": "स्थिति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.901419",
+  "name": "hi-Priority",
+  "source_text": "Priority",
+  "translated_text": "प्राथमिकता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.941258",
+  "name": "hi-Select Assign To",
+  "source_text": "Select Assign To",
+  "translated_text": "असाइन करें चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:37.981793",
+  "name": "hi-Assign To",
+  "source_text": "Assign To",
+  "translated_text": "के लिए आवंटित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.024475",
+  "name": "hi-Subject",
+  "source_text": "Subject",
+  "translated_text": "विषय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.065194",
+  "name": "hi-Select Project",
+  "source_text": "Select Project",
+  "translated_text": "प्रोजेक्ट चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.109236",
+  "name": "hi-Optional",
+  "source_text": "Optional",
+  "translated_text": "वैकल्पिक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.153531",
+  "name": "hi-Create New Task",
+  "source_text": "Create New Task",
+  "translated_text": "नया कार्य बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.193575",
+  "name": "hi-Send",
+  "source_text": "Send",
+  "translated_text": "भेजना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.232804",
+  "name": "hi-Activity",
+  "source_text": "Activity",
+  "translated_text": "गतिविधि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.285380",
+  "name": "hi-Mark as In Progress",
+  "source_text": "Mark as In Progress",
+  "translated_text": "प्रगति पर चिह्नित करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.328560",
+  "name": "hi-Mark as Completed",
+  "source_text": "Mark as Completed",
+  "translated_text": "पूर्ण के रूप में चिह्नित करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.368853",
+  "name": "hi-Assigned By",
+  "source_text": "Assigned By",
+  "translated_text": "द्वारा सौंपा गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.444397",
+  "name": "hi-Assigned To",
+  "source_text": "Assigned To",
+  "translated_text": "को सौंपना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.488156",
+  "name": "hi-Description",
+  "source_text": "Description",
+  "translated_text": "विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.528962",
+  "name": "hi-Due Date",
+  "source_text": "Due Date",
+  "translated_text": "नियत तारीख"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.595414",
+  "name": "hi-Completed",
+  "source_text": "Completed",
+  "translated_text": "पुरा होना।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.657965",
+  "name": "hi-Working",
+  "source_text": "Working",
+  "translated_text": "कार्यरत"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.704417",
+  "name": "hi-Pending",
+  "source_text": "Pending",
+  "translated_text": "लंबित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.754390",
+  "name": "hi-Done",
+  "source_text": "Done",
+  "translated_text": "हो गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.792384",
+  "name": "hi-Update Progress",
+  "source_text": "Update Progress",
+  "translated_text": "प्रगति अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.830532",
+  "name": "hi-Completed Tasks",
+  "source_text": "Completed Tasks",
+  "translated_text": "पूर्ण किए गए कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.871387",
+  "name": "hi-My Tasks",
+  "source_text": "My Tasks",
+  "translated_text": "मेरे कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.910575",
+  "name": "hi-All Tasks",
+  "source_text": "All Tasks",
+  "translated_text": "सभी कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.949710",
+  "name": "hi-New Password",
+  "source_text": "New Password",
+  "translated_text": "नया पासवर्ड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:38.991562",
+  "name": "hi-Current Password",
+  "source_text": "Current Password",
+  "translated_text": "वर्तमान पासवर्ड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.033813",
+  "name": "hi-Change Password",
+  "source_text": "Change Password",
+  "translated_text": "पासवर्ड बदलें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.081419",
+  "name": "hi-Logout",
+  "source_text": "Logout",
+  "translated_text": "लॉग आउट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.120714",
+  "name": "hi-Are you sure you want to logout from this device?",
+  "source_text": "Are you sure you want to logout from this device?",
+  "translated_text": "क्या आप वाकई इस डिवाइस से लॉगआउट करना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.162164",
+  "name": "hi-Emergency Contact Number",
+  "source_text": "Emergency Contact Number",
+  "translated_text": "आपातकालीन संपर्क नंबर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.200040",
+  "name": "hi-Contact number",
+  "source_text": "Contact number",
+  "translated_text": "संपर्क संख्या"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.238777",
+  "name": "hi-Personal Email Address",
+  "source_text": "Personal Email Address",
+  "translated_text": "व्यक्तिगत ईमेल पता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.281522",
+  "name": "hi-Official email address",
+  "source_text": "Official email address",
+  "translated_text": "आधिकारिक ईमेल पता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.326115",
+  "name": "hi-Gender",
+  "source_text": "Gender",
+  "translated_text": "लिंग"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.366566",
+  "name": "hi-Date of Birth",
+  "source_text": "Date of Birth",
+  "translated_text": "जन्म तिथि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.408029",
+  "name": "hi-Date of Joining",
+  "source_text": "Date of Joining",
+  "translated_text": "कार्यभार ग्रहण करने की तिथि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.449849",
+  "name": "hi-Employee ID",
+  "source_text": "Employee ID",
+  "translated_text": "कर्मचारी आयडी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.494871",
+  "name": "hi-My Profile",
+  "source_text": "My Profile",
+  "translated_text": "मेरी प्रोफाइल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.536249",
+  "name": "hi-Upcoming Activity",
+  "source_text": "Upcoming Activity",
+  "translated_text": "आगामी गतिविधि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.584648",
+  "name": "hi-Create Task",
+  "source_text": "Create Task",
+  "translated_text": "कार्य बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.625314",
+  "name": "hi-Create Visit",
+  "source_text": "Create Visit",
+  "translated_text": "विज़िट बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.666035",
+  "name": "hi-Apply Leave",
+  "source_text": "Apply Leave",
+  "translated_text": "छुट्टी के लिए आवेदन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.710756",
+  "name": "hi-Apply Expense",
+  "source_text": "Apply Expense",
+  "translated_text": "व्यय लागू करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.753584",
+  "name": "hi-Contacts",
+  "source_text": "Contacts",
+  "translated_text": "संपर्क"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.797786",
+  "name": "hi-Select Contact",
+  "source_text": "Select Contact",
+  "translated_text": "संपर्क चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.840941",
+  "name": "hi-Yesterday",
+  "source_text": "Yesterday",
+  "translated_text": "कल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.882721",
+  "name": "hi-Today",
+  "source_text": "Today",
+  "translated_text": "आज"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.924684",
+  "name": "hi-Comment Here...",
+  "source_text": "Comment Here...",
+  "translated_text": "यहाँ टिप्पणी करें..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:39.981009",
+  "name": "hi-Anonymous",
+  "source_text": "Anonymous",
+  "translated_text": "गुमनाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.041732",
+  "name": "hi-Messages",
+  "source_text": "Messages",
+  "translated_text": "संदेशों"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.098015",
+  "name": "hi-Your Task",
+  "source_text": "Your Task",
+  "translated_text": "आपका काम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.137007",
+  "name": "hi-What would you like todo?",
+  "source_text": "What would you like todo?",
+  "translated_text": "आप क्या करना चाहेंगे?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.176368",
+  "name": "hi-Pending Requests",
+  "source_text": "Pending Requests",
+  "translated_text": "लंबित अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.218259",
+  "name": "hi-Attendance Details",
+  "source_text": "Attendance Details",
+  "translated_text": "उपस्थिति विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.263675",
+  "name": "hi-Leave Balance",
+  "source_text": "Leave Balance",
+  "translated_text": "अवकाश शेष"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.304596",
+  "name": "hi-Salary Details",
+  "source_text": "Salary Details",
+  "translated_text": "वेतन विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.343548",
+  "name": "hi-Credited On",
+  "source_text": "Credited On",
+  "translated_text": "श्रेय दिया गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.385188",
+  "name": "hi-Work Day",
+  "source_text": "Work Day",
+  "translated_text": "कार्य दिवस"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.428738",
+  "name": "hi-View Salary Slip",
+  "source_text": "View Salary Slip",
+  "translated_text": "वेतन पर्ची देखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.469543",
+  "name": "hi-Allotted",
+  "source_text": "Allotted",
+  "translated_text": "आवंटित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.510710",
+  "name": "hi--",
+  "source_text": "-",
+  "translated_text": "-"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.550276",
+  "name": "hi-Days",
+  "source_text": "Days",
+  "translated_text": "दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.588104",
+  "name": "hi-Day off",
+  "source_text": "Day off",
+  "translated_text": "छुट्टी का दिन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.629045",
+  "name": "hi-Absent",
+  "source_text": "Absent",
+  "translated_text": "अनुपस्थित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.676947",
+  "name": "hi-Present",
+  "source_text": "Present",
+  "translated_text": "उपस्थित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.726413",
+  "name": "hi-Expense",
+  "source_text": "Expense",
+  "translated_text": "व्यय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.766443",
+  "name": "hi-Leave",
+  "source_text": "Leave",
+  "translated_text": "छुट्टी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.807070",
+  "name": "hi-Payroll",
+  "source_text": "Payroll",
+  "translated_text": "पेरोल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.851009",
+  "name": "hi-Document",
+  "source_text": "Document",
+  "translated_text": "दस्तावेज़"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.893341",
+  "name": "hi-Holiday",
+  "source_text": "Holiday",
+  "translated_text": "छुट्टी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.934957",
+  "name": "hi-Attendance",
+  "source_text": "Attendance",
+  "translated_text": "उपस्थिति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:40.977547",
+  "name": "hi-Transactions",
+  "source_text": "Transactions",
+  "translated_text": "लेनदेन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.038667",
+  "name": "hi-Orders",
+  "source_text": "Orders",
+  "translated_text": "आदेश"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.093382",
+  "name": "hi-Visit",
+  "source_text": "Visit",
+  "translated_text": "मिलने जाना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.149819",
+  "name": "hi-Good Evening,",
+  "source_text": "Good Evening,",
+  "translated_text": "शुभ संध्या,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.192209",
+  "name": "hi-Good Afternoon,",
+  "source_text": "Good Afternoon,",
+  "translated_text": "शुभ दोपहर,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.236895",
+  "name": "hi-Good Morning,",
+  "source_text": "Good Morning,",
+  "translated_text": "शुभ प्रभात,"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.276987",
+  "name": "hi-Subscription Expired.",
+  "source_text": "Subscription Expired.",
+  "translated_text": "सदस्यता समाप्त हो गई."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.331810",
+  "name": "hi-You started your day at.",
+  "source_text": "You started your day at.",
+  "translated_text": "आपने अपना दिन शुरू किया।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.379714",
+  "name": "hi-You haven’t checked in today.",
+  "source_text": "You haven’t checked in today.",
+  "translated_text": "आपने आज चेक-इन नहीं किया है।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.435554",
+  "name": "hi-Retry",
+  "source_text": "Retry",
+  "translated_text": "पुन: प्रयास करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.480184",
+  "name": "hi-Check-out",
+  "source_text": "Check-out",
+  "translated_text": "चेक आउट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.534801",
+  "name": "hi-Check-in",
+  "source_text": "Check-in",
+  "translated_text": "चेक इन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.589603",
+  "name": "hi-Skip for Now",
+  "source_text": "Skip for Now",
+  "translated_text": "अभी के लिए छोड़ दे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.648046",
+  "name": "hi-Update",
+  "source_text": "Update",
+  "translated_text": "अद्यतन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.700184",
+  "name": "hi-We have added new features and fix some bugs to make your experience seamless.",
+  "source_text": "We have added new features and fix some bugs to make your experience seamless.",
+  "translated_text": "हमने आपके अनुभव को सहज बनाने के लिए नई सुविधाएं जोड़ी हैं और कुछ बग्स को ठीक किया है।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.752501",
+  "name": "hi-App Update Available",
+  "source_text": "App Update Available",
+  "translated_text": "ऐप अपडेट उपलब्ध है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.808659",
+  "name": "hi-Submit",
+  "source_text": "Submit",
+  "translated_text": "जमा करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.848888",
+  "name": "hi-Mobile Number",
+  "source_text": "Mobile Number",
+  "translated_text": "मोबाइल नंबर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.891529",
+  "name": "hi-Search",
+  "source_text": "Search",
+  "translated_text": "खोज"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.935891",
+  "name": "hi-Email",
+  "source_text": "Email",
+  "translated_text": "ईमेल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:41.973627",
+  "name": "hi-Full Name",
+  "source_text": "Full Name",
+  "translated_text": "पूरा नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.015103",
+  "name": "hi-Please fill out below details",
+  "source_text": "Please fill out below details",
+  "translated_text": "कृपया नीचे विवरण भरें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.070274",
+  "name": "hi-Want to try out on your server ?",
+  "source_text": "Want to try out on your server ?",
+  "translated_text": "अपने सर्वर पर कोशिश करना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.113555",
+  "name": "hi-Continue as Demo User",
+  "source_text": "Continue as Demo User",
+  "translated_text": "डेमो उपयोगकर्ता के रूप में जारी रखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.161873",
+  "name": "hi-Try Our Demo App",
+  "source_text": "Try Our Demo App",
+  "translated_text": "हमारा डेमो ऐप आज़माएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.207030",
+  "name": "hi-Login",
+  "source_text": "Login",
+  "translated_text": "लॉग इन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.249334",
+  "name": "hi-Password",
+  "source_text": "Password",
+  "translated_text": "पासवर्ड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.291906",
+  "name": "hi-Username",
+  "source_text": "Username",
+  "translated_text": "उपयोगकर्ता नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.332336",
+  "name": "hi-Enter Workplace URL",
+  "source_text": "Enter Workplace URL",
+  "translated_text": "कार्यस्थल URL दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.374131",
+  "name": "hi-Enter below details to continue..",
+  "source_text": "Enter below details to continue..",
+  "translated_text": "जारी रखने के लिए नीचे विवरण दर्ज करें.."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.416390",
+  "name": "hi-Let's sign you in",
+  "source_text": "Let's sign you in",
+  "translated_text": "चलिए आपको साइन इन करते हैं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.460159",
+  "name": "hi-Allow",
+  "source_text": "Allow",
+  "translated_text": "अनुमति दें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.500792",
+  "name": "hi-Don't Allow",
+  "source_text": "Don't Allow",
+  "translated_text": "अनुमति न दें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.542095",
+  "name": "hi-Allow \"$appName\" to use your location?",
+  "source_text": "Allow \"$appName\" to use your location?",
+  "translated_text": "\"$appName\" को अपना स्थान उपयोग करने की अनुमति दें?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.587334",
+  "name": "hi-$appName uses your location to validate their work attendance. It is validated when employees do check-in and check-out.",
+  "source_text": "$appName uses your location to validate their work attendance. It is validated when employees do check-in and check-out.",
+  "translated_text": "$appName आपकी लोकेशन का इस्तेमाल करके उनकी कार्य उपस्थिति की पुष्टि करता है। कर्मचारियों के चेक-इन और चेक-आउट के समय इसकी पुष्टि की जाती है।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.634729",
+  "name": "hi-Upgrade to Premium",
+  "source_text": "Upgrade to Premium",
+  "translated_text": "प्रीमियम में अपग्रेड करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.673825",
+  "name": "hi-Upcoming Leaves",
+  "source_text": "Upcoming Leaves",
+  "translated_text": "आगामी पत्तियाँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.717429",
+  "name": "hi-Past Leaves",
+  "source_text": "Past Leaves",
+  "translated_text": "पिछले पत्ते"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.759251",
+  "name": "hi-Camera permission is required !!!",
+  "source_text": "Camera permission is required !!!",
+  "translated_text": "कैमरा अनुमति आवश्यक है !!!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.803813",
+  "name": "hi-Payment",
+  "source_text": "Payment",
+  "translated_text": "भुगतान"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.844394",
+  "name": "hi-Petty Expenses",
+  "source_text": "Petty Expenses",
+  "translated_text": "छोटे-मोटे खर्च"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.884147",
+  "name": "hi-Timesheet",
+  "source_text": "Timesheet",
+  "translated_text": "समय पत्रक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.923552",
+  "name": "hi-Issue",
+  "source_text": "Issue",
+  "translated_text": "मुद्दा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:42.964424",
+  "name": "hi-Internet connection is required !!!",
+  "source_text": "Internet connection is required !!!",
+  "translated_text": "इंटरनेट कनेक्शन आवश्यक है!!!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.014600",
+  "name": "hi-No data to sync",
+  "source_text": "No data to sync",
+  "translated_text": "सिंक करने के लिए कोई डेटा नहीं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.057221",
+  "name": "hi-Whoa there! ⏳ We're not time travelers yet. Give it a minute before trying again!",
+  "source_text": "Whoa there! ⏳ We're not time travelers yet. Give it a minute before trying again!",
+  "translated_text": "अरे वाह! ⏳ हम अभी समय यात्री नहीं हैं। दोबारा कोशिश करने से पहले एक मिनट रुकिए!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.099483",
+  "name": "hi-Hold your horses! 🐎 Let's savor the present moment before leaping into the future.",
+  "source_text": "Hold your horses! 🐎 Let's savor the present moment before leaping into the future.",
+  "translated_text": "धैर्य रखें! 🐎 भविष्य में छलांग लगाने से पहले वर्तमान क्षण का आनंद लें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.146674",
+  "name": "hi-Feeling restless, huh? 🤔 Take a breather and come back in a jiffy!",
+  "source_text": "Feeling restless, huh? 🤔 Take a breather and come back in a jiffy!",
+  "translated_text": "बेचैनी महसूस हो रही है, है ना? 🤔 थोड़ा आराम करो और तुरंत वापस आ जाओ!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.198155",
+  "name": "hi-Oops! 🙊 Looks like you're trying to break the land speed record for check-ins. Slow and steady wins the race!",
+  "source_text": "Oops! 🙊 Looks like you're trying to break the land speed record for check-ins. Slow and steady wins the race!",
+  "translated_text": "उफ़! 🙊 लगता है आप चेक-इन के लिए ज़मीनी स्पीड का रिकॉर्ड तोड़ने की कोशिश कर रहे हैं। धीरे-धीरे और स्थिरता से ही रेस जीती जाती है!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.239949",
+  "name": "hi-Easy there, speed racer! 🏎️ We're on office time, not warp speed time.",
+  "source_text": "Easy there, speed racer! 🏎️ We're on office time, not warp speed time.",
+  "translated_text": "शांत रहो, स्पीड रेसर! 🏎️ हम ऑफिस टाइम पर हैं, वॉर्प स्पीड टाइम पर नहीं।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.280468",
+  "name": "hi-Attention, time enthusiasts! ⏰ Remember, patience is a virtue. Give it a moment to catch up.",
+  "source_text": "Attention, time enthusiasts! ⏰ Remember, patience is a virtue. Give it a moment to catch up.",
+  "translated_text": "समय के शौकीनों, ध्यान दें! ⏰ याद रखें, धैर्य एक गुण है। इसे समझने के लिए थोड़ा समय दें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.319438",
+  "name": "hi-Warning: Rapid check-ins detected! ⚠️ Please refrain from time-hopping antics.",
+  "source_text": "Warning: Rapid check-ins detected! ⚠️ Please refrain from time-hopping antics.",
+  "translated_text": "चेतावनी: तेज़ चेक-इन का पता चला है! ⚠️ कृपया समय बदलने वाली हरकतों से बचें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.360101",
+  "name": "hi-Looks like someone's eager to get going! 🚀 Take a chill pill and wait a sec.",
+  "source_text": "Looks like someone's eager to get going! 🚀 Take a chill pill and wait a sec.",
+  "translated_text": "लगता है कोई जाने को आतुर है! 🚀 शांत हो जाओ और एक पल रुको।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.401560",
+  "name": "hi-Brace yourself! Rapid check-ins may cause time-space continuum disturbances.",
+  "source_text": "Brace yourself! Rapid check-ins may cause time-space continuum disturbances.",
+  "translated_text": "अपने आप को तैयार रखें! तीव्र चेक-इन से समय-स्थान सातत्य में गड़बड़ी हो सकती है।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.440575",
+  "name": "hi-Hold on tight! 🎢 Our servers are catching up with your enthusiasm for check-ins.",
+  "source_text": "Hold on tight! 🎢 Our servers are catching up with your enthusiasm for check-ins.",
+  "translated_text": "कसकर पकड़ो! 🎢 हमारे सर्वर चेक-इन के लिए आपके उत्साह को समझ रहे हैं।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.480916",
+  "name": "hi-Please select party type first !",
+  "source_text": "Please select party type first !",
+  "translated_text": "कृपया पहले पार्टी का प्रकार चुनें!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.526241",
+  "name": "hi-Clear",
+  "source_text": "Clear",
+  "translated_text": "स्पष्ट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.579574",
+  "name": "hi-Close",
+  "source_text": "Close",
+  "translated_text": "बंद करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.625547",
+  "name": "hi-Search by name or mobile number",
+  "source_text": "Search by name or mobile number",
+  "translated_text": "नाम या मोबाइल नंबर से खोजें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.668115",
+  "name": "hi-No Customers Found !",
+  "source_text": "No Customers Found !",
+  "translated_text": "कोई ग्राहक नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.710633",
+  "name": "hi-No Projects Found !!",
+  "source_text": "No Projects Found !!",
+  "translated_text": "कोई परियोजना नहीं मिली !!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.757151",
+  "name": "hi-Payment Entry",
+  "source_text": "Payment Entry",
+  "translated_text": "भुगतान प्रविष्टि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.802218",
+  "name": "hi-Petty Expense",
+  "source_text": "Petty Expense",
+  "translated_text": "छोटा-मोटा खर्च"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.842385",
+  "name": "hi-No",
+  "source_text": "No",
+  "translated_text": "नहीं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.887881",
+  "name": "hi-Found !",
+  "source_text": "Found !",
+  "translated_text": "मिला !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:43.954123",
+  "name": "hi-Enter ERP Code",
+  "source_text": "Enter ERP Code",
+  "translated_text": "ईआरपी कोड दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.017413",
+  "name": "hi-required!",
+  "source_text": "required!",
+  "translated_text": "आवश्यक!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.078490",
+  "name": "hi-It seems you're not yet registered with us. Register using below button.",
+  "source_text": "It seems you're not yet registered with us. Register using below button.",
+  "translated_text": "ऐसा लगता है कि आप अभी तक हमारे साथ पंजीकृत नहीं हैं। नीचे दिए गए बटन का उपयोग करके पंजीकरण करें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.142927",
+  "name": "hi-Register for ESS",
+  "source_text": "Register for ESS",
+  "translated_text": "ईएसएस के लिए पंजीकरण करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.206516",
+  "name": "hi-ERP Code",
+  "source_text": "ERP Code",
+  "translated_text": "ईआरपी कोड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.252747",
+  "name": "hi-Workplace URL",
+  "source_text": "Workplace URL",
+  "translated_text": "कार्यस्थल URL"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.308557",
+  "name": "hi-You can only upload 5 photos at a time",
+  "source_text": "You can only upload 5 photos at a time",
+  "translated_text": "आप एक बार में केवल 5 फ़ोटो अपलोड कर सकते हैं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.355881",
+  "name": "hi-You can only upload 1 video at a time",
+  "source_text": "You can only upload 1 video at a time",
+  "translated_text": "आप एक बार में केवल 1 वीडियो अपलोड कर सकते हैं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.413025",
+  "name": "hi-Please enter some text or select some photos",
+  "source_text": "Please enter some text or select some photos",
+  "translated_text": "कृपया कुछ पाठ दर्ज करें या कुछ फ़ोटो चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.458411",
+  "name": "hi-Posting in progress, uploading in background...",
+  "source_text": "Posting in progress, uploading in background...",
+  "translated_text": "पोस्टिंग प्रगति पर है, अपलोडिंग पृष्ठभूमि में है..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.498539",
+  "name": "hi-Create Post",
+  "source_text": "Create Post",
+  "translated_text": "पोस्ट बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.540893",
+  "name": "hi-Create Poll",
+  "source_text": "Create Poll",
+  "translated_text": "पोल बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.582966",
+  "name": "hi-Delete Post",
+  "source_text": "Delete Post",
+  "translated_text": "पोस्ट को हटाएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.626886",
+  "name": "hi-Are you sure you want to delete this post?",
+  "source_text": "Are you sure you want to delete this post?",
+  "translated_text": "क्या आप वाकई इस पोस्ट को हटाना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.671531",
+  "name": "hi-Liked By",
+  "source_text": "Liked By",
+  "translated_text": "पसंद किया गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.710485",
+  "name": "hi-Images",
+  "source_text": "Images",
+  "translated_text": "इमेजिस"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.750879",
+  "name": "hi-Author",
+  "source_text": "Author",
+  "translated_text": "लेखक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.794365",
+  "name": "hi-Comment",
+  "source_text": "Comment",
+  "translated_text": "टिप्पणी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.841890",
+  "name": "hi-No Timesheet Entry Found !",
+  "source_text": "No Timesheet Entry Found !",
+  "translated_text": "कोई टाइमशीट प्रविष्टि नहीं मिली!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.883615",
+  "name": "hi-View",
+  "source_text": "View",
+  "translated_text": "देखना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.930050",
+  "name": "hi-Action",
+  "source_text": "Action",
+  "translated_text": "कार्रवाई"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:44.971885",
+  "name": "hi-Workflow Requests",
+  "source_text": "Workflow Requests",
+  "translated_text": "वर्कफ़्लो अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.013355",
+  "name": "hi-Update Issue",
+  "source_text": "Update Issue",
+  "translated_text": "अद्यतन समस्या"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.058612",
+  "name": "hi-New Issue",
+  "source_text": "New Issue",
+  "translated_text": "नया अंक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.099047",
+  "name": "hi-Customer",
+  "source_text": "Customer",
+  "translated_text": "ग्राहक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.142054",
+  "name": "hi-Project",
+  "source_text": "Project",
+  "translated_text": "परियोजना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.185376",
+  "name": "hi-Issue Type",
+  "source_text": "Issue Type",
+  "translated_text": "विषय वर्ग"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.240713",
+  "name": "hi-Save",
+  "source_text": "Save",
+  "translated_text": "बचाना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.304409",
+  "name": "hi-Filter Issue",
+  "source_text": "Filter Issue",
+  "translated_text": "फ़िल्टर समस्या"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.351520",
+  "name": "hi-No Issue Entry Found !",
+  "source_text": "No Issue Entry Found !",
+  "translated_text": "कोई मुद्दा प्रविष्टि नहीं मिली!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.394600",
+  "name": "hi-Date Range",
+  "source_text": "Date Range",
+  "translated_text": "तिथि सीमा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.436649",
+  "name": "hi-Date",
+  "source_text": "Date",
+  "translated_text": "तारीख"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.479311",
+  "name": "hi-No Orders Found !",
+  "source_text": "No Orders Found !",
+  "translated_text": "कोई आदेश नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.527403",
+  "name": "hi-Filter Orders",
+  "source_text": "Filter Orders",
+  "translated_text": "ऑर्डर फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.568020",
+  "name": "hi-Paid Amount",
+  "source_text": "Paid Amount",
+  "translated_text": "चुकाई गई राशि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.610485",
+  "name": "hi-Reference no.",
+  "source_text": "Reference no.",
+  "translated_text": "संदर्भ संक्या।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.653838",
+  "name": "hi-Select Naming Series",
+  "source_text": "Select Naming Series",
+  "translated_text": "नामकरण श्रृंखला का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.696531",
+  "name": "hi-Naming Series",
+  "source_text": "Naming Series",
+  "translated_text": "नामकरण श्रृंखला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.746492",
+  "name": "hi-Select Payment Type",
+  "source_text": "Select Payment Type",
+  "translated_text": "भुगतान प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.803142",
+  "name": "hi-Payment Type",
+  "source_text": "Payment Type",
+  "translated_text": "भुगतान प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.847934",
+  "name": "hi-Select Payment Mode",
+  "source_text": "Select Payment Mode",
+  "translated_text": "भुगतान मोड चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.891424",
+  "name": "hi-Payment Mode",
+  "source_text": "Payment Mode",
+  "translated_text": "भुगतान मोड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.931845",
+  "name": "hi-Select Company",
+  "source_text": "Select Company",
+  "translated_text": "कंपनी का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:45.979856",
+  "name": "hi-Company",
+  "source_text": "Company",
+  "translated_text": "कंपनी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.022962",
+  "name": "hi-Party Type",
+  "source_text": "Party Type",
+  "translated_text": "पार्टी का प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.067637",
+  "name": "hi-Party",
+  "source_text": "Party",
+  "translated_text": "दल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.123101",
+  "name": "hi-Select Account Paid From",
+  "source_text": "Select Account Paid From",
+  "translated_text": "भुगतान किए गए खाते का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.169619",
+  "name": "hi-Account Paid From",
+  "source_text": "Account Paid From",
+  "translated_text": "भुगतान किया गया खाता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.215722",
+  "name": "hi-Select Account Paid To",
+  "source_text": "Select Account Paid To",
+  "translated_text": "भुगतान किए गए खाते का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.258959",
+  "name": "hi-Account Paid To",
+  "source_text": "Account Paid To",
+  "translated_text": "खाते में भुगतान किया गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.313163",
+  "name": "hi-Reference Date",
+  "source_text": "Reference Date",
+  "translated_text": "संदर्भ तिथि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.353880",
+  "name": "hi-No References Found",
+  "source_text": "No References Found",
+  "translated_text": "कोई संदर्भ नहीं मिला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.411769",
+  "name": "hi-Reference",
+  "source_text": "Reference",
+  "translated_text": "संदर्भ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.459562",
+  "name": "hi-Outstanding",
+  "source_text": "Outstanding",
+  "translated_text": "असाधारण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.516186",
+  "name": "hi-Allocate",
+  "source_text": "Allocate",
+  "translated_text": "का आवंटन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.557961",
+  "name": "hi-Total Allocated",
+  "source_text": "Total Allocated",
+  "translated_text": "कुल आवंटित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.600573",
+  "name": "hi-Total Unallocated",
+  "source_text": "Total Unallocated",
+  "translated_text": "कुल असंबद्ध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.644236",
+  "name": "hi-No Payment Entry Found !",
+  "source_text": "No Payment Entry Found !",
+  "translated_text": "कोई भुगतान प्रविष्टि नहीं मिली!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.686956",
+  "name": "hi-Filter Payment Entries",
+  "source_text": "Filter Payment Entries",
+  "translated_text": "भुगतान प्रविष्टियाँ फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.727855",
+  "name": "hi-Payment Entries",
+  "source_text": "Payment Entries",
+  "translated_text": "भुगतान प्रविष्टियाँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.770471",
+  "name": "hi-Type",
+  "source_text": "Type",
+  "translated_text": "प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.816708",
+  "name": "hi-Posting Date",
+  "source_text": "Posting Date",
+  "translated_text": "पोस्ट करने की तारीख"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.860090",
+  "name": "hi-Select Status",
+  "source_text": "Select Status",
+  "translated_text": "स्थिति चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.902641",
+  "name": "hi-Supplier",
+  "source_text": "Supplier",
+  "translated_text": "देने वाला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.946044",
+  "name": "hi-Select Expense Account",
+  "source_text": "Select Expense Account",
+  "translated_text": "व्यय खाता चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:46.988575",
+  "name": "hi-Expense Account",
+  "source_text": "Expense Account",
+  "translated_text": "व्यय खाता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.033005",
+  "name": "hi-Select Cost Center",
+  "source_text": "Select Cost Center",
+  "translated_text": "लागत केंद्र चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.076405",
+  "name": "hi-Select Warehouse",
+  "source_text": "Select Warehouse",
+  "translated_text": "गोदाम का चयन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.117590",
+  "name": "hi-Warehouse",
+  "source_text": "Warehouse",
+  "translated_text": "गोदाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.159401",
+  "name": "hi-Cost Center",
+  "source_text": "Cost Center",
+  "translated_text": "लागत केंद्र"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.201698",
+  "name": "hi-Select Payment",
+  "source_text": "Select Payment",
+  "translated_text": "भुगतान चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.243658",
+  "name": "hi-Mode Of Payment",
+  "source_text": "Mode Of Payment",
+  "translated_text": "भुगतान का तरीका"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.287211",
+  "name": "hi-Petty Details",
+  "source_text": "Petty Details",
+  "translated_text": "छोटे-छोटे विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.328735",
+  "name": "hi-Filter Petty Expense",
+  "source_text": "Filter Petty Expense",
+  "translated_text": "छोटे-मोटे खर्च फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.369428",
+  "name": "hi-No Petty Entry Found !",
+  "source_text": "No Petty Entry Found !",
+  "translated_text": "कोई छोटी प्रविष्टि नहीं मिली!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.411151",
+  "name": "hi-Select Mode Of Payment",
+  "source_text": "Select Mode Of Payment",
+  "translated_text": "भुगतान का तरीका चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.452307",
+  "name": "hi-Mode",
+  "source_text": "Mode",
+  "translated_text": "तरीका"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.494016",
+  "name": "hi-Select Task",
+  "source_text": "Select Task",
+  "translated_text": "कार्य चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.537942",
+  "name": "hi-Task",
+  "source_text": "Task",
+  "translated_text": "काम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.581078",
+  "name": "hi-Note",
+  "source_text": "Note",
+  "translated_text": "टिप्पणी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.625602",
+  "name": "hi-Timesheets",
+  "source_text": "Timesheets",
+  "translated_text": "समय पत्रक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.673902",
+  "name": "hi-Filter Timesheet",
+  "source_text": "Filter Timesheet",
+  "translated_text": "टाइमशीट फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.736516",
+  "name": "hi-Total Hours:",
+  "source_text": "Total Hours:",
+  "translated_text": "कुल घंटे:"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.778753",
+  "name": "hi-Update Task",
+  "source_text": "Update Task",
+  "translated_text": "कार्य अद्यतन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.822978",
+  "name": "hi-Clear Filters",
+  "source_text": "Clear Filters",
+  "translated_text": "फ़िल्टर साफ़ करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.859990",
+  "name": "hi-Apply Filters",
+  "source_text": "Apply Filters",
+  "translated_text": "फ़िल्टर लागू करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.898006",
+  "name": "hi-Success !",
+  "source_text": "Success !",
+  "translated_text": "सफलता !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.936177",
+  "name": "hi-Info !",
+  "source_text": "Info !",
+  "translated_text": "जानकारी!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:47.973184",
+  "name": "hi-Error !",
+  "source_text": "Error !",
+  "translated_text": "गलती !"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.012583",
+  "name": "hi-Events",
+  "source_text": "Events",
+  "translated_text": "घटनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.056744",
+  "name": "hi-Feed",
+  "source_text": "Feed",
+  "translated_text": "खिलाना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.096428",
+  "name": "hi-Filter Tasks",
+  "source_text": "Filter Tasks",
+  "translated_text": "कार्य फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.132840",
+  "name": "hi-Issue Details",
+  "source_text": "Issue Details",
+  "translated_text": "समस्या विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.170427",
+  "name": "hi-Enable Lock Screen",
+  "source_text": "Enable Lock Screen",
+  "translated_text": "लॉक स्क्रीन सक्षम करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.209016",
+  "name": "hi-Enable Face ID",
+  "source_text": "Enable Face ID",
+  "translated_text": "फेस आईडी सक्षम करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.246892",
+  "name": "hi-Enable FingerprintD",
+  "source_text": "Enable FingerprintD",
+  "translated_text": "फ़िंगरप्रिंटD सक्षम करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.285803",
+  "name": "hi-Payment Details",
+  "source_text": "Payment Details",
+  "translated_text": "भुगतान विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.324510",
+  "name": "hi-New Payment Entry",
+  "source_text": "New Payment Entry",
+  "translated_text": "नई भुगतान प्रविष्टि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.362957",
+  "name": "hi-Update Payment Entry",
+  "source_text": "Update Payment Entry",
+  "translated_text": "भुगतान प्रविष्टि अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.405771",
+  "name": "hi-show less",
+  "source_text": "show less",
+  "translated_text": "कम दिखाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.445131",
+  "name": "hi-Be the first to comment 💬",
+  "source_text": "Be the first to comment 💬",
+  "translated_text": "सबसे पहले टिप्पणी करें 💬"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.485575",
+  "name": "hi-Leave your thoughts here...",
+  "source_text": "Leave your thoughts here...",
+  "translated_text": "अपने विचार यहां छोड़ें..."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.527385",
+  "name": "hi-Be the first to post 📝",
+  "source_text": "Be the first to post 📝",
+  "translated_text": "सबसे पहले पोस्ट करें 📝"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.568303",
+  "name": "hi-Delete Payment Entry ?",
+  "source_text": "Delete Payment Entry ?",
+  "translated_text": "भुगतान प्रविष्टि हटाएं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.613500",
+  "name": "hi-Are you sure you want to delete this payment entry ?",
+  "source_text": "Are you sure you want to delete this payment entry ?",
+  "translated_text": "क्या आप वाकई इस भुगतान प्रविष्टि को हटाना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.654563",
+  "name": "hi-Timesheet Details",
+  "source_text": "Timesheet Details",
+  "translated_text": "समय पत्रक विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.695555",
+  "name": "hi-Update Timesheet",
+  "source_text": "Update Timesheet",
+  "translated_text": "टाइमशीट अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.735940",
+  "name": "hi-New Timesheet",
+  "source_text": "New Timesheet",
+  "translated_text": "नई समय-पत्रक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.772720",
+  "name": "hi-Activity Type",
+  "source_text": "Activity Type",
+  "translated_text": "गतिविधि का प्रकार"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.819149",
+  "name": "hi-From Time",
+  "source_text": "From Time",
+  "translated_text": "समय से"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.858064",
+  "name": "hi-To Time",
+  "source_text": "To Time",
+  "translated_text": "समय पर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.898608",
+  "name": "hi-Hrs",
+  "source_text": "Hrs",
+  "translated_text": "घंटे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.935687",
+  "name": "hi-Invalid Hours",
+  "source_text": "Invalid Hours",
+  "translated_text": "अमान्य घंटे"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:48.976643",
+  "name": "hi-Salary Slip",
+  "source_text": "Salary Slip",
+  "translated_text": "वेतन पर्ची"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.015087",
+  "name": "hi-That's all you got.",
+  "source_text": "That's all you got.",
+  "translated_text": "बस इतना ही मिला तुम्हें."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.062408",
+  "name": "hi-No Items Found 😕!",
+  "source_text": "No Items Found 😕!",
+  "translated_text": "कोई आइटम नहीं मिला 😕!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.100445",
+  "name": "hi-Party Balance:",
+  "source_text": "Party Balance:",
+  "translated_text": "पार्टी संतुलन:"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.143716",
+  "name": "hi-Next",
+  "source_text": "Next",
+  "translated_text": "अगला"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.183748",
+  "name": "hi-Appearance",
+  "source_text": "Appearance",
+  "translated_text": "उपस्थिति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.222239",
+  "name": "hi-Theme Mode",
+  "source_text": "Theme Mode",
+  "translated_text": "थीम मोड"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.267274",
+  "name": "hi-Employee Self Service custom app is not installed in backend !!!",
+  "source_text": "Employee Self Service custom app is not installed in backend !!!",
+  "translated_text": "कर्मचारी स्वयं सेवा कस्टम ऐप बैकएंड में स्थापित नहीं है !!!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.310677",
+  "name": "hi-Biometric Authentication Enabled",
+  "source_text": "Biometric Authentication Enabled",
+  "translated_text": "बायोमेट्रिक प्रमाणीकरण सक्षम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.353072",
+  "name": "hi-Thank you. We will reach out to you shortly.",
+  "source_text": "Thank you. We will reach out to you shortly.",
+  "translated_text": "धन्यवाद। हम जल्द ही आपसे संपर्क करेंगे।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.393759",
+  "name": "hi-You've reached your favorite limit (6).",
+  "source_text": "You've reached your favorite limit (6).",
+  "translated_text": "आप अपनी पसंदीदा सीमा (6) तक पहुँच गए हैं।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.431138",
+  "name": "hi-Document action list not found!",
+  "source_text": "Document action list not found!",
+  "translated_text": "दस्तावेज़ कार्रवाई सूची नहीं मिली!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.473442",
+  "name": "hi-Not found !!!",
+  "source_text": "Not found !!!",
+  "translated_text": "नहीं मिला !!!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.515301",
+  "name": "hi-Enable",
+  "source_text": "Enable",
+  "translated_text": "सक्षम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.554633",
+  "name": "hi-Enable Biometric Authentication",
+  "source_text": "Enable Biometric Authentication",
+  "translated_text": "बायोमेट्रिक प्रमाणीकरण सक्षम करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.596090",
+  "name": "hi-Easily log in with your fingerprint or face for added security and convenience.",
+  "source_text": "Easily log in with your fingerprint or face for added security and convenience.",
+  "translated_text": "अतिरिक्त सुरक्षा और सुविधा के लिए आसानी से अपने फिंगरप्रिंट या चेहरे से लॉग इन करें।"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.633552",
+  "name": "hi-No Workflow Requests Found !",
+  "source_text": "No Workflow Requests Found !",
+  "translated_text": "कोई वर्कफ़्लो अनुरोध नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.673617",
+  "name": "hi-Continue",
+  "source_text": "Continue",
+  "translated_text": "जारी रखना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.711940",
+  "name": "hi-Add",
+  "source_text": "Add",
+  "translated_text": "जोड़ना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.753151",
+  "name": "hi-Personal Details",
+  "source_text": "Personal Details",
+  "translated_text": "व्यक्तिगत विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.799019",
+  "name": "hi-Education Details",
+  "source_text": "Education Details",
+  "translated_text": "शिक्षा विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.840924",
+  "name": "hi-Bank Details",
+  "source_text": "Bank Details",
+  "translated_text": "बैंक विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.883194",
+  "name": "hi-Parent Contact Name",
+  "source_text": "Parent Contact Name",
+  "translated_text": "अभिभावक संपर्क नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.926471",
+  "name": "hi-Parent Phone",
+  "source_text": "Parent Phone",
+  "translated_text": "अभिभावक का फ़ोन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:49.985429",
+  "name": "hi-Qualification",
+  "source_text": "Qualification",
+  "translated_text": "योग्यता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.045532",
+  "name": "hi-School / University",
+  "source_text": "School / University",
+  "translated_text": "स्कूल / विश्वविद्यालय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.103299",
+  "name": "hi-Passing Year",
+  "source_text": "Passing Year",
+  "translated_text": "बीतता साल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.163064",
+  "name": "hi-Bank Name",
+  "source_text": "Bank Name",
+  "translated_text": "बैंक का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.226035",
+  "name": "hi-Account Number",
+  "source_text": "Account Number",
+  "translated_text": "खाता संख्या"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.290660",
+  "name": "hi-IBAN",
+  "source_text": "IBAN",
+  "translated_text": "आईबीएएन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.343522",
+  "name": "hi-Light Themes",
+  "source_text": "Light Themes",
+  "translated_text": "प्रकाश थीम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.399559",
+  "name": "hi-Dark Themes",
+  "source_text": "Dark Themes",
+  "translated_text": "डार्क थीम्स"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.445117",
+  "name": "hi-View Less",
+  "source_text": "View Less",
+  "translated_text": "कम देखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.493422",
+  "name": "hi-View More",
+  "source_text": "View More",
+  "translated_text": "और देखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.542310",
+  "name": "hi-Select Top 6 Shortcuts",
+  "source_text": "Select Top 6 Shortcuts",
+  "translated_text": "शीर्ष 6 शॉर्टकट चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.586918",
+  "name": "hi-Like",
+  "source_text": "Like",
+  "translated_text": "पसंद"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.628063",
+  "name": "hi-Show only created by me",
+  "source_text": "Show only created by me",
+  "translated_text": "केवल मेरे द्वारा बनाया गया शो"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.665846",
+  "name": "hi-No Quotations Found !",
+  "source_text": "No Quotations Found !",
+  "translated_text": "कोई उद्धरण नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.702723",
+  "name": "hi-Quotation",
+  "source_text": "Quotation",
+  "translated_text": "उद्धरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.741369",
+  "name": "hi-Quotation Details",
+  "source_text": "Quotation Details",
+  "translated_text": "कोटेशन विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.779958",
+  "name": "hi-Valid Till",
+  "source_text": "Valid Till",
+  "translated_text": "तक मान्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.818405",
+  "name": "hi-Filter Quotations",
+  "source_text": "Filter Quotations",
+  "translated_text": "कोटेशन फ़िल्टर करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.858110",
+  "name": "hi-Quotation To",
+  "source_text": "Quotation To",
+  "translated_text": "उद्धरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.896382",
+  "name": "hi-Expense Claim",
+  "source_text": "Expense Claim",
+  "translated_text": "व्यय दावा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.935301",
+  "name": "hi-No expenses added",
+  "source_text": "No expenses added",
+  "translated_text": "कोई व्यय नहीं जोड़ा गया"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:50.977181",
+  "name": "hi-Select Lead",
+  "source_text": "Select Lead",
+  "translated_text": "लीड चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.019360",
+  "name": "hi-Select Valid Till",
+  "source_text": "Select Valid Till",
+  "translated_text": "मान्य टिल चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.059660",
+  "name": "hi-Expenses",
+  "source_text": "Expenses",
+  "translated_text": "खर्च"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.099696",
+  "name": "hi-Terms",
+  "source_text": "Terms",
+  "translated_text": "शर्तें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.139686",
+  "name": "hi-Add Item Details",
+  "source_text": "Add Item Details",
+  "translated_text": "आइटम विवरण जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.179865",
+  "name": "hi-Update Expense",
+  "source_text": "Update Expense",
+  "translated_text": "व्यय अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.223605",
+  "name": "hi-Add Expense",
+  "source_text": "Add Expense",
+  "translated_text": "व्यय जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.262215",
+  "name": "hi-New Expense Item",
+  "source_text": "New Expense Item",
+  "translated_text": "नया व्यय मद"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.302644",
+  "name": "hi-Edit Expense Item",
+  "source_text": "Edit Expense Item",
+  "translated_text": "व्यय मद संपादित करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.341167",
+  "name": "hi-Pending Expense",
+  "source_text": "Pending Expense",
+  "translated_text": "लंबित व्यय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.401484",
+  "name": "hi-Filter",
+  "source_text": "Filter",
+  "translated_text": "फ़िल्टर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.450520",
+  "name": "hi-Expense Claimed",
+  "source_text": "Expense Claimed",
+  "translated_text": "दावा किया गया व्यय"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.491134",
+  "name": "hi-Delete Items",
+  "source_text": "Delete Items",
+  "translated_text": "आइटम हटाएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.530980",
+  "name": "hi-Add Another Item",
+  "source_text": "Add Another Item",
+  "translated_text": "एक और आइटम जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.569368",
+  "name": "hi-Create Quotation",
+  "source_text": "Create Quotation",
+  "translated_text": "कोटेशन बनाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.614104",
+  "name": "hi-Document View",
+  "source_text": "Document View",
+  "translated_text": "दस्तावेज़ दृश्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.657339",
+  "name": "hi-Leave History",
+  "source_text": "Leave History",
+  "translated_text": "इतिहास छोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.698860",
+  "name": "hi-Update Quotation",
+  "source_text": "Update Quotation",
+  "translated_text": "कोटेशन अपडेट करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.739562",
+  "name": "hi-Upgrade",
+  "source_text": "Upgrade",
+  "translated_text": "उन्नत करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.780402",
+  "name": "hi-Home",
+  "source_text": "Home",
+  "translated_text": "घर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.826495",
+  "name": "hi-Tasks",
+  "source_text": "Tasks",
+  "translated_text": "कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.863977",
+  "name": "hi-Updates",
+  "source_text": "Updates",
+  "translated_text": "अपडेट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.902891",
+  "name": "hi-Profile",
+  "source_text": "Profile",
+  "translated_text": "प्रोफ़ाइल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.942916",
+  "name": "hi-Posts",
+  "source_text": "Posts",
+  "translated_text": "पदों"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:51.983224",
+  "name": "hi-Post",
+  "source_text": "Post",
+  "translated_text": "डाक"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.024831",
+  "name": "hi-Likes",
+  "source_text": "Likes",
+  "translated_text": "पसंद है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.069474",
+  "name": "hi-No Tasks on The Horizon!",
+  "source_text": "No Tasks on The Horizon!",
+  "translated_text": "क्षितिज पर कोई कार्य नहीं!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.122241",
+  "name": "hi-Add a task or ask management to add a new task to your bucket.",
+  "source_text": "Add a task or ask management to add a new task to your bucket.",
+  "translated_text": "कोई कार्य जोड़ें या प्रबंधन से अपने बकेट में कोई नया कार्य जोड़ने के लिए कहें."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.174798",
+  "name": "hi-Want to upgrade with Premium Features?",
+  "source_text": "Want to upgrade with Premium Features?",
+  "translated_text": "क्या आप प्रीमियम सुविधाओं के साथ अपग्रेड करना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.216157",
+  "name": "hi-Update Status",
+  "source_text": "Update Status",
+  "translated_text": "अद्यतन स्थिति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.258846",
+  "name": "hi-Actions",
+  "source_text": "Actions",
+  "translated_text": "कार्रवाई"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.300388",
+  "name": "hi-Add Item",
+  "source_text": "Add Item",
+  "translated_text": "मद जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.339037",
+  "name": "hi-Scan Item",
+  "source_text": "Scan Item",
+  "translated_text": "आइटम स्कैन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.378381",
+  "name": "hi-Add Items",
+  "source_text": "Add Items",
+  "translated_text": "सामगंरियां जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.419224",
+  "name": "hi-Previous",
+  "source_text": "Previous",
+  "translated_text": "पहले का"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.461512",
+  "name": "hi-Add Quick Task",
+  "source_text": "Add Quick Task",
+  "translated_text": "त्वरित कार्य जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.500894",
+  "name": "hi-Manage Quick Task",
+  "source_text": "Manage Quick Task",
+  "translated_text": "त्वरित कार्य प्रबंधित करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.542669",
+  "name": "hi-Enter Today Task",
+  "source_text": "Enter Today Task",
+  "translated_text": "आज का कार्य दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.587055",
+  "name": "hi-Add Task",
+  "source_text": "Add Task",
+  "translated_text": "कार्य जोड़ें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.637570",
+  "name": "hi-New messages",
+  "source_text": "New messages",
+  "translated_text": "नए संदेश"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.676995",
+  "name": "hi-Progress",
+  "source_text": "Progress",
+  "translated_text": "प्रगति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.718815",
+  "name": "hi-Time Tracking",
+  "source_text": "Time Tracking",
+  "translated_text": "समय ट्रैकिंग"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.759707",
+  "name": "hi-Stop Tracker",
+  "source_text": "Stop Tracker",
+  "translated_text": "स्टॉप ट्रैकर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.803121",
+  "name": "hi-Task Details",
+  "source_text": "Task Details",
+  "translated_text": "कार्य विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.865886",
+  "name": "hi-Today's Tasks",
+  "source_text": "Today's Tasks",
+  "translated_text": "आज के कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.908993",
+  "name": "hi-Created by Me",
+  "source_text": "Created by Me",
+  "translated_text": "मेरे द्वारा बनाई गई"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:52.952799",
+  "name": "hi-Unlock now",
+  "source_text": "Unlock now",
+  "translated_text": "अभी अनलॉक करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.017167",
+  "name": "hi-AUTHENTICATION REQUIRED",
+  "source_text": "AUTHENTICATION REQUIRED",
+  "translated_text": "प्रमाणित करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.063738",
+  "name": "hi-Because the only person seeing your data should be you",
+  "source_text": "Because the only person seeing your data should be you",
+  "translated_text": "क्योंकि आपका डेटा देखने वाला एकमात्र व्यक्ति आप ही होने चाहिए"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.102475",
+  "name": "hi-Your Position In Company",
+  "source_text": "Your Position In Company",
+  "translated_text": "कंपनी में आपकी स्थिति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.143435",
+  "name": "hi-Country",
+  "source_text": "Country",
+  "translated_text": "देश"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.187673",
+  "name": "hi-Which software are you using?",
+  "source_text": "Which software are you using?",
+  "translated_text": "आप कौन सा सॉफ्टवेयर उपयोग कर रहे हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.229986",
+  "name": "hi-Are you currently using ERPNext?",
+  "source_text": "Are you currently using ERPNext?",
+  "translated_text": "क्या आप वर्तमान में ERPNext का उपयोग कर रहे हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.284018",
+  "name": "hi-Enter Odometer Reading",
+  "source_text": "Enter Odometer Reading",
+  "translated_text": "ओडोमीटर रीडिंग दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.329661",
+  "name": "hi-Enter In KM",
+  "source_text": "Enter In KM",
+  "translated_text": "किमी में दर्ज करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.370693",
+  "name": "hi-Your Today's Task",
+  "source_text": "Your Today's Task",
+  "translated_text": "आपका आज का कार्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.414065",
+  "name": "hi-No pending task found !",
+  "source_text": "No pending task found !",
+  "translated_text": "कोई लंबित कार्य नहीं मिला!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.453812",
+  "name": "hi-Attendance Request",
+  "source_text": "Attendance Request",
+  "translated_text": "उपस्थिति अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.495808",
+  "name": "hi-New Attendance Request",
+  "source_text": "New Attendance Request",
+  "translated_text": "नई उपस्थिति का अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.539476",
+  "name": "hi-Update Attendance Request",
+  "source_text": "Update Attendance Request",
+  "translated_text": "उपस्थिति अनुरोध अद्यतन करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.578156",
+  "name": "hi-Type Explanation Here",
+  "source_text": "Type Explanation Here",
+  "translated_text": "यहां स्पष्टीकरण लिखें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.618145",
+  "name": "hi-Include Holidays",
+  "source_text": "Include Holidays",
+  "translated_text": "छुट्टियाँ शामिल करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.658296",
+  "name": "hi-Select Reason",
+  "source_text": "Select Reason",
+  "translated_text": "कारण चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.698436",
+  "name": "hi-Select Shift Type",
+  "source_text": "Select Shift Type",
+  "translated_text": "शिफ्ट प्रकार चुनें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.741240",
+  "name": "hi-Delete Attendance Request",
+  "source_text": "Delete Attendance Request",
+  "translated_text": "उपस्थिति अनुरोध हटाएं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.782484",
+  "name": "hi-Are you sure you want to delete this attendance request ?",
+  "source_text": "Are you sure you want to delete this attendance request ?",
+  "translated_text": "क्या आप वाकई इस उपस्थिति अनुरोध को हटाना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.822057",
+  "name": "hi-Delete Timesheet",
+  "source_text": "Delete Timesheet",
+  "translated_text": "टाइमशीट हटाएँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.870864",
+  "name": "hi-Are you sure you want to delete this timesheet ?",
+  "source_text": "Are you sure you want to delete this timesheet ?",
+  "translated_text": "क्या आप वाकई इस टाइमशीट को हटाना चाहते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.910816",
+  "name": "hi-Approver",
+  "source_text": "Approver",
+  "translated_text": "स्वीकृति प्रदान करने वाले"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:53.955172",
+  "name": "hi-Approver Name",
+  "source_text": "Approver Name",
+  "translated_text": "अनुमोदक का नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.005750",
+  "name": "hi-Company Policy",
+  "source_text": "Company Policy",
+  "translated_text": "संग की नीति"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.048891",
+  "name": "hi-No Leave Balance Found 😕!",
+  "source_text": "No Leave Balance Found 😕!",
+  "translated_text": "कोई अवकाश शेष नहीं मिला 😕!"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.093924",
+  "name": "hi-File Downloaded Successfully",
+  "source_text": "File Downloaded Successfully",
+  "translated_text": "फ़ाइल सफलतापूर्वक डाउनलोड हो गई"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.143811",
+  "name": "hi-Emergency Contact Name",
+  "source_text": "Emergency Contact Name",
+  "translated_text": "आपातकालीन संपर्क नाम"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.185624",
+  "name": "hi-Emergency Email Address",
+  "source_text": "Emergency Email Address",
+  "translated_text": "आपातकालीन ईमेल पता"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.241584",
+  "name": "hi-Total Sanctioned Amount",
+  "source_text": "Total Sanctioned Amount",
+  "translated_text": "कुल स्वीकृत राशि"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.285297",
+  "name": "hi-minutes",
+  "source_text": "minutes",
+  "translated_text": "मिनट"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.327621",
+  "name": "hi-Alloted",
+  "source_text": "Alloted",
+  "translated_text": "आवंटित"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.373737",
+  "name": "hi-Target",
+  "source_text": "Target",
+  "translated_text": "लक्ष्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.429344",
+  "name": "hi-Module",
+  "source_text": "Module",
+  "translated_text": "मॉड्यूल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.492442",
+  "name": "hi-That\"s all you got.",
+  "source_text": "That\"s all you got.",
+  "translated_text": "बस इतना ही आपके पास है."
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.550686",
+  "name": "hi-Edit",
+  "source_text": "Edit",
+  "translated_text": "संपादन करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.596325",
+  "name": "hi-Upload File",
+  "source_text": "Upload File",
+  "translated_text": "फ़ाइल अपलोड करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.659154",
+  "name": "hi-Upload Files",
+  "source_text": "Upload Files",
+  "translated_text": "फाइलें अपलोड करें"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.704119",
+  "name": "hi-What's on your mind",
+  "source_text": "What's on your mind",
+  "translated_text": "आपके दिमाग में क्या है"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.742713",
+  "name": "hi-Manager View",
+  "source_text": "Manager View",
+  "translated_text": "प्रबंधक दृश्य"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.780702",
+  "name": "hi-Clock In",
+  "source_text": "Clock In",
+  "translated_text": "घड़ी में"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.819108",
+  "name": "hi-Clock Out",
+  "source_text": "Clock Out",
+  "translated_text": "काम समाप्त करना"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.861787",
+  "name": "hi-Not Clock in",
+  "source_text": "Not Clock in",
+  "translated_text": "घड़ी में नहीं"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.903779",
+  "name": "hi-On Leave",
+  "source_text": "On Leave",
+  "translated_text": "छुट्टी पर"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.950868",
+  "name": "hi-Approval Request",
+  "source_text": "Approval Request",
+  "translated_text": "अनुमोदन अनुरोध"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:54.996085",
+  "name": "hi-Your Question*",
+  "source_text": "Your Question*",
+  "translated_text": "आपका प्रश्न*"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.044442",
+  "name": "hi-E.g., How do you commute to work ?",
+  "source_text": "E.g., How do you commute to work ?",
+  "translated_text": "उदाहरणार्थ, आप काम पर कैसे जाते हैं?"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.088504",
+  "name": "hi-Option 1*",
+  "source_text": "Option 1*",
+  "translated_text": "विकल्प 1*"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.129670",
+  "name": "hi-E.g., Public transportation",
+  "source_text": "E.g., Public transportation",
+  "translated_text": "उदाहरण के लिए, सार्वजनिक परिवहन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.170229",
+  "name": "hi-Option 2*",
+  "source_text": "Option 2*",
+  "translated_text": "विकल्प 2*"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.215811",
+  "name": "hi-E.g., Drive myself",
+  "source_text": "E.g., Drive myself",
+  "translated_text": "उदाहरण के लिए, मैं खुद गाड़ी चलाता हूँ"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.259675",
+  "name": "hi-Option 3",
+  "source_text": "Option 3",
+  "translated_text": "विकल्प 3"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.308028",
+  "name": "hi-E.g., Carpool",
+  "source_text": "E.g., Carpool",
+  "translated_text": "उदाहरण के लिए, कारपूल"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.348428",
+  "name": "hi-Option 4",
+  "source_text": "Option 4",
+  "translated_text": "विकल्प 4"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.391382",
+  "name": "hi-E.g., Other (please comment)",
+  "source_text": "E.g., Other (please comment)",
+  "translated_text": "उदाहरणार्थ, अन्य (कृपया टिप्पणी करें)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.434640",
+  "name": "hi-Poll duration*",
+  "source_text": "Poll duration*",
+  "translated_text": "मतदान अवधि*"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.482442",
+  "name": "hi-Current",
+  "source_text": "Current",
+  "translated_text": "मौजूदा"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.523672",
+  "name": "hi-History",
+  "source_text": "History",
+  "translated_text": "इतिहास"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.564856",
+  "name": "hi-Target Order Details",
+  "source_text": "Target Order Details",
+  "translated_text": "लक्ष्य आदेश विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.606432",
+  "name": "hi-More Details",
+  "source_text": "More Details",
+  "translated_text": "अधिक जानकारी"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.669498",
+  "name": "hi-Target Details",
+  "source_text": "Target Details",
+  "translated_text": "लक्ष्य विवरण"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2025-09-30 19:58:55.724309",
+  "name": "hi-Item Group Wise Breakdown",
+  "source_text": "Item Group Wise Breakdown",
+  "translated_text": "आइटम समूहवार विभाजन"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ess Translation",
+  "language": "hi",
+  "modified": "2023-07-30 18:52:28.392089",
+  "name": "hi-Select Language",
+  "source_text": "Select Language",
+  "translated_text": "भाषा चुने\r\n"
+ }
+]

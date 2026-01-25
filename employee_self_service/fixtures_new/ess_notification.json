@@ -1,0 +1,380 @@
+[
+ {
+  "condition": null,
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Attendance Request",
+  "enabled": 1,
+  "event": "New",
+  "message": "Your Attendance Request created successfully",
+  "modified": "2025-07-24 21:44:19.183321",
+  "name": "Attedance Request Submitted",
+  "notification_name": "Attedance Request Created",
+  "recipients": [
+   {
+    "parent": "Attedance Request Submitted",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": null,
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Attedance Request Submitted",
+  "value_changed": null
+ },
+ {
+  "condition": null,
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Attendance Request",
+  "enabled": 1,
+  "event": "New",
+  "message": "Your attenadace Request received successfully.",
+  "modified": "2025-07-24 21:49:18.312075",
+  "name": "Attedance Request Added",
+  "notification_name": "Attedance Request",
+  "recipients": [
+   {
+    "parent": "Attedance Request Added",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": null,
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Attedance Request Added",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.status == \"Open\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Leave Application",
+  "enabled": 1,
+  "event": "New",
+  "message": "A new leave application has been submitted by {{ doc.employee_name }}",
+  "modified": "2025-01-03 03:59:49.979765",
+  "name": "Leave Application Applied",
+  "notification_name": "Leave Application Create",
+  "recipients": [
+   {
+    "parent": "Leave Application Applied",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "leave_approver",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "New Leave Application: {{ doc.employee_name }} ({{ doc.leave_type }})",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.status == \"Open\" and doc.reference_type == \"Task\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ToDo",
+  "enabled": 1,
+  "event": "New",
+  "message": "You have been assigned to {{doc.reference_type}} {{doc.reference_name}}.",
+  "modified": "2025-01-03 14:56:14.429833",
+  "name": "Task Assign {{doc.subject}}",
+  "notification_name": "Task Assigment",
+  "recipients": [
+   {
+    "parent": "Task Assign {{doc.subject}}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "allocated_to",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Task Assign {{doc.reference_name}}",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.status == \"Closed\" and doc.reference_type == \"Task\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ToDo",
+  "enabled": 1,
+  "event": "Value Change",
+  "message": "The {{doc.reference_type}} {{doc.reference_name}} assigned by you has been marked as completed.",
+  "modified": "2025-01-03 15:02:21.648620",
+  "name": "Task Completed: {{ doc.name }}",
+  "notification_name": "Task Completion",
+  "recipients": [
+   {
+    "parent": "Task Completed: {{ doc.name }}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "assigned_by",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Task Completed: {{ doc.name }}",
+  "value_changed": "status"
+ },
+ {
+  "condition": "doc.status == \"Cancelled\" and doc.reference_type == \"Task\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ToDo",
+  "enabled": 1,
+  "event": "Save",
+  "message": "You have been unassigned from {{doc.reference_type}} {{doc.reference_name}}.",
+  "modified": "2025-01-03 14:57:42.197966",
+  "name": "Task Unassign {{doc.reference_name}}",
+  "notification_name": "Task Assigment",
+  "recipients": [
+   {
+    "parent": "Task Unassign {{doc.reference_name}}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "allocated_to",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Task Unassign {{doc.reference_name}}",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.docstatus==1",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Leave Application",
+  "enabled": 1,
+  "event": "Value Change",
+  "message": "Your leave application {{doc.name}} has been {{ doc.status }}.",
+  "modified": "2025-01-03 16:54:02.303849",
+  "name": "Leave Application {{ doc.status }}: {{ doc.leave_type }}",
+  "notification_name": "Leave Application Status Update",
+  "recipients": [
+   {
+    "parent": "Leave Application {{ doc.status }}: {{ doc.leave_type }}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "",
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Leave Application {{ doc.status }}: {{ doc.leave_type }}",
+  "value_changed": "status"
+ },
+ {
+  "condition": "",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Task",
+  "enabled": 1,
+  "event": "Save",
+  "message": "The task {{doc.subject}} has been updated. Check the latest details.",
+  "modified": "2025-01-03 14:52:21.450764",
+  "name": "Task Update: {{ doc.name }}",
+  "notification_name": "Task Update",
+  "recipients": [
+   {
+    "parent": "Task Update: {{ doc.name }}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "owner",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 1
+   }
+  ],
+  "subject": "Task Updated: {{doc.subject}}",
+  "value_changed": "status"
+ },
+ {
+  "condition": null,
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Expense Claim",
+  "enabled": 1,
+  "event": "New",
+  "message": "Expense Claim #{{doc.name}} for {{doc.grand_total}} by {{doc.employee_name}} is awaiting your approval.",
+  "modified": "2025-01-03 15:09:37.342995",
+  "name": "Expense Claim Submitted",
+  "notification_name": "Expense Entry Create",
+  "recipients": [
+   {
+    "parent": "Expense Claim Submitted",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "expense_approver",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Expense Claim Submitted",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.docstatus == 1",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Expense Claim",
+  "enabled": 1,
+  "event": "Value Change",
+  "message": "Your Expense Claim #{{doc.name}} has been {{doc.approval_status}}.",
+  "modified": "2025-01-03 16:53:33.146215",
+  "name": "Expense Claim Status Updated",
+  "notification_name": "Expense Entry Status Update",
+  "recipients": [
+   {
+    "parent": "Expense Claim Status Updated",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "",
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Expense Claim Status Updated",
+  "value_changed": "approval_status"
+ },
+ {
+  "condition": "doc.post_type == \"Poll\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ESS Post",
+  "enabled": 1,
+  "event": "New",
+  "message": "A new poll is live! Take a moment to share your input and make a difference. Vote now!",
+  "modified": "2025-01-03 17:21:01.230475",
+  "name": "New Poll Create by {{doc.full_name}}",
+  "notification_name": "ESS Poll Create",
+  "recipients": [
+   {
+    "parent": "New Poll Create by {{doc.full_name}}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": null,
+    "receiver_by_employee_field": null,
+    "receiver_by_role": "Employee",
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "📊 New Poll Alert: Share Your Opinion!",
+  "value_changed": null
+ },
+ {
+  "condition": "doc.post_type == \"Poll\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ESS Post",
+  "enabled": 1,
+  "event": "Value Change",
+  "message": "Someone has answered your poll. Check the latest responses now!",
+  "modified": "2025-01-03 17:29:11.040707",
+  "name": "New Response to Your Poll",
+  "notification_name": "ESS Poll Answer",
+  "recipients": [
+   {
+    "parent": "New Response to Your Poll",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": null,
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": "",
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "New Response to Your Poll",
+  "value_changed": "update_post"
+ },
+ {
+  "condition": "doc.post_type == \"Poll\"",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "ESS Post",
+  "enabled": 1,
+  "event": "Value Change",
+  "message": "The poll has been closed. Thank you for your participation!",
+  "modified": "2025-01-03 17:52:14.210428",
+  "name": "Poll Closed",
+  "notification_name": "ESS Poll Close",
+  "recipients": [
+   {
+    "parent": "Poll Closed",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "user,ess_post_poll_log",
+    "receiver_by_employee_field": "employee",
+    "receiver_by_role": "",
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "Poll Closed",
+  "value_changed": "poll_closed"
+ },
+ {
+  "condition": "",
+  "date_changed": null,
+  "days_before_or_after": 0,
+  "docstatus": 0,
+  "doctype": "ESS Notification",
+  "document_type": "Notification Log",
+  "enabled": 1,
+  "event": "New",
+  "message": "{{ strip_and_clean_html(doc.email_content) }}",
+  "modified": "2025-01-04 03:14:53.631259",
+  "name": "{{doc.subject}}",
+  "notification_name": "Mention In Comment",
+  "recipients": [
+   {
+    "parent": "{{doc.subject}}",
+    "parentfield": "recipients",
+    "parenttype": "ESS Notification",
+    "receiver_by_document_field": "for_user",
+    "receiver_by_employee_field": null,
+    "receiver_by_role": null,
+    "send_to_all_assignees": 0
+   }
+  ],
+  "subject": "{{frappe.utils.strip_html(doc.subject)}}",
+  "value_changed": null
+ }
+]

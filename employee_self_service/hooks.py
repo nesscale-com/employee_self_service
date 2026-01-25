@@ -214,9 +214,10 @@ before_tests = "employee_self_service.tests.test_utils.before_tests"
 jinja = {"methods": ["employee_self_service.utils.strip_and_clean_html"]}
 
 fixtures = [
-    # {
-    #     "dt": "Ess Translation",
-    # },
+    {
+        "dt": "Ess Translation",
+        "filters": [["language", "=", "hi"]]
+    },
     {"dt": "ESS Notification"},
     {"dt": "ESS Notification Template"},
 ]

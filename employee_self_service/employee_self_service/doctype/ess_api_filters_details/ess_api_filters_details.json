@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-11-08 11:12:19.758307",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "view",
+  "document_type",
+  "column_break_flph",
+  "filters"
+ ],
+ "fields": [
+  {
+   "fieldname": "view",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "View",
+   "options": "\nList\nCreate\nUpdate\nDetails\nFilter"
+  },
+  {
+   "fieldname": "column_break_flph",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "filters",
+   "fieldtype": "Code",
+   "in_list_view": 1,
+   "label": "Filters"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Type",
+   "options": "DocType"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-11-08 11:14:58.345163",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS API Filters Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
