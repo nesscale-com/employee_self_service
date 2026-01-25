@@ -867,7 +867,6 @@ def create_employee_log(
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift", "branch"]
         )
-        frappe.log_error(title="log_time", message=log_time)
         log_doc = frappe.get_doc(
             doctype="Employee Checkin",
             employee=emp_data.get("name"),
