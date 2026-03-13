@@ -6,6 +6,11 @@ from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.auth import LoginManager
 from frappe.handler import upload_file
+from frappe.twofactor import (
+    authenticate_for_2factor,
+    confirm_otp_token,
+    should_run_2fa,
+)
 from frappe.utils import (
     add_days,
     cstr,
@@ -52,6 +57,29 @@ def login(usr, pwd, unique_id=None):
         login_manager.authenticate(usr, pwd)
         validate_employee(login_manager.user)
         emp_data = get_employee_by_user(login_manager.user, fields=["name", "gender"])
+
+        # Check if Two Factor Authentication is required for this user
+        if should_run_2fa(login_manager.user):
+            # Generate OTP and send it via the configured method (SMS / Email / OTP App)
+            authenticate_for_2factor(login_manager.user)
+            tmp_id = frappe.local.response.get("tmp_id")
+            verification = frappe.local.response.get("verification")
+
+            # Cache unique_id (device token) so it can be used after OTP verification
+            if tmp_id and unique_id:
+                frappe.cache.set(tmp_id + "_ess_unique_id", unique_id)
+                frappe.cache.expire(tmp_id + "_ess_unique_id", 300)
+
+            return gen_response(
+                200,
+                "Two factor authentication required",
+                {
+                    "two_factor_required": True,
+                    "tmp_id": tmp_id,
+                    "verification": verification,
+                },
+            )
+
         # Register device (throws exception if device is not valid)
         if unique_id:
             if not register_device(emp_data.get("name"), unique_id):
@@ -99,6 +127,60 @@ def register_device(employee, unique_id):
         frappe.throw(_("Device not recognized. Please contact admin."))
 
     return True
+
+
+@frappe.whitelist(allow_guest=True)
+def verify_2fa_otp(tmp_id, otp):
+    """
+    Verify the OTP submitted by the user during Two Factor Authentication.
+
+    Called after the initial `login` API returns a 202 with two_factor_required=True.
+    On success, returns the same response as a normal successful login.
+
+    Args:
+        tmp_id (str): Temporary session identifier returned by the login API.
+        otp   (str): One-time password entered by the user.
+    """
+    try:
+        # Retrieve the username that was cached during the initial login step
+        user = frappe.safe_decode(frappe.cache.get(tmp_id + "_usr"))
+        if not user:
+            return gen_response(401, "Login session has expired. Please login again.")
+
+        # Build a minimal LoginManager so confirm_otp_token can track attempts
+        login_manager = LoginManager()
+        login_manager.user = user
+
+        # Verify the OTP against the cached token / TOTP secret
+        if not confirm_otp_token(login_manager, otp=str(otp), tmp_id=tmp_id):
+            return gen_response(401, "Incorrect verification code. Please try again.")
+
+        # OTP is valid – ensure the user is still linked to an Employee record
+        validate_employee(user)
+        emp_data = get_employee_by_user(user, fields=["name", "gender"])
+
+        # Restore the unique_id (device token) that was cached during initial login
+        unique_id = frappe.safe_decode(frappe.cache.get(tmp_id + "_ess_unique_id")) or None
+        if unique_id:
+            if not register_device(emp_data.get("name"), unique_id):
+                return
+
+        # Complete the login session
+        login_manager.post_login()
+
+        if frappe.response.get("message") == "Logged In":
+            frappe.response["user"] = user
+            frappe.response["key_details"] = generate_key(user)
+            frappe.response["employee_id"] = emp_data.get("name")
+            frappe.response["gender"] = emp_data.get("gender")
+
+        gen_response(200, frappe.response.get("message", "Logged In"))
+    except frappe.AuthenticationError:
+        gen_response(500, frappe.response.get("message", "Authentication failed"))
+    except frappe.SecurityException:
+        gen_response(401, frappe.response.get("message", "Security error"))
+    except Exception as e:
+        return exception_handler(e)
 
 
 @frappe.whitelist()
@@ -890,18 +972,17 @@ def get_latest_ss(dashboard_data, employee):
 
 @frappe.whitelist()
 def create_employee_log(
-    log_type, location=None, odometer_reading=None, attendance_image=None
+    log_type, log_time=None, location=None, odometer_reading=None, attendance_image=None
 ):
     try:
         emp_data = get_employee_by_user(
             frappe.session.user, fields=["name", "default_shift", "branch"]
         )
-
         log_doc = frappe.get_doc(
             doctype="Employee Checkin",
             employee=emp_data.get("name"),
             log_type=log_type,
-            time=now_datetime().__str__()[:-7],
+            time=log_time if log_time else now_datetime().__str__()[:-7],
             location=location,
             odometer_reading=odometer_reading,
         ).insert(ignore_permissions=True)
