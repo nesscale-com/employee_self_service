@@ -25,14 +25,7 @@ def create_timesheet(**data):
         timesheet_doc.update(data)
         timesheet_doc.employee = emp_data.name
         timesheet_doc.company = emp_data.company
-        timesheet_submit = frappe.db.get_single_value(
-            "Employee Self Service Settings",
-            "submit_timesheet",
-        )
-        if timesheet_submit == 1:
-            timesheet_doc.submit()
-        else:
-            timesheet_doc.save()
+        timesheet_doc.save()
         return gen_response(200, "Timesheet has been updated successfully")
     except frappe.PermissionError:
         return gen_response(500, "Not permitted to perform this action")
