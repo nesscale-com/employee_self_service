@@ -485,3 +485,15 @@ def cancel_document(refrence_doctype, reference_name):
 
     except Exception as e:
         return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_erp_link_for_document(document_type, document_no):
+    try:
+        return gen_response(
+            200,
+            "Document link get successfully",
+            get_url_to_form(document_type, document_no),
+        )
+    except Exception as e:
+        return exception_handler(e)
