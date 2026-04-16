@@ -3,7 +3,7 @@ from datetime import datetime
 import frappe
 from frappe.utils import flt, fmt_money, getdate
 
-from employee_self_service.mobile.v1.api_utils import (
+from employee_self_service.mobile.v2.api_utils import (
     ess_validate,
     exception_handler,
     gen_response,

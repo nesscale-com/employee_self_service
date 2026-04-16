@@ -7,7 +7,7 @@ from frappe.twofactor import (
     should_run_2fa,
 )
 from frappe.utils import *
-from employee_self_service.mobile.v1.auth.utils import *
+from employee_self_service.mobile.v2.auth.utils import *
 
 
 @frappe.whitelist(allow_guest=True)

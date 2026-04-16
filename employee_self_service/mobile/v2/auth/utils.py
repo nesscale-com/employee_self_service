@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v1.api_utils import *
+from employee_self_service.mobile.v2.api_utils import *
 
 def register_device(employee, unique_id):
     ess_settings = get_ess_settings()

@@ -1,13 +1,7 @@
 import frappe
 from frappe import _
 from frappe.utils import *
-from employee_self_service.mobile.v1.api_utils import *
-
-def get_month_year_details(expense):
-    date = getdate(expense.get("posting_date"))
-    month = date.strftime("%B")
-    year = date.year
-    return f"{month} {year}"
+from employee_self_service.mobile.v2.api_utils import *
 
 def get_salary_slip_details(ss_id):
     return frappe.get_doc("Salary Slip", ss_id)

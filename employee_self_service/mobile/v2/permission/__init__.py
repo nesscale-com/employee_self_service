@@ -1,7 +1,7 @@
 import frappe
 from frappe.permissions import get_doc_permissions
 
-from employee_self_service.mobile.v1.api_utils import (
+from employee_self_service.mobile.v2.api_utils import (
     exception_handler,
     gen_response,
     get_actions,

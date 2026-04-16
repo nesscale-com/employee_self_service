@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v1.api_utils import *
+from employee_self_service.mobile.v2.api_utils import *
 from frappe.utils import *
 from employee_self_service.utils import add_ess_comment
 from frappe.handler import upload_file

@@ -1,7 +1,7 @@
 import json
 import frappe
 from frappe.utils import *
-from employee_self_service.mobile.v1.api_utils import *
+from employee_self_service.mobile.v2.api_utils import *
 
 # Expense Claims List
 @frappe.whitelist()

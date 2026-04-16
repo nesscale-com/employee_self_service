@@ -1,8 +1,9 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v1.employee.salary_slip import *
-from employee_self_service.mobile.v1.employee.checkin import *
-from employee_self_service.mobile.v1.employee.utils import *
+from employee_self_service.mobile.v2.employee.salary_slip import *
+from employee_self_service.mobile.v2.employee.checkin import *
+from employee_self_service.mobile.v2.employee.activity import *
+from employee_self_service.mobile.v2.employee.utils import *
 
 
 @frappe.whitelist()

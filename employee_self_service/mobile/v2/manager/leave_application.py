@@ -1,12 +1,12 @@
 import frappe
 
-from employee_self_service.mobile.v1.api_utils import (
+from employee_self_service.mobile.v2.api_utils import (
     ess_validate,
     exception_handler,
     gen_response,
     get_employee_by_user,
 )
-from employee_self_service.mobile.v1.manager.manager_utils import get_action
+from employee_self_service.mobile.v2.manager.manager_utils import get_action
 
 
 @frappe.whitelist()

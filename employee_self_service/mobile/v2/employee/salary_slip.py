@@ -1,7 +1,7 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v1.auth.utils import *
-from employee_self_service.mobile.v1.employee.utils import *
+from employee_self_service.mobile.v2.auth.utils import *
+from employee_self_service.mobile.v2.employee.utils import *
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])

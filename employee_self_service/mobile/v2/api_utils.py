@@ -3,8 +3,9 @@ import wrapt
 from bs4 import BeautifulSoup
 from erpnext.setup.doctype.employee.employee import get_holiday_list_for_employee
 from frappe import _
+from frappe.utils import *
 
-from employee_self_service.mobile.v1.constants import MOBILE_APP_ROUTES
+from employee_self_service.mobile.v2.constants import MOBILE_APP_ROUTES
 
 
 def gen_response(status, message, data=[]):
@@ -327,3 +328,10 @@ def validate_employee(user):
     if not frappe.db.exists("Employee", dict(user_id=user)):
         frappe.response["message"] = "Please link Employee with this user"
         raise frappe.AuthenticationError(frappe.response["message"])
+
+
+def get_month_year_details(expense):
+    date = getdate(expense.get("posting_date"))
+    month = date.strftime("%B")
+    year = date.year
+    return f"{month} {year}"

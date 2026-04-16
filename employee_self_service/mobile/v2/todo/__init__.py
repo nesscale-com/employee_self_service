@@ -1,13 +1,13 @@
 import frappe
 from frappe.utils import today
 
-from employee_self_service.mobile.v1.api_utils import (
+from employee_self_service.mobile.v2.api_utils import (
     ess_validate,
     exception_handler,
     gen_response,
     get_mobile_app_route,
 )
-from employee_self_service.mobile.v1.task import fetch_user
+from employee_self_service.mobile.v2.task import fetch_user
 
 TODO_FIELDS = [
     "name",

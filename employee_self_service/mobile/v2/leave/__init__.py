@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v1.leave.utils import *
+from employee_self_service.mobile.v2.leave.utils import *
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])

@@ -2,8 +2,8 @@ from calendar import monthrange
 import frappe
 from frappe import _
 from frappe.utils import *
-from employee_self_service.mobile.v1.attendance.utils import *
-from employee_self_service.mobile.v1.api_utils import *
+from employee_self_service.mobile.v2.attendance.utils import *
+from employee_self_service.mobile.v2.api_utils import *
 
 
 @frappe.whitelist()

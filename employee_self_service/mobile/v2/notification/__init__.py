@@ -1,5 +1,5 @@
 import frappe
-from employee_self_service.mobile.v1.notification.utils import *
+from employee_self_service.mobile.v2.notification.utils import *
 
 
 @frappe.whitelist()

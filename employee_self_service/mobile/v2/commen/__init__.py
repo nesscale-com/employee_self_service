@@ -1,4 +1,4 @@
-from employee_self_service.mobile.v1.commen.utils import *
+from employee_self_service.mobile.v2.commen.utils import *
 
 
 @frappe.whitelist()

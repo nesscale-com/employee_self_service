@@ -5,7 +5,7 @@ from erpnext.accounts.party import get_dashboard_info
 from erpnext.accounts.utils import getdate
 from frappe.utils import fmt_money
 
-from employee_self_service.mobile.v1.api_utils import (
+from employee_self_service.mobile.v2.api_utils import (
     ess_validate,
     exception_handler,
     gen_response,
@@ -14,7 +14,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_global_defaults,
     prepare_json_data,
 )
-from employee_self_service.mobile.v1.ess import download_pdf
+from employee_self_service.mobile.v2.ess import download_pdf
 
 """order list api for mobile app"""
 
@@ -240,7 +240,7 @@ def get_customer_list(start=0, page_length=10, filters=None):
 @ess_validate(methods=["GET"])
 def get_item_list(filters=None):
     try:
-        from employee_self_service.mobile.v1.order import get_items_rate
+        from employee_self_service.mobile.v2.order import get_items_rate
 
         if not filters:
             filters = []
@@ -263,7 +263,7 @@ def scan_item(barcode):
     try:
         from erpnext.stock.utils import scan_barcode
 
-        from employee_self_service.mobile.v1.order import get_items_rate
+        from employee_self_service.mobile.v2.order import get_items_rate
 
         item_details = scan_barcode(barcode)
         item_list = frappe.get_list(
