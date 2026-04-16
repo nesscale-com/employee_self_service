@@ -141,23 +141,6 @@ def check_workflow_exists(doctype):
     else:
         return False
 
-
-@frappe.whitelist()
-@ess_validate(methods=["POST"])
-def update_workflow_state(reference_doctype, reference_name, action):
-    try:
-        from frappe.model.workflow import apply_workflow
-
-        doc = frappe.get_doc(reference_doctype, reference_name)
-        apply_workflow(doc, action)
-        return gen_response(200, "Workflow State Updated Successfully")
-    except frappe.PermissionError:
-        return gen_response(500, f"Not permitted for update {reference_doctype}")
-    except Exception as e:
-        frappe.db.rollback()
-        return exception_handler(e)
-
-
 def convert_timezone(timestamp, from_tz, to_tz):
     from pytz import timezone
 

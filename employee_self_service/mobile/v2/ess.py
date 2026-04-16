@@ -28,7 +28,14 @@ from employee_self_service.mobile.v2.payment import get_transactions_old
 from employee_self_service.mobile.v2.commen import *
 from employee_self_service.mobile.v2.task import create_quick_task, get_quick_task_list
 from employee_self_service.mobile.v2.notification import *
-from employee_self_service.mobile.v2.dashboard import *
+from employee_self_service.mobile.v2.manager.dashboard import (
+    get_dashboard,
+    get_last_log_details,
+    get_latest_expense,
+    get_latest_ss,
+    get_last_log_type,
+    get_notice_board,
+)
 
 # def get_latest_expense(dashboard_data, employee):
 #     global_defaults = get_global_defaults()
@@ -55,7 +62,6 @@ from employee_self_service.mobile.v2.dashboard import *
 #             )
 
 
-
 def daily_notice_board_event():
     create_employee_birthday_board("birthday")
     create_employee_birthday_board("work_anniversary")
@@ -79,8 +85,6 @@ def create_employee_birthday_board(event_type):
                 apply_for="Specific Employees",
                 employees=[dict(employee=emp.get("emp_id"))],
             ).insert(ignore_permissions=True)
-
-
 
 
 def send_notification_on_event():
@@ -247,4 +251,3 @@ def send_notification_for_task_assign(doc, event):
             user=doc.allocated_to,
             notification_type="task_assignment",
         )
-

@@ -7,6 +7,7 @@ from employee_self_service.mobile.v2.api_utils import (
     exception_handler,
     gen_response,
 )
+from employee_self_service.mobile.v2.commen import get_print
 
 
 @frappe.whitelist()
@@ -100,20 +101,6 @@ def get_workflow_documents(start=1, page_length=10, document_type=None, internal
     except Exception as e:
         return exception_handler(e)
 
-
-# def append_document(workflow_documents, documents, doctype):
-#     for row in workflow_documents:
-#         doc = frappe.get_doc(doctype, row["name"])
-#         try:
-#             transitions = get_transitions(doc)
-#             # Only append documents that have available actions (transitions)
-#             if transitions:
-#                 row["doctype"] = doctype
-#                 documents.append(row)
-#         except Exception as e:
-#             pass
-
-
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
 def get_actions(document_type, document_no):
@@ -130,22 +117,20 @@ def get_actions(document_type, document_no):
     except Exception as e:
         return exception_handler(e)
 
-
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
-def update_workflow_state(document_type, document_no, action):
+def update_workflow_state(reference_doctype, reference_name, action):
     try:
         from frappe.model.workflow import apply_workflow
 
-        doc = frappe.get_doc(document_type, document_no)
+        doc = frappe.get_doc(reference_doctype, reference_name)
         apply_workflow(doc, action)
         return gen_response(200, "Workflow State Updated Successfully")
     except frappe.PermissionError:
-        return gen_response(500, f"Not permitted for update {document_type}")
+        return gen_response(500, f"Not permitted for update {reference_doctype}")
     except Exception as e:
         frappe.db.rollback()
         return exception_handler(e)
-
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -155,29 +140,6 @@ def get_erp_link_for_document(document_type, document_no):
             200,
             "Document link get successfully",
             get_url_to_form(document_type, document_no),
-        )
-    except Exception as e:
-        return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_print(document_type, document_no):
-    try:
-        default_print_format = (
-            frappe.db.get_value(
-                "Property Setter",
-                dict(property="default_print_format", doc_type=document_type),
-                "value",
-            )
-            or "Standard"
-        )
-        from frappe.utils.print_format import download_pdf
-
-        return download_pdf(
-            doctype=document_type,
-            name=document_no,
-            format=default_print_format,
         )
     except Exception as e:
         return exception_handler(e)

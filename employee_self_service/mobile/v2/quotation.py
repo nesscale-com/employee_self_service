@@ -15,6 +15,7 @@ from employee_self_service.mobile.v2.api_utils import (
     prepare_json_data,
 )
 from employee_self_service.mobile.v2.ess import download_pdf
+from employee_self_service.mobile.v2.commen import get_customer_list
 
 """order list api for mobile app"""
 
@@ -215,26 +216,6 @@ def get_attachments(id):
 #         return gen_response(200, "Order Workflow State Updated Successfully")
 #     except Exception as e:
 #         return exception_handler(e)
-
-
-@frappe.whitelist()
-@ess_validate(methods=["GET"])
-def get_customer_list(start=0, page_length=10, filters=None):
-    try:
-        customer_list = frappe.get_list(
-            "Customer",
-            fields=["name", "customer_name", "mobile_no as phone"],
-            start=start,
-            filters=filters,
-            page_length=page_length,
-            order_by="modified desc",
-        )
-        gen_response(200, "Customer list get successfully", customer_list)
-    except frappe.PermissionError:
-        return gen_response(500, "Not permitted for customer")
-    except Exception as e:
-        return exception_handler(e)
-
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])

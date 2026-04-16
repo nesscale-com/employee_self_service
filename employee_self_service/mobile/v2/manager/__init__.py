@@ -1,6 +1,5 @@
-from employee_self_service.mobile.v2.api_utils import update_workflow_state
-
 from .dashboard import get_dashboard_stats, get_dashboard_stats_list
 from .expense_claim import my_team_expense_claim
 from .leave_application import my_team_leave_application
 from .manager_utils import get_status_list, update_document_status
+from employee_self_service.mobile.v2.approval.workflow import update_workflow_state
