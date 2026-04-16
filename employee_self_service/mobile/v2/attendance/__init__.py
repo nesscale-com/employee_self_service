@@ -25,7 +25,7 @@ def get_attendance_list_by_date(date=None):
             },
             fields=[
                 "name",
-                "DATE_FORMAT(attendance_date, '%d %W') AS attendance_date",
+                "attendance_date",
                 "status",
                 "working_hours",
                 "in_time",
@@ -33,7 +33,6 @@ def get_attendance_list_by_date(date=None):
                 "late_entry",
             ],
         )
-
         if not attendance_list:
             return gen_response(500, "no attendance found for this year and month", [])
 
@@ -95,6 +94,7 @@ def get_attendance_list_by_date(date=None):
             attendance["employee_checkin_detail"] = checkin_map.get(
                 attendance["name"], []
             )
+            attendance["attendance_date"] = ( attendance["attendance_date"].strftime("%d %A") if attendance["attendance_date"] else None )
 
             # Remove unnecessary fields
             attendance.pop("name", None)
