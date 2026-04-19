@@ -323,12 +323,14 @@ def get_item_list(
         filters.append(["Item", "show_in_mobile", "=", 1])
         item_list = frappe.get_list(
             "Item",
-            fields=["name", "item_name", "item_code", "image", "stock_uom"],
+            fields=["name", "item_name", "item_code", "image", "sales_uom", "stock_uom"],
             filters=filters,
             start=start,
             or_filters=or_filters,
             page_length=page_length,
         )
+        for item in item_list:
+            item["uom"] = item.get("sales_uom") or item.get("stock_uom")
         if for_filters:
             items = item_list
         else:
@@ -355,20 +357,11 @@ def get_items_rate(items, customer=None, warehouse=None):
     show_stock_balance = ess_settings.get("show_stock_balance_in_item_list", 0)
 
     for item in items:
-        item_price = frappe.get_all(
-            "Item Price",
-            filters={
-                "item_code": item.name,
-                "price_list": price_list,
-                "uom": item.stock_uom,
-            },
-            fields=["price_list_rate"],
-            order_by="valid_from desc",
-        )
+        uom = item.get("uom")
         item_price = _get_item_price(
             item_code=item.name,
             price_list=price_list,
-            uom=item.stock_uom,
+            uom=uom,
         )
         item_price_currency = fmt_money(
             item_price if item_price else 0.0,
@@ -412,26 +405,28 @@ def get_uoms(customer, item):
         global_defaults = get_global_defaults()
         sales_price_list = get_default_price_list(customer=customer)
         item_doc = frappe.get_doc("Item", item)
+        default_uom = item_doc.get("sales_uom") or item_doc.get("stock_uom")
+        stock_uom = item_doc.get("stock_uom")
         uoms = []
         default_uom_price = _get_item_price(
             item_code=item_doc.get("name"),
             price_list=sales_price_list,
-            uom=item_doc.get("stock_uom"),
+            uom=default_uom,
         )
         for uom_row in item_doc.get("uoms"):
-            if uom_row.get("uom") == item_doc.get("stock_uom"):
-                uom_hint = f"{uom_row.get('uom')} is default uom"
-            else:
-                uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor')} {item_doc.get('stock_uom')}"
+            uom_hint = f"1 {uom_row.get('uom')} = {uom_row.get('conversion_factor')} {stock_uom}"
             uom_details = dict(
                 uom=uom_row.get("uom"),
                 conversion_factor=uom_row.get("conversion_factor"),
                 uom_hint=uom_hint,
+                is_default=uom_row.get("uom") == default_uom,
             )
             get_uom_item_price(
                 sales_price_list, item, uom_details, default_uom_price, global_defaults
             )
             uoms.append(uom_details)
+        # Put sales_uom first in the list
+        uoms.sort(key=lambda u: u["uom"] != default_uom)
         return gen_response(200, "uom details get successfully", uoms)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for item")
@@ -492,8 +487,10 @@ def scan_item(barcode):
         item_list = frappe.get_list(
             "Item",
             filters={"name": item_details.get("item_code")},
-            fields=["name", "item_name", "item_code", "image", "stock_uom"],
+            fields=["name", "item_name", "item_code", "image", "sales_uom", "stock_uom"],
         )
+        for item in item_list:
+            item["uom"] = item.get("sales_uom") or item.get("stock_uom")
         items = get_items_rate(item_list)
         if len(items) >= 1:
             gen_response(200, "Item list get successfully", items[0])
@@ -618,11 +615,6 @@ def _create_update_order(data, sales_order_doc, default_warehouse):
     enable_target_management = frappe.db.get_single_value(
         "ESS Target Settings", "enable_target_management"
     )
-    if enable_target_management:
-        sales_persons = get_sales_person_by_customer(data.get("customer"))
-        if sales_persons:
-            sales_order_doc.set("sales_team", sales_persons)
-
     delivery_date = data.get("delivery_date")
     for item in data.get("items"):
         item["delivery_date"] = delivery_date
@@ -631,6 +623,18 @@ def _create_update_order(data, sales_order_doc, default_warehouse):
     sales_order_doc.update(data)
     sales_order_doc.run_method("set_missing_values")
     sales_order_doc.run_method("calculate_taxes_and_totals")
+
+    # Populate sales team from Customer if not already set
+    if not sales_order_doc.get("sales_team"):
+        sales_persons = get_sales_person_by_customer(data.get("customer"))
+        if sales_persons:
+            sales_order_doc.set("sales_team", sales_persons)
+
+    if enable_target_management:
+        sales_persons = get_sales_person_by_customer(data.get("customer"))
+        if sales_persons:
+            sales_order_doc.set("sales_team", sales_persons)
+
     sales_order_doc.save()
 
 
