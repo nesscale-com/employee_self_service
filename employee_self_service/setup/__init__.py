@@ -9,6 +9,7 @@ from employee_self_service.constants.custom_fields import CUSTOM_FIELDS
 def after_install():
     create_custom_fields()
     add_default_language_in_ess_settings()
+    disable_geolocation_tracking()
 
 
 def create_custom_fields():
@@ -27,6 +28,13 @@ def get_all_custom_fields():
 
         result.setdefault(doctypes, []).extend(fields)
     return result
+
+
+def disable_geolocation_tracking():
+    if frappe.db.exists("DocType", "HR Settings"):
+        meta = frappe.get_meta("HR Settings")
+        if meta.has_field("allow_geolocation_tracking"):
+            frappe.db.set_single_value("HR Settings", "allow_geolocation_tracking", 0)
 
 
 def add_default_language_in_ess_settings():

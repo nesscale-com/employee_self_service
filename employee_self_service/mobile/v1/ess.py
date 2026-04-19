@@ -694,6 +694,9 @@ def get_dashboard():
             ),
             "enable_todo": settings.get("enable_todo"),
             "enable_modular_menu": settings.get("enable_modular_menu"),
+            "visit_proof_required": settings.get("visit_proof_required"),
+            "allow_user_to_change_rate": settings.get("allow_user_to_change_rate"),
+            "allow_user_to_change_uom": settings.get("allow_user_to_change_uom"),
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")

@@ -15,6 +15,12 @@
   "column_break_7qksp",
   "default_print_format",
   "geofencing_based_on",
+  "selling_settings_section",
+  "allow_user_to_change_rate",
+  "column_break_goaq",
+  "allow_user_to_change_uom",
+  "column_break_kxpj",
+  "visit_proof_required",
   "section_break_xjas",
   "enable_ess_notification",
   "check_in_with_image",
@@ -254,13 +260,45 @@
    "fieldname": "show_stock_balance_in_item_list",
    "fieldtype": "Check",
    "label": "Show Stock Balance in Item List"
+  },
+  {
+   "default": "0",
+   "description": "When enabled, visit proof (image attachment) is mandatory while creating a Visit from the mobile app.",
+   "fieldname": "visit_proof_required",
+   "fieldtype": "Check",
+   "label": "Visit Proof Required"
+  },
+  {
+   "fieldname": "selling_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Selling Settings"
+  },
+  {
+   "fieldname": "column_break_goaq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kxpj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_user_to_change_rate",
+   "fieldtype": "Check",
+   "label": "Allow User to Change Rate"
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_user_to_change_uom",
+   "fieldtype": "Check",
+   "label": "Allow User to Change UOM"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-03-13 17:25:02.606955",
+ "modified": "2026-04-19 18:19:16.219747",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",

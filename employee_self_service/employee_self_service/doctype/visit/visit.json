@@ -21,7 +21,9 @@
   "location",
   "column_break_ssqu5",
   "employee",
-  "user"
+  "user",
+  "section_break_visit_proof",
+  "visit_proof"
  ],
  "fields": [
   {
@@ -100,6 +102,16 @@
    "fieldtype": "Link",
    "label": "User",
    "options": "User"
+  },
+  {
+   "fieldname": "section_break_visit_proof",
+   "fieldtype": "Section Break",
+   "label": "Visit Proof"
+  },
+  {
+   "fieldname": "visit_proof",
+   "fieldtype": "Attach Image",
+   "label": "Visit Proof"
   }
  ],
  "index_web_pages_for_search": 1,

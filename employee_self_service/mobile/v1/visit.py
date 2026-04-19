@@ -74,6 +74,7 @@ def get_visit_list():
                 "time",
                 "visit_type",
                 "description",
+                "visit_proof",
             ],
         )
         # Format dates and times
