@@ -1,0 +1,118 @@
+{
+ "actions": [],
+ "autoname": "EUR.#####",
+ "creation": "2026-05-06 19:17:52.072698",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "column_break_header",
+  "requested_on",
+  "section_changes",
+  "table_html",
+  "is_applied",
+  "data"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Now",
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_changes",
+   "fieldtype": "Section Break",
+   "label": "Values Changed"
+  },
+  {
+   "fieldname": "table_html",
+   "fieldtype": "HTML",
+   "label": "Change Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_applied",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Applied"
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Change Data (JSON)"
+  }
+ ],
+ "icon": "fa fa-user-edit",
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-05-06 23:20:43.779662",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Employee Update Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Administrator",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "read": 1,
+   "role": "HR User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Compressed",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 1
+}

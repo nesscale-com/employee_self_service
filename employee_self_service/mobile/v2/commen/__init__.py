@@ -232,41 +232,29 @@ def get_option_list(doctype,field_name):
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
-def get_list_sort_options(doctype):
+def get_sort_option_list(doctype):
     try:
-        if doctype.startswith("tab"):
-            doctype = doctype[3:]
-
         meta = frappe.get_meta(doctype)
 
-        SORTABLE_FIELDTYPES = {
-            "Data", "Link", "Select", "Date", "Datetime",
-            "Int", "Float", "Currency", "Check",
-        }
-
-        sort_fields = [
-            {"fieldname": "name",     "label": "ID"},
+        options = [
             {"fieldname": "modified", "label": "Last Updated On"},
+            {"fieldname": "name",     "label": "ID"},
             {"fieldname": "creation", "label": "Created On"},
         ]
-        added = {"name", "modified", "creation"}
+
+        layout_fieldtypes = {
+            "Section Break", "Column Break", "Tab Break",
+            "HTML", "Table", "Table MultiSelect",
+            "Button", "Image", "Fold", "Heading",
+        }
 
         for df in meta.fields:
-            if (
-                df.fieldname
-                and df.label
-                and df.fieldtype in SORTABLE_FIELDTYPES
-                and df.fieldname not in added
-            ):
-                sort_fields.append({"fieldname": df.fieldname, "label": df.label})
-                added.add(df.fieldname)
+            if df.in_list_view and df.fieldtype not in layout_fieldtypes:
+                options.append({"fieldname": df.fieldname, "label": df.label})
 
-        return gen_response(
-            200,
-            "Sort options fetched successfully",
-            sort_fields,
-        )
+        return gen_response(200, "Sort options fetched successfully", options)
 
     except Exception as e:
         return exception_handler(e)
+
 
