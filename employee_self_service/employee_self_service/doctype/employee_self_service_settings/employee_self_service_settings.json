@@ -21,6 +21,12 @@
   "allow_user_to_change_uom",
   "column_break_kxpj",
   "visit_proof_required",
+  "hr_settings_section",
+  "required_medical_document",
+  "column_break_orrh",
+  "medical_leave_type",
+  "column_break_gpvb",
+  "allow_edit_profile",
   "section_break_xjas",
   "enable_ess_notification",
   "check_in_with_image",
@@ -292,14 +298,47 @@
    "fieldname": "allow_user_to_change_uom",
    "fieldtype": "Check",
    "label": "Allow User to Change UOM"
+  },
+  {
+   "fieldname": "hr_settings_section",
+   "fieldtype": "Section Break",
+   "label": "HR Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "required_medical_document",
+   "fieldtype": "Check",
+   "label": "Required Medical Document"
+  },
+  {
+   "fieldname": "column_break_orrh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Select the leave type used for medical reasons when applying for leave.",
+   "fieldname": "medical_leave_type",
+   "fieldtype": "Link",
+   "label": "Medical Leave Type",
+   "mandatory_depends_on": "required_medical_document",
+   "options": "Leave Type"
+  },
+  {
+   "fieldname": "column_break_gpvb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_edit_profile",
+   "fieldtype": "Check",
+   "label": "Allow Edit Profile"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-04-19 18:19:16.219747",
- "modified_by": "Administrator",
+ "modified": "2026-05-04 12:52:43.261516",
+ "modified_by": "bhavesh@nesscale.com",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
  "owner": "Administrator",
