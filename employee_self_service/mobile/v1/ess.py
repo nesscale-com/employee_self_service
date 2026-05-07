@@ -196,10 +196,6 @@ def make_leave_application(*args, **kwargs):
             return gen_response(500, "Employee does not exists!")
         validate_employee_data(emp_data)
 
-        setting = get_ess_settings()
-        if setting.required_medical_document and setting.medical_leave_type == kwargs.get("leave_type") and not kwargs.get("medical_supporting_document"):
-            return gen_response(500, "Medical document is required for this leave type!")
-
         leave_application_doc = frappe.get_doc(
             doctype="Leave Application",
             employee=emp_data.get("name"),
@@ -377,6 +373,7 @@ def get_leave_application(name):
             "to_date",
             "posting_date",
             "half_day_date",
+            "medical_supporting_document"
         ]
 
         leave_application = frappe.db.get_value(
