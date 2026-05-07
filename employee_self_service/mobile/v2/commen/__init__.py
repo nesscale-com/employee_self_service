@@ -1,7 +1,6 @@
 from employee_self_service.mobile.v2.utils import *
 from frappe.desk.form import assign_to
 from frappe.handler import upload_file
-import frappe.model as frappe_model
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])

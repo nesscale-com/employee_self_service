@@ -208,7 +208,7 @@ def make_leave_application(*args, **kwargs):
         )
         leave_application_doc.update(kwargs)
         leave_application_doc.insert()
-        gen_response(200, "Leave application successfully added!")
+        gen_response(200, "Leave application successfully added!", leave_application_doc.name)
     except Exception as e:
         return exception_handler(e)
 
