@@ -372,13 +372,25 @@ def get_leave_application(name):
             "from_date",
             "to_date",
             "posting_date",
-            "half_day_date",
-            "medical_supporting_document"
+            "half_day_date"
         ]
 
         leave_application = frappe.db.get_value(
             "Leave Application", name, leave_application_fields, as_dict=True
         )
+
+        file_data = frappe.db.get_value(
+            "File",
+            {
+                "attached_to_doctype": "Leave Application",
+                "attached_to_name": name,
+                "attached_to_field": "medical_supporting_document",
+            },
+            ["file_name","name","file_url"],
+            as_dict=True,
+        )
+
+        leave_application["medical_supporting_document"] = file_data
 
         return gen_response(200, "Leave data getting successfully", leave_application)
     except Exception as e:
