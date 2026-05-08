@@ -17,6 +17,7 @@ from frappe.utils import (
     cstr,
     date_diff,
     flt,
+    cint,
     fmt_money,
     get_date_str,
     get_first_day,
@@ -1362,11 +1363,11 @@ def get_profile():
             "Employee", emp_data.get("name"), "image"
         )
         setting = get_ess_settings()
-        employee_details["allow_edit_profile"] = bool(
+        employee_details["allow_edit_profile"] = cint(
             setting.allow_edit_profile
         )
 
-        employee_details["has_pending_edit_request"] = bool(frappe.db.exists(
+        employee_details["has_pending_edit_request"] = cint(frappe.db.exists(
             "Employee Update Request",
             {
                 "employee": emp_data.get("name"),
