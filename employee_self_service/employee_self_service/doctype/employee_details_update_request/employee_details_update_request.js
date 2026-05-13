@@ -1,7 +1,7 @@
 // Copyright (c) 2026, Nesscale Solutions Private Limited and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Employee Update Request", {
+frappe.ui.form.on("Employee Details Update Request", {
     refresh(frm) {
         render_diff(frm);
     },
@@ -12,8 +12,7 @@ const FIELD_LABELS = {
     gender: __("Gender"),
     date_of_birth: __("Date of Birth"),
     date_of_joining: __("Date of Joining"),
-    designation: __("Designation"),
-    cell_number: __("Cell Number"),
+    cell_number: __("Mobile"),
     personal_email: __("Personal Email"),
     current_address: __("Current Address"),
     emergency_phone_number: __("Emergency Phone Number"),

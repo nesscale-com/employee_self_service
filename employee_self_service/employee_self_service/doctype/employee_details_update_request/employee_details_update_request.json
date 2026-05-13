@@ -68,12 +68,11 @@
   }
  ],
  "icon": "fa fa-user-edit",
- "in_create": 1,
  "links": [],
- "modified": "2026-05-06 23:20:43.779662",
+ "modified": "2026-05-12 11:14:09.789517",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
- "name": "Employee Update Request",
+ "name": "Employee Details Update Request",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [

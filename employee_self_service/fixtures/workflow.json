@@ -2,7 +2,7 @@
  {
   "docstatus": 0,
   "doctype": "Workflow",
-  "document_type": "Employee Update Request",
+  "document_type": "Employee Details Update Request",
   "is_active": 1,
   "modified": "2026-05-06 23:00:17.731565",
   "name": "Employee Details Update Workflow",

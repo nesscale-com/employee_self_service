@@ -1367,14 +1367,6 @@ def get_profile():
             setting.allow_edit_profile
         )
 
-        employee_details["has_pending_edit_request"] = cint(frappe.db.exists(
-            "Employee Update Request",
-            {
-                "employee": emp_data.get("name"),
-                "workflow_state": "Pending",
-            }
-        ))
-
         return gen_response(200, "Profile get successfully", employee_details)
     except Exception as e:
         return exception_handler(e)
@@ -1390,23 +1382,19 @@ def update_profile(**kwargs):
         employee_name = employee.get("name")
 
         if frappe.db.exists(
-            "Employee Update Request",
+            "Employee Details Update Request",
             {
                 "employee": employee_name,
                 "workflow_state": "Pending",
             },
         ):
-            return gen_response(
-                400,
-                "You already have a pending profile update request."
-            )
+            frappe.throw(_("You already have a pending profile update request."))
 
         field_map = {
             "new_first_name": "first_name",
             "gender": "gender",
             "date_of_birth": "date_of_birth",
             "date_of_joining": "date_of_joining",
-            "designation": "designation",
             "cell_number": "cell_number",
             "personal_email": "personal_email",
             "current_address": "current_address",
@@ -1462,7 +1450,7 @@ def update_profile(**kwargs):
             )
 
         request_doc = frappe.get_doc({
-            "doctype": "Employee Update Request",
+            "doctype": "Employee Details Update Request",
             "employee": employee_name,
             "data": json.dumps(
                 {
@@ -2375,6 +2363,7 @@ def get_profile_detail_tabs():
         response = {}
 
         personal_details = {}
+        personal_details["employee_name"] = emp_doc.employee_name
         personal_details["date_of_birth"] = emp_doc.date_of_birth
         personal_details["personal_email"] = emp_doc.personal_email
         personal_details["gender"] = emp_doc.gender
@@ -2382,6 +2371,8 @@ def get_profile_detail_tabs():
         personal_details["current_address"] = emp_doc.current_address
         personal_details["person_to_be_contacted"] = emp_doc.person_to_be_contacted
         personal_details["emergency_phone_number"] = emp_doc.emergency_phone_number
+        personal_details["marital_status"] = emp_doc.marital_status
+        personal_details["blood_group"] = emp_doc.blood_group
         response["personal_details"] = personal_details
 
         education_details = {}

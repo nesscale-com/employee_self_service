@@ -5,22 +5,8 @@ import json
 import frappe
 from frappe.model.document import Document
 
-EMPLOYEE_FIELDS = {
-    "first_name": "Full Name",
-    "gender": "Gender",
-    "date_of_birth": "Date of Birth",
-    "date_of_joining": "Date of Joining",
-    "designation": "Designation",
-    "cell_number": "Cell Number",
-    "personal_email": "Personal Email",
-    "current_address": "Current Address",
-    "emergency_phone_number": "Emergency Phone Number",
-    "marital_status": "Marital Status",
-    "blood_group": "Blood Group",
-}
 
-
-class EmployeeUpdateRequest(Document):
+class EmployeeDetailsUpdateRequest(Document):
     def on_update(self):
         if self.workflow_state != "Approved" or self.is_applied:
             return

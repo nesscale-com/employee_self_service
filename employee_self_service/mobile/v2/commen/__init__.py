@@ -1,6 +1,7 @@
 from employee_self_service.mobile.v2.utils import *
 from frappe.desk.form import assign_to
 from frappe.handler import upload_file
+from frappe.utils import cint
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
@@ -256,4 +257,39 @@ def get_sort_option_list(doctype):
     except Exception as e:
         return exception_handler(e)
 
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_link_option_list(
+    doctype,
+    fields=None,
+    filters=None,
+    start=0,
+    page_length=20,
+):
+    try:
+        if not frappe.db.exists("DocType", doctype):
+            return gen_response(404, f"DocType '{doctype}' not found")
+
+        link_options = frappe.get_all(
+            doctype,
+            fields=fields or ["name"],
+            filters=filters or [],
+            start=cint(start),
+            page_length=cint(page_length),
+            order_by=f"`tab{doctype}`.modified desc",
+        )
+
+        return gen_response(
+            200,
+            "Link options fetched successfully",
+            link_options,
+        )
+
+    except frappe.PermissionError:
+        return gen_response(
+            403,
+            "Not permitted to access this DocType."
+        )
+    except Exception as e:
+        return exception_handler(e)
 

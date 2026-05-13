@@ -219,5 +219,5 @@ fixtures = [
     # },
     {"dt": "ESS Notification"},
     {"dt": "ESS Notification Template"},
-    {"dt": "Workflow", "filters": [["document_type", "in", ["Employee Update Request"]]]},
+    {"dt": "Workflow", "filters": [["document_type", "in", ["Employee Details Update Request"]]]},
 ]
