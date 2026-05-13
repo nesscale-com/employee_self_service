@@ -58,6 +58,14 @@ def get_employee_by_user(user, fields=["name"]):
     return emp_data
 
 
+def validate_employee_data(employee_data):
+    if not employee_data.get("company"):
+        return gen_response(
+            500,
+            "Company not set in employee doctype. Contact HR manager for set company",
+        )
+
+
 def get_ess_settings():
     return frappe.get_doc(
         "Employee Self Service Settings", "Employee Self Service Settings"
