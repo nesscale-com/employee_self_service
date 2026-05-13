@@ -2364,7 +2364,8 @@ def get_profile_detail_tabs():
 
         personal_details = {}
         personal_details["employee_name"] = emp_doc.employee_name
-        personal_details["date_of_birth"] = emp_doc.date_of_birth
+        personal_details["date_of_joining"] = emp_doc.date_of_joining.strftime("%d-%m-%Y") if emp_doc.date_of_joining else ""
+        personal_details["date_of_birth"] = emp_doc.date_of_birth.strftime("%d-%m-%Y") if emp_doc.date_of_birth else ""
         personal_details["personal_email"] = emp_doc.personal_email
         personal_details["gender"] = emp_doc.gender
         personal_details["cell_number"] = emp_doc.cell_number
