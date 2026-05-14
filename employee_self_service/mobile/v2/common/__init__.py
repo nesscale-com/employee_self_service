@@ -1,4 +1,10 @@
-from employee_self_service.mobile.v2.utils import *
+import frappe
+from frappe import _
+from employee_self_service.mobile.v2.utils import (
+    gen_response,
+    exception_handler,
+    ess_validate,
+)
 from frappe.desk.form import assign_to
 from frappe.handler import upload_file
 from frappe.utils import cint
@@ -34,45 +40,39 @@ def assign_document(
 @ess_validate(methods=["GET"])
 def get_assignments(doctype, docname):
     try:
-        assignments = frappe.get_all(
-            "ToDo",
-            filters={
-                "reference_type": doctype,
-                "reference_name": docname,
-                "status": ["!=", "Cancelled"]
-            },
-            fields=[
-                "name",
-                "allocated_to",
-                "description",
-                "status",
-                "date"
-            ]
-        )
+        assignments = assign_to.get({
+            "doctype": doctype,
+            "name": docname
+        })
 
-        users = list(set([
-            d.allocated_to for d in assignments if d.allocated_to
-        ]))
+        if not assignments:
+            return gen_response(
+                200,
+                "Assignments fetched successfully",
+                {
+                    "total_assignments": 0,
+                    "assignments": []
+                }
+            )
+
+        users = [d.owner for d in assignments if d.owner]
+
         user_details = frappe.get_all(
             "User",
-            filters={
-                "name": ["in", users]
-            },
-            fields=[
-                "name",
-                "full_name",
-                "user_image"
-            ]
+            filters={"name": ["in", users]},
+            fields=["name", "full_name", "user_image"]
         )
 
         user_map = {
-            user.name: user for user in user_details
+            user.name: user
+            for user in user_details
         }
 
         for row in assignments:
-            user = user_map.get(row.allocated_to, {})
-            row["full_name"] = user.get("full_name")
-            row["user_image"] = user.get("user_image")
+            user = user_map.get(row.owner)
+
+            row["full_name"] = user.full_name if user else None
+            row["user_image"] = user.user_image if user else None
 
         return gen_response(
             200,
@@ -129,34 +129,44 @@ def clear_assignments(
 @ess_validate(methods=["POST"])
 def upload_documents():
     try:
-        if not frappe.form_dict.reference_doctype:
-            return gen_response(500, "Please provide a reference document type.")
-        
-        if not frappe.form_dict.reference_docname:
-            return gen_response(500, "Please provide a reference document name.")
-        
-        if "file" in frappe.request.files:
-            file_doc = upload_file()
-            file_doc.attached_to_doctype = frappe.form_dict.reference_doctype
-            file_doc.attached_to_name = frappe.form_dict.reference_docname
+        form_dict = frappe.form_dict
 
-            is_private = frappe.form_dict.get("is_private", "1")
-            file_doc.is_private = int(is_private)
-            file_doc.save()
+        reference_doctype = form_dict.get("reference_doctype")
+        reference_docname = form_dict.get("reference_docname")
 
-            return gen_response(200, "File uploaded successfully.", {
+        if not reference_doctype:
+            return gen_response(400, "Please provide a reference document type.")
+
+        if not reference_docname:
+            return gen_response(400, "Please provide a reference document name.")
+
+        if "file" not in frappe.request.files:
+            return gen_response(400, "Please upload a file for attachment.")
+
+        file_doc = upload_file()
+
+        file_doc.update({
+            "attached_to_doctype": reference_doctype,
+            "attached_to_name": reference_docname,
+            "is_private": cint(form_dict.get("is_private", 1))
+        })
+
+        file_doc.save()
+
+        return gen_response(
+            200,
+            "File uploaded successfully.",
+            {
                 "name": file_doc.name,
                 "file_url": file_doc.file_url,
                 "file_name": file_doc.file_name,
                 "is_private": file_doc.is_private,
-            })
-        else:
-            return gen_response(500, "Please upload a file for attachment.")
-        
+            }
+        )
+
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to upload this file.")
     except Exception as e:
-        frappe.db.rollback()
         return exception_handler(e)
 
 @frappe.whitelist()
