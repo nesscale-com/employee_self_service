@@ -1,0 +1,161 @@
+{
+ "actions": [],
+ "autoname": "EUR.#####",
+ "creation": "2026-05-06 19:17:52.072698",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "column_break_header",
+  "status",
+  "requested_on",
+  "section_changes",
+  "table_html",
+  "is_applied",
+  "data",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Now",
+   "fieldname": "requested_on",
+   "fieldtype": "Datetime",
+   "label": "Requested On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_changes",
+   "fieldtype": "Section Break",
+   "label": "Values Changed"
+  },
+  {
+   "fieldname": "table_html",
+   "fieldtype": "HTML",
+   "label": "Change Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_applied",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Applied"
+  },
+  {
+   "fieldname": "data",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Change Data (JSON)"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Pending\nApproved\nRejected\nCancelled",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Details Update Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "icon": "fa fa-user-edit",
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-05-16 16:03:51.378919",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "Employee Details Update Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Administrator",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Employee"
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "read": 1,
+   "role": "HR User",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "HR User",
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Compressed",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 1
+}
