@@ -1385,7 +1385,7 @@ def update_profile(**kwargs):
             "Employee Details Update Request",
             {
                 "employee": employee_name,
-                "workflow_state": "Pending",
+                "status": "Pending",
             },
         ):
             frappe.throw(_("You already have a pending profile update request."))
