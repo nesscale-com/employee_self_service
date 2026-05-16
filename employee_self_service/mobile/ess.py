@@ -37,6 +37,7 @@ from employee_self_service.mobile.api_utils import (
 from employee_self_service.utils import get_employees_having_an_event_today
 
 
+
 @frappe.whitelist(allow_guest=True)
 def login(usr, pwd):
     try:
