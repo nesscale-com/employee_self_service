@@ -2,6 +2,8 @@ import frappe
 import wrapt
 from bs4 import BeautifulSoup
 from frappe import _
+from erpnext.accounts.utils import get_fiscal_year
+from frappe.utils import add_days,add_months, get_first_day, today
 
 def gen_response(status, message, data=[]):
     frappe.response["http_status_code"] = status
@@ -96,3 +98,101 @@ def remove_default_fields(data):
         if data.get(row):
             del data[row]
     return data
+
+def check_workflow_exists(doctype):
+    doc_workflow = frappe.get_all(
+        "Workflow",
+        filters={"document_type": doctype, "is_active": 1},
+        fields=["workflow_state_field"],
+    )
+    if doc_workflow:
+        return doc_workflow[0].workflow_state_field
+    else:
+        return False
+
+
+# Duration Types Supported in `get_date_range`:
+#     - "Current Month"
+#     - "Last Month"
+#     - "Last 3 Month"
+#     - "Last 6 Month"
+#     - "Current Financial Year"
+#     - "Last Financial Year"
+@frappe.whitelist()
+def get_date_range(duration_type):
+    if duration_type == "Current Month":
+        return {"from_date": get_first_day(today()), "to_date": today()}
+    if duration_type == "Last Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        return {
+            "from_date": get_first_day(last_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Last 3 Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        last_month_start_month_end_date = add_months(last_month_end_date, -2)
+        return {
+            "from_date": get_first_day(last_month_start_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Last 6 Month":
+        last_month_end_date = add_days(get_first_day(today()), -1)
+        last_month_start_month_end_date = add_months(last_month_end_date, -5)
+        return {
+            "from_date": get_first_day(last_month_start_month_end_date),
+            "to_date": last_month_end_date,
+        }
+    if duration_type == "Current Financial Year":
+        fiscal_year = get_fiscal_year(today(), as_dict=1)
+        if not fiscal_year:
+            frappe.throw(_("No Any Financial Year Active"))
+        return {
+            "from_date": fiscal_year.get("year_start_date"),
+            "to_date": fiscal_year.get("year_end_date"),
+        }
+    if duration_type == "Last Financial Year":
+        current_fiscal_year = get_fiscal_year(today(), as_dict=1)
+        if not current_fiscal_year:
+            frappe.throw(_("No Any Financial Year Active"))
+        last_fiscal_year = get_fiscal_year(
+            add_days(current_fiscal_year.get("year_start_date"), -1), as_dict=1
+        )
+        if not last_fiscal_year:
+            frappe.throw(_("No Any Data In Last Financial Year"))
+        return {
+            "from_date": last_fiscal_year.get("year_start_date"),
+            "to_date": last_fiscal_year.get("year_end_date"),
+        }
+    
+def get_sales_person_by_customer(party):
+    sales_persons = frappe.get_all(
+        "Sales Team",
+        filters={"parenttype": "Customer", "parent": party},
+        fields=["sales_person", "allocated_percentage", "commission_rate"],
+    )
+    return sales_persons
+
+def prepare_json_data(key_list, data):
+    return_data = {}
+    for key in data:
+        if key in key_list:
+            return_data[key] = data.get(key)
+    return return_data
+
+def get_actions(doc, doc_data=None):
+    from frappe.model.workflow import get_transitions
+
+    if not frappe.db.exists(
+        "Workflow", dict(document_type=doc.get("doctype"), is_active=1)
+    ):
+        if doc_data:
+            doc_data["workflow_state"] = doc.get("status")
+        return []
+    try:
+        transitions = get_transitions(doc)
+    except Exception:
+        return []
+    actions = []
+    for row in transitions:
+        actions.append(row.get("action"))
+    return actions

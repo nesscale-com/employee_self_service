@@ -1,4 +1,9 @@
-from employee_self_service.mobile.v2.utils import *
+from employee_self_service.mobile.v2.utils import (
+    gen_response,
+    exception_handler,
+    ess_validate,
+    get_employee_by_user
+)
 import frappe,erpnext
 from frappe.utils import cint,pretty_date
 
@@ -202,5 +207,29 @@ def get_comments(reference_doctype=None, reference_name=None):
 
         return gen_response(200, "Comments get successfully", comments)
 
+    except Exception as e:
+        return exception_handler(e)
+    
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_customer_list():
+    try:
+        customer = frappe.get_list("Customer", ["name", "customer_name"])
+        return gen_response(200, "Customer list Getting Successfully", customer)
+    except Exception as e:
+        return exception_handler(e)
+    
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_user_list():
+    try:
+        user_list = frappe.get_all(
+            "User",
+            filters={"user_type": "System User", "enabled": 1},
+            fields=["name", "full_name", "user_image"],
+        )
+        return gen_response(200, "User List getting Successfully", user_list)
+    except frappe.PermissionError:
+        return gen_response(500, "Not permitted read user")
     except Exception as e:
         return exception_handler(e)

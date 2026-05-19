@@ -1,4 +1,8 @@
-from employee_self_service.mobile.v2.utils import *
+from employee_self_service.mobile.v2.utils import (
+    gen_response,
+    exception_handler,
+    ess_validate,
+)
 import frappe
 from frappe.desk.form import assign_to
 
@@ -33,45 +37,39 @@ def assign_document(
 @ess_validate(methods=["GET"])
 def get_assignments(doctype, docname):
     try:
-        assignments = frappe.get_all(
-            "ToDo",
-            filters={
-                "reference_type": doctype,
-                "reference_name": docname,
-                "status": ["!=", "Cancelled"]
-            },
-            fields=[
-                "name",
-                "allocated_to",
-                "description",
-                "status",
-                "date"
-            ]
-        )
+        assignments = assign_to.get({
+            "doctype": doctype,
+            "name": docname
+        })
 
-        users = list(set([
-            d.allocated_to for d in assignments if d.allocated_to
-        ]))
+        if not assignments:
+            return gen_response(
+                200,
+                "Assignments fetched successfully",
+                {
+                    "total_assignments": 0,
+                    "assignments": []
+                }
+            )
+
+        users = [d.owner for d in assignments if d.owner]
+
         user_details = frappe.get_all(
             "User",
-            filters={
-                "name": ["in", users]
-            },
-            fields=[
-                "name",
-                "full_name",
-                "user_image"
-            ]
+            filters={"name": ["in", users]},
+            fields=["name", "full_name", "user_image"]
         )
 
         user_map = {
-            user.name: user for user in user_details
+            user.name: user
+            for user in user_details
         }
 
         for row in assignments:
-            user = user_map.get(row.allocated_to, {})
-            row["full_name"] = user.get("full_name")
-            row["user_image"] = user.get("user_image")
+            user = user_map.get(row.owner)
+
+            row["full_name"] = user.full_name if user else None
+            row["user_image"] = user.user_image if user else None
 
         return gen_response(
             200,

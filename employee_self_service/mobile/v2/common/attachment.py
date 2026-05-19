@@ -1,39 +1,54 @@
-from employee_self_service.mobile.v2.utils import *
+from employee_self_service.mobile.v2.utils import (
+    gen_response,
+    exception_handler,
+    ess_validate,
+)
 import frappe
+from frappe.utils import cint
 from frappe.handler import upload_file
 
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def upload_documents():
     try:
-        if not frappe.form_dict.reference_doctype:
-            return gen_response(500, "Please provide a reference document type.")
-        
-        if not frappe.form_dict.reference_docname:
-            return gen_response(500, "Please provide a reference document name.")
-        
-        if "file" in frappe.request.files:
-            file_doc = upload_file()
-            file_doc.attached_to_doctype = frappe.form_dict.reference_doctype
-            file_doc.attached_to_name = frappe.form_dict.reference_docname
+        form_dict = frappe.form_dict
 
-            is_private = frappe.form_dict.get("is_private", "1")
-            file_doc.is_private = int(is_private)
-            file_doc.save()
+        reference_doctype = form_dict.get("reference_doctype")
+        reference_docname = form_dict.get("reference_docname")
 
-            return gen_response(200, "File uploaded successfully.", {
+        if not reference_doctype:
+            return gen_response(400, "Please provide a reference document type.")
+
+        if not reference_docname:
+            return gen_response(400, "Please provide a reference document name.")
+
+        if "file" not in frappe.request.files:
+            return gen_response(400, "Please upload a file for attachment.")
+
+        file_doc = upload_file()
+
+        file_doc.update({
+            "attached_to_doctype": reference_doctype,
+            "attached_to_name": reference_docname,
+            "is_private": cint(form_dict.get("is_private", 1))
+        })
+
+        file_doc.save()
+
+        return gen_response(
+            200,
+            "File uploaded successfully.",
+            {
                 "name": file_doc.name,
                 "file_url": file_doc.file_url,
                 "file_name": file_doc.file_name,
                 "is_private": file_doc.is_private,
-            })
-        else:
-            return gen_response(500, "Please upload a file for attachment.")
-        
+            }
+        )
+
     except frappe.PermissionError:
         return gen_response(403, "Not permitted to upload this file.")
     except Exception as e:
-        frappe.db.rollback()
         return exception_handler(e)
 
 @frappe.whitelist()

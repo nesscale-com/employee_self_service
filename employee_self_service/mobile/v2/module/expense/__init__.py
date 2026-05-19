@@ -1,6 +1,18 @@
 import frappe
 from frappe import _
-from employee_self_service.mobile.v2.module.expense.utils import *
+from employee_self_service.mobile.v2.utils import (
+    gen_response,
+    exception_handler,
+    ess_validate,
+    get_employee_by_user,
+    get_global_defaults,
+    validate_employee_data
+)
+from employee_self_service.mobile.v2.module.expense.utils import (
+    get_month_year_details,
+    get_payable_account,
+    get_attachments
+)
 from frappe.utils import fmt_money,today
 import json
 
@@ -211,5 +223,15 @@ def get_expense(*args, **kwargs):
         gen_response(200, "Expense detail get successfully.", expense_doc)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted for Expense")
+    except Exception as e:
+        return exception_handler(e)
+    
+@frappe.whitelist()
+def get_expense_type():
+    try:
+        expense_types = frappe.get_all(
+            "Expense Claim Type", filters={}, fields=["name"]
+        )
+        return gen_response(200, "Expense type get successfully", expense_types)
     except Exception as e:
         return exception_handler(e)
