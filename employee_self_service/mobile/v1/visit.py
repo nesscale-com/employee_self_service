@@ -39,7 +39,7 @@ def create_visit(**kwargs):
             visit_doc.employee = emp_data.get("name")
             visit_doc.update(data)
             visit_doc.save(ignore_permissions=True)
-            return gen_response(200, "Visit updated Successfully")
+            return gen_response(200, "Visit updated Successfully", visit_doc.name)
         else:
             visit_doc = frappe.new_doc("Visit")
             if not frappe.db.exists("Customer", data.get("customer")):
@@ -54,7 +54,7 @@ def create_visit(**kwargs):
             visit_doc.employee = emp_data.get("name")
             visit_doc.update(data)
             visit_doc.insert()
-            return gen_response(200, "Visit created Successfully")
+            return gen_response(200, "Visit created Successfully", visit_doc.name)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted create visit")
     except Exception as e:

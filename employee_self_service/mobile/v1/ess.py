@@ -1,5 +1,6 @@
 import calendar
 import os
+import json
 
 import frappe
 from erpnext.accounts.utils import get_fiscal_year
@@ -16,6 +17,7 @@ from frappe.utils import (
     cstr,
     date_diff,
     flt,
+    cint,
     fmt_money,
     get_date_str,
     get_first_day,
@@ -195,6 +197,7 @@ def make_leave_application(*args, **kwargs):
         if not len(emp_data) >= 1:
             return gen_response(500, "Employee does not exists!")
         validate_employee_data(emp_data)
+
         leave_application_doc = frappe.get_doc(
             doctype="Leave Application",
             employee=emp_data.get("name"),
@@ -203,7 +206,7 @@ def make_leave_application(*args, **kwargs):
         )
         leave_application_doc.update(kwargs)
         leave_application_doc.insert()
-        gen_response(200, "Leave application successfully added!")
+        gen_response(200, "Leave application successfully added!", leave_application_doc.name)
     except Exception as e:
         return exception_handler(e)
 
@@ -285,6 +288,18 @@ def get_leave_type(from_date=None, to_date=None):
     except Exception as e:
         return exception_handler(e)
 
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def medical_document_required_check(leave_type):
+    try:
+        setting = get_ess_settings()
+        if setting.required_medical_document and setting.medical_leave_type == leave_type:
+            return gen_response(200, "Medical document is required for this leave type!", {"medical_document_required": True})
+        
+        return gen_response(200, "Medical document Required Flag get successfully", {"medical_document_required": False})
+    
+    except Exception as e:
+        return exception_handler(e)
 
 @frappe.whitelist()
 @ess_validate(methods=["GET"])
@@ -381,12 +396,25 @@ def get_leave_application(name):
             "from_date",
             "to_date",
             "posting_date",
-            "half_day_date",
+            "half_day_date"
         ]
 
         leave_application = frappe.db.get_value(
             "Leave Application", name, leave_application_fields, as_dict=True
         )
+
+        file_data = frappe.db.get_value(
+            "File",
+            {
+                "attached_to_doctype": "Leave Application",
+                "attached_to_name": name,
+                "attached_to_field": "medical_supporting_document",
+            },
+            ["file_name","name","file_url"],
+            as_dict=True,
+        )
+
+        leave_application["medical_supporting_document"] = file_data
 
         return gen_response(200, "Leave data getting successfully", leave_application)
     except Exception as e:
@@ -1370,12 +1398,122 @@ def get_profile():
         employee_details["employee_image"] = frappe.get_cached_value(
             "Employee", emp_data.get("name"), "image"
         )
+        setting = get_ess_settings()
+        employee_details["allow_edit_profile"] = cint(
+            setting.allow_edit_profile
+        )
 
         return gen_response(200, "Profile get successfully", employee_details)
     except Exception as e:
         return exception_handler(e)
 
 
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def update_profile(**kwargs):
+    try:
+        employee = get_employee_by_user(frappe.session.user)
+        validate_employee_data(employee)
+
+        employee_name = employee.get("name")
+
+        if frappe.db.exists(
+            "Employee Details Update Request",
+            {
+                "employee": employee_name,
+                "status": "Pending",
+            },
+        ):
+            frappe.throw(_("You already have a pending profile update request."))
+
+        field_map = {
+            "new_first_name": "first_name",
+            "gender": "gender",
+            "date_of_birth": "date_of_birth",
+            "date_of_joining": "date_of_joining",
+            "cell_number": "cell_number",
+            "personal_email": "personal_email",
+            "current_address": "current_address",
+            "emergency_phone_number": "emergency_phone_number",
+            "marital_status": "marital_status",
+            "blood_group": "blood_group",
+        }
+
+        emp_doc = frappe.get_doc("Employee", employee_name)
+
+        old_data = {}
+        new_data = {}
+
+        for request_key, employee_field in field_map.items():
+
+            new_value = kwargs.get(request_key)
+
+            if new_value in [None, ""]:
+                continue
+
+            old_value = emp_doc.get(employee_field)
+
+            if str(old_value or "") != str(new_value):
+                old_data[employee_field] = old_value or ""
+                new_data[employee_field] = new_value
+
+        education = kwargs.get("education", [])
+        if education:
+            old_education = frappe.get_all(
+                "Employee Education",
+                filters={"parent": employee_name},
+                fields=[
+                    "school_univ",
+                    "qualification",
+                    "level",
+                    "year_of_passing",
+                ],
+                order_by="idx asc",
+            )
+
+            new_education = [
+                row for row in education if row.get("school_univ")
+            ]
+
+            if old_education != new_education:
+                old_data["education"] = old_education
+                new_data["education"] = new_education
+
+        if not new_data:
+            return gen_response(
+                400,
+                "No changes found."
+            )
+
+        request_doc = frappe.get_doc({
+            "doctype": "Employee Details Update Request",
+            "employee": employee_name,
+            "data": json.dumps(
+                {
+                    "old": old_data,
+                    "new": new_data,
+                },
+                default=str,
+            ),
+        })
+        request_doc.insert()
+
+        return gen_response(
+            200,
+            "Profile update request submitted successfully.",
+            {
+                "name": request_doc.name
+            },
+        )
+
+    except frappe.PermissionError:
+        return gen_response(
+            403,
+            "Not permitted to update profile."
+        )
+    except Exception as e:
+        return exception_handler(e)
+    
 @frappe.whitelist()
 @ess_validate(methods=["POST"])
 def upload_documents():
@@ -2264,13 +2402,17 @@ def get_profile_detail_tabs():
         response = {}
 
         personal_details = {}
-        personal_details["date_of_birth"] = emp_doc.date_of_birth
+        personal_details["employee_name"] = emp_doc.employee_name
+        personal_details["date_of_joining"] = emp_doc.date_of_joining.strftime("%d-%m-%Y") if emp_doc.date_of_joining else ""
+        personal_details["date_of_birth"] = emp_doc.date_of_birth.strftime("%d-%m-%Y") if emp_doc.date_of_birth else ""
         personal_details["personal_email"] = emp_doc.personal_email
         personal_details["gender"] = emp_doc.gender
         personal_details["cell_number"] = emp_doc.cell_number
         personal_details["current_address"] = emp_doc.current_address
         personal_details["person_to_be_contacted"] = emp_doc.person_to_be_contacted
         personal_details["emergency_phone_number"] = emp_doc.emergency_phone_number
+        personal_details["marital_status"] = emp_doc.marital_status
+        personal_details["blood_group"] = emp_doc.blood_group
         response["personal_details"] = personal_details
 
         education_details = {}

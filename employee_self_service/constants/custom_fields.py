@@ -77,6 +77,14 @@ CUSTOM_FIELDS = {
             "insert_after": "disabled",
         },
     ],
+    "Leave Application": [
+        {
+            "fieldname": "medical_supporting_document",
+            "label": "Medical Supporting Document",
+            "fieldtype": "Attach",
+            "insert_after": "follow_via_email",
+        },
+    ],
 }
 
 
