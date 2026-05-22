@@ -880,6 +880,7 @@ def get_attendance_details(emp_data, year=None, month=None):
 
 @frappe.whitelist()
 def run_attendance_report(employee, company):
+    from hrms.hr.report.monthly_attendance_sheet.monthly_attendance_sheet import execute
     filters = {
         "filter_based_on": "Month",
         "month": cstr(frappe.utils.getdate().month),
@@ -888,11 +889,10 @@ def run_attendance_report(employee, company):
         "employee": employee,
         "summarized_view": 1,
     }
-    from frappe.desk.query_report import run
 
-    attendance_report = run("Monthly Attendance Sheet", filters=filters)
-    if attendance_report.get("result"):
-        return attendance_report.get("result")[0]
+    columns, data, *_ = execute(filters)
+    if data:
+        return data[0]
 
 
 def get_latest_leave(dashboard_data, employee):

@@ -154,7 +154,6 @@ def get_ess_calendar_details(year=None, month=None):
         attendance_data = build_attendance_data(
             year, month, days_in_month, attendance_records, holidays
         )
-
         return gen_response(
             200, "ESS calendar data fetched successfully", attendance_data
         )
@@ -179,7 +178,7 @@ def get_attendance_records(employee, start_date, end_date):
 def get_employee_holidays(employee, start_date, end_date):
     """Fetch holiday dates for a given employee and date range."""
     holiday_list = get_holiday_list_for_employee(employee, raise_exception=False)
-
+    frappe.log_error(title="holi",message=holiday_list)
     if not holiday_list:
         return set()
 
