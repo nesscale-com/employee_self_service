@@ -47,6 +47,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_till_date_holiday_month_wise,
     validate_employee_data,
 )
+from employee_self_service.mobile.v1.attendance import _get_attendance_summary
 from employee_self_service.mobile.v1.task import *
 from employee_self_service.mobile.v1.transactions import *
 from employee_self_service.utils import add_ess_comment
@@ -759,10 +760,11 @@ def get_leave_balance_dashboard():
 def get_attendance_details_dashboard():
     try:
         emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
-        attendance_details = get_attendance_details(emp_data)
-        return gen_response(
-            200, "Leave balance data get successfully", attendance_details
-        )
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        today_date = getdate()
+        summary = _get_attendance_summary(emp_data["name"], today_date.year, today_date.month)
+        return gen_response(200, "Attendance data get successfully", summary)
     except Exception as e:
         return exception_handler(e)
 
@@ -2447,11 +2449,15 @@ def get_hr_policies():
 @frappe.whitelist()
 def get_attendance_details_by_month(year, month):
     try:
+        year, month = cint(year), cint(month)
+        today_date = getdate()
+        if (year, month) > (today_date.year, today_date.month):
+            return gen_response(400, "Cannot fetch attendance for a future month")
         emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
-        attendance_details = get_attendance_details(emp_data, year, month)
-        return gen_response(
-            200, "Leave balance data get successfully", attendance_details
-        )
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        summary = _get_attendance_summary(emp_data["name"], year, month)
+        return gen_response(200, "Attendance data get successfully", summary)
     except Exception as e:
         return exception_handler(e)
 
