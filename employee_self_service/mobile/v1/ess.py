@@ -754,6 +754,7 @@ def get_leave_balance_dashboard():
         return exception_handler(e)
 
 
+#moved into attendance.py file
 @frappe.whitelist()
 def get_attendance_details_dashboard():
     try:
@@ -1294,7 +1295,7 @@ def get_attendance_list(year=None, month=None):
             "days_in_month": calendar.monthrange(int(year), int(month))[1],
             "present": present_count,
             "absent": absent_count,
-            "late": late_count,
+            "late": late_count
         }
         attendance_data = {
             "attendance_details": attendance_details,
@@ -2442,6 +2443,7 @@ def get_hr_policies():
         return exception_handler(e)
 
 
+# moved into the attendance.py file
 @frappe.whitelist()
 def get_attendance_details_by_month(year, month):
     try:
