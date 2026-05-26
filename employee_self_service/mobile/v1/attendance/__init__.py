@@ -178,7 +178,6 @@ def get_attendance_records(employee, start_date, end_date):
 def get_employee_holidays(employee, start_date, end_date):
     """Fetch holiday dates for a given employee and date range."""
     holiday_list = get_holiday_list_for_employee(employee, raise_exception=False)
-    frappe.log_error(title="holi",message=holiday_list)
     if not holiday_list:
         return set()
 
