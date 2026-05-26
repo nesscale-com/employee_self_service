@@ -47,6 +47,7 @@ from employee_self_service.mobile.v1.api_utils import (
     get_till_date_holiday_month_wise,
     validate_employee_data,
 )
+from employee_self_service.mobile.v1.attendance import _get_attendance_summary
 from employee_self_service.mobile.v1.task import *
 from employee_self_service.mobile.v1.transactions import *
 from employee_self_service.utils import add_ess_comment
@@ -754,14 +755,16 @@ def get_leave_balance_dashboard():
         return exception_handler(e)
 
 
+#moved into attendance.py file
 @frappe.whitelist()
 def get_attendance_details_dashboard():
     try:
         emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
-        attendance_details = get_attendance_details(emp_data)
-        return gen_response(
-            200, "Leave balance data get successfully", attendance_details
-        )
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        today_date = getdate()
+        summary = _get_attendance_summary(emp_data["name"], today_date.year, today_date.month)
+        return gen_response(200, "Attendance data get successfully", summary)
     except Exception as e:
         return exception_handler(e)
 
@@ -880,6 +883,7 @@ def get_attendance_details(emp_data, year=None, month=None):
 
 @frappe.whitelist()
 def run_attendance_report(employee, company):
+    from hrms.hr.report.monthly_attendance_sheet.monthly_attendance_sheet import execute
     filters = {
         "filter_based_on": "Month",
         "month": cstr(frappe.utils.getdate().month),
@@ -888,11 +892,10 @@ def run_attendance_report(employee, company):
         "employee": employee,
         "summarized_view": 1,
     }
-    from frappe.desk.query_report import run
 
-    attendance_report = run("Monthly Attendance Sheet", filters=filters)
-    if attendance_report.get("result"):
-        return attendance_report.get("result")[0]
+    columns, data, *_ = execute(filters)
+    if data:
+        return data[0]
 
 
 def get_latest_leave(dashboard_data, employee):
@@ -1294,7 +1297,7 @@ def get_attendance_list(year=None, month=None):
             "days_in_month": calendar.monthrange(int(year), int(month))[1],
             "present": present_count,
             "absent": absent_count,
-            "late": late_count,
+            "late": late_count
         }
         attendance_data = {
             "attendance_details": attendance_details,
@@ -2442,14 +2445,19 @@ def get_hr_policies():
         return exception_handler(e)
 
 
+# moved into the attendance.py file
 @frappe.whitelist()
 def get_attendance_details_by_month(year, month):
     try:
+        year, month = cint(year), cint(month)
+        today_date = getdate()
+        if (year, month) > (today_date.year, today_date.month):
+            return gen_response(400, "Cannot fetch attendance for a future month")
         emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
-        attendance_details = get_attendance_details(emp_data, year, month)
-        return gen_response(
-            200, "Leave balance data get successfully", attendance_details
-        )
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        summary = _get_attendance_summary(emp_data["name"], year, month)
+        return gen_response(200, "Attendance data get successfully", summary)
     except Exception as e:
         return exception_handler(e)
 
