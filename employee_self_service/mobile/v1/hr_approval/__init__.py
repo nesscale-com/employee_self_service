@@ -2,7 +2,7 @@ import json
 
 import frappe
 from frappe.model.workflow import get_transitions, get_workflow_name
-from frappe.utils import fmt_money
+from frappe.utils import fmt_money,cint
 
 from employee_self_service.mobile.v1.api_utils import (
     check_workflow_exists,
@@ -27,6 +27,7 @@ def get_workflow(doctype: str) -> dict:
 @ess_validate(methods=["GET"])
 def get_team_leave_application(start=0, page_length=20):
     try:
+        frappe.log_error(title="Team Leave Application API Called",message="Called")
         workflow = check_workflow_exists("Leave Application")
         emp_data = get_employee_by_user(frappe.session.user)
 
@@ -40,6 +41,7 @@ def get_team_leave_application(start=0, page_length=20):
                     ["leave_approver", "=", frappe.session.user],
                 ]
             )
+            frappe.log_error(title="filters",message=filters)
             leave_applications = frappe.get_list(
                 "Leave Application",
                 filters=filters,
@@ -54,12 +56,14 @@ def get_team_leave_application(start=0, page_length=20):
                     "total_leave_days",
                     "description",
                     "status",
-                    "'0' as 'workflow_active'",
                 ],
                 order_by="posting_date desc",
                 start=start,
                 page_length=page_length,
             )
+            # Add workflow_active field to each result
+            for app in leave_applications:
+                app['workflow_active'] = "0"
             return gen_response(
                 200, "Leave Application Get Successfully", leave_applications
             )
@@ -80,13 +84,14 @@ def get_team_leave_application(start=0, page_length=20):
                 "total_leave_days",
                 "description",
                 "workflow_state as 'status'",
-                "'1' as 'workflow_active'",
             ],
             order_by="posting_date desc",
         )
 
         actual_leave_applications = []
         for doc in leave_applications:
+            # Add workflow_active field
+            doc['workflow_active'] = "1"
             if doc.get("status"):
                 transitions = get_transitions(
                     frappe.get_doc("Leave Application", doc["name"])
@@ -114,35 +119,38 @@ def get_team_expenses(start=0, page_length=20):
         filters = [["employee", "!=", emp_data.name]]
 
         if not workflow:
-            filters.extend(
-                [
-                    ["docstatus", "=", 0],
-                    ["status", "=", "Draft"],
-                    ["expense_approver", "=", frappe.session.user],
-                ]
-            )
-            fields = [
-                "`tabExpense Claim`.name",
-                "`tabExpense Claim`.employee",
-                "`tabExpense Claim`.employee_name",
-                "`tabExpense Claim`.approval_status",
-                "`tabExpense Claim`.expense_approver",
-                "`tabExpense Claim`.total_claimed_amount",
-                "`tabExpense Claim`.posting_date",
-                "`tabExpense Claim`.company",
-                "`tabExpense Claim Detail`.expense_type",
-                "`tabExpense Claim Detail`.name as expense_detail_name",
-                "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
-            ]
-
-            claims = frappe.get_list(
-                "Expense Claim",
-                fields=fields,
-                filters=filters,
-                order_by="`tabExpense Claim`.posting_date desc",
-                group_by="`tabExpense Claim`.name",
-                start=start,
-                page_length=page_length,
+            # Use raw SQL for aggregate query with GROUP BY
+            claims = frappe.db.sql(
+                """
+                SELECT 
+                    `tabExpense Claim`.name,
+                    `tabExpense Claim`.employee,
+                    `tabExpense Claim`.employee_name,
+                    `tabExpense Claim`.approval_status,
+                    `tabExpense Claim`.expense_approver,
+                    `tabExpense Claim`.total_claimed_amount,
+                    `tabExpense Claim`.posting_date,
+                    `tabExpense Claim`.company,
+                    `tabExpense Claim Detail`.expense_type,
+                    `tabExpense Claim Detail`.name as expense_detail_name,
+                    COUNT(`tabExpense Claim Detail`.expense_type) as total_expenses
+                FROM `tabExpense Claim`
+                LEFT JOIN `tabExpense Claim Detail` ON `tabExpense Claim Detail`.parent = `tabExpense Claim`.name
+                WHERE `tabExpense Claim`.employee != %(employee)s
+                    AND `tabExpense Claim`.docstatus = 0
+                    AND `tabExpense Claim`.status = 'Draft'
+                    AND `tabExpense Claim`.expense_approver = %(approver)s
+                GROUP BY `tabExpense Claim`.name
+                ORDER BY `tabExpense Claim`.posting_date DESC
+                LIMIT %(start)s, %(page_length)s
+                """,
+                {
+                    "employee": emp_data.name,
+                    "approver": frappe.session.user,
+                    "start": start,
+                    "page_length": page_length,
+                },
+                as_dict=True,
             )
 
             for claim in claims:
@@ -155,27 +163,31 @@ def get_team_expenses(start=0, page_length=20):
 
         filters.extend([["docstatus", "!=", 2], ["workflow_state", "is", "set"]])
 
-        # Workflow is enabled
-        fields = [
-            "`tabExpense Claim`.name",
-            "`tabExpense Claim`.employee",
-            "`tabExpense Claim`.employee_name",
-            "`tabExpense Claim`.workflow_state as 'approval_status'",
-            "`tabExpense Claim`.expense_approver",
-            "`tabExpense Claim`.total_claimed_amount",
-            "`tabExpense Claim`.posting_date",
-            "`tabExpense Claim`.company",
-            "`tabExpense Claim Detail`.expense_type",
-            "`tabExpense Claim Detail`.name as expense_detail_name",
-            "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
-        ]
-
-        claims = frappe.get_list(
-            "Expense Claim",
-            fields=fields,
-            filters=filters,
-            order_by="`tabExpense Claim`.posting_date desc",
-            group_by="`tabExpense Claim`.name",
+        # Workflow is enabled - use raw SQL for aggregate query with GROUP BY
+        claims = frappe.db.sql(
+            """
+            SELECT 
+                `tabExpense Claim`.name,
+                `tabExpense Claim`.employee,
+                `tabExpense Claim`.employee_name,
+                `tabExpense Claim`.workflow_state as approval_status,
+                `tabExpense Claim`.expense_approver,
+                `tabExpense Claim`.total_claimed_amount,
+                `tabExpense Claim`.posting_date,
+                `tabExpense Claim`.company,
+                `tabExpense Claim Detail`.expense_type,
+                `tabExpense Claim Detail`.name as expense_detail_name,
+                COUNT(`tabExpense Claim Detail`.expense_type) as total_expenses
+            FROM `tabExpense Claim`
+            LEFT JOIN `tabExpense Claim Detail` ON `tabExpense Claim Detail`.parent = `tabExpense Claim`.name
+            WHERE `tabExpense Claim`.employee != %(employee)s
+                AND `tabExpense Claim`.docstatus != 2
+                AND `tabExpense Claim`.workflow_state IS NOT NULL
+            GROUP BY `tabExpense Claim`.name
+            ORDER BY `tabExpense Claim`.posting_date DESC
+            """,
+            {"employee": emp_data.name},
+            as_dict=True,
         )
 
         updated_expense_claim_list = []

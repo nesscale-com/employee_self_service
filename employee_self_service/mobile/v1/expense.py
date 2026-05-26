@@ -41,7 +41,7 @@ def get_expense_claims():
             "`tabExpense Claim`.posting_date",
             "`tabExpense Claim`.company",
             "`tabExpense Claim Detail`.expense_type",
-            "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
+            {"COUNT": "`tabExpense Claim Detail`.expense_type", "as": "total_expenses"},
         ]
 
         claims = frappe.get_list(
@@ -49,7 +49,7 @@ def get_expense_claims():
             fields=fields,
             filters=filters,
             order_by="`tabExpense Claim`.posting_date desc",
-            group_by="`tabExpense Claim`.name",
+            group_by="`tabExpense Claim`.name"
         )
         expense_data = {}
         for expense in claims:
@@ -94,7 +94,7 @@ def get_expense_claims_list():
             "`tabExpense Claim`.company",
             "`tabExpense Claim Detail`.expense_type",
             "`tabExpense Claim Detail`.description",
-            "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
+            {"COUNT": "`tabExpense Claim Detail`.expense_type", "as": "total_expenses"},
         ]
 
         claims = frappe.get_list(
@@ -102,7 +102,7 @@ def get_expense_claims_list():
             fields=fields,
             filters=filters,
             order_by="`tabExpense Claim`.posting_date desc",
-            group_by="`tabExpense Claim`.name",
+            group_by="`tabExpense Claim`.name"
         )
         expense_data = {"pending": [], "other": []}
         for expense in claims:
@@ -146,7 +146,7 @@ def get_expense_claim_type_totals():
             "`tabExpense Claim`.employee",
             "`tabExpense Claim`.employee_name",
             "`tabExpense Claim Detail`.expense_type",
-            "sum(`tabExpense Claim Detail`.amount) as total_amount",
+            {"SUM": "`tabExpense Claim Detail`.amount", "as": "total_amount"},
         ]
 
         claims = frappe.get_list(
@@ -209,6 +209,7 @@ def apply_expense(**data):
             company=emp_data.get("company"),
             payable_account=payable_account,
             items=frappe.form_dict.items,
+            exchange_rate = 1
         )
         expense_doc.update(data)
         expense_doc.insert()
