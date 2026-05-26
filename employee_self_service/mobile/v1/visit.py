@@ -131,3 +131,13 @@ def get_visit_type():
         return gen_response(200, "Visit Type Get Successfully", visit_type)
     except Exception as e:
         return exception_handler(e)
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_ess_field_staff_settings():
+    try:
+        ess_field_staff_settings = frappe.get_single("ESS Field Staff Settings")
+        return gen_response(200, "ESS Field Staff Settings Get Successfully", ess_field_staff_settings)
+    except Exception as e:
+        return exception_handler(e)
+
