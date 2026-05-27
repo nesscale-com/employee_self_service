@@ -325,7 +325,8 @@ def get_leave_application_list():
         ]
         upcoming_leaves = frappe.get_all(
             "Leave Application",
-            filters={"from_date": [">", today()], "employee": emp_data.get("name")},
+            or_filters = {"from_date": [">", today()], "status": ["!=", "Approved"]},
+            filters={"employee": emp_data.get("name")},
             fields=leave_application_fields,
         )
         
@@ -343,7 +344,8 @@ def get_leave_application_list():
         taken_leaves = frappe.get_all(
             "Leave Application",
             fields=leave_application_fields,
-            filters={"from_date": ["<=", today()], "employee": emp_data.get("name")},
+            or_filters = {"from_date": ["<=", today()], "status": ["=", "Approved"]},
+            filters={"employee": emp_data.get("name")},
         )
         
         # Format dates
@@ -726,6 +728,7 @@ def get_dashboard():
             "visit_proof_required": settings.get("visit_proof_required"),
             "allow_user_to_change_rate": settings.get("allow_user_to_change_rate"),
             "allow_user_to_change_uom": settings.get("allow_user_to_change_uom"),
+            "allow_user_to_add_discount": settings.get("allow_user_to_add_discount"),
         }
         # "approval_requests": get_workflow_documents(internal=True)
         dashboard_data["employee_image"] = emp_data.get("image")
@@ -1195,6 +1198,7 @@ def get_holiday_list(year=None):
                     "date": holiday_date.strftime("%d %b"),
                     "day": holiday_date.strftime("%A"),
                     "description": holiday.description,
+                    "holiday_date": holiday.holiday_date
                 }
             )
         return gen_response(200, "Holiday list get successfully", holiday_list)

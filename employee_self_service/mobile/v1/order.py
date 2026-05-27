@@ -42,7 +42,7 @@ def get_order_list(
     try:
         if isinstance(filters, str):
             filters = frappe.parse_json(filters)
-
+        frappe.log_error(title="Filters for order list", message=str(filters))
         global_defaults = get_global_defaults()
         status_field = check_workflow_exists("Sales Order") or "status"
 
@@ -69,6 +69,8 @@ def get_order_list(
                     updated_filters.append(
                         ["Sales Order Item", "item_code", "=", value]
                     )
+                elif isinstance(value, list) and len(value) == 2:
+                    updated_filters.append(["Sales Order", key, value[0], value[1]])
                 else:
                     updated_filters.append(["Sales Order", key, "=", value])
 

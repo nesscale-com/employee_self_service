@@ -17,6 +17,7 @@
   "geofencing_based_on",
   "selling_settings_section",
   "allow_user_to_change_rate",
+  "allow_user_to_add_discount",
   "column_break_goaq",
   "allow_user_to_change_uom",
   "column_break_kxpj",
@@ -331,13 +332,19 @@
    "fieldname": "allow_edit_profile",
    "fieldtype": "Check",
    "label": "Allow Edit Profile"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_user_to_add_discount",
+   "fieldtype": "Check",
+   "label": "Allow User to Add Discount"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-04-19 18:19:16.219747",
+ "modified": "2026-05-27 11:53:27.263168",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "Employee Self Service Settings",
