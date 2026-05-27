@@ -1682,8 +1682,10 @@ def holiday_list(date=None):
     ]
 
     holidays = frappe.get_all(
-        "Holiday", filters=filters, fields=["'holiday' as title", "description"]
+        "Holiday", filters=filters, fields=["description"]
     )
+    for h in holidays:
+        h["title"] = "holiday"
 
     return holidays
 
