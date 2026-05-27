@@ -11,6 +11,7 @@
   "section_break_rexb",
   "enable_check_in_reminder",
   "check_in_reminder_after",
+  "exclude_employees_on_holiday_or_leave",
   "column_break_ftpu",
   "enable_check_out_reminder",
   "check_out_reminder_after"
@@ -65,12 +66,19 @@
    "fieldname": "check_out_reminder_after",
    "fieldtype": "Int",
    "label": "Check-out Reminder After Minutes"
+  },
+  {
+   "default": "0",
+   "description": "Employees who are on holiday or approved leave will be excluded from the process/calculation.\nThis option checks holiday and leave records for each employee individually, which may increase processing time and consume additional server resources. It is recommended to enable this only if your server has sufficient resources.",
+   "fieldname": "exclude_employees_on_holiday_or_leave",
+   "fieldtype": "Check",
+   "label": "Exclude Employees on Holiday or Leave"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-27 02:12:57.642405",
+ "modified": "2026-05-27 12:45:26.372709",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Notification Settings",
@@ -87,6 +95,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

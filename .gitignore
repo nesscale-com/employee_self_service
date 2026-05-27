@@ -8,3 +8,8 @@ node_modules/
 employee_self_service/public/node_modules
 yarn.lock
 employee_self_service/public/dist
+
+# Local dev/test scripts — not for version control
+generate_dummy_data.py
+setup_workflow_test_data.py
+WORKFLOW_API_V2.md
