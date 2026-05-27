@@ -5,7 +5,7 @@ from erpnext.setup.doctype.employee.employee import (
     get_holiday_list_for_employee,
 )
 from frappe import _
-from frappe.utils import cint, getdate
+from frappe.utils import add_days, cint, date_diff, flt, getdate, today
 
 from employee_self_service.mobile.v1.api_utils import (
     convert_timezone,
@@ -154,7 +154,6 @@ def get_ess_calendar_details(year=None, month=None):
         attendance_data = build_attendance_data(
             year, month, days_in_month, attendance_records, holidays
         )
-
         return gen_response(
             200, "ESS calendar data fetched successfully", attendance_data
         )
@@ -179,7 +178,6 @@ def get_attendance_records(employee, start_date, end_date):
 def get_employee_holidays(employee, start_date, end_date):
     """Fetch holiday dates for a given employee and date range."""
     holiday_list = get_holiday_list_for_employee(employee, raise_exception=False)
-
     if not holiday_list:
         return set()
 
@@ -213,3 +211,104 @@ def build_attendance_data(year, month, days_in_month, attendance_records, holida
             attendance_data[date_str] = "Holiday" if date in holidays else "No Record"
 
     return attendance_data
+
+
+def _get_attendance_summary(employee, year, month):
+    """
+    Compute present/absent/days-off counts for a given month using the same
+    data sources as get_ess_calendar_details (attendance records + holiday list).
+
+    Returns a dict in the same shape as get_attendance_details in ess.py.
+    """
+    days_in_month = monthrange(year, month)[1]
+    month_start = getdate(f"{year}-{month:02d}-01")
+    month_end = getdate(f"{year}-{month:02d}-{days_in_month}")
+    yesterday = getdate(add_days(today(), -1))
+
+    if yesterday < month_start:
+        till_date_days = 0
+    elif yesterday > month_end:
+        till_date_days = days_in_month
+    else:
+        till_date_days = date_diff(yesterday, month_start) + 1
+
+    present_count = flt(0)
+    leave_count = flt(0)
+    holidays_till_date = flt(0)
+
+    if till_date_days > 0:
+        till_date = min(yesterday, month_end)
+
+        attendance_records = get_attendance_records(
+            employee,
+            month_start.strftime("%Y-%m-%d"),
+            month_end.strftime("%Y-%m-%d"),
+        )
+        holidays = get_employee_holidays(
+            employee,
+            month_start.strftime("%Y-%m-%d"),
+            month_end.strftime("%Y-%m-%d"),
+        )
+
+        for record in attendance_records:
+            record_date = getdate(record["attendance_date"])
+            if record_date > till_date:
+                continue
+            status = record["status"]
+            if status in ("Present", "Work From Home"):
+                present_count += 1
+            elif status == "Half Day":
+                present_count += 0.5
+                leave_count += 0.5
+            elif status == "On Leave":
+                leave_count += 1
+
+        holidays_till_date = flt(sum(1 for h in holidays if h <= till_date))
+
+    days_off = leave_count + holidays_till_date
+    absent = max(flt(0), flt(till_date_days) - present_count - days_off)
+
+    return {
+        "month_title": month_start.strftime("%B"),
+        "data": [
+            {"type": "Total Days", "data": [till_date_days, days_in_month]},
+            {"type": "Presents", "data": [present_count, till_date_days]},
+            {"type": "Absents", "data": [absent, till_date_days]},
+            {"type": "Days off", "data": [days_off, till_date_days]},
+        ],
+    }
+
+
+@frappe.whitelist()
+def get_attendance_details_dashboard():
+    """Current-month attendance summary for the dashboard."""
+    try:
+        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        today_date = getdate(today())
+        summary = _get_attendance_summary(emp_data["name"], today_date.year, today_date.month)
+        return gen_response(200, "Attendance data get successfully", summary)
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+def get_attendance_details_by_month(year=None, month=None):
+    """Attendance summary for a given year and month."""
+    try:
+        if not year or not month:
+            return gen_response(500, "year and month are required")
+
+        year, month = cint(year), cint(month)
+        today_date = getdate(today())
+        if (year, month) > (today_date.year, today_date.month):
+            return gen_response(400, "Cannot fetch attendance for a future month")
+
+        emp_data = get_employee_by_user(frappe.session.user, fields=["name", "company"])
+        if not emp_data:
+            return gen_response(404, "Employee not found")
+        summary = _get_attendance_summary(emp_data["name"], year, month)
+        return gen_response(200, "Attendance data get successfully", summary)
+    except Exception as e:
+        return exception_handler(e)

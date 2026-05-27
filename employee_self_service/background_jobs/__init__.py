@@ -140,12 +140,12 @@ def reminder_for_checkin():
         "ESS Notification Settings", "ESS Notification Settings"
     )
 
-    # Check if the reminder setting is enabled
     if (
         not ess_notification_settings.enable_check_in_reminder
         or flt(ess_notification_settings.check_in_reminder_after) <= 0
     ):
         return
+
     shifts = frappe.get_all("Shift Type", filters={}, fields=["name"])
     for shift in shifts:
         try:
@@ -155,18 +155,12 @@ def reminder_for_checkin():
             ):
                 continue
             shift_details = get_shift_details(shift.name)
-            # Convert datetime to string format that `time_diff_in_minutes` accepts
             now_str = format_datetime(now_datetime(), "yyyy-MM-dd HH:mm:ss")
             start_str = format_datetime(
                 shift_details.get("start_datetime"), "yyyy-MM-dd HH:mm:ss"
             )
-            # Calculate time difference
             diff_minutes = time_diff_in_minutes(now_str, start_str)
-            # Check if they are late based on configured threshold
-            if diff_minutes > flt(
-                ess_notification_settings.get("check_in_reminder_after")
-            ):
-                # Fetch employees who have already checked in today
+            if diff_minutes > flt(ess_notification_settings.get("check_in_reminder_after")):
                 logs_employee = frappe.db.sql(
                     """
 					SELECT DISTINCT employee
@@ -177,30 +171,32 @@ def reminder_for_checkin():
                     today(),
                     as_dict=True,
                 )
-
                 checkedin_employees = [row.employee for row in logs_employee]
-                employees = get_assigned_employees(
-                    shift.name, today(), checkedin_employees
+                employees = get_assigned_employees(shift.name, today(), checkedin_employees)
+
+                employees_to_skip = (
+                    get_employees_to_skip([row.employee for row in employees])
+                    if cint(ess_notification_settings.exclude_employees_on_holiday_or_leave)
+                    else set()
                 )
+
                 template_doc = frappe.get_doc(
                     "ESS Notification Template", "Missed Checkin Reminder"
                 )
                 for row in employees:
+                    if row.employee in employees_to_skip:
+                        continue
+                    user_token = frappe.db.get_value(
+                        "Employee Device Info", row.user_id, "token"
+                    )
+                    if not user_token:
+                        continue
                     subject = frappe.render_template(
                         template_doc.get("notification_title"), row
                     )
                     message = frappe.render_template(
                         template_doc.get("notification_message"), row
                     )
-                    user_token = frappe.db.get_value(
-                        "Employee Device Info", row.user_id, "token"
-                    )
-                    if not user_token:
-                        continue
-
-                    # Check if today is a holiday for the employee
-                    if is_on_holiday_or_leave(row.name):
-                        continue
                     notification_log(
                         "Checkin Reminder",
                         "Employee",
@@ -224,12 +220,12 @@ def reminder_for_checkout():
         "ESS Notification Settings", "ESS Notification Settings"
     )
 
-    # Check if the reminder setting is enabled
     if (
         not ess_notification_settings.enable_check_in_reminder
         or flt(ess_notification_settings.check_in_reminder_after) <= 0
     ):
         return
+
     shifts = frappe.get_all("Shift Type", filters={}, fields=["name"])
     for shift in shifts:
         try:
@@ -239,19 +235,14 @@ def reminder_for_checkout():
             ):
                 continue
             shift_details = get_shift_details(shift.name)
-            # Convert datetime to string format that `time_diff_in_minutes` accepts
+            if not shift_details.get("end_datetime"):
+                continue
             now_str = format_datetime(now_datetime(), "yyyy-MM-dd HH:mm:ss")
             end_str = format_datetime(
                 shift_details.get("end_datetime"), "yyyy-MM-dd HH:mm:ss"
             )
-
-            # Calculate time difference
             diff_minutes = time_diff_in_minutes(now_str, end_str)
-            # Check if they are late based on configured threshold
-            if diff_minutes > flt(
-                ess_notification_settings.get("check_out_reminder_after")
-            ):
-                # Fetch employees who have already checked in today
+            if diff_minutes > flt(ess_notification_settings.get("check_out_reminder_after")):
                 logs_employee = frappe.db.sql(
                     """
 					SELECT DISTINCT employee
@@ -262,34 +253,32 @@ def reminder_for_checkout():
                     today(),
                     as_dict=True,
                 )
-
                 checkedout_employees = [row.employee for row in logs_employee]
-                employees = get_assigned_employees(
-                    shift.name, today(), checkedout_employees
+                employees = get_assigned_employees(shift.name, today(), checkedout_employees)
+
+                employees_to_skip = (
+                    get_employees_to_skip([row.employee for row in employees])
+                    if cint(ess_notification_settings.exclude_employees_on_holiday_or_leave)
+                    else set()
                 )
 
                 template_doc = frappe.get_doc(
                     "ESS Notification Template", "Missed Checkout Reminder"
                 )
                 for row in employees:
+                    if row.employee in employees_to_skip:
+                        continue
+                    user_token = frappe.db.get_value(
+                        "Employee Device Info", row.user_id, "token"
+                    )
+                    if not user_token:
+                        continue
                     subject = frappe.render_template(
                         template_doc.get("notification_title"), row
                     )
                     message = frappe.render_template(
                         template_doc.get("notification_message"), row
                     )
-                    user_token = frappe.db.get_value(
-                        "Employee Device Info", row.user_id, "token"
-                    )
-                    if not user_token:
-                        continue
-
-                    if not shift_details.get("end_datetime"):
-                        continue
-
-                    # Check if today is a holiday for the employee
-                    if is_on_holiday_or_leave(row.name):
-                        continue
                     notification_log(
                         "Checkout Reminder",
                         "Employee",
@@ -306,32 +295,68 @@ def reminder_for_checkout():
             )
 
 
-def time_diff_in_minutes(string_end_date, string_start_date):
+def get_employees_to_skip(employee_names):
     """
-    Calculate the time difference in minutes between two datetime strings using frappe.utils.time_diff.
+    Returns a set of employee IDs who should not receive a reminder today
+    because they are on approved leave or on a holiday.
+    Uses bulk queries instead of per-employee lookups.
     """
-    return time_diff(string_end_date, string_start_date).total_seconds() / 60
+    if not employee_names:
+        return set()
 
+    today_date = today()
 
-def is_on_holiday_or_leave(employee):
-    """
-    Returns True if the employee has a holiday or an approved leave today.
-    """
-    if frappe.db.exists(
-        "Leave Application",
-        {
-            "employee": employee,
-            "status": "Approved",
-            "from_date": ["<=", today()],
-            "to_date": [">=", today()],
-        },
-    ):
-        return True
-
-    holiday, _ = is_holiday(
-        employee, today(), only_non_weekly=True, with_description=True
+    # 1 query: all employees on approved leave today
+    on_leave = set(
+        frappe.get_all(
+            "Leave Application",
+            filters={
+                "employee": ["in", employee_names],
+                "status": "Approved",
+                "from_date": ["<=", today_date],
+                "to_date": [">=", today_date],
+            },
+            pluck="employee",
+        )
     )
-    return holiday
+
+    # 1 query: all holiday lists that have today as a holiday (weekly off or not)
+    holiday_lists_today = set(
+        frappe.get_all(
+            "Holiday",
+            filters={"holiday_date": today_date},
+            pluck="parent",
+        )
+    )
+
+    on_holiday = set()
+    if holiday_lists_today:
+        # 1 query: get each employee's holiday list and company
+        emp_data = frappe.get_all(
+            "Employee",
+            filters={"name": ["in", employee_names]},
+            fields=["name", "holiday_list", "company"],
+        )
+
+        # 1 query per unique company (fallback for employees without a direct holiday list)
+        companies_without_list = {
+            row.company for row in emp_data if not row.holiday_list and row.company
+        }
+        company_holiday_map = {
+            company: frappe.db.get_value("Company", company, "default_holiday_list")
+            for company in companies_without_list
+        }
+
+        for row in emp_data:
+            holiday_list = row.holiday_list or company_holiday_map.get(row.company)
+            if holiday_list and holiday_list in holiday_lists_today:
+                on_holiday.add(row.name)
+
+    return on_leave | on_holiday
+
+
+def time_diff_in_minutes(string_end_date, string_start_date):
+    return time_diff(string_end_date, string_start_date).total_seconds() / 60
 
 
 def create_ess_reminder_log(log_type, status, shift):
@@ -353,7 +378,6 @@ def get_assigned_employees(shift, date, checkedin_employees):
     ]
     or_filters = [["end_date", ">=", date], ["end_date", "is", "not set"]]
 
-    # Get assigned employees
     assigned_employees = frappe.get_all(
         "Shift Assignment", filters=filters, or_filters=or_filters, pluck="employee"
     )
@@ -365,12 +389,11 @@ def get_assigned_employees(shift, date, checkedin_employees):
         ["name", "not in", checkedin_employees],
     ]
     default_shift_employees = frappe.get_all(
-        "Employee", filters=default_shift_filters, pluck="employee"
+        "Employee", filters=default_shift_filters, pluck="name"
     )
 
     assigned_employees.extend(default_shift_employees)
 
-    # Fetch user IDs for the final employee list
     final_employees = frappe.get_all(
         "Employee",
         filters={"name": ["in", assigned_employees], "status": "Active"},
