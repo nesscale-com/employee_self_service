@@ -8,7 +8,9 @@
  "field_order": [
   "document",
   "column_break_ntuf",
-  "configure"
+  "configure",
+  "list_view_config",
+  "detail_view_config"
  ],
  "fields": [
   {
@@ -27,6 +29,20 @@
    "fieldtype": "Button",
    "in_list_view": 1,
    "label": "Configure"
+  },
+  {
+   "fieldname": "list_view_config",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "List View Config",
+   "read_only": 1
+  },
+  {
+   "fieldname": "detail_view_config",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "Detail View Config",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
