@@ -77,12 +77,6 @@ def get_visit_list():
                 "visit_proof",
             ],
         )
-        # Format dates and times
-        for visit in visit_list:
-            if visit.get("date"):
-                visit["date"] = visit["date"].strftime("%d-%m-%Y")
-            if visit.get("time"):
-                visit["time"] = visit["time"].strftime("%I:%M:%S")
         return gen_response(200, "Visit list get successfully", visit_list)
     except frappe.PermissionError:
         return gen_response(500, "Not permitted read visit")

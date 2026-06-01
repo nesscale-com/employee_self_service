@@ -41,7 +41,7 @@ def get_expense_claims():
             "`tabExpense Claim`.posting_date",
             "`tabExpense Claim`.company",
             "`tabExpense Claim Detail`.expense_type",
-            {"COUNT": "`tabExpense Claim Detail`.expense_type", "as": "total_expenses"},
+            "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
         ]
 
         claims = frappe.get_list(
@@ -49,7 +49,7 @@ def get_expense_claims():
             fields=fields,
             filters=filters,
             order_by="`tabExpense Claim`.posting_date desc",
-            group_by="`tabExpense Claim`.name"
+            group_by="`tabExpense Claim`.name",
         )
         expense_data = {}
         for expense in claims:
@@ -60,7 +60,7 @@ def get_expense_claims():
 
             month_year = get_month_year_details(expense)
             expense["posting_date"] = expense.get("posting_date").strftime("%d-%m-%Y")
-            if month_year not in list(expense_data.keys())[::-1]:
+            if not month_year in list(expense_data.keys())[::-1]:
                 expense_data[month_year] = [expense]
             else:
                 expense_data[month_year].append(expense)
@@ -94,7 +94,7 @@ def get_expense_claims_list():
             "`tabExpense Claim`.company",
             "`tabExpense Claim Detail`.expense_type",
             "`tabExpense Claim Detail`.description",
-            {"COUNT": "`tabExpense Claim Detail`.expense_type", "as": "total_expenses"},
+            "count(`tabExpense Claim Detail`.expense_type) as total_expenses",
         ]
 
         claims = frappe.get_list(
@@ -102,7 +102,7 @@ def get_expense_claims_list():
             fields=fields,
             filters=filters,
             order_by="`tabExpense Claim`.posting_date desc",
-            group_by="`tabExpense Claim`.name"
+            group_by="`tabExpense Claim`.name",
         )
         expense_data = {"pending": [], "other": []}
         for expense in claims:
@@ -146,7 +146,7 @@ def get_expense_claim_type_totals():
             "`tabExpense Claim`.employee",
             "`tabExpense Claim`.employee_name",
             "`tabExpense Claim Detail`.expense_type",
-            {"SUM": "`tabExpense Claim Detail`.amount", "as": "total_amount"},
+            "sum(`tabExpense Claim Detail`.amount) as total_amount",
         ]
 
         claims = frappe.get_list(
@@ -165,6 +165,7 @@ def get_expense_claim_type_totals():
         return gen_response(200, "Expense date get successfully", claims)
     except Exception as e:
         return exception_handler(e)
+
 
 
 @frappe.whitelist()
