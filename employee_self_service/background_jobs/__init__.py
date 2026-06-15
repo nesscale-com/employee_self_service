@@ -7,8 +7,10 @@ from frappe.utils import (
     now_datetime,
     time_diff,
     today,
+    get_weekday,
+    getdate
 )
-
+from frappe import _
 from employee_self_service.utils import (
     get_employees_having_an_event_today,
     is_holiday,
@@ -20,6 +22,7 @@ def process_daily_ess_jobs():
     close_ess_poll()
     on_holiday_event()
     send_notification_on_event()
+    process_visit_schedule_rules()
 
 
 def close_ess_poll():
@@ -401,3 +404,145 @@ def get_assigned_employees(shift, date, checkedin_employees):
     )
 
     return final_employees
+
+
+def process_visit_schedule_rules():
+    try:
+        settings = frappe.get_single("ESS Field Staff Settings")
+        create_todo = settings.visit_schedule_create_todo
+        
+        rules = frappe.get_all(
+            "ESS Visit Schedule Rule",
+            filters={"enabled": 1},
+            pluck="name"
+        )
+        
+        for rule in rules:
+            rule_doc = frappe.get_doc("ESS Visit Schedule Rule", rule)
+            if not should_process_rule(rule_doc):
+                continue
+            
+            customers = get_customers_from_rule(rule_doc)
+            for customer in customers:
+                if create_todo:
+                    create_visit_todo(rule_doc, customer)
+                else:
+                    create_visit_record(rule_doc, customer)   
+    except Exception:
+        frappe.log_error(title="Process Visit Schedule Rules", message=frappe.get_traceback())
+
+def should_process_rule(rule_doc):    
+    current_date = getdate(today())
+    schedule_type = rule_doc.schedule_type
+    
+    if schedule_type == "Daily":
+        weekday_map = {
+            0: "monday", 1: "tuesday", 2: "wednesday", 3: "thursday",
+            4: "friday", 5: "saturday", 6: "sunday"
+        }
+        weekday_field = weekday_map.get(current_date.weekday())
+        return rule_doc.get(weekday_field) == 1
+        
+    elif schedule_type == "Weekly":
+        return current_date.strftime("%A") == rule_doc.day_of_week
+        
+    elif schedule_type == "Fortnightly":
+        if current_date.strftime("%A") == rule_doc.day_of_week:
+            day_of_month = current_date.day
+            return (day_of_month <= 7) or (15 <= day_of_month <= 21)
+        
+    elif schedule_type == "Monthly":
+        expected_day = cint(rule_doc.date_of_month)
+        return cint(current_date.day) == expected_day
+        
+    elif schedule_type == "Quarterly":
+        quarter_months = {
+            1: [1, 2, 3],
+            2: [4, 5, 6],
+            3: [7, 8, 9],
+            4: [10, 11, 12]
+        }
+        expected_quarter = cint(rule_doc.quarter)
+        return (
+            current_date.month in quarter_months.get(expected_quarter, [])
+            and cint(current_date.day) == cint(rule_doc.date_of_month)
+        )
+        
+    elif schedule_type == "Yearly":
+        return cint(current_date.day) == cint(rule_doc.date_of_month) and cint(current_date.month) == cint(rule_doc.month_of_year)
+        
+    return False
+
+
+def get_customers_from_rule(rule_doc):
+    customers = []
+    
+    if rule_doc.based_on == "Customer":
+        customers = [row.customer for row in rule_doc.customers]
+        
+    elif rule_doc.based_on == "Customer Group":
+        customer_groups = [row.customer_group for row in rule_doc.customer_groups]
+        customers = frappe.get_all(
+            "Customer",
+            filters={"customer_group": ["in", customer_groups]},
+            pluck="name"
+        )
+        
+    elif rule_doc.based_on == "Territory":
+        territories = [row.territory for row in rule_doc.territories]
+        customers = frappe.get_all(
+            "Customer",
+            filters={"territory": ["in", territories]},
+            pluck="name"
+        )
+        
+    return customers
+
+
+def create_visit_todo(rule_doc, customer):
+    if frappe.db.exists("ToDo", {
+        "reference_type": "ESS Visit Schedule Rule",
+        "reference_name": rule_doc.name,
+        "allocated_to": rule_doc.user,
+        "date": today(),
+        "description": ["like", f"%{customer}%"]
+    }):
+        return
+    
+    customer_name = frappe.db.get_value("Customer", customer, "customer_name") or customer
+    
+    todo = frappe.get_doc({
+        "doctype": "ToDo",
+        "reference_type": "ESS Visit Schedule Rule",
+        "reference_name": rule_doc.name,
+        "allocated_to": rule_doc.user,
+        "date": today(),
+        "description": f"Visit scheduled for customer: {customer_name}",
+        "priority": "Medium",
+        "status": "Open"
+    })
+    todo.insert(ignore_permissions=True)
+
+def create_visit_record(rule_doc, customer):
+    if frappe.db.exists("ESS Visit", {
+        "employee": rule_doc.employee,
+        "customer": customer,
+        "date": today(),
+        "auto_created_from_rule": 1
+    }):
+        return
+    
+    visit = frappe.get_doc({
+        "doctype": "ESS Visit", 
+        "customer_type": "Existing",
+        "customer": customer,
+        "employee": rule_doc.employee,
+        "user": rule_doc.user,
+        "date": today(),
+        "visit_type": rule_doc.visit_type,
+        "status": "Pending",
+        "auto_created_from_rule": 1,
+        "description": f"Auto-scheduled visit from rule: {rule_doc.rule_name}"
+    })
+    visit.insert(ignore_permissions=True)
+

@@ -1,0 +1,190 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "EVISIT.#####",
+ "creation": "2026-05-26 19:15:43.862478",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_type",
+  "customer",
+  "customer_name",
+  "auto_created_from_rule",
+  "column_break_ulu4v",
+  "status",
+  "visit_start_time",
+  "visit_stop_time",
+  "section_break_vxr9z",
+  "visit_type",
+  "column_break_okbrh",
+  "description",
+  "section_break_smmwi",
+  "visit_start_location",
+  "visit_stop_location",
+  "column_break_ssqu5",
+  "employee",
+  "user",
+  "user_remarks",
+  "customer_signature",
+  "section_break_visit_proof",
+  "visit_proof"
+ ],
+ "fields": [
+  {
+   "default": "Existing",
+   "fieldname": "customer_type",
+   "fieldtype": "Select",
+   "label": "Customer Type",
+   "options": "Existing\nNew",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.customer_type == \"Existing\"",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "mandatory_depends_on": "eval:doc.customer_type == \"Existing\"",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fetch_if_empty": 1,
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "mandatory_depends_on": "eval: doc.customer_type == \"New\""
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_created_from_rule",
+   "fieldtype": "Check",
+   "label": "Auto Created From Rule",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ulu4v",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nIn Progress\nCompleted",
+   "reqd": 1
+  },
+  {
+   "fieldname": "visit_start_time",
+   "fieldtype": "Datetime",
+   "label": "Visit Start Time"
+  },
+  {
+   "fieldname": "visit_stop_time",
+   "fieldtype": "Datetime",
+   "label": "Visit Stop Time"
+  },
+  {
+   "fieldname": "section_break_vxr9z",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "visit_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Visit Type",
+   "options": "Visit Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_okbrh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_smmwi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "visit_start_location",
+   "fieldtype": "Geolocation",
+   "label": "Visit Start Location"
+  },
+  {
+   "fieldname": "visit_stop_location",
+   "fieldtype": "Geolocation",
+   "label": "Visit Stop Location"
+  },
+  {
+   "fieldname": "column_break_ssqu5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.user_id",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "user_remarks",
+   "fieldtype": "Small Text",
+   "label": "User Remarks"
+  },
+  {
+   "fieldname": "customer_signature",
+   "fieldtype": "Signature",
+   "label": "Customer Signature"
+  },
+  {
+   "fieldname": "section_break_visit_proof",
+   "fieldtype": "Section Break",
+   "label": "Visit Proofs"
+  },
+  {
+   "fieldname": "visit_proof",
+   "fieldtype": "Table",
+   "label": "Visit Proofs",
+   "options": "Visit Proof"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-26 19:18:52.856719",
+ "modified_by": "Administrator",
+ "module": "Employee Self Service",
+ "name": "ESS Visit",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
