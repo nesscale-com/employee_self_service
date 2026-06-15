@@ -303,3 +303,23 @@ def get_link_option_list(
     except Exception as e:
         return exception_handler(e)
 
+
+@frappe.whitelist()
+@ess_validate(methods=["GET"])
+def get_customer_location(customer):
+    try:
+        customer_location = frappe.db.get_value("Customer Location", {"customer": customer}, ["name", "latitude", "longitude"], as_dict=True)
+
+        return gen_response(
+            200,
+            "Customer Location fetched successfully",
+            customer_location,
+        )
+
+    except frappe.PermissionError:
+        return gen_response(
+            403,
+            "Not permitted to access this DocType."
+        )
+    except Exception as e:
+        return exception_handler(e)

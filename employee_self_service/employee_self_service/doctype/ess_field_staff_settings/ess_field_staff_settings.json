@@ -8,8 +8,10 @@
   "customer_geo_tagging_auto_based_on",
   "visit_required_geofencing",
   "allowed_radius",
+  "manual_geo_tagging_allowed",
   "column_break_tvlp",
-  "manual_geo_tagging_allowed"
+  "employee_location_tracking_enable",
+  "time_interval"
  ],
  "fields": [
   {
@@ -17,7 +19,7 @@
    "fieldname": "customer_geo_tagging_auto_based_on",
    "fieldtype": "Select",
    "label": "Customer Geo Tagging Auto Based On",
-   "options": "Visit\nSales Order\nBoth"
+   "options": "Visit"
   },
   {
    "default": "1",
@@ -42,13 +44,24 @@
    "fieldname": "visit_required_geofencing",
    "fieldtype": "Check",
    "label": "Visit Checkin/Checkout Required Geofencing"
+  },
+  {
+   "default": "0",
+   "fieldname": "employee_location_tracking_enable",
+   "fieldtype": "Check",
+   "label": "Employee Location Tracking Enable"
+  },
+  {
+   "fieldname": "time_interval",
+   "fieldtype": "Int",
+   "label": "Time Interval"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-06-15 20:52:05.691038",
+ "modified": "2026-06-15 23:38:31.251734",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Field Staff Settings",
