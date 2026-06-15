@@ -1,6 +1,7 @@
 {
+ "app": "employee_self_service",
  "charts": [],
- "content": "[{\"id\":\"tBazFTVVnr\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ESS Mobile</span>\",\"col\":12}},{\"id\":\"JhvATR9Kjh\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"uWQdGpOpAW\",\"type\":\"card\",\"data\":{\"card_name\":\"ESS Notifications\",\"col\":4}},{\"id\":\"41kJ2kgdCN\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters & Other\",\"col\":4}},{\"id\":\"ECxtL_sqpY\",\"type\":\"card\",\"data\":{\"card_name\":\"Employee Target\",\"col\":4}}]",
+ "content": "[{\"id\":\"tBazFTVVnr\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">ESS Mobile</span>\",\"col\":12}},{\"id\":\"JhvATR9Kjh\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"uWQdGpOpAW\",\"type\":\"card\",\"data\":{\"card_name\":\"ESS Notifications\",\"col\":4}},{\"id\":\"41kJ2kgdCN\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters & Other\",\"col\":4}},{\"id\":\"ECxtL_sqpY\",\"type\":\"card\",\"data\":{\"card_name\":\"Employee Target\",\"col\":4}},{\"id\":\"D5AsnOS5wO\",\"type\":\"card\",\"data\":{\"card_name\":\"Field Staff Settings\",\"col\":4}}]",
  "creation": "2025-02-28 10:50:09.384631",
  "custom_blocks": [],
  "docstatus": 0,
@@ -178,9 +179,38 @@
    "link_type": "Page",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Field Staff Settings",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Field Staff Settings",
+   "link_count": 0,
+   "link_to": "ESS Field Staff Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ESS Visit Schedule Rule",
+   "link_count": 0,
+   "link_to": "ESS Visit Schedule Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-10-07 18:50:15.470319",
+ "modified": "2026-06-15 20:53:36.980765",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Mobile",
@@ -196,5 +226,6 @@
  ],
  "sequence_id": 33.0,
  "shortcuts": [],
- "title": "ESS Mobile"
+ "title": "ESS Mobile",
+ "type": "Workspace"
 }

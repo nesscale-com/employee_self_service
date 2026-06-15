@@ -408,9 +408,6 @@ def get_assigned_employees(shift, date, checkedin_employees):
 
 def process_visit_schedule_rules():
     try:
-        settings = frappe.get_single("ESS Field Staff Settings")
-        create_todo = settings.visit_schedule_create_todo
-        
         rules = frappe.get_all(
             "ESS Visit Schedule Rule",
             filters={"enabled": 1},
@@ -424,10 +421,7 @@ def process_visit_schedule_rules():
             
             customers = get_customers_from_rule(rule_doc)
             for customer in customers:
-                if create_todo:
-                    create_visit_todo(rule_doc, customer)
-                else:
-                    create_visit_record(rule_doc, customer)   
+                create_visit_record(rule_doc, customer)   
     except Exception:
         frappe.log_error(title="Process Visit Schedule Rules", message=frappe.get_traceback())
 

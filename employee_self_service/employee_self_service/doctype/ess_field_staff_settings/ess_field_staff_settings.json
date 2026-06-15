@@ -6,25 +6,18 @@
  "engine": "InnoDB",
  "field_order": [
   "customer_geo_tagging_auto_based_on",
-  "manual_geo_tagging_allowed",
   "visit_required_geofencing",
   "allowed_radius",
   "column_break_tvlp",
-  "visit_schedule_create_todo"
+  "manual_geo_tagging_allowed"
  ],
  "fields": [
-  {
-   "default": "0",
-   "fieldname": "visit_schedule_create_todo",
-   "fieldtype": "Check",
-   "label": "Visit Schedule Create ToDo"
-  },
   {
    "default": "Visit",
    "fieldname": "customer_geo_tagging_auto_based_on",
    "fieldtype": "Select",
    "label": "Customer Geo Tagging Auto Based On",
-   "options": "Visit\nSales Order"
+   "options": "Visit\nSales Order\nBoth"
   },
   {
    "default": "1",
@@ -38,7 +31,7 @@
   },
   {
    "default": "100",
-   "depends_on": "eval:doc.visit_required_geofencing == 1",
+   "depends_on": "visit_required_geofencing",
    "fieldname": "allowed_radius",
    "fieldtype": "Int",
    "label": "Allowed Radius (Meters)",
@@ -55,7 +48,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-05-26 15:03:05.037126",
+ "modified": "2026-06-15 20:52:05.691038",
  "modified_by": "Administrator",
  "module": "Employee Self Service",
  "name": "ESS Field Staff Settings",
