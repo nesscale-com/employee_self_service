@@ -424,6 +424,44 @@ def get_leave_application(name):
         return exception_handler(e)
 
 
+@frappe.whitelist()
+@ess_validate(methods=["POST"])
+def upload_medical_document(name=None):
+    try:
+        file_doc = upload_file()
+        file_doc.attached_to_doctype = "Leave Application"
+        file_doc.attached_to_name = name
+        file_doc.attached_to_field = "medical_supporting_document"
+        file_doc.save(ignore_permissions=True)
+
+        frappe.db.set_value(
+            "Leave Application", name, "medical_supporting_document", file_doc.file_url
+        )
+
+        return gen_response(200, "Medical document uploaded successfully")
+    except Exception as e:
+        return exception_handler(e)
+
+
+@frappe.whitelist()
+@ess_validate(methods=["DELETE"])
+def delete_medical_document(name=None, file_id=None):
+    try:
+        from frappe.utils.file_manager import remove_file
+
+        remove_file(
+            fid=file_id,
+            attached_to_doctype="Leave Application",
+            attached_to_name=name,
+        )
+        frappe.db.set_value(
+            "Leave Application", name, "medical_supporting_document", ""
+        )
+        return gen_response(200, "Medical document deleted successfully")
+    except Exception as e:
+        return exception_handler(e)
+
+
 def get_leave_balance_report_old(employee, company, fiscal_year):
     fiscal_year = get_fiscal_year(fiscal_year=fiscal_year, as_dict=True)
     year_start_date = get_date_str(fiscal_year.get("year_start_date"))
